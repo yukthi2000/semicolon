@@ -1,0 +1,54 @@
+.content{
+    position: absolute;
+    top: 10vh;
+    left: 10vh;
+}
+
+.w1{
+    margin-top: 10vh;
+    color: #E86E18;
+    font-size: 80px;
+    font-family: "Piedra";
+}
+
+.w2{
+    color: #F9F9F9;
+    font-size: 80px;
+    font-family: "Piedra";
+}
+
+.p{
+    font-size:18px;
+    font-family: "Poppins";
+    color: #8B8D8E;
+    line-height: 25px;
+}
+.box{
+    display: flex;
+    box-sizing: border-box;
+    position: absolute;
+    width: 90vh;
+    height: 12vh;
+    left: 10vh;
+    top: 68vh;
+    background: #08170D;
+    border: 3px solid #8B8D8E;
+    border-radius: 5px;
+}
+
+.destination1, .destination2{
+    flex-direction: row;
+    box-sizing: border-box;
+    position: absolute;
+    background-color: transparent;
+    width: 35vh;
+    height: 8vh;
+    left: 12vh;
+    top: 70vh;
+    border: 1px solid #368C18;
+    border-radius: 5px;
+}
+
+.destination2{
+    left: 50vh;
+}
