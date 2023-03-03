@@ -1,9 +1,10 @@
 import React from "react";
+import Header2 from "../../componets/Header2";
 
 const Review=()=>{
   return(
     <div>
-        Review    
+        <Header2/>
     </div>
   )
 }

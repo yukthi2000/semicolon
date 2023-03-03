@@ -1,9 +1,10 @@
 import React from "react";
+import Header2 from "../../componets/Header2";
 
 const GoogleMapApi=()=>{
   return(
     <div>
-      GoogleMapApi
+      <Header2/>
     </div>
   )
 }

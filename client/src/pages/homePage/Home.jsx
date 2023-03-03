@@ -2,13 +2,15 @@ import React from "react";
 import homeBg from "../../assets/homeBG.jpg"
 import "./Home.css"
 import Button from "@mui/material/Button";
+import Header from "../../componets/Header";
 
 
 
 const Home = () => {
     return(
         <div>
-        <div  className="Backgroung-img">
+        <Header/>
+        <div  className="Backgroung-img" >
             <img src={homeBg} alt="" height="667px" width="100%" position="fixed"/>
             <div className="content">
                 <p>
@@ -22,7 +24,35 @@ const Home = () => {
             <div className="box"/>
             <div><input  className="destination1" placeholder="Where are you starting?"/></div>
             <div><input className="destination2" placeholder="Where are you going?"/></div>
-            <Button sx={{marginLeft:"auto", color:"white", backgroundColor:"#E86E18", top:"-30.5vh", left:"87.5vh", borderRadius:"27px"}}>Go</Button>
+            <Button href="/googleMapApi" sx={{marginLeft:"auto", color:"white", backgroundColor:"#E86E18", top:"-28.5vh", left:"87.5vh", borderRadius:"27px"}}>Go</Button>
+            </div>
+            <div>
+                <p className="p2">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                    Odio neque veniam, earum, sed animi nesciunt architecto
+                    voluptate adipisci sunt, ut consectetur beatae eius inventore 
+                    quidem dolor error aperiam delectus. Odio.
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                    Odio neque veniam, earum, sed animi nesciunt architecto
+                    voluptate adipisci sunt, ut consectetur beatae eius inventore 
+                    quidem dolor error aperiam delectus. Odio.
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                    Odio neque veniam, earum, sed animi nesciunt architecto
+                    voluptate adipisci sunt, ut consectetur beatae eius inventore 
+                    quidem dolor error aperiam delectus. Odio.
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                    Odio neque veniam, earum, sed animi nesciunt architecto
+                    voluptate adipisci sunt, ut consectetur beatae eius inventore 
+                    quidem dolor error aperiam delectus. Odio.
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                    Odio neque veniam, earum, sed animi nesciunt architecto
+                    voluptate adipisci sunt, ut consectetur beatae eius inventore 
+                    quidem dolor error aperiam delectus. Odio.
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                    Odio neque veniam, earum, sed animi nesciunt architecto
+                    voluptate adipisci sunt, ut consectetur beatae eius inventore 
+                    quidem dolor error aperiam delectus. Odio.
+                </p>
             </div>
         </div>
     )
