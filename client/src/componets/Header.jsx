@@ -35,6 +35,7 @@ const Header=()=> {
   return (
     <AppBar sx={navStyle}>
       <Toolbar>
+      
         <Typography variant="h4" 
           component="div"
           href="/" 
@@ -46,6 +47,7 @@ const Header=()=> {
           }}>
           JourneyJive
         </Typography>
+        
         <YardOutlinedIcon sx={{display:{xs:"block", sm:"none"}, fontSize: 40,marginRight: '30px'}}/>
 
         <Typography variant="h6" component="div" sx={{ flexGrow: 0.75, display: { xs: 'none', sm: 'block' } }}>
