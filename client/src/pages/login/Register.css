@@ -1,0 +1,65 @@
+.reg-form{
+    margin: 20vh;
+    margin-bottom: 10vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.form{
+    margin-left: 5vh;
+    width: 50%;
+    height: 100%;
+}
+
+.reg-man{
+    background-color: #E86E18;
+    width: 50%;
+    height: 100%;
+}
+
+.regMan-img{
+    height: 300px;
+    width: 320px;
+    margin-left: 20vh;
+    margin-top: 20vh;
+}
+
+.input{
+    height: 7vh;
+    width: 50vh;
+    margin: 1.5vh;
+    background-color: rgb(238, 238, 238);
+    border: none;
+    border-bottom: 2px solid #5a5a5a;
+    text-indent: 20px;
+}
+::placeholder {
+    color: #999;
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.input:focus
+ {
+    outline: none;
+    background-color: white;
+    color: black;
+  }
+
+
+.input:focus
+{
+    outline: none;
+    background-color: rgb(10, 10, 10);
+    color: rgb(255, 255, 255);
+  }
+
+.sign-up-btn{
+    background-color: #E86E18;
+    color: white;
+    border-radius: 5px;
+    margin-left: 44vh;
+    border: none;
+    height: 6vh;
+    width: 11vh;
+}

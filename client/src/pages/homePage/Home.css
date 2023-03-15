@@ -3,20 +3,17 @@
     top: 10vh;
     left: 10vh;
 }
-
 .w1{
     margin-top: 10vh;
     color: #E86E18;
     font-size: 80px;
     font-family: "Piedra";
 }
-
 .w2{
     color: #F9F9F9;
     font-size: 80px;
     font-family: "Piedra";
 }
-
 .p{
     font-size:18px;
     font-family: "Poppins";
@@ -55,4 +52,17 @@
 
 .p2{
     font-size: 60px;
+}
+
+.custom-modal{
+    top:50px;
+    left: 450px;
+    max-width: 400px;
+    max-height: 600px;
+}
+
+.center-modal{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
