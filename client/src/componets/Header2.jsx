@@ -5,7 +5,6 @@ import Button from "@mui/material/Button";
 import {Link} from "react-router-dom"
 
 import OtherHousesOutlinedIcon from '@mui/icons-material/OtherHousesOutlined'; 
-import YardOutlinedIcon from '@mui/icons-material/YardOutlined';
 import CollectionsIcon from '@mui/icons-material/Collections';
 import RateReviewIcon from '@mui/icons-material/RateReview';
 
@@ -53,9 +52,7 @@ const Header2=()=> {
           </Link>
         </Typography>
         <RateReviewIcon sx={{display:{xs:"block", sm:"none"}, marginRight: '20px'}}/>
-        
-          
-          <Button sx={{marginLeft:"auto", color:"white", backgroundColor:"#E86E18"}}>Register</Button>
+          <a href="register"><Button sx={{marginLeft:"auto", color:"white", backgroundColor:"#E86E18"}}>Register</Button></a>
         </Toolbar>
       </AppBar>
    
