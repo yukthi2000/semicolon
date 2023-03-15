@@ -1,12 +1,12 @@
 import React from "react";
 import "./Login.css";
-import logMan from "../../assets/logMan.png"
-import EmailIcon from '@mui/icons-material/Email';
+import rpMan from "../../assets/rpMan.png"
 import LockIcon from '@mui/icons-material/Lock';
 import HomeIcon from '@mui/icons-material/Home';
 
 
-const Login = () => {
+
+const PasswordReset = () => {
     return (
         <div className="login-form">
             <div>
@@ -24,24 +24,22 @@ const Login = () => {
             </div>
             <div className="login-man">
                 <div>
-                    <img className="logMan-img" src={logMan} alt=""></img>
+                    <img className="logMan-img" src={rpMan} alt=""></img>
                 </div>
-                <div>
-                    <a href="/register">Create a new Account</a>
-                </div>
+
             </div>
             <div className="login">
-                <div><h1>Sign In</h1></div><br /><br />
+                <div><h1>Password Reset</h1></div><br /><br />
                 <form>
                     <div>
                         <div>
-                            <EmailIcon />
+                            <LockIcon />
                             <input
                                 className='input'
-                                type="email"
-                                id="email"
+                                type="password"
+                                id="password"
                                 required
-                                placeholder='email'
+                                placeholder='New Password'
                             />
                         </div>
                         <div>
@@ -51,11 +49,10 @@ const Login = () => {
                                 type="password"
                                 id="password"
                                 required
-                                placeholder='Password'
+                                placeholder='Confirm New Password'
                             />
                         </div><br />
-                        <h6><a href="forget-password">Forget password</a></h6>
-                        <div><a class="btn btn-primary" href="/" role="button">LOG IN</a></div>
+                        <div><a class="btn btn-primary" href="login" role="button">SUBMIT</a></div>
                     </div>
                 </form>
             </div>
@@ -63,4 +60,4 @@ const Login = () => {
     )
 }
 
-export default Login;
+export default PasswordReset;
