@@ -1,12 +1,14 @@
-import React from "react";
 import Header2 from "../../componets/Header2";
+import React from "react";
+import Map from "./Map"
 
-const GoogleMapApi=()=>{
-  return(
+
+
+export default function GoogleMapApi() {
+  return (
     <div>
-      <Header2/>
+      <Header2 />
+      <Map />
     </div>
   )
 }
-
-export default GoogleMapApi;

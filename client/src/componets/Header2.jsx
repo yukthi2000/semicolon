@@ -24,7 +24,12 @@ const Header2=()=> {
                     fontFamily: 'Piedra',
                     color:"#E86E18"
                 }}>
+                  <Link to="/" style={{ textDecoration: 'none',flexGrow: 5, 
+                    display:{xs:"none", sm:"block"}, 
+                    fontFamily: 'Piedra',
+                    color:"#E86E18"  }}>
             JourneyJive
+            </Link>
           </Typography>
 
           <Typography variant="h6" component="div" sx={{ flexGrow: 0.75, display: { xs: 'none', sm: 'block' } }}>

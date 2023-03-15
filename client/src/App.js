@@ -1,15 +1,13 @@
 import React from "react";
-import "./App.css"
-import { Routes, Route } from 'react-router-dom';
-import Home from "./pages/homePage/Home"
-import Gallery from "./pages/gallery/Gallery"
-import Review from "./pages/review/Review"
+import "./App.css";
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/homePage/Home";
+import Gallery from "./pages/gallery/Gallery";
+import Review from "./pages/review/Review";
 import GoogleMapApi from "./pages/googleMapApi/GoogleMapApi";
 import Register from "./pages/login/Register";
 import Header2 from "./componets/Header2";
 import Login from "./pages/login/Login";
-
-
 
 
 
@@ -29,6 +27,6 @@ const App=() =>{
        </Routes>
     </div>
   );
-}
+};
 
 export default App;
