@@ -4,11 +4,15 @@ import "./Home.css"
 import Button from "@mui/material/Button";
 import Header from "../../componets/Header";
 import Register from "../login/Register";
+import Header2 from "../../componets/Header2";
 
 
 const Home = () => {
   return (
     <div>
+      <div>
+        <Header2/>
+      </div>
       <div className="Backgroung-img" >
         <img src={homeBg} alt="" height="667px" width="100%" position="fixed" />
         <div className="content">

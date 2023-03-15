@@ -1,5 +1,6 @@
 .reg-form{
     margin: 20vh;
+    margin-top: 15vh;
     margin-bottom: 10vh;
     display: flex;
     flex-direction: row;
@@ -54,12 +55,12 @@
     color: rgb(255, 255, 255);
   }
 
-.sign-up-btn{
+.btn-primary{
     background-color: #E86E18;
     color: white;
     border-radius: 5px;
-    margin-left: 44vh;
+    margin-left: 40vh;
     border: none;
     height: 6vh;
-    width: 11vh;
+    width: 15vh;
 }

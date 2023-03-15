@@ -6,6 +6,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from '@mui/icons-material/Lock';
 import EnhancedEncryptionIcon from '@mui/icons-material/EnhancedEncryption';
 import Checkbox from '@mui/material/Checkbox';
+import HomeIcon from '@mui/icons-material/Home';
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
@@ -14,13 +15,26 @@ const Register = () => {
 
   return (
     <div className="reg-form">
+      <div>
+        <a href="/"><HomeIcon
+          sx={{
+            position:"absolute",
+            color: "#E86E18",
+            backgroundColor: "rgb(238, 238, 238)",
+            borderRadius: "5px",
+            height: "30px",
+            width: "30px",
+            marginLeft:"175vh",
+            marginTop:"-10vh"
+          }} /></a>
+      </div>
       <div className="form">
-        <div><h1>Register</h1></div>
+        <div><h1>Register</h1></div><br /><br />
         <div>
           <form>
             <div>
               <div>
-                <AccountCircleIcon/>
+                <AccountCircleIcon />
                 <input
                   className='input'
                   type="text"
@@ -30,7 +44,7 @@ const Register = () => {
                 />
               </div>
               <div>
-                <EmailIcon/>
+                <EmailIcon />
                 <input
                   className='input'
                   type="email"
@@ -38,9 +52,9 @@ const Register = () => {
                   required
                   placeholder='email'
                 />
-              </div>              
+              </div>
               <div>
-                <LockIcon/>
+                <LockIcon />
                 <input
                   className='input'
                   type="password"
@@ -50,7 +64,7 @@ const Register = () => {
                 />
               </div>
               <div>
-                <EnhancedEncryptionIcon/>
+                <EnhancedEncryptionIcon />
                 <input
                   className='input'
                   type="password"
@@ -60,7 +74,7 @@ const Register = () => {
                 />
               </div>
               <div><Checkbox {...label} />I agree all statements in services</div>
-              <div><button className="sign-up-btn">SIGN UP</button></div>
+              <div><a class="btn btn-primary" href="login" role="button">SIGN UP</a></div>
             </div>
           </form>
         </div>
@@ -73,8 +87,6 @@ const Register = () => {
           <a href="/login">I am already member</a>
         </div>
       </div>
-
-
     </div>
 
   )
