@@ -2,14 +2,32 @@ import React from "react";
 import homeBg from "../../assets/homeBG.jpg"
 import "./Home.css"
 import Button from "@mui/material/Button";
+import Search from "./Search";
+
 import Header from "../../componets/Header";
+import usePlacesAutocomplete, {
+    getGeocode,
+    getLatLng,
+  } from "use-places-autocomplete";
+  import {
+    Combobox,
+    ComboboxInput,
+    ComboboxPopover,
+    ComboboxList,
+    ComboboxOption,
+    ComboboxOptionText,
+  } from "@reach/combobox";
+  import "@reach/combobox/styles.css";
+import { height, width } from "@mui/system";
+
+
 
 
 
 const Home = () => {
     return(
         <div>
-        <Header/>
+        <Header />
         <div  className="Backgroung-img" >
             <img src={homeBg} alt="" height="667px" width="100%" position="fixed"/>
             <div className="content">
@@ -22,10 +40,13 @@ const Home = () => {
                 </p>
             </div>
             <div className="box"/>
-            <div><input  className="destination1" placeholder="Where are you starting?"/></div>
-            <div><input className="destination2" placeholder="Where are you going?"/></div>
-            <Button href="/googleMapApi" sx={{marginLeft:"auto", color:"white", backgroundColor:"#E86E18", top:"-28.5vh", left:"87.5vh", borderRadius:"27px"}}>Go</Button>
+            <div>
+            <div className="destination1" ><Search placeholder="Start Location" /> </div>
+            <div className="destination2"><Search placeholder="End Location" /> </div>
             </div>
+           
+            <Button href="/googleMapApi" sx={{marginLeft:"auto", color:"white", backgroundColor:"#E86E18", top:"-28.5vh", left:"87.5vh", borderRadius:"27px"}}>Go</Button>
+           </div>
             <div>
                 <p className="p2">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. 
@@ -53,7 +74,9 @@ const Home = () => {
                     voluptate adipisci sunt, ut consectetur beatae eius inventore 
                     quidem dolor error aperiam delectus. Odio.
                 </p>
+                <div ></div>
             </div>
+            
         </div>
     )
 }
