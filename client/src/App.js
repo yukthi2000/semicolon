@@ -6,6 +6,7 @@ import Gallery from "./pages/gallery/Gallery";
 import Review from "./pages/review/Review";
 import GoogleMapApi from "./pages/googleMapApi/GoogleMapApi";
 import Register from "./pages/login/Register";
+
 import Datafortrip from "./pages/homePage/Datafortrip";
 
 const App = () => {
