@@ -54,7 +54,7 @@ const options = {
 
 export default function Map(latlng) {
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: process.env.REACT_APP_GMAPKEY,
+    googleMapsApiKey: "AIzaSyA1tZY8x6OG7mt7a2iovZTDIj8SDV6sL8s",
     libraries,
   });
   const [markers, Setmarkers] = React.useState([]);

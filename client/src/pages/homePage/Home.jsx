@@ -3,6 +3,7 @@ import homeBg from "../../assets/homeBG.jpg"
 import "./Home.css"
 import Button from "@mui/material/Button";
 import Search from "./Search";
+import { Link } from "react-router-dom";
 
 import Header from "../../componets/Header";
 import Register from "../login/Register";
@@ -78,6 +79,7 @@ const Home = () => {
                     quidem dolor error aperiam delectus. Odio.
                 </p>
                 <div ></div>
+                <div><Link to={"/inputdata"}> <Button>fadf</Button></Link> </div>
             </div>
         </div>
         <div className="box" />
