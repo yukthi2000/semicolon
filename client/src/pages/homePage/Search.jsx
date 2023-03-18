@@ -120,7 +120,7 @@ function Search1({ panTo ,placeholder1}) {
     },
   });
   return (
-    <div >    <Combobox className="search" 
+    <div >    <Combobox className="searchho" 
       onSelect={async (address) => {
         setValue(address, false);
         clearSuggestions();
@@ -133,7 +133,7 @@ function Search1({ panTo ,placeholder1}) {
         }
       }}
     >
-      <ComboboxInput className="combobox-input"
+      <ComboboxInput className="combobox-inputho"
         value={value}
         onChange={(e) => {
           setValue(e.target.value);
@@ -143,7 +143,7 @@ function Search1({ panTo ,placeholder1}) {
         
       />
       <ComboboxPopover>
-        <ComboboxList className="combobox-list">
+        <ComboboxList className="combobox-listho">
           {status === "OK" &&
             data.map(({ id, description }) => (
               <ComboboxOption key={id} value={description} />
