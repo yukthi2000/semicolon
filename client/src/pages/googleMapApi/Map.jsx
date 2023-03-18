@@ -52,7 +52,7 @@ const options = {
   streetViewControl: true,
 };
 
-export default function Map(latlng) {
+export default function Map(latlng,props) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: "AIzaSyA1tZY8x6OG7mt7a2iovZTDIj8SDV6sL8s",
     libraries,
@@ -60,6 +60,7 @@ export default function Map(latlng) {
   const [markers, Setmarkers] = React.useState([]);
   const [selected, setSelected] = React.useState(null);
   const [Searchplan, setSearchplan] = useState(false);
+  const [Searchplan2, setSearchplan2] = useState(props.Searchplan);
 
   const Searchplanshow = () => {
     setSearchplan(!Searchplan);
@@ -125,7 +126,8 @@ export default function Map(latlng) {
           }}
         >
           {Searchplan ? (
-            <SerchorPlan />
+            <SerchorPlan Searchplanshow={Searchplanshow} Searchplan={Searchplan}  />
+            
           ) : (
             <Paper
               component="form"
@@ -190,6 +192,10 @@ export default function Map(latlng) {
 }
 
 function Search({ panTo }) {
+  const [markers, setMarkers] = useState(0);
+  const mark = (e) => {
+    setMarkers(e);
+  };
   const {
     ready,
     value,
@@ -212,7 +218,17 @@ function Search({ panTo }) {
           const results = await getGeocode({ address });
           const { lat, lng } = await getLatLng(results[0]);
           panTo({ lat, lng });
-          console.log(lat);
+          // console.log(lat, lng); //show lat lng of searched address
+          mark(lng); 
+          console.log(markers);
+          {
+            markers.map((marker) => (
+              <Marker
+                key={marker.lat + marker.lng}
+                position={{ lat: marker.lat, lng: marker.lng }}
+              />
+            ));
+          }
         } catch (error) {
           console.log(error);
         }

@@ -9,7 +9,12 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import DirectionsIcon from "@mui/icons-material/Directions";
 
-const SerchorPlan = () => {
+const SerchorPlan = (prop) => {
+  const Searchplan = !prop.Searchplan;
+  const searsplanpop = () => {
+    prop.Searchplanshow(!Searchplan);
+    console.log(Searchplan);
+  };
   return (
     <div className="div1">
       <Paper
@@ -22,7 +27,7 @@ const SerchorPlan = () => {
         }}
       >
         <IconButton sx={{ p: "10px" }} aria-label="menu">
-          <MenuIcon onClick={""} />
+          <MenuIcon onClick={searsplanpop} />
         </IconButton>
 
         <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
