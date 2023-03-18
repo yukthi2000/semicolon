@@ -82,43 +82,7 @@ const Home = () => {
                 <div><Link to={"/inputdata"}> <Button>fadf</Button></Link> </div>
             </div>
         </div>
-        <div className="box" />
-        <div><input className="destination1" placeholder="Where are you starting?" /></div>
-        <div><input className="destination2" placeholder="Where are you going?" /></div>
-        <Button href="/googleMapApi" sx={{ marginLeft: "auto", color: "white", backgroundColor: "#E86E18", top: "-28.5vh", left: "87.5vh", borderRadius: "27px" }}>Go</Button>
-    
-      <div>
-        <p className="p2">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Odio neque veniam, earum, sed animi nesciunt architecto
-          voluptate adipisci sunt, ut consectetur beatae eius inventore
-          quidem dolor error aperiam delectus. Odio.
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Odio neque veniam, earum, sed animi nesciunt architecto
-          voluptate adipisci sunt, ut consectetur beatae eius inventore
-          quidem dolor error aperiam delectus. Odio.
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Odio neque veniam, earum, sed animi nesciunt architecto
-          voluptate adipisci sunt, ut consectetur beatae eius inventore
-          quidem dolor error aperiam delectus. Odio.
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Odio neque veniam, earum, sed animi nesciunt architecto
-          voluptate adipisci sunt, ut consectetur beatae eius inventore
-          quidem dolor error aperiam delectus. Odio.
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Odio neque veniam, earum, sed animi nesciunt architecto
-          voluptate adipisci sunt, ut consectetur beatae eius inventore
-          quidem dolor error aperiam delectus. Odio.
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Odio neque veniam, earum, sed animi nesciunt architecto
-          voluptate adipisci sunt, ut consectetur beatae eius inventore
-          quidem dolor error aperiam delectus. Odio.
-
-
-        </p>
-
-
-      </div>
+        
       </div>
     
   )
