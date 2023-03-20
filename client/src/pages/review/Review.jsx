@@ -1,19 +1,47 @@
 import React from "react";
 import Header2 from "../../componets/Header2";
+import { v4 as uuidv4 } from 'uuid';
+import { useState } from 'react';
+import Header from './HeaderL';
+import DestReviewList from './ReviewList';
+import DestReviewStats from './ReviewStats';
+import ProductData from './ProductData';
+import ReviewForm from './ReviewForm';
+import "./Review.css";
 
 const Review = () => {
+  
+  const [review, setReview] = useState(ProductData);
+ 
+  const addReview = newReview => {
+    newReview.id = uuidv4();
+    setReview([newReview, ...review]);
+  };
+  const deleteFeedback = id => {
+   if (window.confirm('Are you sure you want to delete?')) {
+    setReview(review.filter(item => item.id !== id));
+    }
+ };
   return (
-    <div>
-      <Header2 />
+   <>
+   <Header2 />
+   <Header />
+   <center><h1>Share Your Experience</h1></center>
+   <center><h1>Write a review</h1></center>
+    <div className="container">
+    <ReviewForm handleAdd={addReview}/>
+   <DestReviewStats review={review} />
+  <DestReviewList 
+   review={review} 
+   handleDelete={deleteFeedback} 
+  />
+  {/* < TestRadioRating qNo={1}/> */}
+      
 
-
-      xsszxCadsdfdsfds Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis dolorem totam error, eligendi adipisci provident a mollitia dolor qui quas. Pariatur, a eveniet eius iure sit atque libero amet laboriosam quo odio quis odit minima ipsam autem velit aperiam porro eos eaque similique inventore reiciendis deleniti architecto. Voluptatibus dolorem ab aperiam incidunt quos atque explicabo voluptates quaerat! Repellendus sapiente, mollitia, perspiciatis odit placeat totam ducimus provident fugiat, debitis commodi voluptate?
-
-
-
-
-    </div>
-  )
+  </div>
+ </>
+ );
 }
+
 
 export default Review;
