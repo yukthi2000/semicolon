@@ -11,7 +11,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import DirectionsIcon from "@mui/icons-material/Directions";
 import { useState } from "react";
 import "./Searc.css";
-import SerchorPlan from "./SerchorPlan";
+import Multiplesearch from "./Multiplesearch";
 
 import usePlacesAutocomplete, {
   getGeocode,
@@ -36,7 +36,7 @@ import {
 import { formatRelative } from "date-fns";
 import { Button } from "@mui/material";
 // import SearchBox from "react-google-maps/lib/components/places/SearchBox";
-
+const heading="kandy";
 const libraries = ["places"];
 const mapContainerStyle = {
   width: "100vw",
@@ -52,7 +52,7 @@ const options = {
   streetViewControl: true,
 };
 
-export default function Map(latlng,props) {
+export default function Map(latlng, props) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: "AIzaSyA1tZY8x6OG7mt7a2iovZTDIj8SDV6sL8s",
     libraries,
@@ -62,6 +62,10 @@ export default function Map(latlng,props) {
   const [Searchplan, setSearchplan] = useState(false);
   const [Searchplan2, setSearchplan2] = useState(props.Searchplan);
 
+  const onmarkk = (data) => {
+    console.log("dadfa");
+    Setmarkers(data);
+  };
   const Searchplanshow = () => {
     setSearchplan(!Searchplan);
   };
@@ -126,34 +130,44 @@ export default function Map(latlng,props) {
           }}
         >
           {Searchplan ? (
-            <SerchorPlan Searchplanshow={Searchplanshow} Searchplan={Searchplan}  />
-            
+            <Multiplesearch
+              Searchplanshow={Searchplanshow}
+              Searchplan={Searchplan}
+              heading={heading}
+            />
           ) : (
-            <Paper
-              component="form"
-              sx={{
-                p: "2px 4px",
-                display: "flex",
-                alignItems: "center",
-                width: 400,
-              }}
-            >
-              <IconButton sx={{ p: "10px" }} aria-label="menu">
-                <MenuIcon onClick={Searchplanshow} />
-              </IconButton>
-              <Search panTo={panTo} />
-              <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
-                <SearchIcon />
-              </IconButton>
-              <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-              <IconButton
-                color="primary"
-                sx={{ p: "10px" }}
-                aria-label="directions"
+            <div className="searchbar">
+              <Paper
+                component="form"
+                sx={{
+                  p: "2px 4px",
+                  display: "flex",
+                  alignItems: "center",
+                  width: 400,
+                }}
               >
-                <DirectionsIcon />
-              </IconButton>
-            </Paper>
+                <IconButton sx={{ p: "10px" }} aria-label="menu">
+                  <MenuIcon onClick={Searchplanshow} />
+                </IconButton>
+                <Search panTo={panTo} onmark={onmarkk} onClick={onmarkk} />
+                {/* {console.log(markers)} */}
+                <IconButton
+                  type="button"
+                  sx={{ p: "10px" }}
+                  aria-label="search"
+                >
+                  <SearchIcon />
+                </IconButton>
+                <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+                <IconButton
+                  color="primary"
+                  sx={{ p: "10px" }}
+                  aria-label="directions"
+                >
+                  <DirectionsIcon />
+                </IconButton>
+              </Paper>
+            </div>
           )}
         </div>
       </div>
@@ -187,14 +201,17 @@ export default function Map(latlng,props) {
           </InfoWindow>
         ) : null}
       </GoogleMap>
+      {console.log(markers)}
     </>
   );
 }
 
-function Search({ panTo }) {
-  const [markers, setMarkers] = useState(0);
+function Search({ panTo, prop }) {
   const mark = (e) => {
-    setMarkers(e);
+    // const newmarkers = [...prop.markers, { lat: 32, lng: 43, time: 43 }];
+    // console.log(newmarkers);
+    // prop.Setmarkers(newmarkers);
+    prop.onmark(e);
   };
   const {
     ready,
@@ -219,16 +236,8 @@ function Search({ panTo }) {
           const { lat, lng } = await getLatLng(results[0]);
           panTo({ lat, lng });
           // console.log(lat, lng); //show lat lng of searched address
-          mark(lng); 
-          console.log(markers);
-          {
-            markers.map((marker) => (
-              <Marker
-                key={marker.lat + marker.lng}
-                position={{ lat: marker.lat, lng: marker.lng }}
-              />
-            ));
-          }
+          mark({ lat, lng, time: new Date() });
+          // console.log({ lat, lng });
         } catch (error) {
           console.log(error);
         }

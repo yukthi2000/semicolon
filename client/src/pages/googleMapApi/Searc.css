@@ -1,8 +1,6 @@
-
 .search {
   width: 31.5vh;
   border: none !important;
- 
 }
 
 .combobox-input {
@@ -10,11 +8,10 @@
   padding: 19px;
   padding-left: 0px;
   font-size: 16px;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
   width: 260px;
   border: none !important;
   border-radius: 4px;
- 
 }
 
 .combobox-list {
@@ -22,10 +19,8 @@
   margin: 0;
   padding: 0;
   font-size: 16px;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
   border: none !important;
-  
- 
 }
 
 .combobox-option {
@@ -39,3 +34,9 @@
   outline: none;
 }
 
+@media screen and (width< 500px) {
+  .searchbar {
+    color: aqua;
+    width: 50%;
+  }
+}
