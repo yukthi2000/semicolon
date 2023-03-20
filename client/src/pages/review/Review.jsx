@@ -1,5 +1,6 @@
 import React from "react";
 import Header2 from "../../componets/Header2";
+
 import { v4 as uuidv4 } from 'uuid';
 import { useState } from 'react';
 import Header from './HeaderL';
@@ -7,6 +8,7 @@ import DestReviewList from './ReviewList';
 import DestReviewStats from './ReviewStats';
 import ProductData from './ProductData';
 import ReviewForm from './ReviewForm';
+
 import "./Review.css";
 
 const Review = () => {
@@ -23,6 +25,7 @@ const Review = () => {
     }
  };
   return (
+
    <>
    <Header2 />
    <Header />
