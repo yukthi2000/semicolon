@@ -1,63 +1,114 @@
-import React from "react";
-import "./Login.css";
-import rpMan from "../../assets/rpMan.png"
+import React, { useState } from "react";
+import "./Register.css";
+import A from "../../assets/A.jpg"
+import HomePageLinkIcon from "../../componets/HomePageLinkIcon";
 import LockIcon from '@mui/icons-material/Lock';
-import HomeIcon from '@mui/icons-material/Home';
+import EnhancedEncryptionIcon from '@mui/icons-material/EnhancedEncryption';
 
 
+const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 const PasswordReset = () => {
-    return (
-        <div className="login-form">
-            <div>
-                <a href="/"><HomeIcon
-                    sx={{
-                        position: "absolute",
-                        color: "#E86E18",
-                        backgroundColor: "rgb(238, 238, 238)",
-                        borderRadius: "5px",
-                        height: "30px",
-                        width: "30px",
-                        marginLeft: "170vh",
-                        marginTop: "-10vh"
-                    }} /></a>
-            </div>
-            <div className="login-man">
-                <div>
-                    <img className="logMan-img" src={rpMan} alt=""></img>
-                </div>
+  const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [error, setError] = useState("");
 
+  const validatePassword = (password) => {
+    const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+    return regex.test(password);
+  }
+
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    if (value && !validatePassword(value)) {
+      setPasswordError("Min 8 characters, at least 1 letter, number, special character")
+    } else {
+      setPasswordError("")
+    }
+    setPassword(value)
+  }
+
+  const handleConfirmPasswordChange = (e) => {
+    const value = e.target.value;
+    if (value !== password) {
+      setConfirmPasswordError("Password missmatch")
+    } else {
+      setConfirmPasswordError("")
+    }
+    setConfirmPassword(value)
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!password || !confirmPassword) {
+      setError("All fields are required");
+    } else {
+      window.location.href = "login";
+    }
+  };
+
+  return (
+    <div className="reg-form">
+      <img className="airBalloon" src={A} alt="" />
+      <div>
+        <HomePageLinkIcon/>
+      </div>
+      <div className="Register-form">
+        <div><h1>Password Reset</h1></div><br />
+        <div>
+          <form onSubmit={handleSubmit}>
+            <div>
+              <div style={{ position: "relative" }}>
+                <LockIcon style={{ position: "absolute", top: 20, left: 20 }}/>
+                <input
+                  className={`input ${passwordError ? "invalid" : ""}`}
+                  type="password"
+                  id="password"
+                  required
+                  placeholder='Password'
+                  value={password}
+                  onChange={handlePasswordChange}
+                  style={{ paddingLeft: 32 }}
+                />
+              </div>
+              {passwordError && (
+                <div className="error-message">{passwordError}</div>
+              )}
+
+              <div style={{ position: "relative" }}>
+                <EnhancedEncryptionIcon style={{ position: "absolute", top: 20, left: 20 }}/>
+                <input
+                  className={`input ${confirmPasswordError ? "invalid" : ""}`}
+                  type="password"
+                  id="cpassword"
+                  required
+                  placeholder='Confirm Password'
+                  value={confirmPassword}
+                  onChange={handleConfirmPasswordChange}
+                  style={{ paddingLeft: 32 }}
+                />
+              </div>
+              {confirmPasswordError && (
+                <div className="error-message">{confirmPasswordError}</div>
+              )}
+              <div>
+                <div style={{marginLeft:"10px"}}>
+                  <a href="/login">Back</a>
+                </div>
+                <button type="submit" className="btn btn-primary">
+                  SUBMIT
+                </button>
+                {error && <p>{error}</p>}
+              </div>
             </div>
-            <div className="login">
-                <div><h1>Password Reset</h1></div><br /><br />
-                <form>
-                    <div>
-                        <div>
-                            <LockIcon />
-                            <input
-                                className='input'
-                                type="password"
-                                id="password"
-                                required
-                                placeholder='New Password'
-                            />
-                        </div>
-                        <div>
-                            <LockIcon />
-                            <input
-                                className='input'
-                                type="password"
-                                id="password"
-                                required
-                                placeholder='Confirm New Password'
-                            />
-                        </div><br />
-                        <div><a class="btn btn-primary" href="login" role="button">SUBMIT</a></div>
-                    </div>
-                </form>
-            </div>
+          </form>
         </div>
-    )
+      </div>
+    </div>
+
+  )
 }
 
 export default PasswordReset;
