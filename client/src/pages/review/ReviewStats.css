@@ -1,0 +1,16 @@
+
+
+
+
+
+.feedback-stats {
+  color: #132320;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+
+}
+.feedback-stats h4{
+  font-size: 15px;
+}
