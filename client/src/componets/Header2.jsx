@@ -47,7 +47,7 @@ const Header2=()=> {
         <CollectionsIcon sx={{display:{xs:"block", sm:"none"}, marginRight: '20px'}}/>
 
         <Typography variant="h6" component="div" sx={{ flexGrow: 5, display: { xs: 'none', sm: 'block' } }}>
-          <Link to="/review" style={{ textDecoration: 'none', color: 'white', fontSize: '20px' }}>
+          <Link to="/reviewhome" style={{ textDecoration: 'none', color: 'white', fontSize: '20px' }}>
             Review
           </Link>
         </Typography>

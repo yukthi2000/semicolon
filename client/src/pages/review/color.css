@@ -1,0 +1,30 @@
+.containerr {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  
+  .top-section {
+    justify-content: center;
+    height: 33.33%;
+    background-color: rgb(244, 247, 241);
+    padding-top: 50px;
+    color: black;
+  }
+  
+  .middle-section {
+    height: 33.33%;
+    background-color: #368c18;
+  }
+  
+  .bottom-section {
+    height: 33.33%;
+    background-color: rgb(229, 237, 229);
+    
+  }
+
+  h3 {
+    padding-top: 20px;
+    color: black;
+    text-align: left; 
+  }

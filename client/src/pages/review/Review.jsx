@@ -17,11 +17,7 @@ const Review = () => {
     newReview.id = uuidv4();
     setReview([newReview, ...review]);
   };
-  const deleteFeedback = id => {
-   if (window.confirm('Are you sure you want to delete?')) {
-    setReview(review.filter(item => item.id !== id));
-    }
- };
+  
   return (
    <>
    <Header2 />
@@ -33,7 +29,7 @@ const Review = () => {
    <DestReviewStats review={review} />
   <DestReviewList 
    review={review} 
-   handleDelete={deleteFeedback} 
+   
   />
   {/* < TestRadioRating qNo={1}/> */}
       
