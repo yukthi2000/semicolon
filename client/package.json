@@ -17,6 +17,10 @@
     "formik": "^2.2.9",
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    "date-fns": "^2.29.3",
+>>>>>>> parent of 9b6f585 (rating form added)
 =======
     "date-fns": "^2.29.3",
 >>>>>>> parent of 9b6f585 (rating form added)

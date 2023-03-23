@@ -3,6 +3,7 @@ import Header2 from "../../componets/Header2";
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { v4 as uuidv4 } from 'uuid';
 import { useState } from 'react';
 import Header from './HeaderL';
@@ -62,6 +63,14 @@ const Review = () => {
       <Header2 />
 
 >>>>>>> parent of 9b6f585 (rating form added)
+=======
+
+const Review = () => {
+  return (
+    <div>
+      <Header2 />
+
+>>>>>>> parent of 9b6f585 (rating form added)
 
       xsszxCadsdfdsfds Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis dolorem totam error, eligendi adipisci provident a mollitia dolor qui quas. Pariatur, a eveniet eius iure sit atque libero amet laboriosam quo odio quis odit minima ipsam autem velit aperiam porro eos eaque similique inventore reiciendis deleniti architecto. Voluptatibus dolorem ab aperiam incidunt quos atque explicabo voluptates quaerat! Repellendus sapiente, mollitia, perspiciatis odit placeat totam ducimus provident fugiat, debitis commodi voluptate?
 
@@ -71,6 +80,9 @@ const Review = () => {
     </div>
   )
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 9b6f585 (rating form added)
+=======
 >>>>>>> parent of 9b6f585 (rating form added)
 =======
 >>>>>>> parent of 9b6f585 (rating form added)
