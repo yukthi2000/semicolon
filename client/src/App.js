@@ -9,7 +9,6 @@ import Register from "./pages/login/Register";
 import Login from "./pages/login/Login";
 import ForgetPassword from "./pages/login/ForgetPassword";
 import PasswordReset from "./pages/login/PasswordReset";
-import Datafortrip from "./pages/homePage/Datafortrip";
 
 
 
@@ -25,7 +24,6 @@ const App=() =>{
           <Route path="login" element={<Login/>}/>
           <Route path="forget-password" element={<ForgetPassword/>}/>
           <Route path="reset-password" element={<PasswordReset/>}/>
-          <Route path="inputdata" element={<Datafortrip />} />
        </Routes>
     </div>
   );

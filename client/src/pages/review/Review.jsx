@@ -1,5 +1,6 @@
 import React from "react";
 import Header2 from "../../componets/Header2";
+<<<<<<< HEAD
 import { v4 as uuidv4 } from 'uuid';
 import { useState } from 'react';
 import Header from './HeaderL';
@@ -7,22 +8,13 @@ import DestReviewList from './ReviewList';
 import DestReviewStats from './ReviewStats';
 import ProductData from './ProductData';
 import ReviewForm from './ReviewForm';
+=======
+>>>>>>> parent of ec66de4 (Merge branch 'dev' into Feature-login)
 import "./Review.css";
 
 const Review = () => {
-  
-  const [review, setReview] = useState(ProductData);
- 
-  const addReview = newReview => {
-    newReview.id = uuidv4();
-    setReview([newReview, ...review]);
-  };
-  const deleteFeedback = id => {
-   if (window.confirm('Are you sure you want to delete?')) {
-    setReview(review.filter(item => item.id !== id));
-    }
- };
   return (
+<<<<<<< HEAD
    <>
    <Header2 />
    <Header />
@@ -41,7 +33,18 @@ const Review = () => {
   </div>
  </>
  );
-}
+=======
+    <div className="review-page">
+      <div className="header">
+      <Header2/>
+      </div>
+      <div className="content-review">
+        <h1>Start coding...</h1>
+      </div>
 
+    </div>
+  )
+>>>>>>> parent of ec66de4 (Merge branch 'dev' into Feature-login)
+}
 
 export default Review;

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .container {
     max-width: 768px;
     margin: auto;
@@ -46,4 +47,14 @@ ul {
 
 h1 {
   padding-top: 20px; 
+=======
+.header{
+    position: fixed;
+}
+
+.content-review{
+    margin-top: 10vh;
+    height: 90vh;
+    overflow-y: auto;
+>>>>>>> parent of ec66de4 (Merge branch 'dev' into Feature-login)
 }
