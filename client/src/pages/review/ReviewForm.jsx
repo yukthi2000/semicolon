@@ -2,8 +2,8 @@ import { useState, useEffect  } from 'react';
 import Card from './Card';
 import Button from './button';
 import RatingSelect from './RatingSelect';
+import './ReviewForm.css';
 
-import "./ReviewForm.css";
 function ReviewForm(props) {
   const [text, setText] = useState('');
   const [rating1, setRating1] = useState(10);

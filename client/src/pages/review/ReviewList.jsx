@@ -2,6 +2,7 @@
 import ReviewItem from './ReviewDestination';
 import PropTypes from 'prop-types';
 
+
 function DestReviewList({ review, handleDelete }) {
   if (!review || review.length === 0) {
     return <p>No reviews yet</p>;

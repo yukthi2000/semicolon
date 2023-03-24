@@ -1,6 +1,7 @@
 import { FaTimes } from 'react-icons/fa';
 import Card from './Card';
 import PropTypes from 'prop-types';
+import './ReviewDestination.css';
 function ReviewItem({ item, handleDelete }) {
   return (
     <Card>

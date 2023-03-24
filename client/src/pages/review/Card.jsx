@@ -1,4 +1,6 @@
 import PropTypes from 'prop-types';
+import './Card.css';
+
 function Card({ children, reverse }) {
   return (
     <div

@@ -1,30 +1,96 @@
-.containerr {
+
+.containerR {
     display: flex;
     flex-direction: column;
     height: 100vh;
+    background-image: url('../../assets/homeBG.jpg');
+    border-radius: 3%;
+    box-shadow: 5vh;
   }
   
   .top-section {
     justify-content: center;
     height: 33.33%;
-    background-color: rgb(244, 247, 241);
+    
     padding-top: 50px;
-    color: black;
+    color: white;
   }
   
   .middle-section {
     height: 33.33%;
-    background-color: #368c18;
+   
   }
   
   .bottom-section {
     height: 33.33%;
-    background-color: rgb(229, 237, 229);
+    
     
   }
 
-  h3 {
+  h6 {
     padding-top: 20px;
-    color: black;
+    color: rgb(240, 108, 13);
     text-align: left; 
+  }
+  h3 {
+    
+    color: orange;
+    text-align: left;
+    padding-left: 5vh; 
+  }
+
+  .ReviewStatComp{
+    padding-left: 5vh;
+    padding-right: 5vh;
+  }
+
+  .pastReviews{
+    padding-left: 5vh;
+    padding-right: 5vh;
+  }
+
+  .searchBar{
+    padding-left: 5vh;
+    padding-right: 5vh;
+    padding-top: 10%;
+    padding-bottom: 20%;
+    align-self: center;
+    width: 80%;
+    
+
+  }
+
+  .searchInputBox{
+    
+    width: 90%;
+    height: 10vh;
+    border-radius: 3vh;
+    margin-left: 5%;
+    margin-right: 5%;
+    padding: 2vh;
+    font-size: 3vh;
+    
+  }
+
+  .searchInputBox::placeholder{
+    font-size: 3vh;
+  }
+
+  .searchInputBoxCont{
+    /* background-color: orange;
+    width: 80%;
+    height: 80%;
+    margin: 10%; */
+  }
+
+  .searchBtn{
+    height: 10vh;
+    width: 30vh;
+    margin: 5vh;
+    font-size: 5vh;
+    margin-left: 40%;
+    margin-right: 40%;
+    background-color: orange;
+    border-color: black;
+    
   }
