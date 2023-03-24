@@ -1,20 +1,33 @@
 import loading from "../../assets/loading (1).gif";
-import error from "../../assets/error.gif";
-import * as React from "react";
-import Searchbar from "./Searchbar";
-import Paper from "@mui/material/Paper";
-import InputBase from "@mui/material/InputBase";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
-import DirectionsIcon from "@mui/icons-material/Directions";
+import error from "../../assets/error.gif"
+import * as React from 'react';
+import Paper from '@mui/material/Paper';
+import InputBase from '@mui/material/InputBase';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import SearchIcon from '@mui/icons-material/Search';
+import DirectionsIcon from '@mui/icons-material/Directions';
+import "./Searc.css"
 import { useState } from "react";
-import "./Searc.css";
 import Multiplesearch from "./Multiplesearch";
-import { PropTypes } from "prop-types";
 
 
+
+
+import usePlacesAutocomplete, {
+  getGeocode,
+  getLatLng,
+} from "use-places-autocomplete";
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxPopover,
+  ComboboxList,
+  ComboboxOption,
+  ComboboxOptionText,
+} from "@reach/combobox";
+import "@reach/combobox/styles.css";
 import {
   GoogleMap,
   useLoadScript,
@@ -259,9 +272,9 @@ function Search({ panTo, onmark }) {
     </Combobox>
   );
 
-  Search.propTypes = {
-    onmark: PropTypes.func,
-  };
+  // Search.propTypes = {
+  //   onmark: PropTypes.func,
+  // };
 }
 
 export { Search };

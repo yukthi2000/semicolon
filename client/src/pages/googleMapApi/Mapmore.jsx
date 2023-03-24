@@ -1,7 +1,7 @@
 import loading from "../../assets/loading (1).gif";
 import error from "../../assets/error.gif";
 import * as React from "react";
-import Searchbar from "./Searchbar";
+
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import Divider from "@mui/material/Divider";
