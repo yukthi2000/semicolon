@@ -48,6 +48,7 @@ TabPanel.propTypes = {
 // }
 
 export default function Forecast(props) {
+    
 
 
   const [open, setOpen] = React.useState(false);
@@ -138,10 +139,9 @@ export default function Forecast(props) {
         {/* Tab panel for tripday */}
         <TabPanel value={value} index={0}>
           
-        <TodayForecast 
+          <TripDayForecast 
             currentCity = {props.currentCity}
-            />
-
+            tripDate = {props.tripDate}/>
             
         </TabPanel>
         

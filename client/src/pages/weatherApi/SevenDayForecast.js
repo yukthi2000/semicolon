@@ -4,12 +4,10 @@ import axios from 'axios';
 function SevenDayForecast(props) {
 
   const tripDate = new Date(props.tripDate);
-
-  const [count,setCount] = useState ('0');
-
-
+  
   const [data, setData] = useState({});
   const [location, setLocation] = useState(props.currentCity);
+    
 
   const url = `https://pro.openweathermap.org/data/2.5/forecast/climate?q=${location}&units=metric&appid=2cdb7a87b467f79781996b8eb03eecda`;
 
@@ -50,6 +48,7 @@ function SevenDayForecast(props) {
       <input
         value={location}
         onChange={event => setLocation(event.target.value)}
+        
         onKeyPress={searchLocation}
         placeholder='Enter Location'
         type="text" />

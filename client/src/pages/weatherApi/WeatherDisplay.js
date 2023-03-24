@@ -49,8 +49,8 @@ const WeatherDisplay = (props) => {
 
 
                 <div className="main-weather-date">
-                    <span className="main-weather-date-day"> MONDAY,</span>
-                    <span className="main-weather-date-month"> 17 April</span>
+                    <span className="main-weather-date-day"> {props.weekday},</span>
+                    <span className="main-weather-date-month"> {props.day} {props.month}</span>
                 </div>
                 <TextField
                     id="outlined-basic"
@@ -62,7 +62,7 @@ const WeatherDisplay = (props) => {
                     sx={{
                         '& .MuiOutlinedInput-root': {
                             borderRadius: 20,
-                            height: 36,
+                            height: 30,
                             width: 250
                         },
                         '& .MuiOutlinedInput-notchedOutline': {
@@ -143,7 +143,7 @@ const WeatherDisplay = (props) => {
 
                                 <div className="weather-details-card-content">
                                     <span className="weather-details-card-content-text">
-                                        6
+                                        {props.rain}
                                         <span className="weather-details-card-content-text-secondary">
                                             mm
                                         </span>
@@ -164,7 +164,7 @@ const WeatherDisplay = (props) => {
 
                                 <div className="weather-details-card-content">
                                     <span className="weather-details-card-content-text">
-                                        6.35
+                                        {props.sunrise}
                                         <span className="weather-details-card-content-text-secondary">
                                             AM
                                         </span>
@@ -175,13 +175,13 @@ const WeatherDisplay = (props) => {
 
                             <Box className="weather-details-card">
                                 <span className="weather-details-card-heading">
-                                    Wind
+                                    Sunset
                                 </span>
                                 <br />
 
                                 <div className="weather-details-card-content">
                                     <span className="weather-details-card-content-text">
-                                        7.45
+                                        {props.sunset}
                                         <span className="weather-details-card-content-text-secondary">
                                             PM
                                         </span>

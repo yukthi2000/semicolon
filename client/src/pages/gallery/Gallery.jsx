@@ -6,7 +6,7 @@ import WeatherOptions from "../weatherApi/WeatherOptions";
 
 const Gallery=()=>{
 
-  const tripDate = new Date('2023-03-25');
+  const tripDate = new Date('2023-03-30');
 
   return(
     <div>
@@ -16,7 +16,7 @@ const Gallery=()=>{
       <div className="gallerycontainer">
       <WeatherOptions/>
       <Forecast 
-        currentCity='Yakutsk'
+        currentCity='Kandy'
         tripDate = {tripDate}/>
       </div>
   
