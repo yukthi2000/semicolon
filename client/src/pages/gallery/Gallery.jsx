@@ -2,11 +2,19 @@ import React from "react";
 import Header2 from "../../componets/Header2";
 import Forecast from "../weatherApi/Forecast";
 import WeatherOptions from "../weatherApi/WeatherOptions";
+import { useState } from "react";
 
 
 const Gallery=()=>{
 
   const tripDate = new Date('2023-03-30');
+
+  //pass changed location from child components to this cmponent
+  const [globalLocation, setGlobalLocation] = useState('Kandy');
+
+  const pull_newGlobalLocation = (newLocation) => {
+    setGlobalLocation(newLocation);
+  }
 
   return(
     <div>
@@ -16,8 +24,13 @@ const Gallery=()=>{
       <div className="gallerycontainer">
       <WeatherOptions/>
       <Forecast 
-        currentCity='Kandy'
-        tripDate = {tripDate}/>
+        
+        currentCity={globalLocation}
+        tripDate = {tripDate}
+        Globalfunc={pull_newGlobalLocation} //passing location function
+        
+        />
+
       </div>
   
     </div>

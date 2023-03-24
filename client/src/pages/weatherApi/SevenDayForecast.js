@@ -3,8 +3,9 @@ import axios from 'axios';
 
 function SevenDayForecast(props) {
 
+    
   const tripDate = new Date(props.tripDate);
-  
+
   const [data, setData] = useState({});
   const [location, setLocation] = useState(props.currentCity);
     
@@ -17,6 +18,7 @@ function SevenDayForecast(props) {
         .then((response) => {
           setData(response.data);
           console.log(response.data);
+          props.func(location);
         })
         .catch((error) => {
           console.log(error);

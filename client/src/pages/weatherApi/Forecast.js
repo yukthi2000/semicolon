@@ -10,6 +10,7 @@ import './Forecast.css'
 import TripDayForecast from './TripDayForecast';
 import TodayForecast from './TodayForecast';
 import SevenDayForecast from './SevenDayForecast';
+import { useState } from 'react';
 
 
 
@@ -49,6 +50,13 @@ TabPanel.propTypes = {
 
 export default function Forecast(props) {
     
+    const [NewLocation, setNewLocation] = useState('');
+
+    const pull_newLocation = (newLocation) => {
+        console.log(newLocation);
+        setNewLocation(newLocation)
+        props.Globalfunc(newLocation);
+      }
 
 
   const [open, setOpen] = React.useState(false);
@@ -159,10 +167,12 @@ export default function Forecast(props) {
 
           {/* Tab pannel for Next 7 days */}
         <TabPanel value={value} index={2}>
-          
+         
         <SevenDayForecast 
             currentCity = {props.currentCity}
-            tripDate = {props.tripDate}/>
+            tripDate = {props.tripDate}
+            func={pull_newLocation}/>
+            
 
         </TabPanel>
       
