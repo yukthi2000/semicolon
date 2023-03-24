@@ -4,8 +4,6 @@ import Header2 from "../../componets/Header2";
 import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 
-import "./Review.css";
-
 const Review = () => {
   return (
     <div className="review-page">
