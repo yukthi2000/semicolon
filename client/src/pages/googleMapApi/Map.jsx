@@ -9,12 +9,10 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import DirectionsIcon from "@mui/icons-material/Directions";
-import "./Searc.css"
 import { useState } from "react";
+import "./Searc.css";
 import Multiplesearch from "./Multiplesearch";
-
-
-
+import { PropTypes } from "prop-types";
 
 import usePlacesAutocomplete, {
   getGeocode,
@@ -57,7 +55,8 @@ const options = {
 
 export default function Map(latlng, props) {
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: process.env.REACT_APP_GMAPKEY,
+    googleMapsApiKey: "AIzaSyA1tZY8x6OG7mt7a2iovZTDIj8SDV6sL8s",
+    libraries,
   });
   const [markers, Setmarkers] = React.useState([]);
   const [selected, setSelected] = React.useState(null);
@@ -184,7 +183,7 @@ export default function Map(latlng, props) {
       </div>
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
-        zoom={7.75}
+        zoom={7.5}
         center={center}
         options={options}
         onClick={onMapClick}
@@ -273,9 +272,9 @@ function Search({ panTo, onmark }) {
     </Combobox>
   );
 
-  // Search.propTypes = {
-  //   onmark: PropTypes.func,
-  // };
+  Search.propTypes = {
+    onmark: PropTypes.func,
+  };
 }
 
 export { Search };
