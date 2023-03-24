@@ -25,7 +25,7 @@ const App = () => {
         <Route path="login" element={<Login />} />
         <Route path="forget-password" element={<ForgetPassword />} />
         <Route path="reset-password" element={<PasswordReset />} />
-        <Route path="inputdata" element={<Datafortrip />} />
+
         <Route path="mapp" element={<Mapmore />} />
         <Route path="mapp/Tripplan" element={<Tripplan />} />
       </Routes>
