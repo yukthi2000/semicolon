@@ -50,10 +50,9 @@ TabPanel.propTypes = {
 
 export default function Forecast(props) {
     
+    //pass changed location from child components to this cmponent
     const [NewLocation, setNewLocation] = useState('');
-
     const pull_newLocation = (newLocation) => {
-        console.log(newLocation);
         setNewLocation(newLocation)
         props.Globalfunc(newLocation);
       }
@@ -171,7 +170,7 @@ export default function Forecast(props) {
         <SevenDayForecast 
             currentCity = {props.currentCity}
             tripDate = {props.tripDate}
-            func={pull_newLocation}/>
+            pull_location_func={pull_newLocation}/>
             
 
         </TabPanel>

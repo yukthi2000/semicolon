@@ -18,7 +18,7 @@ function SevenDayForecast(props) {
         .then((response) => {
           setData(response.data);
           console.log(response.data);
-          props.func(location);
+          props.pull_location_func(location);
         })
         .catch((error) => {
           console.log(error);
