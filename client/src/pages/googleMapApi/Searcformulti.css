@@ -1,0 +1,39 @@
+.searchho {
+  width: 31.5vh;
+  border: none !important;
+  z-index: 99999;
+}
+
+.combobox-inputho {
+  margin: 1.5px;
+  padding: 17px;
+  font-size: 16px;
+  font-family: "Courier New", Courier, monospace;
+  width: 273px;
+  border: none !important;
+  border-radius: 4px;
+  z-index: 99999;
+}
+
+.combobox-listho {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  font-family: "Courier New", Courier, monospace;
+  border: none !important;
+  z-index: 99999;
+}
+
+.combobox-optionho {
+  padding: 0px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none !important;
+  z-index: 9999999;
+}
+
+.combobox-inputho:focus {
+  outline: none;
+  z-index: 99999;
+}
