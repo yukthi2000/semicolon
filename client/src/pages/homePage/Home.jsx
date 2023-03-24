@@ -11,7 +11,7 @@ const Home = () => {
   return (
     <div>
       <div>
-        <Header2/>
+        <Header2 />
       </div>
       <div className="Backgroung-img" >
         <img src={homeBg} alt="" height="667px" width="100%" position="fixed" />
