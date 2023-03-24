@@ -5,6 +5,7 @@ const Subscription=()=>{
   return(
     <div>
       <Header2/>
+      <h2>dawf</h2>
     </div>
   )
 }
