@@ -138,7 +138,7 @@ export default function Tripplan(latlng, props) {
         <Header2 />
         <div
           style={{
-            marginTop: 20,
+            marginTop: 0,
             position: "absolute",
             zIndex: 100,
             width: "100%",
