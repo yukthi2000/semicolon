@@ -2,7 +2,7 @@ import Header2 from "../../componets/Header2";
 import React from "react";
 import Map from "./Map"
 
-import Searchbar from "./Searchbar";
+// import Searchbar from "./Searchbar";
 
 
 

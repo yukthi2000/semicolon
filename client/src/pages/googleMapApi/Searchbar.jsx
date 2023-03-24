@@ -6,6 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import DirectionsIcon from '@mui/icons-material/Directions';
+import Search from '../homePage/Search';
 
 
 const Searchbar = () => {
@@ -18,7 +19,7 @@ const Searchbar = () => {
       <IconButton sx={{ p: '10px' }} aria-label="menu">
         <MenuIcon />
       </IconButton>
-      {/* <Search placeholder="Search Location"/> */}
+      <Search placeholder="Search Location"/>
       <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
         <SearchIcon />
       </IconButton>
