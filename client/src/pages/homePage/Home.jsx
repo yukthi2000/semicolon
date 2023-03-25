@@ -101,6 +101,7 @@ const Home = () => {
           <div></div>
         </div>
       </div>
+      <Link to="subscription" >Subscription</Link>
     </div>
   );
 };
