@@ -1,0 +1,43 @@
+.div1 {
+  display: flex;
+  z-index: 10;
+  align-items: center;
+  justify-content: center;
+}
+
+.upper {
+  width: 350px;
+  height: 70px;
+  background-color: #8b8d8e;
+  border-bottom: 1px solid black;
+  border-top-right-radius: 05px;
+  border-top-left-radius: 5px;
+  display: flex;
+  align-items: center;
+}
+.buttons {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px;
+  justify-content: center;
+}
+
+.multisearch {
+  padding-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.searchh {
+  width: 265px;
+  border: 2px solid;
+  border-color: #368c18;
+  border-radius: 5px;
+}
+.adddest {
+  padding-top: 15px;
+  padding-left: 20px;
+  display: flex;
+}

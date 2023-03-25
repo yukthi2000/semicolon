@@ -1,7 +1,7 @@
 import loading from "../../assets/loading (1).gif";
 import error from "../../assets/error.gif";
 import * as React from "react";
-// import Searchbar from "./Searchbar";
+
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import Divider from "@mui/material/Divider";
@@ -13,6 +13,9 @@ import { useState } from "react";
 import "./Searc.css";
 import Multiplesearch from "./Multiplesearch";
 import { PropTypes } from "prop-types";
+import Header2 from "../../componets/Header2";
+import Sidepan from "./Sidepan";
+import Datafortrip from "./Datafortrip";
 
 import usePlacesAutocomplete, {
   getGeocode,
@@ -53,7 +56,7 @@ const options = {
   streetViewControl: true,
 };
 
-export default function Map(latlng, props) {
+export default function Tripplan(latlng, props) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: "AIzaSyA1tZY8x6OG7mt7a2iovZTDIj8SDV6sL8s",
     libraries,
@@ -62,18 +65,20 @@ export default function Map(latlng, props) {
   const [selected, setSelected] = React.useState(null);
   const [Searchplan, setSearchplan] = useState(false);
   const [Searchplan2, setSearchplan2] = useState(props.Searchplan);
+  const [search, setSearch] = useState(false);
+  const [gobutton, setGobutton] = useState(true);
+
+  const gobuttonhandle = () => {
+    setGobutton(!gobutton);
+  };
+
+  const handlesearch = () => {
+    setSearch(!search);
+  };
 
   const onmarkk = (data) => {
     console.log("dadfa");
-    //Setmarkers(data);
-    Setmarkers((current) => [
-      ...current,
-      {
-        lat: data.lat,
-        lng: data.lng,
-        time: new Date(),
-      },
-    ]);
+    Setmarkers(data);
   };
   const Searchplanshow = () => {
     setSearchplan(!Searchplan);
@@ -130,7 +135,18 @@ export default function Map(latlng, props) {
   return (
     <>
       <div>
+        <Header2 />
         <div
+          style={{
+            marginTop: 0,
+            position: "absolute",
+            zIndex: 100,
+            width: "100%",
+          }}
+        >
+          {gobutton ? <Datafortrip gobuttonhandle={gobuttonhandle} /> : ""}
+        </div>
+        {/* <div
           style={{
             marginTop: 70,
             marginLeft: 10,
@@ -138,48 +154,8 @@ export default function Map(latlng, props) {
             zIndex: 100,
           }}
         >
-          {Searchplan ? (
-            <Multiplesearch
-              Searchplanshow={Searchplanshow}
-              Searchplan={Searchplan}
-              heading={heading}
-            />
-          ) : (
-            <div className="searchbar">
-              <Paper
-                component="form"
-                sx={{
-                  p: "2px 4px",
-                  display: "flex",
-                  alignItems: "center",
-                  width: 400,
-                }}
-              >
-                <IconButton sx={{ p: "10px" }} aria-label="menu">
-                  <MenuIcon onClick={Searchplanshow} />
-                </IconButton>
-                <Search panTo={panTo} onmark={onmarkk} />
-
-                {/* {console.log(markers)} */}
-                <IconButton
-                  type="button"
-                  sx={{ p: "10px" }}
-                  aria-label="search"
-                >
-                  <SearchIcon />
-                </IconButton>
-                <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-                <IconButton
-                  color="primary"
-                  sx={{ p: "10px" }}
-                  aria-label="directions"
-                >
-                  <DirectionsIcon />
-                </IconButton>
-              </Paper>
-            </div>
-          )}
-        </div>
+          
+        </div> */}
       </div>
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
@@ -196,9 +172,9 @@ export default function Map(latlng, props) {
             // icon={
 
             // }
-            // onClick={() => {
-            //   setSelected(marker);
-            // }}
+            onClick={() => {
+              setSelected(marker);
+            }}
           />
         ))}
 
@@ -216,12 +192,12 @@ export default function Map(latlng, props) {
   );
 }
 
-function Search({ panTo, onmark }) {
+function Search({ panTo, prop }) {
   const mark = (e) => {
     // const newmarkers = [...prop.markers, { lat: 32, lng: 43, time: 43 }];
-    // console.log(e);
+    //console.log(e);
     // prop.Setmarkers(newmarkers);
-    onmark(e);
+    prop.onmark(e);
   };
   const {
     ready,
@@ -246,7 +222,7 @@ function Search({ panTo, onmark }) {
           const { lat, lng } = await getLatLng(results[0]);
           panTo({ lat, lng });
           // console.log(lat, lng); //show lat lng of searched address
-          mark({ lat, lng }); // time: new Date()
+          mark({ lat, lng, time: new Date() });
         } catch (error) {
           console.log(error);
         }
