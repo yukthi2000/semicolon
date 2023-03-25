@@ -89,7 +89,7 @@ const Multiplesearch = (prop) => {
                     </IconButton>
                   </div>
                 ) : (
-                  <div style={{ paddingLeft: 35 }}></div>
+                  <div style={{ paddingLeft: 40 }}></div>
                 )}
               </div>
               {searchdata.length - 1 === index ? (
