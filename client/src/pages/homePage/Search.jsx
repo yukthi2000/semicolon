@@ -117,7 +117,7 @@ function Search1({ panTo, placeholder1 }) {
     <div>
       {" "}
       <Combobox
-        className="searchho"
+        className="searchhome"
         onSelect={async (address) => {
           setValue(address, false);
           clearSuggestions();
@@ -131,7 +131,7 @@ function Search1({ panTo, placeholder1 }) {
         }}
       >
         <ComboboxInput
-          className="combobox-inputho"
+          className="combobox-inputhome"
           value={value}
           onChange={(e) => {
             setValue(e.target.value);
@@ -140,7 +140,7 @@ function Search1({ panTo, placeholder1 }) {
           placeholder={placeholder1}
         />
         <ComboboxPopover>
-          <ComboboxList className="combobox-listho">
+          <ComboboxList className="combobox-listhome">
             {status === "OK" &&
               data.map(({ id, description }) => (
                 <ComboboxOption key={id} value={description} />

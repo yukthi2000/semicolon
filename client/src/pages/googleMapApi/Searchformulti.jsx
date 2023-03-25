@@ -139,7 +139,7 @@ function Search1({ panTo, placeholder1 }) {
           disabled={!ready}
           placeholder={placeholder1}
         />
-        <ComboboxPopover>
+        <ComboboxPopover className="combopop">
           <ComboboxList className="combobox-listho">
             {status === "OK" &&
               data.map(({ id, description }) => (
