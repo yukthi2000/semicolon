@@ -56,6 +56,8 @@ export default function Forecast(props) {
         setNewLocation(newLocation)
         props.Globalfunc(newLocation);
       }
+    
+      
 
 
   const [open, setOpen] = React.useState(false);

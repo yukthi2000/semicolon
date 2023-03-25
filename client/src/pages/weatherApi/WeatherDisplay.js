@@ -5,8 +5,19 @@ import weatherIcons from "./WeatherIcon";
 import { Box } from "@mui/system";
 import DeviceThermostatOutlinedIcon from '@mui/icons-material/DeviceThermostatOutlined';
 import { WiHumidity, WiRaindrops, WiSunrise, WiSunset, WiStrongWind } from "weather-icons-react";
+import { useState } from "react";
 
 const WeatherDisplay = (props) => {
+
+
+    const [location, setLocation] = useState(); //variable to pass values to parent components
+
+
+    const pushLocation = (event) => {
+        if (event.key === 'Enter') {
+            props.transferData(location);
+        }
+    }
 
     return (
         <div className="WeatherDisplay-container">
@@ -25,7 +36,7 @@ const WeatherDisplay = (props) => {
                         <img
                             src={weatherIcons(props.iconID)}
                             alt='tesst' className="weatherDisplay-icon" />
-                            
+
 
                         <div className="main-weather-temp">
                             <span className="main-weather-temp-number">
@@ -59,23 +70,31 @@ const WeatherDisplay = (props) => {
                     variant="outlined"
                     color="warning"
                     className="WeatherDisplay-search"
+                    onChange={event => setLocation(event.target.value)}
+                    onKeyPress = {pushLocation}
+
                     sx={{
                         '& .MuiOutlinedInput-root': {
                             borderRadius: 20,
                             height: 30,
-                            width: 250
+                            width:280
                         },
                         '& .MuiOutlinedInput-notchedOutline': {
                             borderRadius: 20,
                             borderWidth: '3px', // increase the border width
-                            height: 36 // set the height of the outline to 36px
-                        }
+                            height: 36, // set the height of the outline to 36px
+                            width:280
+                        },
+                        
+                        
                     }}
 
 
                 />
-
+                <span className="invalid-location">{props.invalidLocation}</span>
                 <div className="weather-details-container">
+
+
                     <Box sx={{
                         backgroundColor: '#F6F6F8',
                         borderRadius: 2,
