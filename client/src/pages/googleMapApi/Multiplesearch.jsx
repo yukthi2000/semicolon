@@ -1,4 +1,4 @@
-import { Button, Paper, Typography } from "@mui/material";
+import { Button, IconButton, Paper, Typography } from "@mui/material";
 import zIndex from "@mui/material/styles/zIndex";
 import React from "react";
 import { Box } from "@mui/system";
@@ -8,6 +8,9 @@ import RouteIcon from "@mui/icons-material/Route";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 import ThunderstormIcon from "@mui/icons-material/Thunderstorm";
 import Search from "./Searchformulti";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import { useState } from "react";
 
 const Multiplesearch = (prop) => {
   // const Searchplan = !prop.Searchplan;
@@ -15,6 +18,18 @@ const Multiplesearch = (prop) => {
   //   prop.Searchplanshow(!Searchplan);
   //   console.log(Searchplan);
   // };
+
+  const [searchdata, setSearchdata] = useState([{ lat: 0, lng: 0, Date: "" }]);
+
+  const adddate = () => {
+    setSearchdata([...searchdata, { lat: 1, lng: 2, Date: "daedf" }]);
+  };
+
+  const deletefunc = (index) => {
+    const list = [...searchdata];
+    list.splice(index, 1);
+    setSearchdata(list);
+  };
   return (
     // <div className="div1">
     //   <Paper
@@ -57,11 +72,43 @@ const Multiplesearch = (prop) => {
               Trip to {prop.heading}
             </Typography>
           </div>
-          <div className="searchoptions">
-            <div>
-              <Search placeholder={"search"} style={{ zIndex: 99999 }} />
+          {searchdata.map((singledata, index) => (
+            <div key={index} className="searchoptions">
+              <div className="multisearch">
+                <div className="searchh">
+                  <Search placeholder={"search"} />
+                </div>
+                {searchdata.length - 1 !== index ? (
+                  <div>
+                    <IconButton
+                      onClick={() => {
+                        deletefunc(index);
+                      }}
+                    >
+                      <HighlightOffIcon />
+                    </IconButton>
+                  </div>
+                ) : (
+                  <div style={{ paddingLeft: 35 }}></div>
+                )}
+              </div>
+              {searchdata.length - 1 === index ? (
+                <div className="adddest" onClick={adddate}>
+                  <IconButton>
+                    <AddCircleOutlineIcon />
+                  </IconButton>
+                  <Typography
+                    variant="h7"
+                    sx={{ paddingLeft: 2, paddingTop: 1.2 }}
+                  >
+                    Add Destination
+                  </Typography>
+                </div>
+              ) : (
+                ""
+              )}
             </div>
-          </div>
+          ))}
 
           <div className="buttons">
             <div className="but1" style={{ paddingBottom: 30 }}>
