@@ -14,8 +14,8 @@ const TodayForecast = (props) => {
     const [humidity, setHumidity] = useState(null);
     const [iconID, setIconId] = useState(null);
     const [rain, setRain] = useState(null);
-    const [sunrise, SetSunrise] = useState(null);
-    const [sunset, SetSunset] = useState(null);
+    const [sunrise, SetSunrise] = useState([null,null]);
+    const [sunset, SetSunset] = useState([null,null]);
 
     const [invalidLocation, setInvalidLocation] = useState(null);
 
@@ -26,26 +26,6 @@ const TodayForecast = (props) => {
     const pullLocation  = (newlocation) => {
         setLocation(newlocation);
     }
-
-
-
-    // const searchLocation = (event) => {
-    //     if (event.key === 'Enter') {
-    //         axios.get(url)
-    //             .then((response) => {
-    //                 setData(response.data);
-    //                 console.log(response.data);
-    //             })
-    //             .catch((error) => {
-    //                 console.log(error);
-    //             });
-    //         setLocation('');
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     searchLocation({ key: 'Enter' }, props.currentCity);
-    // }, []);
 
     useEffect(() => {
         axios.get(url)
@@ -75,7 +55,8 @@ const TodayForecast = (props) => {
         const Udate = new Date(unix * 1000); // Multiply by 1000 to convert seconds to milliseconds
         const options = { hour: 'numeric', minute: 'numeric', hour12: true, hourCycle: 'h12' }; // Set options to get hour and minute in 12-hour format with AM/PM
         const timeString = Udate.toLocaleString('en-US', options)
-        return (timeString.slice(0, -2)); //output without AM PM
+        return ([timeString.slice(0, -2),timeString.slice(-2)]); //output without AM PM
+
     }
 
     // Update state variables when weather data is retrieved
@@ -90,6 +71,7 @@ const TodayForecast = (props) => {
             setIconId(data.weather[0].icon);
             SetSunrise(unixToTime(data.sys.sunrise))
             SetSunset(unixToTime(data.sys.sunset))
+            setInvalidLocation(null);
 
             if (data.rain && data.rain['1h']) {
                 setRain(data.rain['1h']);
@@ -97,15 +79,13 @@ const TodayForecast = (props) => {
             else {
                 setRain('N/A ');
             }
-
-            setInvalidLocation(null);
-        }
-        else {
-           
+          
         }
 
     }, [data]);
 
+    
+    
     return (
         <WeatherDisplay
             temperature={temperature}
@@ -126,31 +106,6 @@ const TodayForecast = (props) => {
 
         />
 
-        // <div className="tripday-forcast">
-        //     <input
-        //         value={location}
-        //         onChange={event => setLocation(event.target.value)}
-        //         onKeyPress={searchLocation}
-        //         placeholder='Enter Location'
-        //         type="text" />
-        //     <br />
-        //     {data.name !== undefined &&
-        //         <div className="content">
-        //             {dateString} <br />
-        //             City = {data.name} <br />
-        //             {temperature && (
-        //                 <div>
-        //                     Temp = {temperature} °C<br />
-        //                     description = {description} <br />
-        //                     feels like = {feelsLike} °C<br />
-        //                     Wind = {windSpeed} m/s <br />
-        //                     Humidity = {humidity}%<br />
-        //                     Visibility = {visibility}
-        //                 </div>
-        //             )}
-        //         </div>
-        //     }
-        // </div>
     );
 }
 

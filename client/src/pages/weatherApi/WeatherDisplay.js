@@ -71,22 +71,22 @@ const WeatherDisplay = (props) => {
                     color="warning"
                     className="WeatherDisplay-search"
                     onChange={event => setLocation(event.target.value)}
-                    onKeyPress = {pushLocation}
+                    onKeyPress={pushLocation}
 
                     sx={{
                         '& .MuiOutlinedInput-root': {
                             borderRadius: 20,
                             height: 30,
-                            width:280
+                            width: 280
                         },
                         '& .MuiOutlinedInput-notchedOutline': {
                             borderRadius: 20,
                             borderWidth: '3px', // increase the border width
                             height: 36, // set the height of the outline to 36px
-                            width:280
+                            width: 280
                         },
-                        
-                        
+
+
                     }}
 
 
@@ -183,9 +183,9 @@ const WeatherDisplay = (props) => {
 
                                 <div className="weather-details-card-content">
                                     <span className="weather-details-card-content-text">
-                                        {props.sunrise}
+                                        {props.sunrise[0]}
                                         <span className="weather-details-card-content-text-secondary">
-                                            AM
+                                            {props.sunrise[1]}
                                         </span>
                                     </span>
                                     <WiSunrise color='#F28330' size={30} />
@@ -200,9 +200,10 @@ const WeatherDisplay = (props) => {
 
                                 <div className="weather-details-card-content">
                                     <span className="weather-details-card-content-text">
-                                        {props.sunset}
+                                        {props.sunset[0]}
                                         <span className="weather-details-card-content-text-secondary">
-                                            PM
+                                            {props.sunset[1]}
+
                                         </span>
                                     </span>
                                     <WiSunset color='#F28330' size={30} />
