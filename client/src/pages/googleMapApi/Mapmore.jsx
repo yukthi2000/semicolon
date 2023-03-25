@@ -1,7 +1,7 @@
 import loading from "../../assets/loading (1).gif";
 import error from "../../assets/error.gif";
 import * as React from "react";
-// import Searchbar from "./Searchbar";
+
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import Divider from "@mui/material/Divider";
@@ -13,6 +13,9 @@ import { useState } from "react";
 import "./Searc.css";
 import Multiplesearch from "./Multiplesearch";
 import { PropTypes } from "prop-types";
+import Header2 from "../../componets/Header2";
+import Sidepan from "./Sidepan";
+import { useEffect } from "react";
 
 import usePlacesAutocomplete, {
   getGeocode,
@@ -62,33 +65,50 @@ export default function Map(latlng, props) {
   const [selected, setSelected] = React.useState(null);
   const [Searchplan, setSearchplan] = useState(false);
   const [Searchplan2, setSearchplan2] = useState(props.Searchplan);
+  const [search, setSearch] = useState(false);
+  const [mylat, setMylat] = useState(0);
+  const [mylng, setMylng] = useState(0);
 
-  const onmarkk = (data) => {
-    console.log("dadfa");
-    //Setmarkers(data);
-    Setmarkers((current) => [
-      ...current,
-      {
-        lat: data.lat,
-        lng: data.lng,
-        time: new Date(),
-      },
-    ]);
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      setMylat(position.coords.latitude);
+      setMylng(position.coords.longitude);
+      Setmarkers((current) => [
+        ...current,
+        {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+          time: new Date(),
+        },
+      ]);
+    });
+  }, [1]);
+
+  const handlesearch = () => {
+    setSearch(!search);
   };
+
+  // const onmarkk = (data) => {
+  //   console.log("dadfa");
+  //   Setmarkers(data);
+  // };
   const Searchplanshow = () => {
     setSearchplan(!Searchplan);
   };
 
-  const onMapClick = React.useCallback((event) => {
-    Setmarkers((current) => [
-      ...current,
-      {
-        lat: event.latLng.lat(),
-        lng: event.latLng.lng(),
-        time: new Date(),
-      },
-    ]);
-  }, []);
+  // const onMapClick = React.useCallback(
+  //   (event) => {
+  //     Setmarkers((current) => [
+  //       ...current,
+  //       {
+  //         lat: event.latLng.lat(),
+  //         lng: event.latLng.lng(),
+  //         time: new Date(),
+  //       },
+  //     ]);
+  //   },
+
+  // );
 
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback((map) => {
@@ -130,6 +150,7 @@ export default function Map(latlng, props) {
   return (
     <>
       <div>
+        <Header2 />
         <div
           style={{
             marginTop: 70,
@@ -138,14 +159,15 @@ export default function Map(latlng, props) {
             zIndex: 100,
           }}
         >
-          {Searchplan ? (
-            <Multiplesearch
-              Searchplanshow={Searchplanshow}
-              Searchplan={Searchplan}
-              heading={heading}
-            />
-          ) : (
-            <div className="searchbar">
+          {search ? (
+            Searchplan ? (
+              <Multiplesearch
+                Searchplanshow={Searchplanshow}
+                Searchplan={Searchplan}
+                heading={heading}
+              />
+            ) : (
+              <div className="searchbar">
               <Paper
                 component="form"
                 sx={{
@@ -158,7 +180,7 @@ export default function Map(latlng, props) {
                 <IconButton sx={{ p: "10px" }} aria-label="menu">
                   <MenuIcon onClick={Searchplanshow} />
                 </IconButton>
-                <Search panTo={panTo} onmark={onmarkk} />
+                <Search panTo={panTo}  />
 
                 {/* {console.log(markers)} */}
                 <IconButton
@@ -178,6 +200,9 @@ export default function Map(latlng, props) {
                 </IconButton>
               </Paper>
             </div>
+            )
+          ) : (
+            <Sidepan handlesearch={handlesearch} />
           )}
         </div>
       </div>
@@ -186,42 +211,47 @@ export default function Map(latlng, props) {
         zoom={7.5}
         center={center}
         options={options}
-        onClick={onMapClick}
+        // onClick={onMapClick}
         onLoad={onMapLoad}
       >
         {markers.map((marker) => (
           <Marker
             key={marker.time.toISOString()}
             position={{ lat: marker.lat, lng: marker.lng }}
-            // icon={
-
-            // }
-            // onClick={() => {
-            //   setSelected(marker);
-            // }}
+            icon={{
+              scaledSize: new window.google.maps.Size(30, 30),
+              origin: new window.google.maps.Point(0, 0),
+              anchor: new window.google.maps.Point(15, 15),
+            }}
+            onClick={() => {
+              setSelected(marker);
+            }}
           />
         ))}
 
         {selected ? (
-          <InfoWindow position={{ lat: selected.lat, lng: selected.lng }}>
-            <div>
-              <h2>Spot</h2>
-              <p>spotted {formatRelative(selected.time, new Date())}</p>
-            </div>
+          <InfoWindow
+            position={{ lat: selected.lat, lng: selected.lng }}
+            icon={{
+              scaledSize: new window.google.maps.Size(10, 10),
+            }}
+          >
+            <div>fa </div>
           </InfoWindow>
         ) : null}
       </GoogleMap>
+
       {/* {console.log(markers)} */}
     </>
   );
 }
 
-function Search({ panTo, onmark }) {
+function Search({ panTo, prop }) {
   const mark = (e) => {
     // const newmarkers = [...prop.markers, { lat: 32, lng: 43, time: 43 }];
-    // console.log(e);
+    //console.log(e);
     // prop.Setmarkers(newmarkers);
-    onmark(e);
+    prop.onmark(e);
   };
   const {
     ready,
@@ -246,7 +276,7 @@ function Search({ panTo, onmark }) {
           const { lat, lng } = await getLatLng(results[0]);
           panTo({ lat, lng });
           // console.log(lat, lng); //show lat lng of searched address
-          mark({ lat, lng }); // time: new Date()
+          mark({ lat, lng, time: new Date() });
         } catch (error) {
           console.log(error);
         }
