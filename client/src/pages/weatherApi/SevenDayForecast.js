@@ -48,7 +48,7 @@ function SevenDayForecast(props) {
     <div>
       
       <input
-        value={location}
+        // value={location}
         onChange={event => setLocation(event.target.value)}
         
         onKeyPress={searchLocation}

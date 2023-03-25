@@ -59,6 +59,9 @@ const WeatherDisplay = (props) => {
                     variant="outlined"
                     color="warning"
                     className="WeatherDisplay-search"
+
+                    
+                    
                     sx={{
                         '& .MuiOutlinedInput-root': {
                             borderRadius: 20,
