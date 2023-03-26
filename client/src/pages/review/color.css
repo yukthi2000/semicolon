@@ -75,13 +75,13 @@
   .searchInputBox::placeholder{
     font-size: 3vh;
   }
-
+/* 
   .searchInputBoxCont{
-    /* background-color: orange;
+    background-color: orange;
     width: 80%;
     height: 80%;
-    margin: 10%; */
-  }
+    margin: 10%;
+  } */
 
   .searchBtn{
     height: 10vh;
