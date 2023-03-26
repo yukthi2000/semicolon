@@ -49,14 +49,14 @@ TabPanel.propTypes = {
 // }
 
 export default function Forecast(props) {
-    
-    //pass changed location from child components to this cmponent
-    const [NewLocation, setNewLocation] = useState('');
-    const pull_newLocation = (newLocation) => {
-        setNewLocation(newLocation)
-        props.Globalfunc(newLocation);
-      }
-    
+        
+    //pass changed location from child components to forcast cmponent
+    const [newLocationForcast, setNewLocationForcast] = useState('');
+  
+    const pullLocationForcast = (newFLocation) => {
+      setNewLocationForcast(newFLocation) ;
+      props.Globalfunc(newFLocation);
+    }
       
 
 
@@ -150,7 +150,8 @@ export default function Forecast(props) {
           
           <TripDayForecast 
             currentCity = {props.currentCity}
-            tripDate = {props.tripDate}/>
+            tripDate = {props.tripDate}
+            pushLocationForcast = {pullLocationForcast} />
             
         </TabPanel>
         
@@ -160,7 +161,8 @@ export default function Forecast(props) {
                 
         <TodayForecast 
             currentCity = {props.currentCity}
-            />
+            pushLocationForcast = {pullLocationForcast} />
+          
   
 
         </TabPanel>
@@ -172,7 +174,8 @@ export default function Forecast(props) {
         <SevenDayForecast 
             currentCity = {props.currentCity}
             tripDate = {props.tripDate}
-            pull_location_func={pull_newLocation}/>
+            // pull_location_func={pull_newLocation}
+            />
             
 
         </TabPanel>

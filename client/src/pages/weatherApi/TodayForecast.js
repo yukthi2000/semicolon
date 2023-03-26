@@ -32,6 +32,7 @@ const TodayForecast = (props) => {
         .then((response) => {
             setData(response.data);
             console.log(response.data);
+            props.pushLocationForcast(location);
         })
         .catch((error) => {
             console.log(error);

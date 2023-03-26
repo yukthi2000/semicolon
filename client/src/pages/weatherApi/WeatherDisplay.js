@@ -9,13 +9,18 @@ import { useState } from "react";
 
 const WeatherDisplay = (props) => {
 
+    //function to capitalize the first letter
+    const capitalizeFirst = str => {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+      };
 
     const [location, setLocation] = useState(); //variable to pass values to parent components
 
 
     const pushLocation = (event) => {
         if (event.key === 'Enter') {
-            props.transferData(location);
+            //capitalize the first letter of the location and transfer it
+            props.transferData(capitalizeFirst(location));
         }
     }
 

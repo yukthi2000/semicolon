@@ -22,7 +22,8 @@ const TripDayForecast = (props) => {
 
     const url = `https://pro.openweathermap.org/data/2.5/forecast/climate?q=${location}&units=metric&appid=2cdb7a87b467f79781996b8eb03eecda`;
 
-      //function to exchange location
+      
+    //function to exchange location
     const pullLocation  = (newlocation) => {
         setLocation(newlocation);
     }
@@ -32,6 +33,7 @@ const TripDayForecast = (props) => {
         .then((response) => {
             setData(response.data);
             console.log(response.data);
+            props.pushLocationForcast(location);
         })
         .catch((error) => {
             console.log(error);

@@ -9,7 +9,7 @@ const Gallery=()=>{
 
   const tripDate = new Date('2023-04-11');
 
-  //pass changed location from child components to this cmponent
+  //pull changed location from child components to this cmponent
   const [globalLocation, setGlobalLocation] = useState('Kandy');
 
   const pull_newGlobalLocation = (newLocation) => {
