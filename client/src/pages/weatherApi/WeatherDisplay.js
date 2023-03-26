@@ -90,6 +90,11 @@ const WeatherDisplay = (props) => {
                             height: 36, // set the height of the outline to 36px
                             width: 280
                         },
+                        '& .MuiOutlinedInput-input:-webkit-autofill': {
+                            '-webkit-box-sizing': 'border-box',
+                            'box-sizing': 'border-box',
+                            height: "0px",
+                          },
 
 
                     }}
