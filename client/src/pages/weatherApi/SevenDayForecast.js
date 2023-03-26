@@ -1,79 +1,61 @@
 import React, { useState, useEffect } from "react";
-import axios from 'axios';
+
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
+import TripDayForecast from "./TripDayForecast";
+
 
 function SevenDayForecast(props) {
 
-    
-  const tripDate = new Date(props.tripDate);
-
-  const [data, setData] = useState({});
-  const [location, setLocation] = useState(props.currentCity);
-    
-
-  const url = `https://pro.openweathermap.org/data/2.5/forecast/climate?q=${location}&units=metric&appid=2cdb7a87b467f79781996b8eb03eecda`;
-
-  const searchLocation = (event) => {
-    if (event.key === 'Enter') {
-      axios.get(url)
-        .then((response) => {
-          setData(response.data);
-          console.log(response.data);
-          props.pull_location_func(location);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
-
-    }
+  const [newLocationForcast, setNewLocationForcast] = useState('');
+  
+  const pullLocationForcast = (newFLocation) => {
+    setNewLocationForcast(newFLocation) ;
+    props.Globalfunc(newFLocation);
   }
-
-  useEffect(() => {
-    searchLocation({ key: 'Enter' }, props.currentCity);
-  }, []);
-
-
-  //configure today as a date
-  const today = new Date();
-
-  //calculate trip Day index for API
-  const dateIndex = Math.floor(Math.abs(tripDate - today) / (1000 * 60 * 60 * 24));
-
-  //configure proper Tripdate format
-  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  const TripDateString = tripDate.toLocaleDateString('en-US', options);
-
+    
 
   return (
     <div>
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography>Accordion 1</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+            malesuada lacus ex, sit amet blandit leo lobortis eget.
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel2a-content"
+          id="panel2a-header"
+        >
+          <Typography>Accordion 2</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          
+        <TripDayForecast 
+            currentCity = {props.currentCity}
+            tripDate = {props.tripDate}
+            pushLocationForcast = {pullLocationForcast} />
+            
+        </AccordionDetails>
+      </Accordion>
       
-      <input
-        value={location}
-        onChange={event => setLocation(event.target.value)}
-        
-        onKeyPress={searchLocation}
-        placeholder='Enter Location'
-        type="text" />
-      <br />
-      {TripDateString}
-
-      {data.code !== undefined &&
-        <div className="content">
-
-          City = {data.city && data.city.name} <br />
-          Temp = {data.list[dateIndex].temp && data.list[dateIndex].temp.day.toFixed()} °C<br />
-          description = {data.list[dateIndex] && data.list[dateIndex].weather[0] && data.list[dateIndex].weather[0].description} <br />
-          feels like = {data.list[dateIndex] && data.list[dateIndex].feels_like && data.list[dateIndex].feels_like.day.toFixed()} °C<br />
-          Wind = {data.list[dateIndex] && data.list[dateIndex].speed} m/s <br />
-          Humidity = {data.list[dateIndex] && data.list[dateIndex].humidity}%<br />
-          date = {data.list[dateIndex].dt}
-
-        </div>
-
-      }
-
     </div>
-  )
+  );
 }
 
 export default SevenDayForecast;
