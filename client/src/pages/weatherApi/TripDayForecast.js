@@ -17,6 +17,7 @@ const TripDayForecast = (props) => {
     const [rain, setRain] = useState();
     const [sunrise, SetSunrise] = useState([null,null]);
     const [sunset, SetSunset] = useState([null,null]);
+    
 
     const [invalidLocation, setInvalidLocation] = useState(null);
 
@@ -48,6 +49,8 @@ const TripDayForecast = (props) => {
 
     //calculate trip Day index for API
     const dateIndex = Math.floor(Math.abs(tripDate - today) / (1000 * 60 * 60 * 24));
+    
+    
     //configure proper Tripdate format
 
     // const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };

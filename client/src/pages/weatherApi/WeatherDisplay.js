@@ -91,8 +91,6 @@ const WeatherDisplay = (props) => {
                             width: 280
                         },
                         '& .MuiOutlinedInput-input:-webkit-autofill': {
-                            '-webkit-box-sizing': 'border-box',
-                            'box-sizing': 'border-box',
                             height: "0px",
                           },
 

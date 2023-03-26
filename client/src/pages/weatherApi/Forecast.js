@@ -153,7 +153,8 @@ export default function Forecast(props) {
             <TripDayForecast
               currentCity={props.currentCity}
               tripDate={props.tripDate}
-              pushLocationForcast={pullLocationForcast} />
+              pushLocationForcast={pullLocationForcast} 
+            />
 
           </TabPanel>
 
