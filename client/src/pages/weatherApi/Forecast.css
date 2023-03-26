@@ -1,0 +1,27 @@
+.forecast-head{
+    /* width: 100%; */
+    background: #132320;
+    height: 20;
+    color: #FFFFFF;
+    text-align: center;
+    display: flex;
+    font-family: 'Poppins';
+}
+
+.forecast-head-text{
+    width: 95%;
+    padding: 5px;
+    font-family: 'Poppins';
+}
+
+.forecast-close-icon{
+    width: 5%;
+    justify-content: right;
+    display: flex;
+}
+
+.forecast-tab-label{
+    font-family: 'Poppins';
+    font-weight: bold;
+    font-size: 16px;
+}
