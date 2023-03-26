@@ -1,66 +1,119 @@
-import React from "react";
-import "./Login.css";
-import logMan from "../../assets/logMan.png"
+import React, { useState } from "react";
+import "./Register.css";
+import A from "../../assets/A.jpg"
+import HomePageLinkIcon from "../../componets/HomePageLinkIcon";
 import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from '@mui/icons-material/Lock';
-import HomeIcon from '@mui/icons-material/Home';
-
 
 const Login = () => {
-    return (
-        <div className="login-form">
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("")
+  const [error, setError] = useState("");
+
+
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  }
+  const validatePassword = (password) => {
+    const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+    return regex.test(password);
+  }
+
+  const handleEmailChange = (e) => {
+    const value = e.target.value;
+    if (value && !validateEmail(value)) {
+      setEmailError("Please enter a valid email address")
+    } else {
+      setEmailError("")
+    }
+    setEmail(value)
+  }
+
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    if (value && !validatePassword(value)) {
+      setPasswordError("Minimum 8 characters, at least one letter, one number and one special character")
+    } else {
+      setPasswordError("")
+    }
+    setPassword(value)
+  }
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if ( !email || !password ) {
+      setError("All fields are required");
+    } else {
+      window.location.href = "login";
+    }
+  };
+  
+  return (
+    <div className="reg-form">
+      <img className="airBalloon" src={A} alt="" />
+      <div>
+        <HomePageLinkIcon/>
+      </div>
+      <div className="login-form">
+        <div><h1>Sign In</h1></div><br />
+        <div>
+          <form onSubmit={handleSubmit}>
             <div>
-                <a href="/"><HomeIcon
-                    sx={{
-                        position: "absolute",
-                        color: "#E86E18",
-                        backgroundColor: "rgb(238, 238, 238)",
-                        borderRadius: "5px",
-                        height: "30px",
-                        width: "30px",
-                        marginLeft: "170vh",
-                        marginTop: "-10vh"
-                    }} /></a>
-            </div>
-            <div className="login-man">
-                <div>
-                    <img className="logMan-img" src={logMan} alt=""></img>
+              <div style={{ position: "relative" }}>
+                <EmailIcon style={{ position: "absolute", top: 20, left: 20 }}/>
+                <input
+                  className={`input ${emailError ? "invalid" : ""}`}
+                  type="email"
+                  id="email"
+                  required
+                  placeholder='email'
+                  value={email}
+                  onChange={handleEmailChange}
+                  style={{ paddingLeft: 32 }}
+                />
+              </div>
+              {emailError && (
+                <div className="error-message">{emailError}</div>
+              )}
+
+              <div style={{ position: "relative" }}>
+                <LockIcon style={{ position: "absolute", top: 20, left: 20 }}/>
+                <input
+                  className={`input ${passwordError ? "invalid" : ""}`}
+                  type="password"
+                  id="password"
+                  required
+                  placeholder='Password'
+                  value={password}
+                  onChange={handlePasswordChange}
+                  style={{ paddingLeft: 32 }}
+                />
+              </div>
+              {passwordError && (
+                <div className="error-message">{passwordError}</div>
+              )}
+
+              <div><br/>
+                <div style={{marginLeft:"10px"}}>
+                  <a href="/register">Don't have an account</a><br/>
+                  <a href="/forget-password">Forget Password</a>
                 </div>
-                <div>
-                    <a href="/register">Create a new Account</a>
-                </div>
+                <button type="submit" className="btn btn-primary">
+                  LOG IN
+                </button>
+                {error && <p>{error}</p>}
+              </div>
             </div>
-            <div className="login">
-                <div><h1>Sign In</h1></div><br /><br />
-                <form>
-                    <div>
-                        <div>
-                            <EmailIcon />
-                            <input
-                                className='input'
-                                type="email"
-                                id="email"
-                                required
-                                placeholder='email'
-                            />
-                        </div>
-                        <div>
-                            <LockIcon />
-                            <input
-                                className='input'
-                                type="password"
-                                id="password"
-                                required
-                                placeholder='Password'
-                            />
-                        </div><br />
-                        <h6><a href="forget-password">Forget password</a></h6>
-                        <div><a class="btn btn-primary" href="/" role="button">LOG IN</a></div>
-                    </div>
-                </form>
-            </div>
+          </form>
         </div>
-    )
+      </div>
+    </div>
+
+  )
 }
 
 export default Login;
