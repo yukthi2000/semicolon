@@ -13,6 +13,7 @@ import Datafortrip from "./pages/googleMapApi/Datafortrip";
 import Mapmore from "./pages/googleMapApi/Mapmore";
 import Tripplan from "./pages/googleMapApi/Plantrip";
 import Subscription from "./pages/subscription/Subscription";
+import Color from "./pages/review/reviewhomepage";
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
         <Route path="subscription" element={<Subscription /> } />
         <Route path="mapp" element={<Mapmore />} />
         <Route path="mapp/Tripplan" element={<Tripplan />} />
+        <Route path="reviewhome" element={<Color />} />
       </Routes>
     </div>
   );
