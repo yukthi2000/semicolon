@@ -109,6 +109,7 @@ const TripDayForecast = (props) => {
             
             transferData = {pullLocation}
             invalidLocation = {invalidLocation}
+            showSearch = {props.showSearch}
         />
     );
 }

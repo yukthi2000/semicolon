@@ -25,6 +25,7 @@ const WeatherDisplay = (props) => {
     }
 
     return (
+      
         <div className="WeatherDisplay-container">
 
             <div className="main-weather">
@@ -68,6 +69,9 @@ const WeatherDisplay = (props) => {
                     <span className="main-weather-date-day"> {props.weekday},</span>
                     <span className="main-weather-date-month"> {props.day} {props.month}</span>
                 </div>
+                
+                {props.showSearch && (
+    
                 <TextField
                     id="outlined-basic"
 
@@ -93,12 +97,11 @@ const WeatherDisplay = (props) => {
                         '& .MuiOutlinedInput-input:-webkit-autofill': {
                             height: "0px",
                           },
-
-
                     }}
 
 
                 />
+      )}
                 <span className="invalid-location">{props.invalidLocation}</span>
                 <div className="weather-details-container">
 
@@ -108,6 +111,7 @@ const WeatherDisplay = (props) => {
                         borderRadius: 2,
                         padding: "5px",
                     }}>
+                       
                         <div className="wether-details-row">
                             <Box className="weather-details-card">
                                 <span className="weather-details-card-heading">

@@ -7,7 +7,7 @@ import { useState } from "react";
 
 const Gallery=()=>{
 
-  const tripDate = new Date('2023-03-29');
+  const tripDate = new Date('2023-03-30');
 
   //pull changed location from child components to this cmponent
   const [globalLocation, setGlobalLocation] = useState('Kandy');

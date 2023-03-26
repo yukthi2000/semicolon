@@ -104,6 +104,7 @@ const TodayForecast = (props) => {
 
             transferData = {pullLocation}
             invalidLocation = {invalidLocation}
+            showSearch = {props.showSearch}
 
         />
 

@@ -153,8 +153,9 @@ export default function Forecast(props) {
             <TripDayForecast
               currentCity={props.currentCity}
               tripDate={props.tripDate}
-              pushLocationForcast={pullLocationForcast} 
-            />
+              pushLocationForcast={pullLocationForcast}
+              showSearch = {`true`} //prop to hide and show search
+              />
 
           </TabPanel>
 
@@ -164,7 +165,10 @@ export default function Forecast(props) {
 
             <TodayForecast
               currentCity={props.currentCity}
-              pushLocationForcast={pullLocationForcast} />
+              pushLocationForcast={pullLocationForcast}  
+              showSearch = {`true`} //prop to hide and show search
+              
+              />
 
 
 
@@ -177,7 +181,6 @@ export default function Forecast(props) {
             <SevenDayForecast
               currentCity={props.currentCity}
               tripDate={props.tripDate}
-            // pull_location_func={pull_newLocation}
             />
 
 
