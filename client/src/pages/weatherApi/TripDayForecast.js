@@ -15,28 +15,33 @@ const TripDayForecast = (props) => {
     const [humidity, setHumidity] = useState(null);
     const [iconID, setIconId] = useState(null);
     const [rain, setRain] = useState();
-    const [sunrise, SetSunrise] = useState(null);
-    const [sunset, SetSunset] = useState(null);
+    const [sunrise, SetSunrise] = useState([null,null]);
+    const [sunset, SetSunset] = useState([null,null]);
+    
+
+    const [invalidLocation, setInvalidLocation] = useState(null);
 
     const url = `https://pro.openweathermap.org/data/2.5/forecast/climate?q=${location}&units=metric&appid=2cdb7a87b467f79781996b8eb03eecda`;
 
-    const searchLocation = (event) => {
-        if (event.key === 'Enter') {
-            axios.get(url)
-                .then((response) => {
-                    setData(response.data);
-                    console.log(response.data);
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-
-        }
+      
+    //function to exchange location
+    const pullLocation  = (newlocation) => {
+        setLocation(newlocation);
     }
 
     useEffect(() => {
-        searchLocation({ key: 'Enter' }, props.currentCity);
-    }, []);
+        axios.get(url)
+        .then((response) => {
+            setData(response.data);
+            console.log(response.data);
+            props.pushLocationForcast(location);
+        })
+        .catch((error) => {
+            console.log(error);
+            setInvalidLocation('*Invalid location or Connection Error');
+        });
+
+    }, [location])
 
 
     //configure today as a date
@@ -44,6 +49,8 @@ const TripDayForecast = (props) => {
 
     //calculate trip Day index for API
     const dateIndex = Math.floor(Math.abs(tripDate - today) / (1000 * 60 * 60 * 24));
+    
+    
     //configure proper Tripdate format
 
     // const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -56,7 +63,7 @@ const TripDayForecast = (props) => {
         const Udate = new Date(unix * 1000); // Multiply by 1000 to convert seconds to milliseconds
         const options = { hour: 'numeric', minute: 'numeric', hour12: true, hourCycle: 'h12' }; // Set options to get hour and minute in 12-hour format with AM/PM
         const timeString = Udate.toLocaleString('en-US', options)
-        return (timeString.slice(0, -2)); //output without AM PM
+        return ([timeString.slice(0, -2),timeString.slice(-2)]); //output time and AM/PM separately
     }
     // Update state variables when weather data is retrieved
     useEffect(() => {
@@ -69,6 +76,7 @@ const TripDayForecast = (props) => {
             setIconId(data.list[dateIndex] && data.list[dateIndex].weather[0] && data.list[dateIndex].weather[0].icon);
             SetSunrise(unixToTime(data.list[dateIndex] && data.list[dateIndex].sunrise));
             SetSunset(unixToTime(data.list[dateIndex] && data.list[dateIndex].sunset));
+            setInvalidLocation(null);
 
             if (data.list[dateIndex] && data.list[dateIndex].rain) {
                 setRain(data.list[dateIndex] && data.list[dateIndex].rain);
@@ -97,32 +105,12 @@ const TripDayForecast = (props) => {
             rain={rain}
             sunrise={sunrise}
             sunset={sunset}
+
+            
+            transferData = {pullLocation}
+            invalidLocation = {invalidLocation}
+            showSearch = {props.showSearch}
         />
-
-        //  <input
-        //     value={location}
-        //     onChange={event => setLocation(event.target.value)}
-        //     onKeyPress={searchLocation}
-        //     placeholder='Enter Location'
-        //     type="text" />
-        // <br />
-        // {TripDateString}
-
-        // {data.code !== undefined &&
-        //     <div className="content">
-
-        //         City = {data.city && data.city.name} <br />
-        //         Temp = {data.list[dateIndex].temp && data.list[dateIndex].temp.day.toFixed()} °C<br />
-        //         description = {data.list[dateIndex] && data.list[dateIndex].weather[0] && data.list[dateIndex].weather[0].description} <br />
-        //         feels like = {data.list[dateIndex] && data.list[dateIndex].feels_like && data.list[dateIndex].feels_like.day.toFixed()} °C<br />
-        //         Wind = {data.list[dateIndex] && data.list[dateIndex].speed} m/s <br />
-        //         Humidity = {data.list[dateIndex] && data.list[dateIndex].humidity}%<br />
-        //         date = {data.list[dateIndex].dt}
-        //         <br />
-        // } 
-
-
-
     );
 }
 

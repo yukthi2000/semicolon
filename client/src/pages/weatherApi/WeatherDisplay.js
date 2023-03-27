@@ -5,10 +5,27 @@ import weatherIcons from "./WeatherIcon";
 import { Box } from "@mui/system";
 import DeviceThermostatOutlinedIcon from '@mui/icons-material/DeviceThermostatOutlined';
 import { WiHumidity, WiRaindrops, WiSunrise, WiSunset, WiStrongWind } from "weather-icons-react";
+import { useState } from "react";
 
 const WeatherDisplay = (props) => {
 
+    //function to capitalize the first letter
+    const capitalizeFirst = str => {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+      };
+
+    const [location, setLocation] = useState(); //variable to pass values to parent components
+
+
+    const pushLocation = (event) => {
+        if (event.key === 'Enter') {
+            //capitalize the first letter of the location and transfer it
+            props.transferData(capitalizeFirst(location));
+        }
+    }
+
     return (
+      
         <div className="WeatherDisplay-container">
 
             <div className="main-weather">
@@ -25,7 +42,7 @@ const WeatherDisplay = (props) => {
                         <img
                             src={weatherIcons(props.iconID)}
                             alt='tesst' className="weatherDisplay-icon" />
-                            
+
 
                         <div className="main-weather-temp">
                             <span className="main-weather-temp-number">
@@ -52,6 +69,9 @@ const WeatherDisplay = (props) => {
                     <span className="main-weather-date-day"> {props.weekday},</span>
                     <span className="main-weather-date-month"> {props.day} {props.month}</span>
                 </div>
+                
+                {props.showSearch && (
+    
                 <TextField
                     id="outlined-basic"
 
@@ -59,28 +79,39 @@ const WeatherDisplay = (props) => {
                     variant="outlined"
                     color="warning"
                     className="WeatherDisplay-search"
+                    onChange={event => setLocation(event.target.value)}
+                    onKeyPress={pushLocation}
+
                     sx={{
                         '& .MuiOutlinedInput-root': {
                             borderRadius: 20,
                             height: 30,
-                            width: 250
+                            width: 280
                         },
                         '& .MuiOutlinedInput-notchedOutline': {
                             borderRadius: 20,
                             borderWidth: '3px', // increase the border width
-                            height: 36 // set the height of the outline to 36px
-                        }
+                            height: 36, // set the height of the outline to 36px
+                            width: 280
+                        },
+                        '& .MuiOutlinedInput-input:-webkit-autofill': {
+                            height: "0px",
+                          },
                     }}
 
 
                 />
-
+      )}
+                <span className="invalid-location">{props.invalidLocation}</span>
                 <div className="weather-details-container">
+
+
                     <Box sx={{
                         backgroundColor: '#F6F6F8',
                         borderRadius: 2,
                         padding: "5px",
                     }}>
+                       
                         <div className="wether-details-row">
                             <Box className="weather-details-card">
                                 <span className="weather-details-card-heading">
@@ -164,9 +195,9 @@ const WeatherDisplay = (props) => {
 
                                 <div className="weather-details-card-content">
                                     <span className="weather-details-card-content-text">
-                                        {props.sunrise}
+                                        {props.sunrise[0]}
                                         <span className="weather-details-card-content-text-secondary">
-                                            AM
+                                            {props.sunrise[1]}
                                         </span>
                                     </span>
                                     <WiSunrise color='#F28330' size={30} />
@@ -181,9 +212,10 @@ const WeatherDisplay = (props) => {
 
                                 <div className="weather-details-card-content">
                                     <span className="weather-details-card-content-text">
-                                        {props.sunset}
+                                        {props.sunset[0]}
                                         <span className="weather-details-card-content-text-secondary">
-                                            PM
+                                            {props.sunset[1]}
+
                                         </span>
                                     </span>
                                     <WiSunset color='#F28330' size={30} />

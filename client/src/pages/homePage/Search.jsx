@@ -41,66 +41,51 @@ const options = {
   streetViewControl: true,
 };
 
-export default function Search({ placeholder }) {
+export default function Search({ placeholder,setLocations }) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: "AIzaSyA1tZY8x6OG7mt7a2iovZTDIj8SDV6sL8s",
     libraries,
   });
-  const [markers, Setmarkers] = React.useState([]);
-  const [selected, setSelected] = React.useState(null);
-  const onMapClick = React.useCallback((event) => {
-    Setmarkers((current) => [
-      ...current,
-      {
-        lat: event.latLng.lat(),
-        lng: event.latLng.lng(),
-        time: new Date(),
-      },
-    ]);
-  }, []);
+  // const [markers, Setmarkers] = React.useState([]);
+  // const [selected, setSelected] = React.useState(null);
+
+ // const [locations,setLocations]=React.useState([]);
+
+  const setloc=(data)=>{
+    setLocations(data);
+  }
+  // const onMapClick = React.useCallback((event) => {
+  //   Setmarkers((current) => [
+  //     ...current,
+  //     {
+  //       lat: event.latLng.lat(),
+  //       lng: event.latLng.lng(),
+  //       time: new Date(),
+  //     },
+  //   ]);
+  // }, []);
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback((map) => {
     mapRef.current = map;
   }, []);
 
-  const panTo = React.useCallback(({ lat, lng }) => {
-    mapRef.current.panTo({ lat, lng });
-    mapRef.current.setZoom(14);
-  }, []);
+  // const panTo = React.useCallback(({ lat, lng }) => {
+  //   mapRef.current.panTo({ lat, lng });
+  //   mapRef.current.setZoom(14);
+  // }, []);
 
   if (loadError) return "Error loading maps";
   if (!isLoaded) return "loading";
 
   return (
     <>
-      <GoogleMap>
-        {markers.map((marker) => (
-          <Marker
-            key={marker.time.toISOString()}
-            position={{ lat: marker.lat, lng: marker.lng }}
-            // icon={
-
-            // }
-            onClick={() => {
-              setSelected(marker);
-            }}
-          />
-        ))}
-        {selected ? (
-          <InfoWindow position={{ lat: selected.lat, lng: selected.lng }}>
-            <div>
-              <h2>Spot</h2>
-              <p>spotted {formatRelative(selected.time, new Date())}</p>
-            </div>
-          </InfoWindow>
-        ) : null}
-      </GoogleMap>
-      <Search1 panTo={panTo} placeholder1={placeholder} />
+      
+      <Search1  placeholder1={placeholder} setloc={setloc} />
     </>
   );
 }
 
-function Search1({ panTo, placeholder1 }) {
+function Search1({  placeholder1,setloc }) {
   const {
     ready,
     value,
@@ -124,7 +109,8 @@ function Search1({ panTo, placeholder1 }) {
           try {
             const results = await getGeocode({ address });
             const { lat, lng } = await getLatLng(results[0]);
-            panTo({ lat, lng });
+           
+            setloc({lat, lng});
           } catch (error) {
             console.log(error);
           }
