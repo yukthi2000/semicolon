@@ -1,0 +1,9 @@
+.div1 {
+    background-color: white;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    display: grid;
+    background-image: url(../../assets/homeBG.jpg);
+    background-size: cover;
+  }
+  
