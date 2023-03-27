@@ -10,9 +10,9 @@ function DestReviewStats({ review }) {
   average = average.toFixed(1);
   return (
     <div className="feedback-stats">
-      <h6>ProductReviewStats</h6>
-      <h6>{review.length} Product Reviews</h6>
-      <h6>Average Product Rating: {isNaN(average) ? 0 : average}</h6>
+      <h6>ReviewStats</h6>
+      <h6>{review.length}  Reviews</h6>
+      <h6>Average Rating: {isNaN(average) ? 0 : average}</h6>
      </div>
   );
 }

@@ -30,7 +30,7 @@ const App = () => {
         <Route path="subscription" element={<Subscription /> } />
         <Route path="mapp" element={<Mapmore />} />
         <Route path="mapp/Tripplan" element={<Tripplan />} />
-        <Route path="reviewhome" element={<Color />} />
+        <Route path="reviewhomepage" element={<Color />} />
       </Routes>
     </div>
   );
