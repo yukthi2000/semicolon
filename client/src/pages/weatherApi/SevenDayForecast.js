@@ -1,79 +1,100 @@
 import React, { useState, useEffect } from "react";
-import axios from 'axios';
+
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
+import TripDayForecast from "./TripDayForecast";
+import './SevenDayForecast.css'
+
 
 function SevenDayForecast(props) {
 
-    
+  const location = props.currentCity;
+
   const tripDate = new Date(props.tripDate);
-
-  const [data, setData] = useState({});
-  const [location, setLocation] = useState(props.currentCity);
-    
-
-  const url = `https://pro.openweathermap.org/data/2.5/forecast/climate?q=${location}&units=metric&appid=2cdb7a87b467f79781996b8eb03eecda`;
-
-  const searchLocation = (event) => {
-    if (event.key === 'Enter') {
-      axios.get(url)
-        .then((response) => {
-          setData(response.data);
-          console.log(response.data);
-          props.pull_location_func(location);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
-
-    }
-  }
-
-  useEffect(() => {
-    searchLocation({ key: 'Enter' }, props.currentCity);
-  }, []);
-
-
-  //configure today as a date
   const today = new Date();
 
-  //calculate trip Day index for API
-  const dateIndex = Math.floor(Math.abs(tripDate - today) / (1000 * 60 * 60 * 24));
+  const [errorMassege, seterrorMassege] = useState(null); //error messege variable
+  const [arrayExecuted, setArrayExecuted] = useState(false); //variable to see whether array executed
 
-  //configure proper Tripdate format
-  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  const TripDateString = tripDate.toLocaleDateString('en-US', options);
+  //function to get gap between two days
+  const daysGap = (firstDate, secondDate) => {
+    return (
+      Math.floor(Math.abs(firstDate - secondDate) / (1000 * 60 * 60 * 24))
+    );
+  }
 
+  const [SevenDayArray, setSevenDayArray] = useState([])
+
+  //complete array to map function
+  for (let i = 1; i <= 7; i++) {
+
+    //break if array executed or array out of bound 
+    if ((SevenDayArray.length >= 7) || (arrayExecuted === true)) {
+      break;
+    }
+
+    const newData = {
+      id: i,
+      date: tripDate.setDate(tripDate.getDate() + 1),
+    }
+    console.log(daysGap(today, newData.date));
+
+    if (daysGap(today, newData.date) === 29) {
+      //set error message when array ot of bound
+      seterrorMassege('Sorry! We can only provide weather data for up to 30 days from today.');
+      setArrayExecuted(true);
+      break;
+    }
+    SevenDayArray.push(newData);
+  }
+  console.log(SevenDayArray);
 
   return (
     <div>
-      
-      <input
-        value={location}
-        onChange={event => setLocation(event.target.value)}
-        
-        onKeyPress={searchLocation}
-        placeholder='Enter Location'
-        type="text" />
-      <br />
-      {TripDateString}
+      <span className="weather-display-ins">The weather forecast for the seven days following the trip day.</span>
+      <span className="sevenday-error"> {errorMassege} </span>
+      {SevenDayArray.map((data, index) => (
+        <Accordion key={index} 
+        sx={{ 
+          borderRadius:'15px',
+          margin : '5px',
+          boxShadow:'none',
+          
+        '& .MuiButtonBase-root' :{
+          backgroundColor:'#ffdbc19e',
+          borderRadius:'15px'
+        },
+        '&::before': { display: 'none' }
+        }}>
+          
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls={`panel${index}-content`}
+            id={`panel${index}-header`}
+          >
 
-      {data.code !== undefined &&
-        <div className="content">
+            <span className="acco-heading">
+              {new Date(data.date).toLocaleDateString()}
+            </span>
+          
+          </AccordionSummary>
+         
+          <AccordionDetails>
+            <TripDayForecast
+              currentCity={props.currentCity}
+              tripDate={data.date}        
+            />
 
-          City = {data.city && data.city.name} <br />
-          Temp = {data.list[dateIndex].temp && data.list[dateIndex].temp.day.toFixed()} °C<br />
-          description = {data.list[dateIndex] && data.list[dateIndex].weather[0] && data.list[dateIndex].weather[0].description} <br />
-          feels like = {data.list[dateIndex] && data.list[dateIndex].feels_like && data.list[dateIndex].feels_like.day.toFixed()} °C<br />
-          Wind = {data.list[dateIndex] && data.list[dateIndex].speed} m/s <br />
-          Humidity = {data.list[dateIndex] && data.list[dateIndex].humidity}%<br />
-          date = {data.list[dateIndex].dt}
-
-        </div>
-
-      }
+          </AccordionDetails>
+        </Accordion>
+      ))}
 
     </div>
-  )
+  );
 }
 
 export default SevenDayForecast;
