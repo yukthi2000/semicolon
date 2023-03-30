@@ -1,0 +1,20 @@
+.sevenday-error{
+    font-family: "poppins";
+    color: red;
+    font-size: 12px;
+    margin: 0px 12px 12px 12px;
+    font-weight: 600;
+
+}
+
+.acco-heading {
+    font-family: "poppins";
+    font-weight: 550;
+}
+.weather-display-ins{
+    font-size: 15px;
+    font-weight: 550;
+    font-family: "poppins";
+    color: dimgray;
+    margin-left: 10px;
+}

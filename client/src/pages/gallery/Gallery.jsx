@@ -1,9 +1,37 @@
 import React from 'react'
 
-const Gallery = () => {
-  return (
-    <div>Gallery</div>
-  )
+
+const Gallery=()=>{
+
+  const tripDate = new Date('2023-03-30');
+
+  //pull changed location from child components to this cmponent
+  const [globalLocation, setGlobalLocation] = useState('Kandy');
+
+  const pull_newGlobalLocation = (newLocation) => {
+    setGlobalLocation(newLocation);
+  }
+
+  return(
+    <div>
+      <Header2/>
+      <br />
+      <br /><br />
+      <div className="gallerycontainer">
+      <WeatherOptions/>
+      <Forecast 
+        
+        currentCity={globalLocation}
+        tripDate = {tripDate}
+        Globalfunc={pull_newGlobalLocation} //passing location function
+        
+        />
+
+      </div>
+  
+    </div>
+  );
+
 }
 
 export default Gallery

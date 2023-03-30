@@ -24,8 +24,21 @@ import "@reach/combobox/styles.css";
 import { height, width } from "@mui/system";
 
 const Home = () => {
+  const [startlocation, setstartLocation] = React.useState([]);
+  const [endlocation, setendLocation] = React.useState([]);
+
+  const setLocationstart = (data) => {
+    setstartLocation({ lat: data.lat, lng: data.lng, time: new Date() });
+  };
+  const setLocationend = (data) => {
+    setendLocation({ lat: data.lat, lng: data.lng, time: new Date() });
+  };
   return (
     <div>
+      {React.useEffect(() => {
+        console.log(startlocation);
+        console.log(endlocation);
+      })}
       <div>
         <div>
           <Header2 />
@@ -53,10 +66,16 @@ const Home = () => {
           <div className="box" />
           <div>
             <div className="destination1">
-              <Search placeholder="Start Location" />{" "}
+              <Search
+                placeholder="Start Location"
+                setLocations={setLocationstart}
+              />{" "}
             </div>
             <div className="destination2">
-              <Search placeholder="End Location" />{" "}
+              <Search
+                placeholder="End Location"
+                setLocations={setLocationend}
+              />{" "}
             </div>
           </div>
 
@@ -101,7 +120,7 @@ const Home = () => {
           <div></div>
         </div>
       </div>
-      <Link to="subscription" >Subscription</Link>
+      <Link to="subscription">Subscription</Link>
     </div>
   );
 };
