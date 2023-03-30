@@ -113,6 +113,17 @@ const Header2 = () => {
             Register
           </Button>
         </a>
+        <a href="login">
+          <Button
+            sx={{
+              marginLeft: "20px",
+              color: "white",
+              backgroundColor: "#E86E18",
+            }}
+          >
+            Login
+          </Button>
+        </a>
       </Toolbar>
     </AppBar>
   );
