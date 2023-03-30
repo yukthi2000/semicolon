@@ -1,8 +1,4 @@
-import React from "react";
-import Header2 from "../../componets/Header2";
-import Forecast from "../weatherApi/Forecast";
-import WeatherOptions from "../weatherApi/WeatherOptions";
-import { useState } from "react";
+import React from 'react'
 
 
 const Gallery=()=>{
@@ -35,6 +31,7 @@ const Gallery=()=>{
   
     </div>
   );
+
 }
 
-export default Gallery;
+export default Gallery

@@ -6,9 +6,6 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from '@mui/icons-material/Lock';
 import EnhancedEncryptionIcon from '@mui/icons-material/EnhancedEncryption';
-import Checkbox from '@mui/material/Checkbox';
-
-const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -84,11 +81,13 @@ const Register = () => {
     }
   };
 
+  
+
   return (
     <div className="reg-form">
       <img className="airBalloon" src={A} alt="" />
       <div>
-        <HomePageLinkIcon/>
+        <HomePageLinkIcon />
       </div>
       <div className="Register-form">
         <div><h1>Register</h1></div><br />
@@ -113,7 +112,7 @@ const Register = () => {
               )}
 
               <div style={{ position: "relative" }}>
-                <EmailIcon style={{ position: "absolute", top: 20, left: 20 }}/>
+                <EmailIcon style={{ position: "absolute", top: 20, left: 20 }} />
                 <input
                   className={`input ${emailError ? "invalid" : ""}`}
                   type="email"
@@ -130,7 +129,7 @@ const Register = () => {
               )}
 
               <div style={{ position: "relative" }}>
-                <LockIcon style={{ position: "absolute", top: 20, left: 20 }}/>
+                <LockIcon style={{ position: "absolute", top: 20, left: 20 }} />
                 <input
                   className={`input ${passwordError ? "invalid" : ""}`}
                   type="password"
@@ -147,7 +146,7 @@ const Register = () => {
               )}
 
               <div style={{ position: "relative" }}>
-                <EnhancedEncryptionIcon style={{ position: "absolute", top: 20, left: 20 }}/>
+                <EnhancedEncryptionIcon style={{ position: "absolute", top: 20, left: 20 }} />
                 <input
                   className={`input ${confirmPasswordError ? "invalid" : ""}`}
                   type="password"
@@ -163,12 +162,12 @@ const Register = () => {
                 <div className="error-message">{confirmPasswordError}</div>
               )}
 
-              <div><Checkbox {...label} />I agree all statements in services</div>
+             
               <div>
-                <div style={{marginLeft:"10px"}}>
+                <div style={{ marginLeft: "10px" }}>
                   <a href="/login">I am already member</a>
                 </div>
-                <button type="submit" className="btn btn-primary">
+                <button type="submit" className="btn btn-primary" >
                   SIGN UP
                 </button>
                 {error && <p>{error}</p>}

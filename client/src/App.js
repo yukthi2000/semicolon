@@ -13,6 +13,17 @@ import Datafortrip from "./pages/googleMapApi/Datafortrip";
 import Mapmore from "./pages/googleMapApi/Mapmore";
 import Tripplan from "./pages/googleMapApi/Plantrip";
 import Subscription from "./pages/subscription/Subscription";
+import UserProfile from "./pages/userProfile/UserProfile";
+import UserGallery from "./pages/userProfile/userGallery/UserGallery";
+import UserReview from "./pages/userProfile/userReview/UserReview";
+import PlannedTrip from "./pages/userProfile/plannedTrip/PlannedTrip";
+import Sidebar from "./pages/admin/Sidebar";
+import Admin from "./pages/admin/Admin";
+import Dashboard from "./pages/admin/Dashboard";
+import GalleryView from "./pages/admin/GalleryView";
+import ReviewsView from "./pages/admin/ReviewsView";
+
+
 
 const App = () => {
   return (
@@ -26,9 +37,20 @@ const App = () => {
         <Route path="login" element={<Login />} />
         <Route path="forget-password" element={<ForgetPassword />} />
         <Route path="reset-password" element={<PasswordReset />} />
-        <Route path="subscription" element={<Subscription /> } />
+        <Route path="subscription" element={<Subscription />} />
         <Route path="mapp" element={<Mapmore />} />
         <Route path="mapp/Tripplan" element={<Tripplan />} />
+        <Route path="userProfile" element={<UserProfile />} >
+          <Route path="" element={<UserGallery />} />
+          <Route path="review" element={<UserReview />} />
+          <Route path="plannedTrip" element={<PlannedTrip />} />
+        </Route>
+        <Route path="admin" element={<Admin />}>
+        <Route path="" element={<Dashboard />} />
+        <Route path="gallery-view" element={<GalleryView />} />
+        <Route path="reviews-view" element={<ReviewsView />} />
+        </Route>
+
       </Routes>
     </div>
   );
