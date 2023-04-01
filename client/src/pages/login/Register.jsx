@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Register.css";
-import A from "../../assets/A.jpg"
+import axios from "axios";
+import A from "../../assets/A.jpg";
 import HomePageLinkIcon from "../../componets/HomePageLinkIcon";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import EmailIcon from '@mui/icons-material/Email';
@@ -76,10 +77,29 @@ const Register = () => {
     e.preventDefault();
     if (!name || !email || !password || !confirmPassword) {
       setError("All fields are required");
+    } else if (password !== confirmPassword) {
+      setError("Passwords do not match");
     } else {
-      window.location.href = "login";
+      const userData = {
+        name: name,
+        email: email,
+        password: password,
+      };
+      onSubmit(userData);
     }
   };
+
+  const onSubmit = (data) =>{
+    axios.post("http://localhost:3001/user", data)
+    .then((response) => {
+      console.log("Registration successful");
+      window.location.href = "/login"; // redirect to login page
+    })
+    .catch((error) => {
+      console.log(error);
+      setError("Registration failed. Please try again.");
+    });
+  }
 
   
 
