@@ -1,26 +1,18 @@
-
-const express=require("express")
-const mysql=require("mysql2")
-const cors=require("cors")
-
-
-
-const app = express();
+const express = require("express")
+const app= express();
+const cors = require("cors");
 
 app.use(express.json());
 app.use(cors())
 
-app.listen(8001,()=>{
-    console.log("connection successfull");
+const db = require('./models')
+
+// routers
+const userRouter = require('./routes/User')
+app.use("/auth", userRouter);
+
+db.sequelize.sync().then(()=>{
+    app.listen(3001, () => {
+        console.log("server is running")
+    })
 })
-
-
-const db=mysql.createConnection(
-    {
-        user:"root",
-        host:"localhost",
-        password:"123258789",
-        database:"mapdatabase"
-
-    }
-)
