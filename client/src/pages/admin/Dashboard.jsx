@@ -10,7 +10,7 @@ const Dashboard = () => {
   const [listOfUsers, setListOfUsers] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3001/user").then((response) => {
+    axios.get("http://localhost:3001/auth").then((response) => {
       setListOfUsers(response.data);
     })
   }, []);

@@ -23,8 +23,8 @@ const Register2 = () => {
     })
 
     const onSubmit = (data) => {
-        axios.post("http://localhost:3001/user", data).then((response) => {
-            console.log("It is worked")
+        axios.post("http://localhost:3001/auth", data).then((response) => {
+            console.log(data)
         });
     }
 
@@ -62,6 +62,7 @@ const Register2 = () => {
                             <ErrorMessage name="password" component="span" />
                             <Field
                                 autocomplete="off"
+                                type="password"
                                 id="inputCreateUser"
                                 name="password"
                                 placeholder="password"
@@ -69,6 +70,7 @@ const Register2 = () => {
                             <ErrorMessage name="Password mismatch" component="span" />
                             <Field
                                 autocomplete="off"
+                                type="password"
                                 id="inputCreateUser"
                                 name="confirmPassword"
                                 placeholder="confirm password"

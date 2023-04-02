@@ -15,6 +15,7 @@ router.post("/", async (req, res)=>{
             name: name,
             email: email,
             password: hash,
+            confirmPassword: confirmPassword,
         });
         res.json("success")
     })
