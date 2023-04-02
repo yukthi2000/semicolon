@@ -1,23 +1,21 @@
 
 const express=require("express")
-const mysql=require("mysql2")
-const cors=require("cors")
 const app = express();
+
+app.use(express.json());
 
 const db = require ('./models')
 
 //Routers
-// const weatherOptionsRouter = require('./routes/WeatherOptions')
-// app.use("/weatherOptions",weatherOptionsRouter);
-app.use(express.json());
-app.use(cors())
+const weatherOptionsRouter = require("./routes/WeatherOptions");
+app.use("/weatherOptions",weatherOptionsRouter);
 
 db.sequelize.sync().then(()=>{
 
     app.listen(3001,()=>{
         console.log("connection successfull");
     });
-
+    
 });
 
 
