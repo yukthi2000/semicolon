@@ -102,7 +102,7 @@ const Header2 = () => {
         <RateReviewIcon
           sx={{ display: { xs: "block", sm: "none" }, marginRight: "20px" }}
         />
-        <a href="register">
+        <a href="register2">
           <Button
             sx={{
               marginLeft: "auto",

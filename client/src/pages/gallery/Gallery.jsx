@@ -1,5 +1,7 @@
-import React from 'react'
-
+import React,{useState} from 'react';
+import Header2 from "../../componets/Header2";
+import WeatherOptions from "../weatherApi/WeatherOptions"
+import Forecast from "../weatherApi/Forecast"
 
 const Gallery=()=>{
 
