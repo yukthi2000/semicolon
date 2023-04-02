@@ -144,7 +144,23 @@ export default function Tripplan(latlng, props) {
             width: "100%",
           }}
         >
-          {gobutton ? <Datafortrip gobuttonhandle={gobuttonhandle} /> : ""}
+          {gobutton ? (
+            <Datafortrip gobuttonhandle={gobuttonhandle} />
+          ) : (
+            <div style={{
+              marginTop: 70,
+              marginLeft: 10,
+              position: "absolute",
+              zIndex: 100,
+            }}><Multiplesearch
+              Searchplanshow={Searchplanshow}
+              Searchplan={Searchplan}
+              heading={heading}
+              
+            />
+            </div>
+
+          )}
         </div>
         {/* <div
           style={{
