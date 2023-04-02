@@ -24,3 +24,12 @@ const db=mysql.createConnection(
 
     }
 )
+
+app.post("/googleMapApi",(req,res)=>{
+    const startlocation=req.body.startlocation;
+    console.log(startlocation);
+    const endlocation=req.body.endlocation;
+    db.query("insert into locations(start,end) values(?,?)",[startlocation,endlocation],(err,result)=>{
+        console.log(err);
+    })
+})

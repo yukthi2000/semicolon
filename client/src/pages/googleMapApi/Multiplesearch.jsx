@@ -11,6 +11,7 @@ import Search from "./Searchformulti";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { useState } from "react";
+import Searchbox from "./Searchboxformultisearch";
 
 const Multiplesearch = (prop) => {
   // const Searchplan = !prop.Searchplan;
@@ -76,7 +77,7 @@ const Multiplesearch = (prop) => {
             <div key={index} className="searchoptions">
               <div className="multisearch">
                 <div className="searchh">
-                  <Search placeholder={"search"} />
+                  <Searchbox />
                 </div>
                 {searchdata.length - 1 !== index ? (
                   <div>

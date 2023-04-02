@@ -21,6 +21,7 @@ import TwoWheelerIcon from "@mui/icons-material/TwoWheeler";
 import AirportShuttleIcon from "@mui/icons-material/AirportShuttle";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import SendIcon from "@mui/icons-material/Send";
+import WeatherOptions from "../weatherApi/WeatherOptions";
 import dayjs from "dayjs";
 
 const Datafortrip = (prop) => {
@@ -121,50 +122,7 @@ const Datafortrip = (prop) => {
             <div>
               {" "}
               <div>
-                {/* <select
-                style={{
-                  width: 150,
-                  background: "rgba(255,255,255,0.1)",
-                }}
-              >
-                <option>Sunny</option>
-                <option>Rainy</option>
-                <option>cloudy </option>
-                <option>
-                  <div>
-                    <WbSunnyIcon sx={{ color: "black" }} />
-                  </div>
-                </option>
-              </select> */}
-                <FormControl fullWidth sx={{ width: 150 }}>
-                  <InputLabel>
-                    <div>
-                      <WbSunnyIcon sx={{ color: "#8B8D8E" }} />
-                      <CloudIcon sx={{ color: "#8B8D8E" }} />
-                      <ThunderstormIcon sx={{ color: "#8B8D8E" }} />
-                    </div>
-                  </InputLabel>
-                  <Select onChange={weatherop} sx={{ color: "white" }}>
-                    <MenuItem value="sunny">
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "cenetr",
-                        }}
-                      >
-                        Sunny <WbSunnyIcon />
-                      </div>
-                    </MenuItem>
-                    <MenuItem value="rainy">
-                      Rainy <CloudIcon />
-                    </MenuItem>
-                    <MenuItem value="cloudy">
-                      Cloudy
-                      <ThunderstormIcon />
-                    </MenuItem>
-                  </Select>
-                </FormControl>
+                <WeatherOptions />
               </div>
             </div>
           </div>

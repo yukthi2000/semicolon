@@ -2,6 +2,7 @@ import React from "react";
 import loading from "../../assets/loading (1).gif";
 import error from "../../assets/error.gif";
 import "./Searchome.css";
+import Searchbox from "./Searchbox";
 
 import usePlacesAutocomplete, {
   getGeocode,
@@ -41,7 +42,7 @@ const options = {
   streetViewControl: true,
 };
 
-export default function Search({ placeholder,setLocations }) {
+export default function Search({ placeholder }) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: "AIzaSyA1tZY8x6OG7mt7a2iovZTDIj8SDV6sL8s",
     libraries,
@@ -49,11 +50,8 @@ export default function Search({ placeholder,setLocations }) {
   // const [markers, Setmarkers] = React.useState([]);
   // const [selected, setSelected] = React.useState(null);
 
- // const [locations,setLocations]=React.useState([]);
+  // const [locations,setLocations]=React.useState([]);
 
-  const setloc=(data)=>{
-    setLocations(data);
-  }
   // const onMapClick = React.useCallback((event) => {
   //   Setmarkers((current) => [
   //     ...current,
@@ -79,61 +77,7 @@ export default function Search({ placeholder,setLocations }) {
 
   return (
     <>
-      
-      <Search1  placeholder1={placeholder} setloc={setloc} />
+      <Searchbox place={placeholder} />
     </>
-  );
-}
-
-function Search1({  placeholder1,setloc }) {
-  const {
-    ready,
-    value,
-    suggestions: { status, data },
-    setValue,
-    clearSuggestions,
-  } = usePlacesAutocomplete({
-    requestOptions: {
-      location: { lat: () => 7.84774, lng: () => 80.7003 },
-      radius: 200 * 1000,
-    },
-  });
-  return (
-    <div>
-      {" "}
-      <Combobox
-        className="searchhome"
-        onSelect={async (address) => {
-          setValue(address, false);
-          clearSuggestions();
-          try {
-            const results = await getGeocode({ address });
-            const { lat, lng } = await getLatLng(results[0]);
-           
-            setloc({lat, lng});
-          } catch (error) {
-            console.log(error);
-          }
-        }}
-      >
-        <ComboboxInput
-          className="combobox-inputhome"
-          value={value}
-          onChange={(e) => {
-            setValue(e.target.value);
-          }}
-          disabled={!ready}
-          placeholder={placeholder1}
-        />
-        <ComboboxPopover>
-          <ComboboxList className="combobox-listhome">
-            {status === "OK" &&
-              data.map(({ id, description }) => (
-                <ComboboxOption key={id} value={description} />
-              ))}
-          </ComboboxList>
-        </ComboboxPopover>
-      </Combobox>
-    </div>
   );
 }

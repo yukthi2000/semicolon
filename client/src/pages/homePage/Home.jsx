@@ -4,10 +4,11 @@ import "./Home.css";
 import Button from "@mui/material/Button";
 import Search from "./Search";
 import { Link } from "react-router-dom";
-
+import axios from "axios";
 import Header from "../../componets/Header";
 import Register from "../login/Register";
 import Header2 from "../../componets/Header2";
+
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
@@ -23,15 +24,33 @@ import {
 import "@reach/combobox/styles.css";
 import { height, width } from "@mui/system";
 
+
 const Home = () => {
   const [startlocation, setstartLocation] = React.useState([]);
   const [endlocation, setendLocation] = React.useState([]);
 
+  const sendlocations = () => {
+    axios
+      .post("http://localhost:3000/googleMapApi", {
+        startlocation: startlocation,
+        endlocation: endlocation,
+      })
+      .then((response) => {console.log(response);});
+  };
+  
   const setLocationstart = (data) => {
     setstartLocation({ lat: data.lat, lng: data.lng, time: new Date() });
   };
   const setLocationend = (data) => {
     setendLocation({ lat: data.lat, lng: data.lng, time: new Date() });
+  };
+
+  const calculateRoute = () => {
+    //to make routr
+    // const directionservice = new google.maps.DirectionsService(); //call to google map direction service as directionservice
+    // const result=await directionservice.route({
+    //   origin:
+    // })
   };
   return (
     <div>
@@ -68,13 +87,13 @@ const Home = () => {
             <div className="destination1">
               <Search
                 placeholder="Start Location"
-                setLocations={setLocationstart}
-              />{" "}
+                
+              />
             </div>
             <div className="destination2">
               <Search
                 placeholder="End Location"
-                setLocations={setLocationend}
+                
               />{" "}
             </div>
           </div>
@@ -89,6 +108,7 @@ const Home = () => {
               left: "87.5vh",
               borderRadius: "27px",
             }}
+            onClick={sendlocations}
           >
             Go
           </Button>
