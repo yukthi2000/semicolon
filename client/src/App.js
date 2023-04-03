@@ -6,11 +6,9 @@ import Gallery from "./pages/gallery/Gallery";
 import Review from "./pages/review/Review";
 import GoogleMapApi from "./pages/googleMapApi/GoogleMapApi";
 import Register from "./pages/login/Register";
-import Register2 from "./pages/login/Register2";
 import Login from "./pages/login/Login";
 import ForgetPassword from "./pages/login/ForgetPassword";
 import PasswordReset from "./pages/login/PasswordReset";
-import Datafortrip from "./pages/googleMapApi/Datafortrip";
 import Mapmore from "./pages/googleMapApi/Mapmore";
 import Tripplan from "./pages/googleMapApi/Plantrip";
 import Subscription from "./pages/subscription/Subscription";
@@ -18,7 +16,6 @@ import UserProfile from "./pages/userProfile/UserProfile";
 import UserGallery from "./pages/userProfile/userGallery/UserGallery";
 import UserReview from "./pages/userProfile/userReview/UserReview";
 import PlannedTrip from "./pages/userProfile/plannedTrip/PlannedTrip";
-import Sidebar from "./pages/admin/Sidebar";
 import Admin from "./pages/admin/Admin";
 import Dashboard from "./pages/admin/Dashboard";
 import GalleryView from "./pages/admin/GalleryView";
@@ -35,7 +32,6 @@ const App = () => {
         <Route path="review" element={<Review />} />
         <Route path="googleMapApi" element={<GoogleMapApi />} />
         <Route path="register" element={<Register />} />
-        <Route path="register2" element={<Register2 />} />
         <Route path="login" element={<Login />} />
         <Route path="forget-password" element={<ForgetPassword />} />
         <Route path="reset-password" element={<PasswordReset />} />
