@@ -84,9 +84,9 @@ const Home = () => {
             sx={{
               marginLeft: "auto",
               color: "white",
-              backgroundColor: "#E86E18",
-              top: "-28.5vh",
-              left: "87.5vh",
+              backgroundColor: "#EF7E2A",
+              top: "-16vh",
+              left: "89vh",
               borderRadius: "27px",
             }}
           >
@@ -95,27 +95,7 @@ const Home = () => {
         </div>
         <div>
           <p className="p2">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio neque
-            veniam, earum, sed animi nesciunt architecto voluptate adipisci
-            sunt, ut consectetur beatae eius inventore quidem dolor error
-            aperiam delectus. Odio. Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Odio neque veniam, earum, sed animi nesciunt
-            architecto voluptate adipisci sunt, ut consectetur beatae eius
-            inventore quidem dolor error aperiam delectus. Odio. Lorem ipsum
-            dolor sit amet consectetur adipisicing elit. Odio neque veniam,
-            earum, sed animi nesciunt architecto voluptate adipisci sunt, ut
-            consectetur beatae eius inventore quidem dolor error aperiam
-            delectus. Odio. Lorem ipsum dolor sit amet consectetur adipisicing
-            elit. Odio neque veniam, earum, sed animi nesciunt architecto
-            voluptate adipisci sunt, ut consectetur beatae eius inventore quidem
-            dolor error aperiam delectus. Odio. Lorem ipsum dolor sit amet
-            consectetur adipisicing elit. Odio neque veniam, earum, sed animi
-            nesciunt architecto voluptate adipisci sunt, ut consectetur beatae
-            eius inventore quidem dolor error aperiam delectus. Odio. Lorem
-            ipsum dolor sit amet consectetur adipisicing elit. Odio neque
-            veniam, earum, sed animi nesciunt architecto voluptate adipisci
-            sunt, ut consectetur beatae eius inventore quidem dolor error
-            aperiam delectus. Odio.
+            
           </p>
           <div></div>
         </div>

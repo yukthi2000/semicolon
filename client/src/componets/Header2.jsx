@@ -36,7 +36,7 @@ const Header2 = () => {
               flexGrow: 5,
               display: { xs: "none", sm: "block" },
               fontFamily: "Piedra",
-              color: "#E86E18",
+              color: "#EF7E2A",
             }}
           >
             JourneyJive
@@ -102,28 +102,47 @@ const Header2 = () => {
         <RateReviewIcon
           sx={{ display: { xs: "block", sm: "none" }, marginRight: "20px" }}
         />
-        <a href="register">
-          <Button
-            sx={{
-              marginLeft: "auto",
-              color: "white",
-              backgroundColor: "#E86E18",
-            }}
-          >
-            Register
-          </Button>
-        </a>
-        <a href="login">
-          <Button
-            sx={{
-              marginLeft: "20px",
-              color: "white",
-              backgroundColor: "#E86E18",
-            }}
-          >
-            Login
-          </Button>
-        </a>
+        {!sessionStorage.getItem("accessToken") ? (
+          <>
+            <a href="register">
+              <Button
+                sx={{
+                  marginLeft: "auto",
+                  color: "white",
+                  backgroundColor: "#EF7E2A",
+                }}
+              >
+                Register
+              </Button>
+            </a>
+            <a href="login">
+              <Button
+                sx={{
+                  marginLeft: "20px",
+                  color: "white",
+                  backgroundColor: "#EF7E2A",
+                }}
+              >
+                Login
+              </Button>
+            </a>
+          </>
+        ) : (
+          <a href="profile">
+            <Button
+              sx={{
+                marginLeft: "20px",
+                color: "Blue",
+                backgroundColor: "white",
+                height: "5vh",
+                width: "5vh",
+                borderRadius: "50%",
+              }}
+            >
+              P
+            </Button>
+          </a>
+        )}
       </Toolbar>
     </AppBar>
   );
