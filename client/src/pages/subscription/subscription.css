@@ -1,120 +1,133 @@
-.packages{
-    margin:auto;
-}
-
-
-.head{
-    background-color: #d2d2e0;
-    align-content: center;
-    width: 100%;
-    height: 50%;
-}
-.package_head{
-    align-items: center;
-}
-
-.h2{
-    align-items: center;
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Syne Mono', monospace;
+    
+   
+  }
+  .head {
+    color: #fff;
+    background-color: #21d4fd;
+    background-image: linear-gradient(19deg, #324e4e 0%, #141f1f 100%);
+    margin-top: 3rem;
+    padding: 3rem 6rem;
+    height: auto;
+    text-align: center;
+  }
+  
+  p {
+    padding: 1rem;
+    font-size: 1.2rem;
+    color: #fdfdff;
+  }
+   h2{
     align-self: center;
-}
+   }
 
-
-.package_container {
+   .package_container {
     display: grid;
     grid-template-columns: repeat(2, 2fr);
     gap: 3rem;
-}
-
-.package{
-  
-    border-radius: 0 0 2rem 2rem;
-    border:1px solid #4db5ff ;
-    height: fit-content ;
-    transition: all 400ms ease;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-   
+    padding-left: 20vw;
+    padding-right: 20vw;
+    padding-top: 5vh;
+    padding-bottom: 0%;
+    background-color: DarkSeaGreen;
+    width: 100%;
+    
+     
   }
-
-.package:hover{
+  
+   .package{
+    
+    border-radius: 2rem 2rem 2rem 2rem;
+    border:1px solid #4db5ff ;
+    transition: all 400ms ease;
+    align-items:flex-start;
+    padding: 0;
+    background-color: #21d4fd;
+    background-image: linear-gradient(19deg, #324e4e 0%, #141f1f 100%);
+    text-align: center;
+  }
+  
+  /*.package:hover{
     background: rgb(164, 209, 240);
     border-color: rgba(77, 181, 255,0.4);
     cursor: default;
-}
-
-.package_head{
-    background: #4db5ff;
-    padding: 2rem;
-    border-radius: 0 0 2rem 2rem;
+  }*/
+  
+  .package_head{
+    background:linear-gradient(19deg, #a0d8e6 0%, #103757 100%);
+    height: 25vh;
+    padding: 1rem;
+    border-radius: 2rem 2rem 2rem 2rem;
     box-shadow: 0 2rem 1rem rgba(0, 0, 0, 0.1);
-}
-
-.package_head h2{
-    color: #1f1f38;
-    font-size: 2rem;
-    text-align: center;
-
-}
-.package_features{
-    padding: 2rem;
-}
-
-.package_features li{
+  }
+  
+  .package_head h2{
+    color: #ffffff;
+    font-size: 1.5rem;
+  
+  }
+  .package_features{
+    padding: 0.9rem;
+  }
+  
+  .package_features li{
     display: flex;
-    gap: .1rem;
-    margin-bottom: 0.2rem;
-}
-
-.package_features_icon{
+    gap: 0.1rem;
+    margin-bottom: 0.1rem;
+  }
+  
+  .package_features_icon{
     color: rgb(143, 199, 40);
     margin-top: 2px;
-}
-
-.package_features_icon2{
+  }
+  
+  .package_features_icon2{
     color: rgb(231, 16, 16);
     margin-top: 2px;
-}
-
-.package_features p{
-    font-size: 0.9 rem;
-}
-
-@media screen and(max-width: 1024px) {
+  }
+  
+  .package_features p{
+    font-size: 0.5 rem;
+    color: #fff;
+  }
+  
+  
+  @media screen and(max-width: 1024px) {
     .package_container{
         grid-template-columns: 1fr 1fr;
         gap: 2rem;
     }
     .package{
-        height: auto;
+        height: 80vh;
     }
-}
-
-@media screen and (max-width:600px){
-    .container{
+  }
+  
+  @media screen and (max-width:600px){
+    .package_container{
         grid-template-columns: 1fr;
         gap: 1.5rem;
     }
     
-}
-
-.my-button {
-    display: block;
-    margin: 0 auto;
-    width: 150px;
-    height: 50px;
-    background-color: #fff;
-    color: #007bff;
-    font-size: 16px;
-    font-weight: bold;
-    text-align: center;
-    border: 2px solid #007bff;
-    cursor: pointer;
-    transition: all 0.3s ease;
   }
   
-  .my-button:hover {
-    background-color: #007bff;
-    color: #fff;
+  .my-button {
+    display: block;
+    margin:  2rem auto;
+    width: 180px;
+    height: 30px;
+    color: #eaeef1;
+    font-size: 16px;
+    font-weight: bold;
+    border: 0.9px solid #5957f0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #7fdcf1;
+    background-image: linear-gradient(19deg, #66bdf0 0%, #0a83e6 100%);
+    border-radius: 0.5rem .5rem .5rem .5rem;
   }
+  
   
