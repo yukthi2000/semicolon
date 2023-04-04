@@ -58,111 +58,110 @@ const Subscription = () => {
                     <p>If you're looking to stay up-to-date on our latest travel deals, sign up for our newsletter and never miss out on an opportunity to explore new destinations!
                     </p><p>Our subscription service is the perfect way to stay in the loop and receive exclusive offers straight to your inbox.</p>
                 </div>
-                <div className="container package_container" >
-                    <article className="package">
-                        <div className="package_head">
-                            <h2>Free Plan</h2>
-                            <h3>Rs.0%</h3>
-                            <button className='my-button'>Sign Up-Its Free</button>
-                        </div>
-                        <ul className="package_features">
-                            <li>
-                                <p><BsFillCheckCircleFill className="package_features_icon" />
-                                    Add feature</p>
-                            </li>
-                            <li>
-                                <p><BsFillCheckCircleFill className="package_features_icon" />
-                                    Add feature</p>
-                            </li>
-                            <li>
-                                <p><BsFillCheckCircleFill className="package_features_icon" />
-                                    Add feature</p>
-                            </li>
-                            <li>
-                                <p><BsFillCheckCircleFill className="package_features_icon" />
-                                    Add feature</p>
-                            </li>
-                            <li>
-                                <p><BsFillCheckCircleFill className="package_features_icon" />
-                                    Add feature</p>
-                            </li>
+                <div className="background">
+                    <div className="container package_container" >
+                        <article className="package">
+                            <div className="package_head">
+                                <h2>Free Plan<br />
+                                    Rs.0%</h2>
+                                <button className='my-button'>Sign Up-Its Free</button>
+                            </div>
+                            <ul className="package_features">
+                                <li>
+                                    <p><BsFillCheckCircleFill className="package_features_icon" />
+                                        Add feature</p>
+                                </li>
+                                <li>
+                                    <p><BsFillCheckCircleFill className="package_features_icon" />
+                                        Add feature</p>
+                                </li>
+                                <li>
+                                    <p><BsFillCheckCircleFill className="package_features_icon" />
+                                        Add feature</p>
+                                </li>
+                                <li>
+                                    <p><BsFillCheckCircleFill className="package_features_icon" />
+                                        Add feature</p>
+                                </li>
+                                <li>
+                                    <p><BsFillCheckCircleFill className="package_features_icon" />
+                                        Add feature</p>
+                                </li>
 
-                            <li>
-                                <p><MdDisabledByDefault className="package_features_icon2" />
-                                </p>
-                            </li>
-                            <li>
-                                <p><MdDisabledByDefault className="package_features_icon2" />
-                                </p>
-                            </li>
-                            <li>
-                                <p><MdDisabledByDefault className="package_features_icon2" />
-                                </p>
-                            </li>
-                            <li>
-                                <p><MdDisabledByDefault className="package_features_icon2" />
-                                </p>
-                            </li>
-
-
-
-                        </ul>
-                    </article>
-                    <article className="package">
-                        <div className="package_head">
-                            <h2>Fremium Plan</h2>
+                                <li>
+                                    <p><MdDisabledByDefault className="package_features_icon2" />
+                                    </p>
+                                </li>
+                                <li>
+                                    <p><MdDisabledByDefault className="package_features_icon2" />
+                                    </p>
+                                </li>
+                                <li>
+                                    <p><MdDisabledByDefault className="package_features_icon2" />
+                                    </p>
+                                </li>
+                                <li>
+                                    <p><MdDisabledByDefault className="package_features_icon2" />
+                                    </p>
+                                </li>
 
 
-                            Rs.1000
-                            <br />
-                            <br />
-                            <br />
-                            <StripeCheckout
-                                stripeKey={publishableKey}
-                                label="Pay Now"
-                                name="Pay With Credit Card"
 
-                                amount={priceForStripe}
-                                description={`Your total is $${1000}`}
-                                token={payNow}
-                            />
-                        </div>
-                        <ul className="package_features">
-                            <li>
-                                <p><BsFillCheckCircleFill className="package_features_icon" />
-                                    Add feature</p>
-                            </li>
-                            <li>
-                                <p><BsFillCheckCircleFill className="package_features_icon" />
-                                    Add feature</p>
-                            </li>
-                            <li>
-                                <p><BsFillCheckCircleFill className="package_features_icon" />
-                                    Add feature</p>
-                            </li>
-                            <li>
-                                <p><BsFillCheckCircleFill className="package_features_icon" />
-                                    Add feature</p>
-                            </li>
-                            <li>
-                                <p><BsFillCheckCircleFill className="package_features_icon" />
-                                    Add feature</p>
-                            </li>
-                            <li>
-                                <p><BsFillCheckCircleFill className="package_features_icon" />
-                                    Add feature</p>
-                            </li>
-                            <li>
-                                <p><BsFillCheckCircleFill className="package_features_icon" />
-                                    Add feature</p>
-                            </li>
-                            <li>
-                                <p><BsFillCheckCircleFill className="package_features_icon" />
-                                    Add feature</p>
-                            </li>
+                            </ul>
+                        </article>
+                        <article className="package">
+                            <div className="package_head">
+                                <h2>Premium Plan<br />Rs.1000</h2>
 
-                        </ul>
-                    </article>
+
+
+                                <StripeCheckout
+                                    stripeKey={publishableKey}
+                                    label="Pay Now"
+                                    name="Pay With Credit Card"
+
+                                    amount={priceForStripe}
+                                    description={`Your total is $${1000}`}
+                                    token={payNow}
+                                />
+                            </div>
+                            <ul className="package_features">
+                                <li>
+                                    <p><BsFillCheckCircleFill className="package_features_icon" />
+                                        Add feature</p>
+                                </li>
+                                <li>
+                                    <p><BsFillCheckCircleFill className="package_features_icon" />
+                                        Add feature</p>
+                                </li>
+                                <li>
+                                    <p><BsFillCheckCircleFill className="package_features_icon" />
+                                        Add feature</p>
+                                </li>
+                                <li>
+                                    <p><BsFillCheckCircleFill className="package_features_icon" />
+                                        Add feature</p>
+                                </li>
+                                <li>
+                                    <p><BsFillCheckCircleFill className="package_features_icon" />
+                                        Add feature</p>
+                                </li>
+                                <li>
+                                    <p><BsFillCheckCircleFill className="package_features_icon" />
+                                        Add feature</p>
+                                </li>
+                                <li>
+                                    <p><BsFillCheckCircleFill className="package_features_icon" />
+                                        Add feature</p>
+                                </li>
+                                <li>
+                                    <p><BsFillCheckCircleFill className="package_features_icon" />
+                                        Add feature</p>
+                                </li>
+
+                            </ul>
+                        </article>
+                    </div>
                 </div>
             </>
 

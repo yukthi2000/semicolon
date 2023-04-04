@@ -5,14 +5,13 @@ import SliderComp from './Slider';
 
 const Projects = () => {
   return (
-    <Container id='project'>
+    <Container >
         
-            <h1>SPOTLIGHT  <span className="green">DESTINATIONS</span></h1>
+            <h1>SPOTLIGHT  DESTINATIONS</h1>
             <p>Looking for your next great adventure? We can help. Here is a sampling of our most popular destinations. Experience private tours with authentic local flavour.</p>
-        
-        <Slide>
+            <div>
             <SliderComp/>
-        </Slide>
+            </div>
     </Container>
   )
 }
@@ -20,6 +19,7 @@ const Projects = () => {
 export default Projects;
 
 const Container = styled.div`
+    height:50%;
     width: 80%;
     max-width: 1280px;
     margin: 0 auto;
