@@ -15,7 +15,7 @@ import Multiplesearch from "./Multiplesearch";
 import { PropTypes } from "prop-types";
 import Header2 from "../../componets/Header2";
 import Sidepan from "./Sidepan";
-import { useEffect,useRef } from "react";
+import { useEffect, useRef } from "react";
 import Searchbox from "./Searchboxformulti";
 
 import usePlacesAutocomplete, {
@@ -63,10 +63,11 @@ export default function Map(latlng, props) {
     libraries,
   });
   const [markers, Setmarkers] = React.useState([]);
-  const [selected, setSelected] = React.useState(false);
+  const [selected, setSelected] = React.useState(null);
   const [Searchplan, setSearchplan] = useState(false);
   const [Searchplan2, setSearchplan2] = useState(props.Searchplan);
   const [search, setSearch] = useState(false);
+  const [direction, setDirection] = useState(false);
   const [mylat, setMylat] = useState(0);
   const [mylng, setMylng] = useState(0);
 
@@ -74,8 +75,32 @@ export default function Map(latlng, props) {
   const [distance, setDistance] = React.useState("");
   const [duration, setduration] = React.useState("");
 
+  const [dataFromChild, setDataFromChild] = useState("");
+
+  const handleDataFromChild = (data) => {
+    setDataFromChild(data);
+  };
+
   /** @type React.MutableRefObject<HTMLInputElement> */
-  const originRef = useRef([]);
+  const originRef = useRef();
+  /** @type React.MutableRefObject<HTMLInputElement> */
+  const destinationRef = useRef();
+
+  async function calculateRoute() {
+    if (originRef.current.value === "" || destinationRef.current.value === "") {
+      return;
+    }
+    //eslint-disable-next-line  no-undef
+    const directionService = new google.maps.DirectionsService();
+    const result = await directionService.route({
+      origin: originRef.current.value,
+      destination: destinationRef.current.value,
+      //eslint-disable-next-line  no-undef
+      travelMode: google.maps.TravelMode.DRIVING,
+    });
+    SetdirectionResponse(result);
+    setDistance(result.routes[0].legs[0].distance.text);
+  }
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -93,6 +118,10 @@ export default function Map(latlng, props) {
 
   const handlesearch = () => {
     setSearch(!search);
+  };
+
+  const handledirection = () => {
+    setDirection(!direction);
   };
 
   // const onmarkk = (data) => {
@@ -187,7 +216,7 @@ export default function Map(latlng, props) {
                   <IconButton sx={{ p: "10px" }} aria-label="menu">
                     <MenuIcon onClick={Searchplanshow} />
                   </IconButton>
-                  <Searchbox />
+                  <Searchbox onDataFromChild={handleDataFromChild} />
 
                   {/* {console.log(markers)} */}
                   <IconButton
@@ -198,14 +227,61 @@ export default function Map(latlng, props) {
                     <SearchIcon />
                   </IconButton>
                   <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-                  <IconButton
-                    color="primary"
-                    sx={{ p: "10px" }}
-                    aria-label="directions"
-                  >
-                    <DirectionsIcon />
-                  </IconButton>
+                  {direction ? (
+                    ""
+                  ) : (
+                    <IconButton
+                      color="primary"
+                      sx={{ p: "10px" }}
+                      aria-label="directions"
+                      onClick={handledirection}
+                    >
+                      <DirectionsIcon />
+                    </IconButton>
+                  )}
                 </Paper>
+                {!direction ? (
+                  ""
+                ) : (
+                  <div style={{ paddingTop: 3 }}>
+                    <Paper
+                      component="form"
+                      sx={{
+                        p: "2px 4px",
+                        display: "flex",
+                        alignItems: "center",
+                        width: 400,
+                      }}
+                    >
+                      <IconButton sx={{ p: "10px" }} aria-label="menu">
+                        <MenuIcon onClick={handledirection} />
+                      </IconButton>
+                      <Searchbox onDataFromChild={handleDataFromChild} />
+                      {/* put a placeholder */}
+
+                      {/* {console.log(markers)} */}
+                      <IconButton
+                        type="button"
+                        sx={{ p: "10px" }}
+                        aria-label="search"
+                      >
+                        <SearchIcon />
+                      </IconButton>
+                      <Divider
+                        sx={{ height: 28, m: 0.5 }}
+                        orientation="vertical"
+                      />
+                      <IconButton
+                        color="primary"
+                        sx={{ p: "10px" }}
+                        aria-label="directions"
+                        onClick={calculateRoute}
+                      >
+                        <DirectionsIcon />
+                      </IconButton>
+                    </Paper>
+                  </div>
+                )}
               </div>
             )
           ) : (
@@ -221,7 +297,7 @@ export default function Map(latlng, props) {
         // onClick={onMapClick}
         onLoad={onMapLoad}
       >
-        {markers.slice(0,1).map(
+        {markers.slice(0, 1).map(
           (marker) => (
             console.log(marker),
             (
@@ -234,7 +310,7 @@ export default function Map(latlng, props) {
                   anchor: new window.google.maps.Point(15, 15),
                 }}
                 onClick={() => {
-                  setSelected(!selected);
+                  setSelected(marker);
                 }}
               />
             )
@@ -243,7 +319,7 @@ export default function Map(latlng, props) {
 
         {selected ? (
           <InfoWindow
-            position={{ lat:6.796370998278669, lng: 79.900235034489   }}
+            position={{ lat: selected.lat, lng: selected.lng }}
             icon={{
               scaledSize: new window.google.maps.Size(10, 10),
             }}
@@ -253,7 +329,7 @@ export default function Map(latlng, props) {
         ) : null}
       </GoogleMap>
 
-      {/* {console.log(markers)} */}
+      {console.log(dataFromChild)}
     </>
   );
 }

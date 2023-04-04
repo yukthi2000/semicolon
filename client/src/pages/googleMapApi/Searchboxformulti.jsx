@@ -62,21 +62,34 @@
 // export default Searchbox;
 
 import React from "react";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { GoogleMap, useLoadScript, Autocomplete } from "@react-google-maps/api";
 
-const Searchbox = () => {
+const Searchbox = (props) => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: "AIzaSyA1tZY8x6OG7mt7a2iovZTDIj8SDV6sL8s",
     libraries: ["places"], //enable googlemap places api
   });
   /** @type React.MutableRefObject<HTMLInputElement> */
   const originRef = useRef();
+  const [originstate, setOriginstate] = useState("");
+
+  const inputvalue = () => {
+    setOriginstate(originRef.current.value);
+  };
 
   //   /** @type React.MutableRefObject<HTMLInputElement> */
   //   const destinationRef = useRef();
   //eslint-disable-next-line  no-undef
 
+  useEffect(() => {
+    handleClick();
+  }, [originstate]);
+
+  const handleClick = () => {
+    const data = "Data from child";
+    props.onDataFromChild(data);
+  };
   const restrictions = {
     country: "lk", //restrict search locations into srilanka
   };
@@ -92,6 +105,7 @@ const Searchbox = () => {
             type={"text"}
             placeholder="Location"
             ref={originRef}
+            onBlur={inputvalue} //after done with changes
             style={{
               padding: "15px",
               fontSize: "16px",
@@ -103,6 +117,7 @@ const Searchbox = () => {
           ></input>
         </Autocomplete>
       </div>
+      {/* {originstate !== "" ? handleClick : ""} */}
     </div>
   );
 };

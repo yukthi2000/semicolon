@@ -12,6 +12,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { useState } from "react";
 import Searchbox from "./Searchboxformultisearch";
+import Forecast from "../weatherApi/Forecast";
 
 const Multiplesearch = (prop) => {
   // const Searchplan = !prop.Searchplan;
@@ -31,6 +32,16 @@ const Multiplesearch = (prop) => {
     list.splice(index, 1);
     setSearchdata(list);
   };
+
+  //for weather
+  const tripDate = new Date('2023-04-11');
+
+  //pass changed location from child components to this cmponent
+  const [globalLocation, setGlobalLocation] = useState('Kandy');
+
+  const pull_newGlobalLocation = (newLocation) => {
+    setGlobalLocation(newLocation);
+  }
   return (
     // <div className="div1">
     //   <Paper
@@ -136,16 +147,13 @@ const Multiplesearch = (prop) => {
               </Button>
             </div>
             <div className="but3" style={{ paddingBottom: 30 }}>
-              <Button
-                variant="elevated"
-                sx={{ width: 220, color: "#EF7E2A", borderBottom: 3 }}
-              >
-                <ThunderstormIcon sx={{ marginRight: 1 }} />
-                <Typography variant="h7 " sx={{ color: "#EF7E2A" }}>
-                  {" "}
-                  Weather Options
-                </Typography>
-              </Button>
+            <Forecast 
+        
+        currentCity={globalLocation}
+        tripDate = {tripDate}
+        Globalfunc={pull_newGlobalLocation} //passing location function
+        
+        />
             </div>
           </div>
         </Paper>
