@@ -45,7 +45,7 @@ const Sidepan = (prop) => {
                   },
                 }}
               >
-                <LocationOnIcon sx={{ marginRight: 4 }} /> Plan a Trip
+                <LuggageIcon  sx={{ marginRight: 4 }} /> Plan a Trip
               </Button>
             </Link>
             <Button
@@ -61,7 +61,7 @@ const Sidepan = (prop) => {
               }}
             >
               {" "}
-              <LuggageIcon sx={{ marginRight: 4 }} />
+              <LocationOnIcon sx={{ marginRight: 4 }} />
               Search
             </Button>
           </div>

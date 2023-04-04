@@ -1,7 +1,7 @@
 import loading from "../../assets/loading (1).gif";
 import error from "../../assets/error.gif";
 import * as React from "react";
-
+// import Searchbar from "./Searchbar";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import Divider from "@mui/material/Divider";
@@ -10,12 +10,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import DirectionsIcon from "@mui/icons-material/Directions";
 import { useState } from "react";
-import "./Searc.css";
-import Multiplesearch from "./Multiplesearch";
+
 import { PropTypes } from "prop-types";
-import Header2 from "../../componets/Header2";
-import Sidepan from "./Sidepan";
-import Datafortrip from "./Datafortrip";
+import { useRef } from "react";
 
 import usePlacesAutocomplete, {
   getGeocode,
@@ -35,6 +32,8 @@ import {
   useLoadScript,
   Marker,
   InfoWindow,
+  Autocomplete,
+  DirectionsRenderer,
 } from "@react-google-maps/api";
 
 import { formatRelative } from "date-fns";
@@ -46,6 +45,10 @@ const mapContainerStyle = {
   width: "100vw",
   height: "100vh",
 };
+const requestOptions = {
+  location: { lat: () => 7.84774, lng: () => 80.7003 },
+  radius: 200 * 1000,
+};
 const center = {
   lat: 7.84774,
   lng: 80.7003,
@@ -56,7 +59,7 @@ const options = {
   streetViewControl: true,
 };
 
-export default function Tripplan(latlng, props) {
+export default function Map(latlng, props) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: "AIzaSyA1tZY8x6OG7mt7a2iovZTDIj8SDV6sL8s",
     libraries,
@@ -65,20 +68,62 @@ export default function Tripplan(latlng, props) {
   const [selected, setSelected] = React.useState(null);
   const [Searchplan, setSearchplan] = useState(false);
   const [Searchplan2, setSearchplan2] = useState(props.Searchplan);
-  const [search, setSearch] = useState(false);
-  const [gobutton, setGobutton] = useState(true);
 
-  const gobuttonhandle = () => {
-    setGobutton(!gobutton);
-  };
+  const [directionResponse, SetdirectionResponse] = React.useState(null);
+  const [distance, setDistance] = React.useState("");
+  const [duration, setduration] = React.useState("");
 
-  const handlesearch = () => {
-    setSearch(!search);
-  };
+  /** @type React.MutableRefObject<HTMLInputElement> */
+  const originRef = useRef();
+  /** @type React.MutableRefObject<HTMLInputElement> */
+  const destinationRef = useRef();
 
+  // const onChangeAddress=(autocomplete)=>{
+  //     const location=autocomplete.getPlace();
+  //     console.log(location)
+  // }
+
+  async function calculateRoute() {
+    if (!originRef.current) return;
+
+    const autocomplete = new window.google.maps.places.Autocomplete(
+      originRef.current.value
+    );
+    console.log(autocomplete);
+    // autocomplete.setFields(["address_component","geometry"]);
+    // autocomplete.addListener("place_changed",()=>onChangeAddress(autocomplete));
+
+    //eslint-disable-next-line  no-undef
+    const directionService = new google.maps.DirectionsService();
+    const result = await directionService.route({
+      origin: originRef.current.value,
+      destination: destinationRef.current.value,
+      //eslint-disable-next-line  no-undef
+      travelMode: google.maps.TravelMode.DRIVING,
+    });
+    SetdirectionResponse(result);
+    // console.log(result);
+    setDistance(result.routes[0].legs[0].distance.text);
+  }
+
+  function CleareRoute() {
+    SetdirectionResponse(null);
+    setDistance("");
+    setduration("");
+    originRef.current.value = "";
+    destinationRef.current.value = "";
+  }
   const onmarkk = (data) => {
     console.log("dadfa");
-    Setmarkers(data);
+    //Setmarkers(data);
+    Setmarkers((current) => [
+      ...current,
+      {
+        lat: data.lat,
+        lng: data.lng,
+        time: new Date(),
+      },
+    ]);
   };
   const Searchplanshow = () => {
     setSearchplan(!Searchplan);
@@ -135,34 +180,7 @@ export default function Tripplan(latlng, props) {
   return (
     <>
       <div>
-        <Header2 />
         <div
-          style={{
-            marginTop: 0,
-            position: "absolute",
-            zIndex: 100,
-            width: "100%",
-          }}
-        >
-          {gobutton ? (
-            <Datafortrip gobuttonhandle={gobuttonhandle} />
-          ) : (
-            <div style={{
-              marginTop: 70,
-              marginLeft: 10,
-              position: "absolute",
-              zIndex: 100,
-            }}><Multiplesearch
-              Searchplanshow={Searchplanshow}
-              Searchplan={Searchplan}
-              heading={heading}
-              
-            />
-            </div>
-
-          )}
-        </div>
-        {/* <div
           style={{
             marginTop: 70,
             marginLeft: 10,
@@ -170,8 +188,23 @@ export default function Tripplan(latlng, props) {
             zIndex: 100,
           }}
         >
-          
-        </div> */}
+          <div>
+            <Autocomplete requestOptions>
+              <input type={"text"} placeholder="start" ref={originRef}></input>
+            </Autocomplete>
+
+            <Autocomplete>
+              <input
+                type={"text"}
+                placeholder="destination"
+                ref={destinationRef}
+              ></input>
+            </Autocomplete>
+
+            <button onClick={calculateRoute}>set route</button>
+            <button onClick={CleareRoute}>delete routr</button>
+          </div>
+        </div>
       </div>
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
@@ -188,11 +221,14 @@ export default function Tripplan(latlng, props) {
             // icon={
 
             // }
-            onClick={() => {
-              setSelected(marker);
-            }}
+            // onClick={() => {
+            //   setSelected(marker);
+            // }}
           />
         ))}
+        {directionResponse && (
+          <DirectionsRenderer directions={directionResponse} />
+        )}
 
         {selected ? (
           <InfoWindow position={{ lat: selected.lat, lng: selected.lng }}>
@@ -208,12 +244,12 @@ export default function Tripplan(latlng, props) {
   );
 }
 
-function Search({ panTo, prop }) {
+function Search({ panTo, onmark }) {
   const mark = (e) => {
     // const newmarkers = [...prop.markers, { lat: 32, lng: 43, time: 43 }];
-    //console.log(e);
+    // console.log(e);
     // prop.Setmarkers(newmarkers);
-    prop.onmark(e);
+    onmark(e);
   };
   const {
     ready,
@@ -237,8 +273,10 @@ function Search({ panTo, prop }) {
           const results = await getGeocode({ address });
           const { lat, lng } = await getLatLng(results[0]);
           panTo({ lat, lng });
+          console.log(results);
+          console.log({ lat, lng });
           // console.log(lat, lng); //show lat lng of searched address
-          mark({ lat, lng, time: new Date() });
+          mark({ lat, lng }); // time: new Date()
         } catch (error) {
           console.log(error);
         }
