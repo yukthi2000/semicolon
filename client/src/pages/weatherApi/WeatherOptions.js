@@ -135,8 +135,6 @@ export default function WeatherOptions(props) {
                     <Formik initialValues={initialValues} onSubmit={onSubmit} >
                         <Form>
                             <FormGroup>
-
-
                                 <div className='weather-options-ins-text-background'>
                                     <div className='weather-options-ins-text'>
                                         Please enter your desired weather conditions.
@@ -400,7 +398,7 @@ export default function WeatherOptions(props) {
                                     <div className='weather-options-items'>
                                         <FormControlLabel
                                             control={
-                                                <Checkbox size='small' id='heavy' name='heavy'
+                                                <Checkbox size='small' id='heavyW' name='heavyW'
                                                     checked={checked.heavy}
                                                     onChange={() =>
                                                         setChecked({ ...checked, heavy: !checked.heavy })
@@ -446,7 +444,7 @@ export default function WeatherOptions(props) {
                                     <div className='weather-options-items'>
                                         <FormControlLabel
                                             control={
-                                                <Checkbox size='small' id='slight' name='slight'
+                                                <Checkbox size='small' id='slightW' name='slightW'
 
                                                     checked={checked.slight}
                                                     onChange={() =>

@@ -24,6 +24,38 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.BOOLEAN,
             allowNull: false,
         },
+        exHot: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+        },
+        hot: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+        },
+        averageT: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+        },
+        cold: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+        },
+        exCold: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+        },
+        heavyW: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+        },
+        averageW: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+        },
+        slightW: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+        },
     });
     return WeatherOptions;
 }
