@@ -67,46 +67,28 @@ const Subscription = () => {
                                 <button className='my-button'>Sign Up-Its Free</button>
                             </div>
                             <ul className="package_features">
-                                <li>
-                                    <p><BsFillCheckCircleFill className="package_features_icon" />
-                                        Add feature</p>
-                                </li>
-                                <li>
-                                    <p><BsFillCheckCircleFill className="package_features_icon" />
-                                        Add feature</p>
-                                </li>
-                                <li>
-                                    <p><BsFillCheckCircleFill className="package_features_icon" />
-                                        Add feature</p>
-                                </li>
-                                <li>
-                                    <p><BsFillCheckCircleFill className="package_features_icon" />
-                                        Add feature</p>
-                                </li>
-                                <li>
-                                    <p><BsFillCheckCircleFill className="package_features_icon" />
-                                        Add feature</p>
-                                </li>
 
                                 <li>
-                                    <p><MdDisabledByDefault className="package_features_icon2" />
-                                    </p>
+                                    <p><BsFillCheckCircleFill className="package_features_icon" />
+                                        Display the best route for visiting the selected destinations. by considering their distance
+                                        between each other and the starting point. </p>
                                 </li>
                                 <li>
-                                    <p><MdDisabledByDefault className="package_features_icon2" />
-                                    </p>
+                                    <p><BsFillCheckCircleFill className="package_features_icon" />
+                                        Chances to give comments about the places</p>
                                 </li>
                                 <li>
-                                    <p><MdDisabledByDefault className="package_features_icon2" />
-                                    </p>
+                                    <p><BsFillCheckCircleFill className="package_features_icon" />
+                                        Opportunity to review about the places </p>
                                 </li>
                                 <li>
-                                    <p><MdDisabledByDefault className="package_features_icon2" />
-                                    </p>
+                                    <p><BsFillCheckCircleFill className="package_features_icon" />
+                                        Add feature</p>
                                 </li>
-
-
-
+                                <li>
+                                    <p><BsFillCheckCircleFill className="package_features_icon" />
+                                        Add feature</p>
+                                </li>
                             </ul>
                         </article>
                         <article className="package">
@@ -128,31 +110,20 @@ const Subscription = () => {
                             <ul className="package_features">
                                 <li>
                                     <p><BsFillCheckCircleFill className="package_features_icon" />
-                                        Add feature</p>
+                                        Display optimizing the route.</p>
                                 </li>
                                 <li>
                                     <p><BsFillCheckCircleFill className="package_features_icon" />
-                                        Add feature</p>
+                                        Display weather conditions considering the dates entered</p>
                                 </li>
                                 <li>
                                     <p><BsFillCheckCircleFill className="package_features_icon" />
-                                        Add feature</p>
+                                        Provide suggested places around the travel route.
+                                    </p>
                                 </li>
                                 <li>
                                     <p><BsFillCheckCircleFill className="package_features_icon" />
-                                        Add feature</p>
-                                </li>
-                                <li>
-                                    <p><BsFillCheckCircleFill className="package_features_icon" />
-                                        Add feature</p>
-                                </li>
-                                <li>
-                                    <p><BsFillCheckCircleFill className="package_features_icon" />
-                                        Add feature</p>
-                                </li>
-                                <li>
-                                    <p><BsFillCheckCircleFill className="package_features_icon" />
-                                        Add feature</p>
+                                        Chance to upload photographs and videos</p>
                                 </li>
                                 <li>
                                     <p><BsFillCheckCircleFill className="package_features_icon" />
