@@ -11,7 +11,12 @@ const Review = () => {
         <Header2 />
       </div>
       <div className="content-review">
-        <h1>Start coding...</h1>
+        
+      <h1>Start coding...</h1>
+      <h1>Start coding...</h1>
+      <h1>Start coding...</h1>
+      <h1>Start coding...</h1>
+      <h1>Start coding...</h1>
       </div>
     </div>
   );
