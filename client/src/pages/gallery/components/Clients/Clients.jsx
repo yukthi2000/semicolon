@@ -3,7 +3,7 @@ import Slider from 'react-slick'
 import styled from 'styled-components'
 import ClientSlider from './ClientSlider';
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { Zoom } from 'react-awesome-reveal';
+//import { Zoom } from 'react-awesome-reveal';
 import img01 from './img01.jpeg'
 import img02 from './img02.jpeg'
 import img03 from './img03.jpeg'
@@ -120,10 +120,10 @@ const Clients = () => {
     ))
   return (
     <Container id='client'>
-        <Zoom >
+        
             <h2>Best Ratting</h2>
             <h1>What clients say</h1>
-        </Zoom>
+        
         
             <Slider ref={arrowRef} {...settings}>
                 {clientDisc}

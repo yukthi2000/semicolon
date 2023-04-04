@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Slide } from "react-awesome-reveal";
+//import { Slide } from "react-awesome-reveal";
 import img02 from './img02.jpeg'
 import img03 from './img03.jpeg'
 import img04 from './img04.jpeg'
@@ -9,7 +9,7 @@ import img04 from './img04.jpeg'
 const HeaderComponent = () => {
   return (
     <Container id="home">
-      <Slide direction="left">
+      <div direction="left">
         <Texts>
           <h3>   
           Choose Your 
@@ -22,7 +22,7 @@ const HeaderComponent = () => {
           <button>Search</button>
         </Texts>
         
-      </Slide>
+      </div>
     </Container>
   );
 };
@@ -35,7 +35,7 @@ const Container = styled.div`
   background-position: center center;
   display: flex;
   gap: 2rem;
-  padding-top: 3rem;
+  padding-top: 1rem;
   width: 100%;
   height:60vh;
   margin: 0 auto;
@@ -67,19 +67,22 @@ const Container = styled.div`
 `;
 const Texts = styled.div`
   flex: 1;
-  margin:50px;
+  margin:10px 50px;
   
   h1 {
-    font-size: 2rem;
+    font-size: 3rem;
     font-family: "Secular One", sans-serif;
     letter-spacing: 4px;
+    color: #fff;
+    font-weight: 600;
   }
   h3 {
     font-weight: 500;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     padding-bottom: 1.2rem;
     text-transform: capitalize;
-    padding: 1rem 0;
+    padding: 0;
+    color: #000000;
   }
   p {
     font-weight: 500;
@@ -89,7 +92,7 @@ const Texts = styled.div`
 
   button {
     padding: 0.7rem 2rem;
-    margin-top: 3rem;
+    margin-top: 1rem;
     cursor: pointer;
     background-color: #000000;
     border: none;

@@ -1,6 +1,6 @@
 import React, {useState}from "react";
 import styled from "styled-components";
-import { Zoom } from "react-awesome-reveal";
+//import { Zoom } from "react-awesome-reveal";
 import { Medias } from "./medias";
 import { MdDisabledByDefault } from 'react-icons/md'
 
@@ -10,10 +10,10 @@ const Places = () => {
   console.log(Medias)
   return (
     <Container >
-      <Zoom >
+      
         <h2>The Wonder of  Asia</h2>
         <h1>Get Sri Lankan'ED</h1>
-      </Zoom>
+      
       <MediaContainer>
         {
             Medias.map((file,index) =>(
@@ -117,7 +117,7 @@ const PopupMedia = styled.div`
 
   span {
     position: absolute;
-    top: 5px;
+    top: 60px;
     right: 20px;
     font-size: 50px;
     font-weight: bolder;

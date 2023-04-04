@@ -17,7 +17,7 @@
   }
   
   p {
-    padding: 1rem;
+    padding: 0rem;
     font-size: 1.2rem;
     color: #fdfdff;
   }
@@ -29,12 +29,12 @@
     display: grid;
     grid-template-columns: repeat(2, 2fr);
     gap: 3rem;
-    padding-left: 20vw;
-    padding-right: 20vw;
+    padding-left: 15vw;
+    padding-right: 15vw;
     padding-top: 5vh;
     padding-bottom: 0%;
     background-color: DarkSeaGreen;
-    width: 100%;
+    width: 100vw;
     
      
   }
@@ -83,6 +83,7 @@
   .package_features_icon{
     color: rgb(143, 199, 40);
     margin-top: 2px;
+    padding-left: 2px;
   }
   
   .package_features_icon2{

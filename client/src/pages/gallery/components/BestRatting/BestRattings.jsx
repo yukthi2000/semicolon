@@ -1,15 +1,15 @@
 import React from 'react'
 import styled from 'styled-components';
 import SliderComp from './Slider';
-import { Zoom } from 'react-awesome-reveal';
+//import { Zoom } from 'react-awesome-reveal';
 
 const Projects = () => {
   return (
     <Container id='project'>
-        <Zoom>
+        
             <h1>SPOTLIGHT  <span className="green">DESTINATIONS</span></h1>
             <p>Looking for your next great adventure? We can help. Here is a sampling of our most popular destinations. Experience private tours with authentic local flavour.</p>
-        </Zoom>
+        
         <Slide>
             <SliderComp/>
         </Slide>

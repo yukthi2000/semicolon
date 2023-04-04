@@ -7,6 +7,7 @@ import Clients from "./components/Clients/Clients";
 import BestRattings from "./components/BestRatting/BestRattings";
 import Places from "./components/Place/Places";
 import styled from 'styled-components';
+import  './gallery.css'
 const Gallery = () => {
 
   const tripDate = new Date('2023-03-30');
@@ -19,12 +20,12 @@ const Gallery = () => {
   }
 
   return (
-    <div>
+    <>
       <Header2 />
-      <br />
-      <br /><br />
-
-      <div className="galler">
+      <br/>
+      <br/>
+      
+        <div>
         <Container>
           <Banner>
             <Logo>
@@ -38,7 +39,7 @@ const Gallery = () => {
           </LightColor>
           <Clients />
         </Container>
-      </div>
+        </div>
       <div className="gallerycontainer">
         <WeatherOptions />
         <Forecast
@@ -50,8 +51,8 @@ const Gallery = () => {
         />
 
       </div>
-
-    </div>
+     
+    </>
   );
 
 }
@@ -80,8 +81,9 @@ const Logo = styled.div`
   justify-content: space-between;
   max-width: 1280px;
   width: 80%;
-  margin: 0 auto;
-  padding: 1rem 0;
+  margin: 1rem auto;
+  color: #fff;
+  padding: 0;
   position: relative;
   @media(max-width: 840px){
       width: 90%;
