@@ -48,15 +48,15 @@ export default function WeatherOptions(props) {
 
     const [open, setOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
 
-  const handleClose = (event, reason) => {
-    if (reason !== "backdropClick") {
-      setOpen(false);
-    }
-  };
+    const handleClose = (event, reason) => {
+        if (reason !== 'backdropClick') {
+            setOpen(false);
+        }
+    };
 
     const [checked, setChecked] = React.useState({
         cloudy: false,
@@ -73,7 +73,6 @@ export default function WeatherOptions(props) {
         averageW: false,
         slight: false,
     });
-  };
 
     const handleClear = () => {
         setChecked({
@@ -98,189 +97,30 @@ export default function WeatherOptions(props) {
     return (
         <div>
 
-      {/* Dialog box start */}
-      <Dialog open={open} onClose={handleClose}>
-        {/* Head start */}
-        <DialogTitle className="weather-options-head" sx={{ padding: "5px" }}>
-          <div className="weather-options-head-text">Weather Options</div>
+            {/* button to trigger the form */}
 
-            <Button variant="outlined" onClick={handleClickOpen}>
-                Open form dialog
+            <Button variant="contained" onClick={handleClickOpen} color='warning'>
+                Set Preffered Weather
             </Button>
         
             {/* Dialog box start */}
             <Dialog open={open} onClose={handleClose} >
 
-        <div className="weather-options-container">
-          <FormGroup>
-            <div className="weather-options-ins-text-background">
-              <div className="weather-options-ins-text">
-                Please enter your desired weather conditions.
-              </div>
-            </div>
-
-            <div className="weather-options-subtitle">Overall</div>
-            <div className="weather-options-form-background">
-              <div className="weather-options-items">
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      size="small"
-                      id="sunny"
-                      name="sunny"
-                      checked={checked.sunny}
-                      onChange={() =>
-                        setChecked({ ...checked, sunny: !checked.sunny })
-                      }
-                      sx={{
-                        color: green[800],
-                        "&.Mui-checked": {
-                          color: green[600],
-                        },
-                      }}
-                    />
-                  }
-                  label={
-                    <div className="weather-options-checkbox-label">Sunny</div>
-                  }
-                />
-                <WiDaySunny className="weather-options-weather-icons" />
-              </div>
-
-              <div className="weather-options-items">
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      size="small"
-                      id="cloudy"
-                      name="cloudy"
-                      checked={checked.cloudy}
-                      onChange={() =>
-                        setChecked({ ...checked, cloudy: !checked.cloudy })
-                      }
-                      sx={{
-                        color: green[800],
-                        "&.Mui-checked": {
-                          color: green[600],
-                        },
-                      }}
-                    />
-                  }
-                  label={
-                    <div className="weather-options-checkbox-label">Cloudy</div>
-                  }
-                />
-
-                <WiCloudy className="weather-options-weather-icons" />
-              </div>
-
-              <div className="weather-options-items">
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      size="small"
-                      id="rain"
-                      name="rain"
-                      checked={checked.rain}
-                      onChange={() =>
-                        setChecked({ ...checked, rain: !checked.rain })
-                      }
-                      sx={{
-                        color: green[800],
-                        "&.Mui-checked": {
-                          color: green[600],
-                        },
-                      }}
-                    />
-                  }
-                  label={
-                    <div className="weather-options-checkbox-label">Rain</div>
-                  }
-                />
-
-                <WiRain className="weather-options-weather-icons" />
-              </div>
-
-              <div className="weather-options-items">
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      size="small"
-                      id="thunder"
-                      name="thunder"
-                      checked={checked.thunder}
-                      onChange={() =>
-                        setChecked({ ...checked, thunder: !checked.thunder })
-                      }
-                      sx={{
-                        color: green[800],
-                        "&.Mui-checked": {
-                          color: green[600],
-                        },
-                      }}
-                    />
-                  }
-                  label={
-                    <div className="weather-options-checkbox-label">
-                      Thunder
+                {/* Head start */}
+                <DialogTitle className='weather-options-head' sx={{ padding: "5px" }}>
+                    <div className='weather-options-head-text'>
+                        Weather Options
                     </div>
-                  }
-                />
-                <WiLightning className="weather-options-weather-icons" />
-              </div>
 
-              <div className="weather-options-items">
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      size="small"
-                      id="storm"
-                      name="storm"
-                      checked={checked.storm}
-                      onChange={() =>
-                        setChecked({ ...checked, storm: !checked.storm })
-                      }
-                      sx={{
-                        color: green[800],
-                        "&.Mui-checked": {
-                          color: green[600],
-                        },
-                      }}
-                    />
-                  }
-                  label={
-                    <div className="weather-options-checkbox-label">Storm</div>
-                  }
-                />
+                    <div className="weather-options-close-icon">
+                        <CloseIcon
+                            onClick={handleClose}
+                            sx={{
+                                fontSize: 20,
+                                cursor: "pointer"
+                            }}
 
-                <WiNightStormShowers className="weather-options-weather-icons" />
-              </div>
-            </div>
-
-            <div className="weather-options-subtitle">Tempreture</div>
-            <div className="weather-options-form-background-tempereture">
-              <div className="weather-options-items">
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      size="small"
-                      id="exHot"
-                      name="exHot"
-                      checked={checked.exHot}
-                      onChange={() =>
-                        setChecked({ ...checked, exHot: !checked.exHot })
-                      }
-                      sx={{
-                        color: green[800],
-                        "&.Mui-checked": {
-                          color: green[600],
-                        },
-                      }}
-                    />
-                  }
-                  label={
-                    <div className="weather-options-checkbox-label">
-                      Extremely Hot ({">"}35 °C)
+                        />
                     </div>
                 </DialogTitle>
 
@@ -670,7 +510,7 @@ export default function WeatherOptions(props) {
 
             </Dialog>
         </div>
-      </Dialog>
-    </div>
-  );
+    );
+
+
 }

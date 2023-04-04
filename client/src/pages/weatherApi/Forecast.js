@@ -1,3 +1,5 @@
+
+// import required modules
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
@@ -11,13 +13,12 @@ import TripDayForecast from './TripDayForecast';
 import TodayForecast from './TodayForecast';
 import SevenDayForecast from './SevenDayForecast';
 import { useState } from 'react';
-
 import ThunderstormIcon from "@mui/icons-material/Thunderstorm";
-import {Typography} from '@mui/material';
+import { Typography } from '@mui/material';
 
 
 
-
+// define a custom component for a tab panel
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -38,19 +39,14 @@ function TabPanel(props) {
   );
 }
 
+// define prop types for the custom tab panel component
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.number.isRequired,
   value: PropTypes.number.isRequired,
 };
 
-// function a11yProps(index) {
-//   return {
-//     id: `simple-tab-${index}`,
-//     'aria-controls': `simple-tabpanel-${index}`,
-//   };
-// }
-
+// define the main Forecast component
 export default function Forecast(props) {
 
   //pass changed location from child components to forcast cmponent
@@ -63,38 +59,44 @@ export default function Forecast(props) {
 
 
 
+  // function to handle opening of dialog
   const [open, setOpen] = React.useState(false);
-
   const handleClickOpen = () => {
     setOpen(true);
   };
 
+  // function to handle closing of dialog
   const handleClose = (event, reason) => {
     if (reason !== 'backdropClick') {
       setOpen(false);
     }
   };
 
+  // initialize state variable for tab value
   const [value, setValue] = React.useState(0);
 
+  // function to handle changing of tab value
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   return (
     <div>
-      <Button
-                variant="elevated"
-                sx={{ width: 220, color: "#EF7E2A", borderBottom: 3 }}
-                onClick={handleClickOpen}
-              >
-                <ThunderstormIcon sx={{ marginRight: 1 }} />
-                <Typography variant="h7 " sx={{ color: "#EF7E2A" }}>
-                  {" "}
-                  Weather Options
-                </Typography>
-              </Button>
 
+      {/* button to open the dialog */}
+      <Button
+        variant="elevated"
+        sx={{ width: 220, color: "#EF7E2A", borderBottom: 3 }}
+        onClick={handleClickOpen}
+      >
+        <ThunderstormIcon sx={{ marginRight: 1 }} />
+        <Typography variant="h7 " sx={{ color: "#EF7E2A" }}>
+          {" "}
+          Weather Forecast
+        </Typography>
+      </Button>
+
+      {/* the dialog itself */}
       <Dialog open={open} onClose={handleClose} fullWidth>
 
         <DialogTitle className='forecast-head' sx={{ padding: "5px" }}>
@@ -114,6 +116,8 @@ export default function Forecast(props) {
           </div>
         </DialogTitle>
 
+
+        {/* tabs for different forecast views */}
         <Box sx={{ borderBottom: 0, borderColor: 'divider', padding: "10px" }}>
 
 
@@ -164,8 +168,8 @@ export default function Forecast(props) {
               currentCity={props.currentCity}
               tripDate={props.tripDate}
               pushLocationForcast={pullLocationForcast}
-              showSearch = {`true`} //prop to hide and show search
-              />
+              showSearch={`true`} //prop to hide and show search
+            />
 
           </TabPanel>
 
@@ -175,10 +179,10 @@ export default function Forecast(props) {
 
             <TodayForecast
               currentCity={props.currentCity}
-              pushLocationForcast={pullLocationForcast}  
-              showSearch = {`true`} //prop to hide and show search
-              
-              />
+              pushLocationForcast={pullLocationForcast}
+              showSearch={`true`} //prop to hide and show search
+
+            />
 
 
 
