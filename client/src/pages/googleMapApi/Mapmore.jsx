@@ -22,20 +22,14 @@ import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
-import {
-  Combobox,
-  ComboboxInput,
-  ComboboxPopover,
-  ComboboxList,
-  ComboboxOption,
-  ComboboxOptionText,
-} from "@reach/combobox";
-import "@reach/combobox/styles.css";
+
 import {
   GoogleMap,
   useLoadScript,
   Marker,
   InfoWindow,
+  Autocomplete,
+  DirectionsRenderer,
 } from "@react-google-maps/api";
 
 import { formatRelative } from "date-fns";
@@ -74,27 +68,25 @@ export default function Map(latlng, props) {
   const [directionResponse, SetdirectionResponse] = React.useState(null);
   const [distance, setDistance] = React.useState("");
   const [duration, setduration] = React.useState("");
+  const [origin, setOrigin] = React.useState(null);
+  const [destination, setDestination] = React.useState(null);
 
   const [dataFromChild, setDataFromChild] = useState("");
 
-  const handleDataFromChild = (data) => {
-    setDataFromChild(data);
+  const originfromsearch = (data) => {
+    setOrigin(data);
+  };
+  const destinationfromsearch = (data) => {
+    setDestination(data);
   };
 
-  /** @type React.MutableRefObject<HTMLInputElement> */
-  const originRef = useRef();
-  /** @type React.MutableRefObject<HTMLInputElement> */
-  const destinationRef = useRef();
-
   async function calculateRoute() {
-    if (originRef.current.value === "" || destinationRef.current.value === "") {
-      return;
-    }
+    if (!origin.current) return;
     //eslint-disable-next-line  no-undef
     const directionService = new google.maps.DirectionsService();
     const result = await directionService.route({
-      origin: originRef.current.value,
-      destination: destinationRef.current.value,
+      origin: origin.current.value,
+      destination: destination.current.value,
       //eslint-disable-next-line  no-undef
       travelMode: google.maps.TravelMode.DRIVING,
     });
@@ -102,10 +94,26 @@ export default function Map(latlng, props) {
     setDistance(result.routes[0].legs[0].distance.text);
   }
 
+  const handledirection = () => {
+    setDirection(!direction);
+  };
+
+  const secondsearchmenuhandler = () => {
+    handledirection();
+    CleareRoute();
+  };
+  function CleareRoute() {
+    SetdirectionResponse(null);
+    setDistance("");
+    setduration("");
+    origin = "";
+    destination = "";
+  }
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
       setMylat(position.coords.latitude);
       setMylng(position.coords.longitude);
+      console.log(position);
       Setmarkers(() => [
         {
           lat: position.coords.latitude,
@@ -118,10 +126,6 @@ export default function Map(latlng, props) {
 
   const handlesearch = () => {
     setSearch(!search);
-  };
-
-  const handledirection = () => {
-    setDirection(!direction);
   };
 
   // const onmarkk = (data) => {
@@ -216,7 +220,7 @@ export default function Map(latlng, props) {
                   <IconButton sx={{ p: "10px" }} aria-label="menu">
                     <MenuIcon onClick={Searchplanshow} />
                   </IconButton>
-                  <Searchbox onDataFromChild={handleDataFromChild} />
+                  <Searchbox datafromsearch={originfromsearch} />
 
                   {/* {console.log(markers)} */}
                   <IconButton
@@ -254,9 +258,9 @@ export default function Map(latlng, props) {
                       }}
                     >
                       <IconButton sx={{ p: "10px" }} aria-label="menu">
-                        <MenuIcon onClick={handledirection} />
+                        <MenuIcon onClick={secondsearchmenuhandler} />
                       </IconButton>
-                      <Searchbox onDataFromChild={handleDataFromChild} />
+                      <Searchbox datafromsearch={destinationfromsearch} />
                       {/* put a placeholder */}
 
                       {/* {console.log(markers)} */}
@@ -303,11 +307,11 @@ export default function Map(latlng, props) {
             (
               <Marker
                 key={marker.time.toISOString()}
-                position={{ lat: marker.lat, lng: marker.lng }}
+                position={{ lat: mylat, lng: mylng }}
                 icon={{
                   scaledSize: new window.google.maps.Size(30, 30),
-                  origin: new window.google.maps.Point(0, 0),
-                  anchor: new window.google.maps.Point(15, 15),
+                  origin: new window.google.maps.Point(10, 10),
+                  anchor: new window.google.maps.Point(25, 25),
                 }}
                 onClick={() => {
                   setSelected(marker);
@@ -316,19 +320,25 @@ export default function Map(latlng, props) {
             )
           )
         )}
+        {directionResponse && (
+          <DirectionsRenderer directions={directionResponse} />
+        )}
 
         {selected ? (
           <InfoWindow
-            position={{ lat: selected.lat, lng: selected.lng }}
+            position={{ lat: mylat, lng: mylng }}
             icon={{
               scaledSize: new window.google.maps.Size(10, 10),
+              anchor: new window.google.maps.Point(15, 15),
             }}
           >
-            <div>fa </div>
+            <div>Your Current Location </div>
           </InfoWindow>
         ) : null}
       </GoogleMap>
-
+      <button type="button" onClick={CleareRoute}>
+        dada
+      </button>
       {console.log(dataFromChild)}
     </>
   );

@@ -24,48 +24,39 @@ const Multiplesearch = (prop) => {
   const [searchdata, setSearchdata] = useState([{ lat: 0, lng: 0, Date: "" }]);
 
   const adddate = () => {
-    setSearchdata([...searchdata, { lat: 1, lng: 2, Date: "daedf" }]);
+    // setSearchdata([...searchdata, { lat: 1, lng: 2, Date: "daedf" }]);
+    const newSearchData = [...searchdata]; // make a copy of the current searchdata state
+  const lastItem = newSearchData[newSearchData.length - 1]; // get the last item in the array
+
+  // create a new object with dynamic values based on the last item in the array
+  const newSearchItem = {
+    lat: lastItem.lat + 1,
+    lng: lastItem.lng + 1,
+    Date: ""
+  };
+
+  // add the new object to the array
+  newSearchData.push(newSearchItem);
+
+  // update the state with the new array
+  setSearchdata(newSearchData);
   };
 
   const deletefunc = (index) => {
-    const list = [...searchdata];
-    list.splice(index, 1);
-    setSearchdata(list);
+    setSearchdata(searchdata.filter((_, i) => i !== index));
   };
 
   //for weather
-  const tripDate = new Date('2023-04-11');
+  const tripDate = new Date("2023-04-11");
 
   //pass changed location from child components to this cmponent
-  const [globalLocation, setGlobalLocation] = useState('Kandy');
+  const [globalLocation, setGlobalLocation] = useState("Kandy");
 
   const pull_newGlobalLocation = (newLocation) => {
     setGlobalLocation(newLocation);
-  }
+  };
   return (
-    // <div className="div1">
-    //   <Paper
-    //     component="form"
-    //     sx={{
-    //       p: "2px 4px",
-    //       display: "flex",
-    //       alignItems: "center",
-    //       width: 400,
-    //     }}
-    //   >
-    //     <IconButton sx={{ p: "10px" }} aria-label="menu">
-    //       <MenuIcon onClick={searsplanpop} />
-    //     </IconButton>
-
-    //     <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
-    //       <SearchIcon />
-    //     </IconButton>
-    //     <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-    //     <IconButton color="primary" sx={{ p: "10px" }} aria-label="directions">
-    //       <DirectionsIcon />
-    //     </IconButton>
-    //   </Paper>
-    // </div>
+   
     <div>
       <div>
         {/* <div className="searchfields" style={{ zIndex: 10 }}>
@@ -147,13 +138,11 @@ const Multiplesearch = (prop) => {
               </Button>
             </div>
             <div className="but3" style={{ paddingBottom: 30 }}>
-            <Forecast 
-        
-        currentCity={globalLocation}
-        tripDate = {tripDate}
-        Globalfunc={pull_newGlobalLocation} //passing location function
-        
-        />
+              <Forecast
+                currentCity={globalLocation}
+                tripDate={tripDate}
+                Globalfunc={pull_newGlobalLocation} //passing location function
+              />
             </div>
           </div>
         </Paper>

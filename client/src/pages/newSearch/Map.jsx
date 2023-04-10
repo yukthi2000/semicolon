@@ -86,10 +86,10 @@ export default function Map(latlng, props) {
   async function calculateRoute() {
     if (!originRef.current) return;
 
-    const autocomplete = new window.google.maps.places.Autocomplete(
-      originRef.current.value
-    );
-    console.log(autocomplete);
+    // const autocomplete = new window.google.maps.places.Autocomplete(
+    //   originRef.current.value
+    // );
+    // console.log(autocomplete);
     // autocomplete.setFields(["address_component","geometry"]);
     // autocomplete.addListener("place_changed",()=>onChangeAddress(autocomplete));
 

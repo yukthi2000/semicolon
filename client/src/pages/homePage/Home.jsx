@@ -24,7 +24,6 @@ import {
 import "@reach/combobox/styles.css";
 import { height, width } from "@mui/system";
 
-
 const Home = () => {
   const [startlocation, setstartLocation] = React.useState([]);
   const [endlocation, setendLocation] = React.useState([]);
@@ -35,14 +34,16 @@ const Home = () => {
         startlocation: startlocation,
         endlocation: endlocation,
       })
-      .then((response) => {console.log(response);});
+      .then((response) => {
+        console.log(response);
+      });
   };
-  
+
   const setLocationstart = (data) => {
-    setstartLocation({ lat: data.lat, lng: data.lng, time: new Date() });
+    setstartLocation(data);
   };
   const setLocationend = (data) => {
-    setendLocation({ lat: data.lat, lng: data.lng, time: new Date() });
+    setendLocation(data);
   };
 
   const calculateRoute = () => {
@@ -52,6 +53,7 @@ const Home = () => {
     //   origin:
     // })
   };
+
   return (
     <div>
       {React.useEffect(() => {
@@ -86,16 +88,13 @@ const Home = () => {
           <div>
             <div className="destination1">
               <Search
-                placeholder="Start Location"
-                
+                placeholder="Enter Start Location........................"
+                currlocation2={setLocationstart}
               />
             </div>
-            <div className="destination2">
-              <Search
-                placeholder="End Location"
-                
-              />{" "}
-            </div>
+            {/* <div className="destination2">
+              <Search placeholder="End Location" currlocation2={setLocationend} />
+            </div> */}
           </div>
 
           <Button

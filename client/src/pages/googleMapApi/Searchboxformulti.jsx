@@ -75,7 +75,7 @@ const Searchbox = (props) => {
   const [originstate, setOriginstate] = useState("");
 
   const inputvalue = () => {
-    setOriginstate(originRef.current.value);
+    setOriginstate(originRef);
   };
 
   //   /** @type React.MutableRefObject<HTMLInputElement> */
@@ -87,8 +87,7 @@ const Searchbox = (props) => {
   }, [originstate]);
 
   const handleClick = () => {
-    const data = "Data from child";
-    props.onDataFromChild(data);
+    props.datafromsearch(originstate);
   };
   const restrictions = {
     country: "lk", //restrict search locations into srilanka
