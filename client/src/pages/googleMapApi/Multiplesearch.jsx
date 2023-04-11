@@ -26,20 +26,20 @@ const Multiplesearch = (prop) => {
   const adddate = () => {
     // setSearchdata([...searchdata, { lat: 1, lng: 2, Date: "daedf" }]);
     const newSearchData = [...searchdata]; // make a copy of the current searchdata state
-  const lastItem = newSearchData[newSearchData.length - 1]; // get the last item in the array
+    const lastItem = newSearchData[newSearchData.length - 1]; // get the last item in the array
 
-  // create a new object with dynamic values based on the last item in the array
-  const newSearchItem = {
-    lat: lastItem.lat + 1,
-    lng: lastItem.lng + 1,
-    Date: ""
-  };
+    // create a new object with dynamic values based on the last item in the array
+    const newSearchItem = {
+      lat: lastItem.lat + 1,
+      lng: lastItem.lng + 1,
+      Date: "",
+    };
 
-  // add the new object to the array
-  newSearchData.push(newSearchItem);
+    // add the new object to the array
+    newSearchData.push(newSearchItem);
 
-  // update the state with the new array
-  setSearchdata(newSearchData);
+    // update the state with the new array
+    setSearchdata(newSearchData);
   };
 
   const deletefunc = (index) => {
@@ -56,7 +56,6 @@ const Multiplesearch = (prop) => {
     setGlobalLocation(newLocation);
   };
   return (
-   
     <div>
       <div>
         {/* <div className="searchfields" style={{ zIndex: 10 }}>
@@ -75,43 +74,49 @@ const Multiplesearch = (prop) => {
               Trip to {prop.heading}
             </Typography>
           </div>
-          {searchdata.map((singledata, index) => (
-            <div key={index} className="searchoptions">
-              <div className="multisearch">
-                <div className="searchh">
-                  <Searchbox />
+          <div className="searcharea">
+            {searchdata.map((singledata, index) => (
+              <div key={index} className="searchoptions">
+                <div className="multisearch">
+                  <div className="searchh">
+                    {index === 0 ? (
+                      <Searchbox location="Start Location" />
+                    ) : (
+                      <Searchbox location="Location" />
+                    )}
+                  </div>
+                  {searchdata.length - 1 !== index ? (
+                    <div>
+                      <IconButton
+                        onClick={() => {
+                          deletefunc(index);
+                        }}
+                      >
+                        <HighlightOffIcon />
+                      </IconButton>
+                    </div>
+                  ) : (
+                    <div style={{ paddingLeft: 40 }}></div>
+                  )}
                 </div>
-                {searchdata.length - 1 !== index ? (
-                  <div>
-                    <IconButton
-                      onClick={() => {
-                        deletefunc(index);
-                      }}
-                    >
-                      <HighlightOffIcon />
+                {searchdata.length - 1 === index ? (
+                  <div className="adddest" onClick={adddate}>
+                    <IconButton>
+                      <AddCircleOutlineIcon />
                     </IconButton>
+                    <Typography
+                      variant="h7"
+                      sx={{ paddingLeft: 2, paddingTop: 1.2 }}
+                    >
+                      Add Destination
+                    </Typography>
                   </div>
                 ) : (
-                  <div style={{ paddingLeft: 40 }}></div>
+                  ""
                 )}
               </div>
-              {searchdata.length - 1 === index ? (
-                <div className="adddest" onClick={adddate}>
-                  <IconButton>
-                    <AddCircleOutlineIcon />
-                  </IconButton>
-                  <Typography
-                    variant="h7"
-                    sx={{ paddingLeft: 2, paddingTop: 1.2 }}
-                  >
-                    Add Destination
-                  </Typography>
-                </div>
-              ) : (
-                ""
-              )}
-            </div>
-          ))}
+            ))}
+          </div>
 
           <div className="buttons">
             <div className="but1" style={{ paddingBottom: 30 }}>

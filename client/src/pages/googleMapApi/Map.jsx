@@ -14,6 +14,8 @@ import "./Searc.css";
 import Multiplesearch from "./Multiplesearch";
 import { PropTypes } from "prop-types";
 import Searchbox from "./Searchboxformulti";
+import { useContext } from "react";
+import { HomeContext } from "../../Context/HomeContext";
 
 import usePlacesAutocomplete, {
   getGeocode,
@@ -63,6 +65,8 @@ export default function Map(latlng, props) {
   const [selected, setSelected] = React.useState(null);
   const [Searchplan, setSearchplan] = useState(false);
   const [Searchplan2, setSearchplan2] = useState(props.Searchplan);
+
+  const { curr } = useContext(HomeContext);
 
   const onmarkk = (data) => {
     console.log("dadfa");
@@ -214,6 +218,7 @@ export default function Map(latlng, props) {
         ) : null}
       </GoogleMap>
       {/* {console.log(markers)} */}
+      {console.log(curr)}
     </>
   );
 }

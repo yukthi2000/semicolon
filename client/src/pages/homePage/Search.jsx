@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import "./Searchome.css";
 import Searchbox from "./Searchbox";
@@ -9,6 +9,7 @@ import {
   Marker,
   InfoWindow,
 } from "@react-google-maps/api";
+import { HomeContext } from "../../Context/HomeContext";
 
 // import SearchBox from "react-google-maps/lib/components/places/SearchBox";
 
@@ -19,11 +20,12 @@ export default function Search({ placeholder, currlocation2 }) {
     googleMapsApiKey: "AIzaSyA1tZY8x6OG7mt7a2iovZTDIj8SDV6sL8s",
     libraries,
   });
-  
+
+  const {startloc}=useContext(HomeContext);
 
   const curr = (data) => {
-    
     currlocation2(data);
+    startloc=data;
   };
 
   if (loadError) return "Error loading maps";
@@ -31,7 +33,9 @@ export default function Search({ placeholder, currlocation2 }) {
 
   return (
     <>
-      <Searchbox place={placeholder} currLocation={curr} />
+      
+        <Searchbox place={placeholder} currLocation={curr} />
+      
       {/* {console.log(currlocation2)} */}
     </>
   );

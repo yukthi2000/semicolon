@@ -2,7 +2,7 @@ import React from "react";
 import { useRef } from "react";
 import { GoogleMap, useLoadScript, Autocomplete } from "@react-google-maps/api";
 
-const Searchbox = () => {
+const Searchbox = ({location}) => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: "AIzaSyA1tZY8x6OG7mt7a2iovZTDIj8SDV6sL8s",
     libraries: ["places"], //enable googlemap places api
@@ -27,7 +27,7 @@ const Searchbox = () => {
         <Autocomplete restrictions={restrictions} options={options}>
           <input
             type={"text"}
-            placeholder="Location"
+            placeholder={location}
             ref={originRef}
             style={{
               padding: "15px",

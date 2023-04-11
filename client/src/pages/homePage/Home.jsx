@@ -23,16 +23,17 @@ import {
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
 import { height, width } from "@mui/system";
+import { HomeContext } from "../../Context/HomeContext";
 
 const Home = () => {
   const [startlocation, setstartLocation] = React.useState([]);
-  const [endlocation, setendLocation] = React.useState([]);
+  //const [endlocation, setendLocation] = React.useState([]);
 
   const sendlocations = () => {
     axios
       .post("http://localhost:3000/googleMapApi", {
         startlocation: startlocation,
-        endlocation: endlocation,
+        //endlocation: endlocation,
       })
       .then((response) => {
         console.log(response);
@@ -42,9 +43,9 @@ const Home = () => {
   const setLocationstart = (data) => {
     setstartLocation(data);
   };
-  const setLocationend = (data) => {
-    setendLocation(data);
-  };
+  // const setLocationend = (data) => {
+  //   setendLocation(data);
+  // };
 
   const calculateRoute = () => {
     //to make routr
@@ -58,7 +59,7 @@ const Home = () => {
     <div>
       {React.useEffect(() => {
         console.log(startlocation);
-        console.log(endlocation);
+        //console.log(endlocation);
       })}
       <div>
         <div>
@@ -87,6 +88,7 @@ const Home = () => {
           <div className="box" />
           <div>
             <div className="destination1">
+        
               <Search
                 placeholder="Enter Start Location........................"
                 currlocation2={setLocationstart}
