@@ -40,7 +40,7 @@
 
 
 .main-weather-description {
-    font-size: 20px;
+    font-size: 19.5px;
     font-family: "poppins";
     font-weight: 350;
     color: dimgray;
@@ -91,6 +91,14 @@
     font-family: "poppins";
     color: dimgray;
     font-size: 12px;
+
+}
+
+.invalid-location{
+    font-family: "poppins";
+    color: red;
+    font-size: 12px;
+    margin-left: 10px;
 
 }
 

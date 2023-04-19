@@ -52,13 +52,15 @@ TabPanel.propTypes = {
 // }
 
 export default function Forecast(props) {
-    
-    //pass changed location from child components to this cmponent
-    const [NewLocation, setNewLocation] = useState('');
-    const pull_newLocation = (newLocation) => {
-        setNewLocation(newLocation)
-        props.Globalfunc(newLocation);
-      }
+
+  //pass changed location from child components to forcast cmponent
+  const [newLocationForcast, setNewLocationForcast] = useState('');
+
+  const pullLocationForcast = (newFLocation) => {
+    setNewLocationForcast(newFLocation);
+    props.Globalfunc(newFLocation);
+  }
+
 
 
   const [open, setOpen] = React.useState(false);
@@ -116,76 +118,87 @@ export default function Forecast(props) {
 
 
           <Tabs
-           value={value} 
-           onChange={handleChange} 
-           
-           variant='scrollable'
+            value={value}
+            onChange={handleChange}
+
+            variant='scrollable'
             sx={{ "& .MuiTabs-indicator": { backgroundColor: "#F28330", height: "3px" }, "& .Mui-selected": { borderBottom: "2px solid green" } }}
             allowScrollButtonsMobile>
 
             <Tab
-              sx={{ "&.Mui-selected": { color: "#F28330"} }}
+              sx={{ "&.Mui-selected": { color: "#F28330" } }}
               label={
                 <div className='forecast-tab-label'>
                   Trip Day
                 </div>}
-                wrapped
+              wrapped
 
             />
 
             <Tab
-              sx={{ "&.Mui-selected": { color: "#F28330"} }}
+              sx={{ "&.Mui-selected": { color: "#F28330" } }}
               label={
                 <div className='forecast-tab-label'>
                   Today
                 </div>}
-                wrapped
+              wrapped
             />
             <Tab
-              sx={{ "&.Mui-selected": { color: "#F28330"} }}
+              sx={{ "&.Mui-selected": { color: "#F28330" } }}
               label={
                 <div className='forecast-tab-label'>
                   Next 7 Days
                 </div>}
-                wrapped
+              wrapped
             />
 
           </Tabs>
         </Box>
-        
-        {/* Tab panel for tripday */}
-        <TabPanel value={value} index={0}>
-          
-          <TripDayForecast 
-            currentCity = {props.currentCity}
-            tripDate = {props.tripDate}/>
-            
-        </TabPanel>
-        
 
-        {/* Tab panel for today */}
-        <TabPanel value={value} index={1}>
-                
-        <TodayForecast 
-            currentCity = {props.currentCity}
-            />
-  
+        <div className="tab-panel-container">
 
-        </TabPanel>
-        
+          {/* Tab panel for tripday */}
+          <TabPanel value={value} index={0}>
+
+            <TripDayForecast
+              currentCity={props.currentCity}
+              tripDate={props.tripDate}
+              pushLocationForcast={pullLocationForcast}
+              showSearch = {`true`} //prop to hide and show search
+              />
+
+          </TabPanel>
+
+
+          {/* Tab panel for today */}
+          <TabPanel value={value} index={1}>
+
+            <TodayForecast
+              currentCity={props.currentCity}
+              pushLocationForcast={pullLocationForcast}  
+              showSearch = {`true`} //prop to hide and show search
+              
+              />
+
+
+
+          </TabPanel>
+
 
           {/* Tab pannel for Next 7 days */}
-        <TabPanel value={value} index={2}>
-         
-        <SevenDayForecast 
-            currentCity = {props.currentCity}
-            tripDate = {props.tripDate}
-            pull_location_func={pull_newLocation}/>
-            
+          <TabPanel value={value} index={2}>
 
-        </TabPanel>
-      
-      
+            <SevenDayForecast
+              currentCity={props.currentCity}
+              tripDate={props.tripDate}
+            />
+
+
+          </TabPanel>
+
+        </div>
+
+
       </Dialog>
     </div>
   );

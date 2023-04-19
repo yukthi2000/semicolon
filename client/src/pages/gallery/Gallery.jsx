@@ -1,15 +1,13 @@
-import React from "react";
+import React,{useState} from 'react';
 import Header2 from "../../componets/Header2";
-import Forecast from "../weatherApi/Forecast";
-import WeatherOptions from "../weatherApi/WeatherOptions";
-import { useState } from "react";
-
+import WeatherOptions from "../weatherApi/WeatherOptions"
+import Forecast from "../weatherApi/Forecast"
 
 const Gallery=()=>{
 
-  const tripDate = new Date('2023-04-11');
+  const tripDate = new Date('2023-03-30');
 
-  //pass changed location from child components to this cmponent
+  //pull changed location from child components to this cmponent
   const [globalLocation, setGlobalLocation] = useState('Kandy');
 
   const pull_newGlobalLocation = (newLocation) => {
@@ -35,6 +33,7 @@ const Gallery=()=>{
   
     </div>
   );
+
 }
 
-export default Gallery;
+export default Gallery

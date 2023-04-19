@@ -1,3 +1,4 @@
+
 .forecast-head{
     /* width: 100%; */
     background: #132320;
@@ -24,4 +25,7 @@
     font-family: 'Poppins';
     font-weight: bold;
     font-size: 16px;
+}
+.tab-panel-container{
+    overflow: auto;
 }

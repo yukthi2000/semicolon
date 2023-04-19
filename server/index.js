@@ -1,35 +1,37 @@
-
-const express=require("express")
-const mysql=require("mysql2")
-const cors=require("cors")
-
-
-
+const express = require("express");
 const app = express();
+const cors = require("cors");
 
 app.use(express.json());
-app.use(cors())
+app.use(cors());
 
-app.listen(8001,()=>{
-    console.log("connection successfull");
-})
+const db = require("./models");
 
+// routers
+const userRouter = require("./routes/User");
+app.use("/auth", userRouter);
 
-const db=mysql.createConnection(
-    {
-        user:"root",
-        host:"localhost",
-        password:"123258789",
-        database:"mapdatabase"
+db.sequelize.sync().then(() => {
+  app.listen(3001, () => {
+    console.log("server is running");
+  });
+});
 
-    }
-)
+// const db=mysql.createConnection(
+//     {
+//         user:"root",
+//         host:"localhost",
+//         password:"123258789",
+//         database:"mapdatabase"
 
-app.post("/googleMapApi",(req,res)=>{
-    const startlocation=req.body.startlocation;
-    console.log(startlocation);
-    const endlocation=req.body.endlocation;
-    db.query("insert into locations(start,end) values(?,?)",[startlocation,endlocation],(err,result)=>{
-        console.log(err);
-    })
-})
+//     }
+// )
+
+// app.post("/googleMapApi",(req,res)=>{
+//     const startlocation=req.body.startlocation;
+//     console.log(startlocation);
+//     const endlocation=req.body.endlocation;
+//     db.query("insert into locations(start,end) values(?,?)",[startlocation,endlocation],(err,result)=>{
+//         console.log(err);
+//     })
+// })

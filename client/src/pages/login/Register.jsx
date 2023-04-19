@@ -1,90 +1,199 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Register.css";
-import regMan from "../../assets/regMan.png"
+import axios from "axios";
+import A from "../../assets/A.jpg";
+import HomePageLinkIcon from "../../componets/HomePageLinkIcon";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from '@mui/icons-material/Lock';
 import EnhancedEncryptionIcon from '@mui/icons-material/EnhancedEncryption';
-import Checkbox from '@mui/material/Checkbox';
-import HomeIcon from '@mui/icons-material/Home';
-
-const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
-
 
 const Register = () => {
+  const [name, setName] = useState("");
+  const [nameError, setNameError] = useState("");
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+
+  const [error, setError] = useState("");
+
+  const validateName = (name) => {
+    const regex = /^[a-zA-Z ]+$/;
+    return regex.test(name);
+  }
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  }
+  const validatePassword = (password) => {
+    const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+    return regex.test(password);
+  }
+
+  const handleNameChange = (e) => {
+    const value = e.target.value;
+    if (value && !validateName(value)) {
+      setNameError("Name should only include letters and spaces")
+    } else {
+      setNameError("")
+    }
+    setName(value)
+  }
+
+  const handleEmailChange = (e) => {
+    const value = e.target.value;
+    if (value && !validateEmail(value)) {
+      setEmailError("Please enter a valid email address")
+    } else {
+      setEmailError("")
+    }
+    setEmail(value)
+  }
+
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    if (value && !validatePassword(value)) {
+      setPasswordError("Min 8 characters, at least 1 letter, number, special character")
+    } else {
+      setPasswordError("")
+    }
+    setPassword(value)
+  }
+
+  const handleConfirmPasswordChange = (e) => {
+    const value = e.target.value;
+    if (value !== password) {
+      setConfirmPasswordError("Password missmatch")
+    } else {
+      setConfirmPasswordError("")
+    }
+    setConfirmPassword(value)
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!name || !email || !password || !confirmPassword) {
+      setError("All fields are required");
+    } else if (password !== confirmPassword) {
+      setError("Passwords do not match");
+    } else {
+      const userData = {
+        name: name,
+        email: email,
+        password: password,
+      };
+      onSubmit(userData);
+    }
+  };
+
+  const onSubmit = (data) =>{
+    axios.post("http://localhost:3001/user", data)
+    .then((response) => {
+      console.log("Registration successful");
+      window.location.href = "/login"; // redirect to login page
+    })
+    .catch((error) => {
+      console.log(error);
+      setError("Registration failed. Please try again.");
+    });
+  }
+
+  
 
   return (
     <div className="reg-form">
+      <img className="airBalloon" src={A} alt="" />
       <div>
-        <a href="/"><HomeIcon
-          sx={{
-            position:"absolute",
-            color: "#E86E18",
-            backgroundColor: "rgb(238, 238, 238)",
-            borderRadius: "5px",
-            height: "30px",
-            width: "30px",
-            marginLeft:"175vh",
-            marginTop:"-10vh"
-          }} /></a>
+        <HomePageLinkIcon />
       </div>
-      <div className="form">
-        <div><h1>Register</h1></div><br /><br />
+      <div className="Register-form">
+        <div><h1>Register</h1></div><br />
         <div>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div>
-              <div>
-                <AccountCircleIcon />
+              <div style={{ position: "relative" }}>
+                <AccountCircleIcon style={{ position: "absolute", top: 20, left: 20 }} />
                 <input
-                  className='input'
+                  className={`input ${nameError ? "invalid" : ""}`}
                   type="text"
                   id="name"
                   required
                   placeholder='First name & Last name'
+                  value={name}
+                  onChange={handleNameChange}
+                  style={{ paddingLeft: 32 }}
                 />
               </div>
-              <div>
-                <EmailIcon />
+              {nameError && (
+                <div className="error-message">{nameError}</div>
+              )}
+
+              <div style={{ position: "relative" }}>
+                <EmailIcon style={{ position: "absolute", top: 20, left: 20 }} />
                 <input
-                  className='input'
+                  className={`input ${emailError ? "invalid" : ""}`}
                   type="email"
                   id="email"
                   required
                   placeholder='email'
+                  value={email}
+                  onChange={handleEmailChange}
+                  style={{ paddingLeft: 32 }}
                 />
               </div>
-              <div>
-                <LockIcon />
+              {emailError && (
+                <div className="error-message">{emailError}</div>
+              )}
+
+              <div style={{ position: "relative" }}>
+                <LockIcon style={{ position: "absolute", top: 20, left: 20 }} />
                 <input
-                  className='input'
+                  className={`input ${passwordError ? "invalid" : ""}`}
                   type="password"
                   id="password"
                   required
                   placeholder='Password'
+                  value={password}
+                  onChange={handlePasswordChange}
+                  style={{ paddingLeft: 32 }}
                 />
               </div>
-              <div>
-                <EnhancedEncryptionIcon />
+              {passwordError && (
+                <div className="error-message">{passwordError}</div>
+              )}
+
+              <div style={{ position: "relative" }}>
+                <EnhancedEncryptionIcon style={{ position: "absolute", top: 20, left: 20 }} />
                 <input
-                  className='input'
+                  className={`input ${confirmPasswordError ? "invalid" : ""}`}
                   type="password"
                   id="cpassword"
                   required
                   placeholder='Confirm Password'
+                  value={confirmPassword}
+                  onChange={handleConfirmPasswordChange}
+                  style={{ paddingLeft: 32 }}
                 />
               </div>
-              <div><Checkbox {...label} />I agree all statements in services</div>
-              <div><a class="btn btn-primary" href="login" role="button">SIGN UP</a></div>
+              {confirmPasswordError && (
+                <div className="error-message">{confirmPasswordError}</div>
+              )}
+
+             
+              <div>
+                <div style={{ marginLeft: "10px" }}>
+                  <a href="/login">I am already member</a>
+                </div>
+                <button type="submit" className="btn btn-primary" >
+                  SIGN UP
+                </button>
+                {error && <p>{error}</p>}
+              </div>
             </div>
           </form>
-        </div>
-      </div>
-      <div className="reg-man">
-        <div>
-          <img className="regMan-img" src={regMan} alt=""></img>
-        </div>
-        <div>
-          <a href="/login">I am already member</a>
         </div>
       </div>
     </div>
