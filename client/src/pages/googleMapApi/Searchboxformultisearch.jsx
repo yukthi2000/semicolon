@@ -2,7 +2,7 @@ import React from "react";
 import { useRef } from "react";
 import { GoogleMap, useLoadScript, Autocomplete } from "@react-google-maps/api";
 
-const Searchbox = ({location}) => {
+const Searchbox = ({ location, currLocation }) => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: "AIzaSyA1tZY8x6OG7mt7a2iovZTDIj8SDV6sL8s",
     libraries: ["places"], //enable googlemap places api
@@ -21,6 +21,12 @@ const Searchbox = ({location}) => {
   const options = {
     strictBounds: true,
   };
+
+  const sendLocations = () => {
+    if (originRef.current.value !== "") {
+      currLocation(originRef.current.value);
+    }
+  };
   return (
     <div>
       <div className="search_container">
@@ -37,9 +43,9 @@ const Searchbox = ({location}) => {
               border: "2px solid white",
               height: "50px",
             }}
+            onBlur={sendLocations}
           ></input>
         </Autocomplete>
-        
       </div>
     </div>
   );

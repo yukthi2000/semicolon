@@ -89,6 +89,9 @@ const Searchbox = (props) => {
   const handleClick = () => {
     props.datafromsearch(originstate);
   };
+  
+
+ 
   const restrictions = {
     country: "lk", //restrict search locations into srilanka
   };

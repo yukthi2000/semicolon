@@ -72,6 +72,7 @@ export default function Map(latlng, props) {
   const [destination, setDestination] = React.useState(null);
 
   const [dataFromChild, setDataFromChild] = useState("");
+  const [clearroute, setClearroute] = React.useState(false);
 
   const originfromsearch = (data) => {
     setOrigin(data);
@@ -81,6 +82,7 @@ export default function Map(latlng, props) {
   };
 
   async function calculateRoute() {
+    setClearroute(true);
     if (!origin.current) return;
     //eslint-disable-next-line  no-undef
     const directionService = new google.maps.DirectionsService();
@@ -92,6 +94,7 @@ export default function Map(latlng, props) {
     });
     SetdirectionResponse(result);
     setDistance(result.routes[0].legs[0].distance.text);
+    console.log(result, distance);
   }
 
   const handledirection = () => {
@@ -103,11 +106,17 @@ export default function Map(latlng, props) {
     CleareRoute();
   };
   function CleareRoute() {
-    SetdirectionResponse(null);
+    setClearroute(false);
+    //window.location.reload(); rerender whole page,not thart much efficient way
     setDistance("");
     setduration("");
-    origin = "";
-    destination = "";
+
+    // setOrigin(null);
+    origin.current.value = "";
+    // setDestination(null);
+    destination.current.value = "";
+    SetdirectionResponse(null);
+    // console.log(directionResponse, distance);
   }
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -260,7 +269,7 @@ export default function Map(latlng, props) {
                       <IconButton sx={{ p: "10px" }} aria-label="menu">
                         <MenuIcon onClick={secondsearchmenuhandler} />
                       </IconButton>
-                      <Searchbox datafromsearch={destinationfromsearch} />
+                      <Searchbox datafromsearch={destinationfromsearch}  update={clearroute}/>
                       {/* put a placeholder */}
 
                       {/* {console.log(markers)} */}
@@ -323,6 +332,8 @@ export default function Map(latlng, props) {
         {directionResponse && (
           <DirectionsRenderer directions={directionResponse} />
         )}
+
+        {/* {!clearroute && <DirectionsRenderer directions={null} />} */}
 
         {selected ? (
           <InfoWindow

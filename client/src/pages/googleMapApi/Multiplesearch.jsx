@@ -1,6 +1,6 @@
 import { Button, IconButton, Paper, Typography } from "@mui/material";
 import zIndex from "@mui/material/styles/zIndex";
-import React from "react";
+import React, { useEffect } from "react";
 import { Box } from "@mui/system";
 import "./Multiplesearch.css";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
@@ -22,30 +22,31 @@ const Multiplesearch = (prop) => {
   // };
 
   const [searchdata, setSearchdata] = useState([{ lat: 0, lng: 0, Date: "" }]);
+  const [data, setData] = useState("");
+  const [sedata, setSedata] = useState(["temp"]);
 
   const adddate = () => {
-    // setSearchdata([...searchdata, { lat: 1, lng: 2, Date: "daedf" }]);
-    const newSearchData = [...searchdata]; // make a copy of the current searchdata state
-    const lastItem = newSearchData[newSearchData.length - 1]; // get the last item in the array
-
-    // create a new object with dynamic values based on the last item in the array
-    const newSearchItem = {
-      lat: lastItem.lat + 1,
-      lng: lastItem.lng + 1,
-      Date: "",
-    };
-
-    // add the new object to the array
-    newSearchData.push(newSearchItem);
-
-    // update the state with the new array
-    setSearchdata(newSearchData);
+    setSedata([...sedata, data]);
   };
 
   const deletefunc = (index) => {
     setSearchdata(searchdata.filter((_, i) => i !== index));
+    setSedata(sedata.filter((_, i) => i !== index));
   };
 
+  const getLocation = (data, index) => {
+    setSearchdata([
+      ...searchdata.slice(0, index),
+      data,
+      ...searchdata.slice(index + 1),
+    ]);
+    setData(data);
+  };
+
+  useEffect(() => {
+    console.log(sedata);
+    console.log(searchdata);
+  });
   //for weather
   const tripDate = new Date("2023-04-11");
 
@@ -55,6 +56,8 @@ const Multiplesearch = (prop) => {
   const pull_newGlobalLocation = (newLocation) => {
     setGlobalLocation(newLocation);
   };
+
+  
   return (
     <div>
       <div>
@@ -75,23 +78,19 @@ const Multiplesearch = (prop) => {
             </Typography>
           </div>
           <div className="searcharea">
-            {searchdata.map((singledata, index) => (
+            {sedata.map((singledata, index) => (
               <div key={index} className="searchoptions">
                 <div className="multisearch">
                   <div className="searchh">
-                    {index === 0 ? (
-                      <Searchbox location="Start Location" />
-                    ) : (
-                      <Searchbox location="Location" />
-                    )}
+                    <Searchbox
+                      location={index === 0 ? "Start Location" : "Location"}
+                      currLocation={(data) => getLocation(data, index)}
+                      index={index}
+                    />
                   </div>
-                  {searchdata.length - 1 !== index ? (
+                  {sedata.length - 1 !== index ? (
                     <div>
-                      <IconButton
-                        onClick={() => {
-                          deletefunc(index);
-                        }}
-                      >
+                      <IconButton onClick={() => deletefunc(index)}>
                         <HighlightOffIcon />
                       </IconButton>
                     </div>
@@ -99,7 +98,7 @@ const Multiplesearch = (prop) => {
                     <div style={{ paddingLeft: 40 }}></div>
                   )}
                 </div>
-                {searchdata.length - 1 === index ? (
+                {sedata.length - 1 === index ? (
                   <div className="adddest" onClick={adddate}>
                     <IconButton>
                       <AddCircleOutlineIcon />
@@ -119,7 +118,7 @@ const Multiplesearch = (prop) => {
           </div>
 
           <div className="buttons">
-            <div className="but1" style={{ paddingBottom: 30 }}>
+            <div className="but1" style={{ paddingBotnotetom: 30 }}>
               <Button
                 variant="elevated"
                 sx={{ width: 220, color: "#EF7E2A", borderBottom: 3 }}

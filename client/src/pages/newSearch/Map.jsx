@@ -110,8 +110,8 @@ export default function Map(latlng, props) {
     SetdirectionResponse(null);
     setDistance("");
     setduration("");
-    originRef.current.value = "";
-    destinationRef.current.value = "";
+    // originRef.current.value = "";
+    // destinationRef.current.value = "";
   }
   const onmarkk = (data) => {
     console.log("dadfa");
