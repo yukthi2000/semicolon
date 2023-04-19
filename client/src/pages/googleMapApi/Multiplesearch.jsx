@@ -1,6 +1,6 @@
 import { Button, IconButton, Paper, Typography } from "@mui/material";
 import zIndex from "@mui/material/styles/zIndex";
-import React from "react";
+import React, { useEffect } from "react";
 import { Box } from "@mui/system";
 import "./Multiplesearch.css";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
@@ -11,6 +11,8 @@ import Search from "./Searchformulti";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { useState } from "react";
+import Searchbox from "./Searchboxformultisearch";
+import Forecast from "../weatherApi/Forecast";
 
 const Multiplesearch = (prop) => {
   // const Searchplan = !prop.Searchplan;
@@ -20,40 +22,43 @@ const Multiplesearch = (prop) => {
   // };
 
   const [searchdata, setSearchdata] = useState([{ lat: 0, lng: 0, Date: "" }]);
+  const [data, setData] = useState("");
+  const [sedata, setSedata] = useState(["temp"]);
 
   const adddate = () => {
-    setSearchdata([...searchdata, { lat: 1, lng: 2, Date: "daedf" }]);
+    setSedata([...sedata, data]);
   };
 
   const deletefunc = (index) => {
-    const list = [...searchdata];
-    list.splice(index, 1);
-    setSearchdata(list);
+    setSearchdata(searchdata.filter((_, i) => i !== index));
+    setSedata(sedata.filter((_, i) => i !== index));
   };
-  return (
-    // <div className="div1">
-    //   <Paper
-    //     component="form"
-    //     sx={{
-    //       p: "2px 4px",
-    //       display: "flex",
-    //       alignItems: "center",
-    //       width: 400,
-    //     }}
-    //   >
-    //     <IconButton sx={{ p: "10px" }} aria-label="menu">
-    //       <MenuIcon onClick={searsplanpop} />
-    //     </IconButton>
 
-    //     <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
-    //       <SearchIcon />
-    //     </IconButton>
-    //     <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-    //     <IconButton color="primary" sx={{ p: "10px" }} aria-label="directions">
-    //       <DirectionsIcon />
-    //     </IconButton>
-    //   </Paper>
-    // </div>
+  const getLocation = (data, index) => {
+    setSearchdata([
+      ...searchdata.slice(0, index),
+      data,
+      ...searchdata.slice(index + 1),
+    ]);
+    setData(data);
+  };
+
+  useEffect(() => {
+    console.log(sedata);
+    console.log(searchdata);
+  });
+  //for weather
+  const tripDate = new Date("2023-04-11");
+
+  //pass changed location from child components to this cmponent
+  const [globalLocation, setGlobalLocation] = useState("Kandy");
+
+  const pull_newGlobalLocation = (newLocation) => {
+    setGlobalLocation(newLocation);
+  };
+
+  
+  return (
     <div>
       <div>
         {/* <div className="searchfields" style={{ zIndex: 10 }}>
@@ -72,46 +77,48 @@ const Multiplesearch = (prop) => {
               Trip to {prop.heading}
             </Typography>
           </div>
-          {searchdata.map((singledata, index) => (
-            <div key={index} className="searchoptions">
-              <div className="multisearch">
-                <div className="searchh">
-                  <Search placeholder={"search"} />
+          <div className="searcharea">
+            {sedata.map((singledata, index) => (
+              <div key={index} className="searchoptions">
+                <div className="multisearch">
+                  <div className="searchh">
+                    <Searchbox
+                      location={index === 0 ? "Start Location" : "Location"}
+                      currLocation={(data) => getLocation(data, index)}
+                      index={index}
+                    />
+                  </div>
+                  {sedata.length - 1 !== index ? (
+                    <div>
+                      <IconButton onClick={() => deletefunc(index)}>
+                        <HighlightOffIcon />
+                      </IconButton>
+                    </div>
+                  ) : (
+                    <div style={{ paddingLeft: 40 }}></div>
+                  )}
                 </div>
-                {searchdata.length - 1 !== index ? (
-                  <div>
-                    <IconButton
-                      onClick={() => {
-                        deletefunc(index);
-                      }}
-                    >
-                      <HighlightOffIcon />
+                {sedata.length - 1 === index ? (
+                  <div className="adddest" onClick={adddate}>
+                    <IconButton>
+                      <AddCircleOutlineIcon />
                     </IconButton>
+                    <Typography
+                      variant="h7"
+                      sx={{ paddingLeft: 2, paddingTop: 1.2 }}
+                    >
+                      Add Destination
+                    </Typography>
                   </div>
                 ) : (
-                  <div style={{ paddingLeft: 40 }}></div>
+                  ""
                 )}
               </div>
-              {searchdata.length - 1 === index ? (
-                <div className="adddest" onClick={adddate}>
-                  <IconButton>
-                    <AddCircleOutlineIcon />
-                  </IconButton>
-                  <Typography
-                    variant="h7"
-                    sx={{ paddingLeft: 2, paddingTop: 1.2 }}
-                  >
-                    Add Destination
-                  </Typography>
-                </div>
-              ) : (
-                ""
-              )}
-            </div>
-          ))}
+            ))}
+          </div>
 
           <div className="buttons">
-            <div className="but1" style={{ paddingBottom: 30 }}>
+            <div className="but1" style={{ paddingBotnotetom: 30 }}>
               <Button
                 variant="elevated"
                 sx={{ width: 220, color: "#EF7E2A", borderBottom: 3 }}
@@ -135,16 +142,11 @@ const Multiplesearch = (prop) => {
               </Button>
             </div>
             <div className="but3" style={{ paddingBottom: 30 }}>
-              <Button
-                variant="elevated"
-                sx={{ width: 220, color: "#EF7E2A", borderBottom: 3 }}
-              >
-                <ThunderstormIcon sx={{ marginRight: 1 }} />
-                <Typography variant="h7 " sx={{ color: "#EF7E2A" }}>
-                  {" "}
-                  Weather Options
-                </Typography>
-              </Button>
+              <Forecast
+                currentCity={globalLocation}
+                tripDate={tripDate}
+                Globalfunc={pull_newGlobalLocation} //passing location function
+              />
             </div>
           </div>
         </Paper>

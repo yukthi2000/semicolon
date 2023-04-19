@@ -13,6 +13,9 @@ import { useState } from "react";
 import "./Searc.css";
 import Multiplesearch from "./Multiplesearch";
 import { PropTypes } from "prop-types";
+import Searchbox from "./Searchboxformulti";
+import { useContext } from "react";
+import { HomeContext } from "../../Context/HomeContext";
 
 import usePlacesAutocomplete, {
   getGeocode,
@@ -62,6 +65,8 @@ export default function Map(latlng, props) {
   const [selected, setSelected] = React.useState(null);
   const [Searchplan, setSearchplan] = useState(false);
   const [Searchplan2, setSearchplan2] = useState(props.Searchplan);
+
+  const { curr } = useContext(HomeContext);
 
   const onmarkk = (data) => {
     console.log("dadfa");
@@ -138,7 +143,7 @@ export default function Map(latlng, props) {
             zIndex: 100,
           }}
         >
-          {Searchplan ? (
+          {!Searchplan ? (
             <Multiplesearch
               Searchplanshow={Searchplanshow}
               Searchplan={Searchplan}
@@ -153,12 +158,13 @@ export default function Map(latlng, props) {
                   display: "flex",
                   alignItems: "center",
                   width: 400,
+                  border: 0,
                 }}
               >
                 <IconButton sx={{ p: "10px" }} aria-label="menu">
                   <MenuIcon onClick={Searchplanshow} />
                 </IconButton>
-                <Search panTo={panTo} onmark={onmarkk} />
+                <Searchbox placeholder={"Enter Location"} />
 
                 {/* {console.log(markers)} */}
                 <IconButton
@@ -212,69 +218,7 @@ export default function Map(latlng, props) {
         ) : null}
       </GoogleMap>
       {/* {console.log(markers)} */}
+      {console.log(curr)}
     </>
   );
 }
-
-function Search({ panTo, onmark }) {
-  const mark = (e) => {
-    // const newmarkers = [...prop.markers, { lat: 32, lng: 43, time: 43 }];
-    // console.log(e);
-    // prop.Setmarkers(newmarkers);
-    onmark(e);
-  };
-  const {
-    ready,
-    value,
-    suggestions: { status, data },
-    setValue,
-    clearSuggestions,
-  } = usePlacesAutocomplete({
-    requestOptions: {
-      location: { lat: () => 7.84774, lng: () => 80.7003 },
-      radius: 200 * 1000,
-    },
-  });
-  return (
-    <Combobox
-      className="search"
-      onSelect={async (address) => {
-        setValue(address, false);
-        clearSuggestions();
-        try {
-          const results = await getGeocode({ address });
-          const { lat, lng } = await getLatLng(results[0]);
-          panTo({ lat, lng });
-          // console.log(lat, lng); //show lat lng of searched address
-          mark({ lat, lng }); // time: new Date()
-        } catch (error) {
-          console.log(error);
-        }
-      }}
-    >
-      <ComboboxInput
-        className="combobox-input"
-        value={value}
-        onChange={(e) => {
-          setValue(e.target.value);
-        }}
-        disabled={!ready}
-        placeholder="Enter a location"
-      />
-      <ComboboxPopover>
-        <ComboboxList className="combobox-list">
-          {status === "OK" &&
-            data.map(({ id, description }) => (
-              <ComboboxOption key={id} value={description} />
-            ))}
-        </ComboboxList>
-      </ComboboxPopover>
-    </Combobox>
-  );
-
-  Search.propTypes = {
-    onmark: PropTypes.func,
-  };
-}
-
-export { Search };

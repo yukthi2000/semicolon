@@ -12,6 +12,9 @@ import TodayForecast from './TodayForecast';
 import SevenDayForecast from './SevenDayForecast';
 import { useState } from 'react';
 
+import ThunderstormIcon from "@mui/icons-material/Thunderstorm";
+import {Typography} from '@mui/material';
+
 
 
 
@@ -80,10 +83,17 @@ export default function Forecast(props) {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open forecast
-      </Button>
-
+      <Button
+                variant="elevated"
+                sx={{ width: 220, color: "#EF7E2A", borderBottom: 3 }}
+                onClick={handleClickOpen}
+              >
+                <ThunderstormIcon sx={{ marginRight: 1 }} />
+                <Typography variant="h7 " sx={{ color: "#EF7E2A" }}>
+                  {" "}
+                  Weather Options
+                </Typography>
+              </Button>
 
       <Dialog open={open} onClose={handleClose} fullWidth>
 
