@@ -61,7 +61,7 @@ function Multiplesearch (props)  {
   function handleSave() {
      //saveData(searchdata);
     props.sendlocations(searchdata);
-    props.optimizeroute(true);
+   // props.optimizeroute(true);
     
   }
 

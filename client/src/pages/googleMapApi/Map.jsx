@@ -14,8 +14,11 @@ import "./Searc.css";
 import Multiplesearch from "./Multiplesearch";
 import { PropTypes } from "prop-types";
 import Searchbox from "./Searchboxformulti";
-import { useContext } from "react";
+import { useContext,useEffect } from "react";
 import { HomeContext } from "../../Context/HomeContext";
+import { InfoBox } from "@react-google-maps/infobox";
+import {Box} from "@mui/material";
+
 
 import usePlacesAutocomplete, {
   getGeocode,
@@ -67,9 +70,14 @@ export default function Map(latlng, props) {
   const [Searchplan, setSearchplan] = useState(false);
   const [Searchplan2, setSearchplan2] = useState(props.Searchplan);
   const [searchdata, setSearchdata] = useState([]);
+  const [searchdata2, setSearchdata2] = useState([]);
   const { curr } = useContext(HomeContext);
   const [directionResponse, SetdirectionResponse] = React.useState(null);
-  const [distance, setDistance] = React.useState("");
+  const [distance, setDistance] = React.useState(0);
+  const [searchDataWithoutFirstAndLast, setSearchDataWithoutFirstAndLast] = useState([]);
+  const [firstAndLastSearchData, setFirstAndLastSearchData] = useState([]);
+  const [distanceMarker, setDistanceMarker] = useState(null);
+  const[duration,setDuration]=useState(0);
 
   const onmarkk = (data) => {
     console.log("dadfa");
@@ -87,33 +95,112 @@ export default function Map(latlng, props) {
     setSearchplan(!Searchplan);
   };
 
+  const mapWithoutFirstAndLast = (array) => {
+    return array.slice(1, array.length-1);
+  };
+
   const recivelocations = (data) => {
-    //got searched locations
     console.log("recivelocations");
-    setSearchdata(data);
+    console.log(data);
+  
+   
+  
+    const [firstElement, ...restElement] = data;
+    const lastElement = data[data.length - 1];
+    const restElements = data.slice(1, data.length-1);
+
+    setFirstAndLastSearchData([ firstElement,lastElement ]);
+    setSearchDataWithoutFirstAndLast(restElements);
+  
+ 
   };
-  const optimizeroute = async () => {
-    console.log("optimizeroute start");
-  await calculateRoute();
-  console.log("optimizeroute end");
-  };
+  
+  useEffect(() => {
+    // This will log the updated state values
+    console.log(firstAndLastSearchData);
+    console.log(searchDataWithoutFirstAndLast);
+    calculateRoute();
+  }, [firstAndLastSearchData, searchDataWithoutFirstAndLast]);
+  
+  useEffect(() => {
+    if (distanceMarker) {
+      distanceMarker.setMap(mapRef.current);
+    }
+  }, [distanceMarker]);
+
+  // const optimizeroute = async () => {
+  //   console.log("optimizeroute start");
+  // await calculateRoute();
+  // console.log("optimizeroute end");
+  // };
 
   async function calculateRoute() {
     console.log("calculateRoute start");
-    if (!searchdata[0]) return;
+    if (!firstAndLastSearchData[0]) return;
     //eslint-disable-next-line  no-undef
     const directionService = new google.maps.DirectionsService();
     const result = await directionService.route({
-      origin: searchdata[0],
-      destination: searchdata[searchdata.length - 1],
-      waypoints: searchdata.map((location) => ({ location })),
+      origin: firstAndLastSearchData[0],
+      destination: firstAndLastSearchData[1],
+      waypoints: searchDataWithoutFirstAndLast.map((location) => ({ location })),
       //eslint-disable-next-line  no-undef
       travelMode: google.maps.TravelMode.DRIVING,
     });
     SetdirectionResponse(result);
     console.log("directionResponse", directionResponse);
-    setDistance(result.routes[0].legs.reduce((total, leg) => total + leg.distance.value,0)
-    );
+    
+    const routedetails = result.routes[0].legs.reduce((total, leg) => {
+      const legDistance = leg.distance.value;
+      const legDuration = leg.duration.value;
+      return { distance: total.distance + legDistance, duration: total.duration + legDuration };
+    }, { distance: 0, duration: 0 });
+    
+    setDistance(routedetails.distance);
+    setDuration(routedetails.duration);
+  console.log(routedetails);
+
+    // Calculate the midpoint between start and end locations
+    const startLocation = result.routes[0].legs[0].start_location;
+    const endLocation = result.routes[0].legs[result.routes[0].legs.length - 1].end_location;
+    //eslint-disable-next-line  no-undef
+    const midpoint = google.maps.geometry.spherical.interpolate(startLocation, endLocation, 0.5);
+    console.log(midpoint);
+  
+    
+
+ if (distanceMarker) {
+    distanceMarker.setMap(null);
+  }
+  // Create the distance marker
+
+  // const newDistanceMarker = new google.maps.Marker({
+  //   position: midpoint,
+  //   map: mapRef.current,
+  //   label: `${(distance / 1000).toFixed(1)} km`,
+  // });
+
+   //eslint-disable-next-line  no-undef
+   const infoBox = new InfoBox({
+    content: `<div style="background-color: #fff; border: 1px solid #999; box-shadow: rgba(0,0,0,0.2) 0px 2px 6px; font-family: Arial,sans-serif; font-size: 12px; line-height: 16px; padding: 5px 10px; min-width: 80px;">
+    <span style="font-weight: bold; display: block; margin-bottom: 5px;">${(routedetails.distance / 1000).toFixed(1)} km</span>
+    <span style="color: #666; font-size: 11px;">${(routedetails.duration/60).toFixed(2)} mins</span>
+  </div>`,
+    position: midpoint,
+    map: mapRef.current, 
+  });
+  
+  // Set the InfoBox options
+  infoBox.setOptions({
+    alignBottom: true,
+     //eslint-disable-next-line  no-undef
+    pixelOffset: new google.maps.Size(0,  0),
+    closeBoxURL: '',
+    pane: 'floatPane',
+    enableEventPropagation: true,
+  });
+  
+  setDistanceMarker(infoBox);
+
     console.log("calculateRoute end");
   }
 
@@ -182,7 +269,7 @@ export default function Map(latlng, props) {
               Searchplan={Searchplan}
               heading={heading}
               sendlocations={recivelocations}
-              optimizeroute={optimizeroute}
+              //optimizeroute={calculateRoute}
             />
           ) : (
             <div className="searchbar">
@@ -227,7 +314,7 @@ export default function Map(latlng, props) {
         zoom={7.5}
         center={center}
         options={options}
-        onClick={onMapClick}
+        //onClick={onMapClick}
         onLoad={onMapLoad}
       >
         {markers.map((marker) => (
@@ -243,7 +330,13 @@ export default function Map(latlng, props) {
           />
         ))}
         {directionResponse && (
-          <DirectionsRenderer directions={directionResponse} />
+          <DirectionsRenderer options={{
+            polylineOptions: {
+              strokeColor: '#0000FF',
+              strokeOpacity: 0.7,
+              strokeWeight: 4,
+            }
+          }} directions={directionResponse} />
         )}
 
         {selected ? (
@@ -255,6 +348,7 @@ export default function Map(latlng, props) {
           </InfoWindow>
         ) : null}
       </GoogleMap>
+      <button type="button" onClick={recivelocations} >asasfa</button>
       {/* {console.log(markers)} */}
       {console.log(curr)}
     </>
