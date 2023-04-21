@@ -1,6 +1,8 @@
 import React from "react";
 import { useRef } from "react";
 import { GoogleMap, useLoadScript, Autocomplete } from "@react-google-maps/api";
+import { TextField } from "@mui/material";
+import {Box} from "@mui/material";
 
 const Searchbox = ({ location, currLocation }) => {
   const { isLoaded, loadError } = useLoadScript({
@@ -28,26 +30,27 @@ const Searchbox = ({ location, currLocation }) => {
     }
   };
   return (
-    <div>
-      <div className="search_container">
+    <Box>
+      <Box className="search_container">
         <Autocomplete restrictions={restrictions} options={options}>
-          <input
-            type={"text"}
+          <TextField
+            id="outlined-search"
+            type="search"
             placeholder={location}
-            ref={originRef}
-            style={{
-              padding: "15px",
-              fontSize: "16px",
+            // ref={originRef}
+            inputRef={originRef}
+            inputProps={{ style: { fontSize: 17, margin: 0,padding:11 } }}
+            onBlurCapture={sendLocations}
+            sx={{
               fontFamily: "Courier New",
               width: "250px",
               border: "2px solid white",
-              height: "50px",
             }}
-            onBlur={sendLocations}
-          ></input>
+            // onBlur={sendLocations}
+          />
         </Autocomplete>
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

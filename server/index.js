@@ -11,6 +11,9 @@ const db = require("./models");
 const userRouter = require("./routes/User");
 app.use("/auth", userRouter);
 
+const LocationRouter = require("./routes/Locations");
+app.use("/Locations", LocationRouter);
+
 db.sequelize.sync().then(() => {
   app.listen(3001, () => {
     console.log("server is running");

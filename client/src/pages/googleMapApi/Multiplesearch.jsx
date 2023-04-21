@@ -13,15 +13,16 @@ import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { useState } from "react";
 import Searchbox from "./Searchboxformultisearch";
 import Forecast from "../weatherApi/Forecast";
+import axios from "axios";
 
-const Multiplesearch = (prop) => {
+function Multiplesearch (props)  {
   // const Searchplan = !prop.Searchplan;
   // const searsplanpop = () => {
   //   prop.Searchplanshow(!Searchplan);
   //   console.log(Searchplan);
   // };
 
-  const [searchdata, setSearchdata] = useState([{ lat: 0, lng: 0, Date: "" }]);
+  const [searchdata, setSearchdata] = useState([]);
   const [data, setData] = useState("");
   const [sedata, setSedata] = useState(["temp"]);
 
@@ -57,49 +58,68 @@ const Multiplesearch = (prop) => {
     setGlobalLocation(newLocation);
   };
 
-  
+  function handleSave() {
+     //saveData(searchdata);
+    props.sendlocations(searchdata);
+    props.optimizeroute(true);
+    
+  }
+
+  function saveData(data) {
+    axios.post("http://localhost:3001/Locations", data)
+      .then((res) => {
+        console.log(res.data); // log response data to console
+        alert(res.data); // show response data in alert dialog
+        res.send("Successfull");
+      })
+      .catch((error) => console.error(error));
+  }
+    // axios.get("http://localhost:3001/Locations").then((responses) => {
+    //   console.log("gaeg");
+    // });
+
   return (
-    <div>
-      <div>
-        {/* <div className="searchfields" style={{ zIndex: 10 }}>
+    <Box>
+      {/* <Box> */}
+        {/* <Box className="searchfields" style={{ zIndex: 10 }}>
           <Search placeholder={"Enter a location"} />
-        </div> */}
-      </div>
+        </Box> */}
+      {/* </Box> */} 
       <Box>
         <Paper sx={{ width: 350, height: "90vh" }}>
-          <div className="upper">
+          <Box className="upper">
             <Typography
               variant="h4"
               sx={{ color: "white", fontFamily: "cursive" }}
             >
               {" "}
               <ArrowDropDownIcon sx={{ width: 50, height: 30 }} />
-              Trip to {prop.heading}
+              Trip to {props.heading}
             </Typography>
-          </div>
-          <div className="searcharea">
+          </Box>
+          <Box className="searcharea">
             {sedata.map((singledata, index) => (
-              <div key={index} className="searchoptions">
-                <div className="multisearch">
-                  <div className="searchh">
+              <Box key={index} className="searchoptions">
+                <Box className="multisearch">
+                  <Box className="searchh">
                     <Searchbox
                       location={index === 0 ? "Start Location" : "Location"}
                       currLocation={(data) => getLocation(data, index)}
                       index={index}
                     />
-                  </div>
+                  </Box>
                   {sedata.length - 1 !== index ? (
-                    <div>
+                    <Box>
                       <IconButton onClick={() => deletefunc(index)}>
                         <HighlightOffIcon />
                       </IconButton>
-                    </div>
+                    </Box>
                   ) : (
-                    <div style={{ paddingLeft: 40 }}></div>
+                    <Box style={{ paddingLeft: 40 }}></Box>
                   )}
-                </div>
+                </Box>
                 {sedata.length - 1 === index ? (
-                  <div className="adddest" onClick={adddate}>
+                  <Box className="adddest" onClick={adddate}>
                     <IconButton>
                       <AddCircleOutlineIcon />
                     </IconButton>
@@ -109,27 +129,28 @@ const Multiplesearch = (prop) => {
                     >
                       Add Destination
                     </Typography>
-                  </div>
+                  </Box>
                 ) : (
                   ""
                 )}
-              </div>
+              </Box>
             ))}
-          </div>
+          </Box>
 
-          <div className="buttons">
-            <div className="but1" style={{ paddingBotnotetom: 30 }}>
+          <Box className="buttons">
+            <Box className="but1" style={{ paddingBotnotetom: 30 }}>
               <Button
                 variant="elevated"
                 sx={{ width: 220, color: "#EF7E2A", borderBottom: 3 }}
+                onClick={handleSave}
               >
                 <RouteIcon sx={{ marginRight: 1 }} />
                 <Typography variant="h7" sx={{ color: "#EF7E2A" }}>
                   Optimize Route
                 </Typography>
               </Button>
-            </div>
-            <div className="but2" style={{ paddingBottom: 30 }}>
+            </Box>
+            <Box className="but2" style={{ paddingBottom: 30 }}>
               <Button
                 variant="elevated"
                 sx={{ width: 220, color: "#EF7E2A", borderBottom: 3 }}
@@ -140,18 +161,18 @@ const Multiplesearch = (prop) => {
                   Suggest Locations
                 </Typography>
               </Button>
-            </div>
-            <div className="but3" style={{ paddingBottom: 30 }}>
+            </Box>
+            <Box className="but3" style={{ paddingBottom: 30 }}>
               <Forecast
                 currentCity={globalLocation}
                 tripDate={tripDate}
                 Globalfunc={pull_newGlobalLocation} //passing location function
               />
-            </div>
-          </div>
+            </Box>
+          </Box>
         </Paper>
       </Box>
-    </div>
+    </Box>
   );
 };
 

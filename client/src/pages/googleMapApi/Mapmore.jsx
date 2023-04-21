@@ -169,6 +169,7 @@ export default function Map(latlng, props) {
     mapRef.current.setZoom(14);
   }, []);
 
+
   if (loadError)
     return (
       <div
@@ -214,6 +215,7 @@ export default function Map(latlng, props) {
                 Searchplanshow={Searchplanshow}
                 Searchplan={Searchplan}
                 heading={heading}
+                
               />
             ) : (
               <div className="searchbar">
@@ -269,7 +271,10 @@ export default function Map(latlng, props) {
                       <IconButton sx={{ p: "10px" }} aria-label="menu">
                         <MenuIcon onClick={secondsearchmenuhandler} />
                       </IconButton>
-                      <Searchbox datafromsearch={destinationfromsearch}  update={clearroute}/>
+                      <Searchbox
+                        datafromsearch={destinationfromsearch}
+                        update={clearroute}
+                      />
                       {/* put a placeholder */}
 
                       {/* {console.log(markers)} */}

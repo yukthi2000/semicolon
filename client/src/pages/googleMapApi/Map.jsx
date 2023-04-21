@@ -35,6 +35,7 @@ import {
   useLoadScript,
   Marker,
   InfoWindow,
+  DirectionsRenderer,
 } from "@react-google-maps/api";
 
 import { formatRelative } from "date-fns";
@@ -65,8 +66,10 @@ export default function Map(latlng, props) {
   const [selected, setSelected] = React.useState(null);
   const [Searchplan, setSearchplan] = useState(false);
   const [Searchplan2, setSearchplan2] = useState(props.Searchplan);
-
+  const [searchdata, setSearchdata] = useState([]);
   const { curr } = useContext(HomeContext);
+  const [directionResponse, SetdirectionResponse] = React.useState(null);
+  const [distance, setDistance] = React.useState("");
 
   const onmarkk = (data) => {
     console.log("dadfa");
@@ -83,6 +86,36 @@ export default function Map(latlng, props) {
   const Searchplanshow = () => {
     setSearchplan(!Searchplan);
   };
+
+  const recivelocations = (data) => {
+    //got searched locations
+    console.log("recivelocations");
+    setSearchdata(data);
+  };
+  const optimizeroute = async () => {
+    console.log("optimizeroute start");
+  await calculateRoute();
+  console.log("optimizeroute end");
+  };
+
+  async function calculateRoute() {
+    console.log("calculateRoute start");
+    if (!searchdata[0]) return;
+    //eslint-disable-next-line  no-undef
+    const directionService = new google.maps.DirectionsService();
+    const result = await directionService.route({
+      origin: searchdata[0],
+      destination: searchdata[searchdata.length - 1],
+      waypoints: searchdata.map((location) => ({ location })),
+      //eslint-disable-next-line  no-undef
+      travelMode: google.maps.TravelMode.DRIVING,
+    });
+    SetdirectionResponse(result);
+    console.log("directionResponse", directionResponse);
+    setDistance(result.routes[0].legs.reduce((total, leg) => total + leg.distance.value,0)
+    );
+    console.log("calculateRoute end");
+  }
 
   const onMapClick = React.useCallback((event) => {
     Setmarkers((current) => [
@@ -148,6 +181,8 @@ export default function Map(latlng, props) {
               Searchplanshow={Searchplanshow}
               Searchplan={Searchplan}
               heading={heading}
+              sendlocations={recivelocations}
+              optimizeroute={optimizeroute}
             />
           ) : (
             <div className="searchbar">
@@ -207,6 +242,9 @@ export default function Map(latlng, props) {
             // }}
           />
         ))}
+        {directionResponse && (
+          <DirectionsRenderer directions={directionResponse} />
+        )}
 
         {selected ? (
           <InfoWindow position={{ lat: selected.lat, lng: selected.lng }}>
