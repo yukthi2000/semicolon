@@ -102,7 +102,7 @@ export default function Map(latlng, props) {
       travelMode: google.maps.TravelMode.DRIVING,
     });
     SetdirectionResponse(result);
-    // console.log(result);
+    console.log(result);
     setDistance(result.routes[0].legs[0].distance.text);
   }
 
