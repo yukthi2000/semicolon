@@ -67,7 +67,7 @@ import { GoogleMap, useLoadScript, Autocomplete } from "@react-google-maps/api";
 
 const Searchbox = (props) => {
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: "AIzaSyA1tZY8x6OG7mt7a2iovZTDIj8SDV6sL8s",
+    googleMapsApiKey: "AIzaSyCjTfIEci5TjcUCYMifDVtiC6nt7tFRqko",
     libraries: ["places"], //enable googlemap places api
   });
   /** @type React.MutableRefObject<HTMLInputElement> */
