@@ -77,9 +77,12 @@ export default function Map(latlng, props) {
     useState([]);
   const [firstAndLastSearchData, setFirstAndLastSearchData] = useState([]);
   const [distanceMarker, setDistanceMarker] = useState(null);
-  const [all,setAll]=useState([]);
+  const [all, setAll] = useState([]);
+  const [newall, setNewall] = useState([]);
+  const [distancedest, setDistancedest] = useState([0]);
   const [duration, setDuration] = useState(0);
-
+  const newDistances = [];
+  const newLocations = [];
   const onmarkk = (data) => {
     console.log("dadfa");
     //Setmarkers(data);
@@ -110,14 +113,16 @@ export default function Map(latlng, props) {
 
     setFirstAndLastSearchData([firstElement, lastElement]);
     setSearchDataWithoutFirstAndLast(restElements);
-    setAll([firstElement, restElements,lastElement])
+    setAll([firstElement, ...restElements, lastElement]);
   };
 
   useEffect(() => {
     // This will log the updated state values
     console.log(firstAndLastSearchData);
     console.log(searchDataWithoutFirstAndLast);
-    calculateRoute();
+    //calculateRoute();
+    Setnewarrat();
+    Reroute();
   }, [firstAndLastSearchData, searchDataWithoutFirstAndLast]);
 
   useEffect(() => {
@@ -134,10 +139,13 @@ export default function Map(latlng, props) {
 
   async function calculateRoute() {
     console.log("calculateRoute start");
-     if (firstAndLastSearchData[0] == firstAndLastSearchData[1] && searchDataWithoutFirstAndLast[0]==null) {
-    console.log("Missing origin or destination");
-    return;
-  }
+    if (
+      firstAndLastSearchData[0] == firstAndLastSearchData[1] &&
+      searchDataWithoutFirstAndLast[0] == null
+    ) {
+      console.log("Missing origin or destination");
+      return;
+    }
 
     //eslint-disable-next-line  no-undef
     const directionService = new google.maps.DirectionsService();
@@ -245,8 +253,8 @@ export default function Map(latlng, props) {
     //eslint-disable-next-line  no-undef
     const directionService = new google.maps.DirectionsService();
     const result = await directionService.route({
-      origin,
-      destination,
+      origin: origin,
+      destination: destination,
       //eslint-disable-next-line  no-undef
       travelMode: google.maps.TravelMode.DRIVING,
     });
@@ -255,20 +263,141 @@ export default function Map(latlng, props) {
       return total + leg.distance.value;
     }, 0);
 
-    console.log(distance);
+    //console.log(distance);
     return distance;
   }
 
   //Reroute Functioninggg
 
-  const Reroute=()=>{
-        const numofpoints=all.length;
-        const NumofPonitsToSTARTpoints=Math.ceil(numofpoints/4+1);
-         for(let i=0;i<numofpoints;i++)
-         {
-            calculateDistance();//dura ekka arraya ekata location piliwelata watenna ona
-         }
+  // const Reroute=()=>{
+  //       const numofpoints=all.length;
+  //       const NumofPonitsToSTARTpoints=Math.ceil(numofpoints/4+1);
+  //        for(let i=0;i<numofpoints-1;i++)
+  //        {
+  //         setNewall([...newall,calculateDistance(all[i],all[i+1])])
+  //           //dura ekka arraya ekata location piliwelata watenna ona
+
+  //        }
+  // }
+
+  function sortByDistance(points, distances) {
+    // Create a new array of objects that combines each point with its corresponding distance
+    const combinedArray = points.map((point, index) => ({
+      point,
+      distance: distances[index],
+    }));
+
+    // Sort the new array in ascending order based on the distance property
+    combinedArray.sort((a, b) => a.distance - b.distance);
+
+    // Create new arrays for the sorted points and distances
+    const sortedPoints = combinedArray.map(({ point }) => point);
+    const sortedDistances = combinedArray.map(({ distance }) => distance);
+
+    // Return both sorted arrays as an object
+    return { sortedPoints, sortedDistances };
   }
+  const Setnewarrat = () => {
+    //console.log(all);
+
+    const updatedLoc = Array.from(all);
+    updatedLoc.forEach((value, index) => {
+      newLocations[index] = value;
+    });
+    //console.log(newLocations);
+  };
+  const Reroute = async () => {
+    const numofpoints = all.length;
+    const NumofPonitsToSTARTpoints = Math.ceil(numofpoints / 4 + 1);
+
+    for (let j = 0; j < NumofPonitsToSTARTpoints; j++) {
+      // const newArray = [...all];
+      // newArray[j] = all[j];
+      // setNewall(newArray);
+
+      newDistances[j] = 0;
+
+      for (let i = j + 1; i < numofpoints; i++) {
+        // const newArray = [...newall];
+        // newArray[i] = all[i];
+        // setNewall(newArray);
+        console.log("start  ", newLocations[j]);
+        console.log("end  ", newLocations[i]);
+        const distance = await calculateDistance(
+          newLocations[j],
+          newLocations[i]
+        );
+        newDistances[i] = distance;
+        console.log(newDistances);
+        // setDistancedest(newDistances);
+        // console.log(distancedest);
+      }
+      console.log();
+      console.log();
+      const { sortedPoints, sortedDistances } = sortByDistance(
+        newLocations,
+        newDistances
+      );
+      console.log(sortedPoints);
+      setNewall(sortedPoints); // update all with sortedPoints
+      const updatedNetances = Array.from(sortedDistances);
+      updatedNetances.forEach((value, index) => {
+        newDistances[index] = value;
+      });
+      const updatedlocagain = Array.from(sortedPoints);
+      updatedlocagain.forEach((value, index) => {
+        newLocations[index] = value;
+      });
+
+      console.log("Sorted Points:", newLocations);
+      console.log("Sorted Distances:", sortedDistances);
+    }
+
+    // const distname=['Kandy, Sri Lanka', 'Gampola, Sri Lanka', 'Gelioya, Sri Lanka']
+    // const dist=[0, 24507, 11467]
+    // const { sortedPoints, sortedDistances } = sortByDistance(
+    //   distname,
+    //   dist
+    //       );
+    //       console.log(sortedPoints);
+  };
+
+  // const Reroute = () => {
+  //   const numofpoints = all.length;
+  //   const NumofPonitsToSTARTpoints = Math.ceil(numofpoints / 4 + 1);
+
+  //   for (let j = 0; j < NumofPonitsToSTARTpoints; j++) {
+  //     const newArray = [...newall]; // make a copy of the array
+  //     newArray[j] = all[j]; // add new data to the array at the specified index
+  //     setNewall(newArray);
+  //     const newdis = [...distancedest]; // make a copy of the array
+  //     newdis[j] = 0; // add new data to the array at the specified index
+  //     setDistancedest(newdis);
+  //     for (let i = j + 1; i < numofpoints - 1; i++) {
+  //       //setNewall([...newall,all[i]])
+  //       const newArray = [...newall]; // make a copy of the array
+  //       newArray[i] = all[i]; // add new data to the array at the specified index
+  //       setNewall(newArray); // update the state with the new array
+
+  //       //setDistancedest([...distancedest,calculateDistance(all[j],all[i])])
+  //       const newdis = [...distancedest]; // make a copy of the array
+  //       newdis[i] = calculateDistance(all[j], all[i]); // add new data to the array at the specified index
+  //       setDistancedest(newdis); // update the state with the new array
+
+  //       //compare karanna ona palaweni start point ejkat ekka
+  //       //dura ekka arraya ekata location piliwelata watenna ona
+  //     }
+  //     [all, distancedest] = sortByDistance(newall, distancedest);
+
+  //     // setNewall(prevNewall => {
+  //     //   const newNewall = [...prevNewall];
+  //     //   for(let i=j+1;i<numofpoints-1;i++) {
+  //     //     newNewall.push(calculateDistance(all[i],all[i+1]));
+  //     //   }
+  //     //   return newNewall;
+  //     // });
+  //   }
+  // };
 
   const onMapClick = React.useCallback((event) => {
     Setmarkers((current) => [
