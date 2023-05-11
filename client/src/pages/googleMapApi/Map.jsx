@@ -83,6 +83,7 @@ export default function Map(latlng, props) {
   const [duration, setDuration] = useState(0);
   const newDistances = [];
   const newLocations = [];
+  const arrangedmiddlelocations = [];
   const onmarkk = (data) => {
     console.log("dadfa");
     //Setmarkers(data);
@@ -123,6 +124,7 @@ export default function Map(latlng, props) {
     //calculateRoute();
     Setnewarrat();
     Reroute();
+    
   }, [firstAndLastSearchData, searchDataWithoutFirstAndLast]);
 
   useEffect(() => {
@@ -137,6 +139,7 @@ export default function Map(latlng, props) {
   // console.log("optimizeroute end");
   // };
 
+  //function to calculate route
   async function calculateRoute() {
     console.log("calculateRoute start");
     if (
@@ -153,6 +156,129 @@ export default function Map(latlng, props) {
       origin: firstAndLastSearchData[0],
       destination: firstAndLastSearchData[1],
       waypoints: searchDataWithoutFirstAndLast.map((location) => ({
+        location,
+      })),
+      //eslint-disable-next-line  no-undef
+      travelMode: google.maps.TravelMode.DRIVING,
+    });
+    SetdirectionResponse(result);
+    console.log("directionResponse", directionResponse);
+
+    const routedetails = result.routes[0].legs.reduce(
+      (total, leg) => {
+        const legDistance = leg.distance.value;
+        const legDuration = leg.duration.value;
+        return {
+          distance: total.distance + legDistance,
+          duration: total.duration + legDuration,
+        };
+      },
+      { distance: 0, duration: 0 }
+    );
+
+    setDistance(routedetails.distance);
+    setDuration(routedetails.duration);
+    console.log(routedetails);
+
+    // Calculate the midpoint between start and end locations
+    const startLocation = result.routes[0].legs[0].start_location;
+    const endLocation =
+      result.routes[0].legs[result.routes[0].legs.length - 1].end_location;
+    //eslint-disable-next-line  no-undef
+    const midpoint = google.maps.geometry.spherical.interpolate(
+      startLocation,
+      endLocation,
+      0.5
+    );
+    console.log(midpoint);
+
+    if (distanceMarker) {
+      distanceMarker.setMap(null);
+    }
+
+    // Create the distance marker
+
+    // const newDistanceMarker = new google.maps.Marker({
+    //   position: midpoint,
+    //   map: mapRef.current,
+    //   label: `${(distance / 1000).toFixed(1)} km`,
+    // });
+
+    //eslint-disable-next-line  no-undef
+    let infoBox;
+
+    if (routedetails.duration < 3600) {
+      infoBox = new InfoBox({
+        content: `<div style="background-color: #fff; border: 1px solid #999; box-shadow: rgba(0,0,0,0.2) 0px 2px 6px; font-family: Arial,sans-serif; font-size: 12px; line-height: 16px; padding: 5px 10px; min-width: 80px;">
+          <span style="font-weight: bold; display: block; margin-bottom: 5px;">${(
+            routedetails.distance / 1000
+          ).toFixed(1)} km</span>
+          <span style="color: #666; font-size: 11px;">${(
+            routedetails.duration / 60
+          ).toFixed(2)} mins</span>
+        </div>`,
+        position: midpoint,
+        map: mapRef.current,
+      });
+    } else {
+      const h = routedetails.duration / 60 / 60;
+      const min = (routedetails.duration / 60) % 60;
+      infoBox = new InfoBox({
+        content: `<div style="background-color: #fff; border: 1px solid #999; box-shadow: rgba(0,0,0,0.2) 0px 2px 6px; font-family: Arial,sans-serif; font-size: 12px; line-height: 16px; padding: 5px 10px; min-width: 80px;">
+          <span style="font-weight: bold; display: block; margin-bottom: 5px;">${(
+            routedetails.distance / 1000
+          ).toFixed(1)} km</span>
+          <span style="color: #666; font-size: 11px;">${h.toFixed()} h ${min.toFixed()}mins</span>
+        </div>`,
+        position: midpoint,
+        map: mapRef.current,
+      });
+    }
+
+    // Set the InfoBox options
+    infoBox.setOptions({
+      alignBottom: true,
+      //eslint-disable-next-line  no-undef
+      pixelOffset: new google.maps.Size(0, 0),
+      closeBoxURL: "",
+      pane: "floatPane",
+      enableEventPropagation: true,
+    });
+
+    setDistanceMarker(infoBox);
+
+    console.log("calculateRoute end");
+  }
+
+  //function to calculate ReArrange route
+
+  async function CalculateREarangeRoute() {
+    console.log("calculateRoute start");
+   
+    const middleLocations = newLocations.slice(1, -1);
+
+    // iterate over each element in middleLocations and add it to arrangedmiddlelocations
+    middleLocations.map(location => arrangedmiddlelocations.push(location));
+    
+    const size = newLocations.length;
+
+    if (
+      newLocations[0] == newLocations[1] &&
+      searchDataWithoutFirstAndLast[0] == null
+    ) {
+      console.log("Missing origin or destination");
+      return;
+    }
+    console.log(newLocations[0]);
+    console.log(arrangedmiddlelocations);
+    console.log(newLocations[size-1]);
+
+    //eslint-disable-next-line  no-undef
+    const directionService = new google.maps.DirectionsService();
+    const result = await directionService.route({
+      origin: newLocations[0],
+      destination: newLocations[size - 1],
+      waypoints: arrangedmiddlelocations.map((location) => ({
         location,
       })),
       //eslint-disable-next-line  no-undef
@@ -352,6 +478,7 @@ export default function Map(latlng, props) {
       console.log("Sorted Points:", newLocations);
       console.log("Sorted Distances:", sortedDistances);
     }
+    CalculateREarangeRoute();
 
     // const distname=['Kandy, Sri Lanka', 'Gampola, Sri Lanka', 'Gelioya, Sri Lanka']
     // const dist=[0, 24507, 11467]
