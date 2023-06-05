@@ -31,7 +31,8 @@
 }
 
 .searchh {
-  width: 265px;
+  width: 254px;
+  height: 54px;
   border: 2px solid;
   border-color: #368c18;
   border-radius: 5px;
@@ -40,4 +41,9 @@
   padding-top: 15px;
   padding-left: 20px;
   display: flex;
+}
+
+.searcharea {
+  height: 420px;
+  overflow: auto;
 }

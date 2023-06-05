@@ -4,10 +4,11 @@ import "./Home.css";
 import Button from "@mui/material/Button";
 import Search from "./Search";
 import { Link } from "react-router-dom";
-
+import axios from "axios";
 import Header from "../../componets/Header";
 import Register from "../login/Register";
 import Header2 from "../../componets/Header2";
+
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
@@ -22,22 +23,43 @@ import {
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
 import { height, width } from "@mui/system";
+import { HomeContext } from "../../Context/HomeContext";
 
 const Home = () => {
   const [startlocation, setstartLocation] = React.useState([]);
-  const [endlocation, setendLocation] = React.useState([]);
+  //const [endlocation, setendLocation] = React.useState([]);
+
+  const sendlocations = () => {
+    axios
+      .post("http://localhost:3000/googleMapApi", {
+        startlocation: startlocation,
+        //endlocation: endlocation,
+      })
+      .then((response) => {
+        console.log(response);
+      });
+  };
 
   const setLocationstart = (data) => {
-    setstartLocation({ lat: data.lat, lng: data.lng, time: new Date() });
+    setstartLocation(data);
   };
-  const setLocationend = (data) => {
-    setendLocation({ lat: data.lat, lng: data.lng, time: new Date() });
+  // const setLocationend = (data) => {
+  //   setendLocation(data);
+  // };
+
+  const calculateRoute = () => {
+    //to make routr
+    // const directionservice = new google.maps.DirectionsService(); //call to google map direction service as directionservice
+    // const result=await directionservice.route({
+    //   origin:
+    // })
   };
+
   return (
     <div>
       {React.useEffect(() => {
         console.log(startlocation);
-        console.log(endlocation);
+        //console.log(endlocation);
       })}
       <div>
         <div>
@@ -66,17 +88,15 @@ const Home = () => {
           <div className="box" />
           <div>
             <div className="destination1">
+        
               <Search
-                placeholder="Start Location"
-                setLocations={setLocationstart}
-              />{" "}
+                placeholder="Enter Start Location........................"
+                currlocation2={setLocationstart}
+              />
             </div>
-            <div className="destination2">
-              <Search
-                placeholder="End Location"
-                setLocations={setLocationend}
-              />{" "}
-            </div>
+            {/* <div className="destination2">
+              <Search placeholder="End Location" currlocation2={setLocationend} />
+            </div> */}
           </div>
 
           <Button
@@ -89,6 +109,7 @@ const Home = () => {
               left: "89vh",
               borderRadius: "6px",
             }}
+            onClick={sendlocations}
           >
             Go
           </Button>
