@@ -3,8 +3,6 @@ import { AppBar, Toolbar } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
-// import { AuthContext } from "../helpers/AuthContext";
-import { AuthContext } from "../helpers/AuthContext";
 
 import OtherHousesOutlinedIcon from "@mui/icons-material/OtherHousesOutlined";
 import CollectionsIcon from "@mui/icons-material/Collections";
@@ -158,6 +156,10 @@ const Header2 = () => {
                   marginLeft: "auto",
                   color: "white",
                   backgroundColor: "#EF7E2A",
+                  "&:hover": {
+                    backgroundColor: "white",
+                    color:"#EF7E2A"
+                  }
                 }}
               >
                 Register
@@ -169,6 +171,10 @@ const Header2 = () => {
                   marginLeft: "20px",
                   color: "white",
                   backgroundColor: "#EF7E2A",
+                  "&:hover": {
+                    backgroundColor: "white",
+                    color:"#EF7E2A"
+                  }
                 }}
               >
                 Login

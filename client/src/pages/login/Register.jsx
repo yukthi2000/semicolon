@@ -5,16 +5,20 @@ import A from "../../assets/A.jpg";
 import HomePageLinkIcon from "../../componets/HomePageLinkIcon";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
+import Login from "./Login";
+import { Link } from "react-router-dom";
 
 const Register = () => {
+// Define initialValues for the form
+  const navigate = useNavigate();
   const initialValues = {
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
   };
-
-  
+  // Define validation schema for the form
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .required("Name is required")
@@ -31,12 +35,16 @@ const Register = () => {
       .required("Please confirm your password"),
   });
 
+// Handle form submission
   const onSubmit = (data) => {
     axios.post("http://localhost:3001/auth", data).then((response) => {
       console.log(data);
+      navigate("/login");
     });
+
   };
 
+  // Render the Register form
   return (
     <div className="reg-form">
       <img className="airBalloon" src={A} alt="" />
@@ -49,72 +57,99 @@ const Register = () => {
         </div>
         <br />
         <div>
+            {/* Define Formik form with fields and error messages */}
           <Formik
             initialValues={initialValues}
             onSubmit={onSubmit}
             validationSchema={validationSchema}
           >
             <Form>
-             
-              <div class="form-outline mb-4 form-floating" >
-              <Field
-                autocomplete="off"
-                class="form-control form-control-md"
-                id="inputCreateUser"
-                name="name"
-                placeholder="First name & last name"
-              /><label class="form-label" for="name">
-              Name
-            </label>
-              </div>
-              <ErrorMessage name="name" component="div" className="text-danger"/>
-              <br />
-              
               <div class="form-outline mb-4 form-floating">
-              <Field
-                class="form-control form-control-md"
-                autocomplete="off"
-                id="email"
-                name="email"
-                placeholder="Email address"
+                <Field
+                  autocomplete="off"
+                  class="form-control form-control-md"
+                  id="inputCreateUser"
+                  name="name"
+                  placeholder="First name & last name"
+                />
+                <label class="form-label" for="name">
+                  Name
+                </label>
+              </div>
+               {/* Show error message if name field is invalid */}
+              <ErrorMessage
+                name="name"
+                component="div"
+                className="text-danger"
               />
-               <label class="form-label" for="email">
-                    Email address
-                  </label>
-              </div>
-              <ErrorMessage name="email" component="div" className="text-danger"/>
               <br />
-             
-              <div class="form-outline mb-4 form-floating" >
-              <Field
-                class="form-control form-control-md"
-                autocomplete="off"
-                type="password"
-                id="inputCreateUser"
-                name="password"
-                placeholder="password"
-              /><label class="form-label" for="password">
-              Password
-            </label>
+
+              <div class="form-outline mb-4 form-floating">
+                <Field
+                  class="form-control form-control-md"
+                  autocomplete="off"
+                  id="email"
+                  name="email"
+                  placeholder="Email address"
+                />
+                <label class="form-label" for="email">
+                  Email address
+                </label>
               </div>
-              <ErrorMessage name="password" component="div" className="text-danger"/>
+               {/* Show error message if email field is invalid */}
+              <ErrorMessage
+                name="email"
+                component="div"
+                className="text-danger"
+              />
+              <br />
+
+              <div class="form-outline mb-4 form-floating">
+                <Field
+                  class="form-control form-control-md"
+                  autocomplete="off"
+                  type="password"
+                  id="inputCreateUser"
+                  name="password"
+                  placeholder="password"
+                />
+                <label class="form-label" for="password">
+                  Password
+                </label>
+              </div>
+               {/* Show error message if password field is invalid */}
+              <ErrorMessage
+                name="password"
+                component="div"
+                className="text-danger"
+              />
+              <br />
+
+              <div class="form-outline mb-4 form-floating">
+                <Field
+                  class="form-control form-control-md"
+                  autocomplete="off"
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  placeholder="confirm password"
+                />
+                <label class="form-label" for="confirmPassword">
+                  Confirm Password
+                </label>
+              </div>
+              {/* Show error message if confirm Password field is invalid */}
+              <ErrorMessage
+                name="confirmPassword"
+                component="div"
+                className="text-danger"
+              />
               <br />
               
-              < div class="form-outline mb-4 form-floating" >
-              <Field
-                class="form-control form-control-md"
-                autocomplete="off"
-                type="password"
-                id="confirmPassword"
-                name="confirmPassword"
-                placeholder="confirm password"
-              /><label class="form-label" for="confirmPassword">
-              Confirm Password
-            </label>
-              </div>
-              <ErrorMessage name="confirmPassword" component="div" className="text-danger"/>
-              <br />
-              <button type="submit">Sign Up</button>
+                <button className="reg-btn" role="button" type="submit" >
+                  Sign Up
+                </button>
+            
             </Form>
           </Formik>
         </div>

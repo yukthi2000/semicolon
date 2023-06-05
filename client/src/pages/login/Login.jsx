@@ -2,22 +2,25 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import HomePageLinkIcon from "../../componets/HomePageLinkIcon";
-import LockIcon from "@mui/icons-material/Lock";
 import A from "../../assets/A.jpg";
 
 const Login = () => {
+   // Define email and password as state variables.
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const history = useNavigate();
 
   const login = () => {
+    // Set data object with email and password
     const data = { email: email, password: password };
     axios.post("http://localhost:3001/auth/login", data).then((response) => {
       if (response.data.error) {
         alert(response.data.error);
       } else {
-        localStorage.setItem("accessToken", response.data);
+        localStorage.setItem("accessToken", response.data.accessToken);
+        
+        console.log(response.data)
         history("/");
       }
     });
@@ -35,10 +38,8 @@ const Login = () => {
         </div>
         <br />
         <div>
-          
             <div>
               <div style={{ position: "relative" }}>
-                
                 <div class="form-outline mb-4 form-floating">
                   <input
                     type="email"
@@ -66,8 +67,10 @@ const Login = () => {
                   <label for="password">Password</label>
                 </div>
               </div>
+              <div><a href="register">Don't have an account</a></div>
+              <div><a href="forget-password">Forget password</a></div>
               <div>
-                <button className="btn btn-primary btn-lg" onClick={login}>
+                <button className="reg-btn" onClick={login}>
                   Sign in
                 </button>
               </div>
@@ -80,4 +83,3 @@ const Login = () => {
 };
 
 export default Login;
-

@@ -47,7 +47,7 @@ const Home = () => {
           <img
             src={homeBg}
             alt=""
-            height="667px"
+            height="750px"
             width="100%"
             position="fixed"
           />
@@ -85,9 +85,13 @@ const Home = () => {
               marginLeft: "auto",
               color: "white",
               backgroundColor: "#EF7E2A",
-              top: "-16vh",
+              top: "-28vh",
               left: "89vh",
               borderRadius: "6px",
+              "&:hover": {
+                backgroundColor: "white",
+                color:"#EF7E2A"
+              }
             }}
           >
             Go
