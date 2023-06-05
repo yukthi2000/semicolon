@@ -1,5 +1,5 @@
 import React from "react";
-import homeBg from "../../assets/homeBG.jpg";
+import homeBg from "../../assets/WhatsApp Image 2023-04-04 at 17.50.02.jpeg";
 import "./Home.css";
 import Button from "@mui/material/Button";
 import Search from "./Search";
@@ -87,7 +87,7 @@ const Home = () => {
               backgroundColor: "#EF7E2A",
               top: "-16vh",
               left: "89vh",
-              borderRadius: "27px",
+              borderRadius: "6px",
             }}
           >
             Go
@@ -100,7 +100,9 @@ const Home = () => {
           <div></div>
         </div>
       </div>
-      <Link to="subscription">Subscription</Link>
+     <div className="gallery"></div>
+     <div className="place"></div>
+     <div className="get_start"></div>
     </div>
   );
 };
