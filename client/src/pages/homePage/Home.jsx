@@ -1,5 +1,5 @@
 import React from "react";
-import homeBg from "../../assets/homeBG.jpg";
+import homeBg from "../../assets/WhatsApp Image 2023-04-04 at 17.50.02.jpeg";
 import "./Home.css";
 import Button from "@mui/material/Button";
 import Search from "./Search";
@@ -104,10 +104,10 @@ const Home = () => {
             sx={{
               marginLeft: "auto",
               color: "white",
-              backgroundColor: "#E86E18",
-              top: "-28.5vh",
-              left: "87.5vh",
-              borderRadius: "27px",
+              backgroundColor: "#EF7E2A",
+              top: "-16vh",
+              left: "89vh",
+              borderRadius: "6px",
             }}
             onClick={sendlocations}
           >
@@ -116,32 +116,14 @@ const Home = () => {
         </div>
         <div>
           <p className="p2">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio neque
-            veniam, earum, sed animi nesciunt architecto voluptate adipisci
-            sunt, ut consectetur beatae eius inventore quidem dolor error
-            aperiam delectus. Odio. Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Odio neque veniam, earum, sed animi nesciunt
-            architecto voluptate adipisci sunt, ut consectetur beatae eius
-            inventore quidem dolor error aperiam delectus. Odio. Lorem ipsum
-            dolor sit amet consectetur adipisicing elit. Odio neque veniam,
-            earum, sed animi nesciunt architecto voluptate adipisci sunt, ut
-            consectetur beatae eius inventore quidem dolor error aperiam
-            delectus. Odio. Lorem ipsum dolor sit amet consectetur adipisicing
-            elit. Odio neque veniam, earum, sed animi nesciunt architecto
-            voluptate adipisci sunt, ut consectetur beatae eius inventore quidem
-            dolor error aperiam delectus. Odio. Lorem ipsum dolor sit amet
-            consectetur adipisicing elit. Odio neque veniam, earum, sed animi
-            nesciunt architecto voluptate adipisci sunt, ut consectetur beatae
-            eius inventore quidem dolor error aperiam delectus. Odio. Lorem
-            ipsum dolor sit amet consectetur adipisicing elit. Odio neque
-            veniam, earum, sed animi nesciunt architecto voluptate adipisci
-            sunt, ut consectetur beatae eius inventore quidem dolor error
-            aperiam delectus. Odio.
+            
           </p>
           <div></div>
         </div>
       </div>
-      <Link to="subscription">Subscription</Link>
+     <div className="gallery"></div>
+     <div className="place"></div>
+     <div className="get_start"></div>
     </div>
   );
 };

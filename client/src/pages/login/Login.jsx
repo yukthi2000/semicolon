@@ -1,119 +1,83 @@
 import React, { useState } from "react";
-import "./Register.css";
-import A from "../../assets/A.jpg"
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import HomePageLinkIcon from "../../componets/HomePageLinkIcon";
-import EmailIcon from '@mui/icons-material/Email';
-import LockIcon from '@mui/icons-material/Lock';
+import LockIcon from "@mui/icons-material/Lock";
+import A from "../../assets/A.jpg";
 
 const Login = () => {
   const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordError, setPasswordError] = useState("")
-  const [error, setError] = useState("");
 
+  const history = useNavigate();
 
-  const validateEmail = (email) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  }
-  const validatePassword = (password) => {
-    const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-    return regex.test(password);
-  }
-
-  const handleEmailChange = (e) => {
-    const value = e.target.value;
-    if (value && !validateEmail(value)) {
-      setEmailError("Please enter a valid email address")
-    } else {
-      setEmailError("")
-    }
-    setEmail(value)
-  }
-
-  const handlePasswordChange = (e) => {
-    const value = e.target.value;
-    if (value && !validatePassword(value)) {
-      setPasswordError("Minimum 8 characters, at least one letter, one number and one special character")
-    } else {
-      setPasswordError("")
-    }
-    setPassword(value)
-  }
-
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if ( !email || !password ) {
-      setError("All fields are required");
-    } else {
-      window.location.href = "login";
-    }
+  const login = () => {
+    const data = { email: email, password: password };
+    axios.post("http://localhost:3001/auth/login", data).then((response) => {
+      if (response.data.error) {
+        alert(response.data.error);
+      } else {
+        localStorage.setItem("accessToken", response.data);
+        history("/");
+      }
+    });
   };
-  
+
   return (
     <div className="reg-form">
       <img className="airBalloon" src={A} alt="" />
       <div>
-        <HomePageLinkIcon/>
+        <HomePageLinkIcon />
       </div>
-      <div className="login-form">
-        <div><h1>Sign In</h1></div><br />
+      <div className="Register-form">
         <div>
-          <form onSubmit={handleSubmit}>
+        <h5>Login</h5> 
+        </div>
+        <br />
+        <div>
+          
             <div>
               <div style={{ position: "relative" }}>
-                <EmailIcon style={{ position: "absolute", top: 20, left: 20 }}/>
-                <input
-                  className={`input ${emailError ? "invalid" : ""}`}
-                  type="email"
-                  id="email"
-                  required
-                  placeholder='email'
-                  value={email}
-                  onChange={handleEmailChange}
-                  style={{ paddingLeft: 32 }}
-                />
+                
+                <div class="form-outline mb-4 form-floating">
+                  <input
+                    type="email"
+                    id="email"
+                    class="form-control form-control-lg"
+                    placeholder="Enter a valid email address"
+                    onChange={(event) => setEmail(event.target.value)}
+                  />
+                  <label class="form-label" for="email">
+                    Email address
+                  </label>
+                </div>
               </div>
-              {emailError && (
-                <div className="error-message">{emailError}</div>
-              )}
 
               <div style={{ position: "relative" }}>
-                <LockIcon style={{ position: "absolute", top: 20, left: 20 }}/>
-                <input
-                  className={`input ${passwordError ? "invalid" : ""}`}
-                  type="password"
-                  id="password"
-                  required
-                  placeholder='Password'
-                  value={password}
-                  onChange={handlePasswordChange}
-                  style={{ paddingLeft: 32 }}
-                />
-              </div>
-              {passwordError && (
-                <div className="error-message">{passwordError}</div>
-              )}
-
-              <div><br/>
-                <div style={{marginLeft:"10px"}}>
-                  <a href="/register">Don't have an account</a><br/>
-                  <a href="/forget-password">Forget Password</a>
+              
+                <div class="form-outline mb-3 form-floating">
+                  <input
+                    type="password"
+                    id="password"
+                    class="form-control form-control-lg"
+                    placeholder="Enter password"
+                    onChange={(event) => setPassword(event.target.value)}
+                  />
+                  <label for="password">Password</label>
                 </div>
-                <button type="submit" className="btn btn-primary">
-                  LOG IN
+              </div>
+              <div>
+                <button className="btn btn-primary btn-lg" onClick={login}>
+                  Sign in
                 </button>
-                {error && <p>{error}</p>}
               </div>
             </div>
-          </form>
+          
         </div>
       </div>
     </div>
-
-  )
-}
+  );
+};
 
 export default Login;
+

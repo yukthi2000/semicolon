@@ -1,8 +1,10 @@
 {
   "development": {
     "username": "root",
+
     "password": "123258789",
     "database": "routelocations",
+
     "host": "localhost",
     "dialect": "mysql"
   },

@@ -1,107 +1,41 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Register.css";
 import axios from "axios";
 import A from "../../assets/A.jpg";
 import HomePageLinkIcon from "../../componets/HomePageLinkIcon";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import EmailIcon from '@mui/icons-material/Email';
-import LockIcon from '@mui/icons-material/Lock';
-import EnhancedEncryptionIcon from '@mui/icons-material/EnhancedEncryption';
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
 const Register = () => {
-  const [name, setName] = useState("");
-  const [nameError, setNameError] = useState("");
-  const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordError, setPasswordError] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [confirmPasswordError, setConfirmPasswordError] = useState("");
-
-  const [error, setError] = useState("");
-
-  const validateName = (name) => {
-    const regex = /^[a-zA-Z ]+$/;
-    return regex.test(name);
-  }
-  const validateEmail = (email) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  }
-  const validatePassword = (password) => {
-    const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-    return regex.test(password);
-  }
-
-  const handleNameChange = (e) => {
-    const value = e.target.value;
-    if (value && !validateName(value)) {
-      setNameError("Name should only include letters and spaces")
-    } else {
-      setNameError("")
-    }
-    setName(value)
-  }
-
-  const handleEmailChange = (e) => {
-    const value = e.target.value;
-    if (value && !validateEmail(value)) {
-      setEmailError("Please enter a valid email address")
-    } else {
-      setEmailError("")
-    }
-    setEmail(value)
-  }
-
-  const handlePasswordChange = (e) => {
-    const value = e.target.value;
-    if (value && !validatePassword(value)) {
-      setPasswordError("Min 8 characters, at least 1 letter, number, special character")
-    } else {
-      setPasswordError("")
-    }
-    setPassword(value)
-  }
-
-  const handleConfirmPasswordChange = (e) => {
-    const value = e.target.value;
-    if (value !== password) {
-      setConfirmPasswordError("Password missmatch")
-    } else {
-      setConfirmPasswordError("")
-    }
-    setConfirmPassword(value)
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!name || !email || !password || !confirmPassword) {
-      setError("All fields are required");
-    } else if (password !== confirmPassword) {
-      setError("Passwords do not match");
-    } else {
-      const userData = {
-        name: name,
-        email: email,
-        password: password,
-      };
-      onSubmit(userData);
-    }
+  const initialValues = {
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   };
 
-  const onSubmit = (data) =>{
-    axios.post("http://localhost:3001/user", data)
-    .then((response) => {
-      console.log("Registration successful");
-      window.location.href = "/login"; // redirect to login page
-    })
-    .catch((error) => {
-      console.log(error);
-      setError("Registration failed. Please try again.");
-    });
-  }
-
   
+  const validationSchema = Yup.object().shape({
+    name: Yup.string()
+      .required("Name is required")
+      .matches(/^[a-zA-Z ]*$/, "Invalid name format"),
+    email: Yup.string()
+      .required("Email is required")
+      .email("Invalid email format"),
+    password: Yup.string()
+      .min(6, "Password must be at least 6 characters")
+      .max(20, "Password must not exceed 20 characters")
+      .required("Password is required"),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("password"), null], "Passwords must match")
+      .required("Please confirm your password"),
+  });
+
+  const onSubmit = (data) => {
+    axios.post("http://localhost:3001/auth", data).then((response) => {
+      console.log(data);
+    });
+  };
 
   return (
     <div className="reg-form">
@@ -110,95 +44,83 @@ const Register = () => {
         <HomePageLinkIcon />
       </div>
       <div className="Register-form">
-        <div><h1>Register</h1></div><br />
         <div>
-          <form onSubmit={handleSubmit}>
-            <div>
-              <div style={{ position: "relative" }}>
-                <AccountCircleIcon style={{ position: "absolute", top: 20, left: 20 }} />
-                <input
-                  className={`input ${nameError ? "invalid" : ""}`}
-                  type="text"
-                  id="name"
-                  required
-                  placeholder='First name & Last name'
-                  value={name}
-                  onChange={handleNameChange}
-                  style={{ paddingLeft: 32 }}
-                />
-              </div>
-              {nameError && (
-                <div className="error-message">{nameError}</div>
-              )}
-
-              <div style={{ position: "relative" }}>
-                <EmailIcon style={{ position: "absolute", top: 20, left: 20 }} />
-                <input
-                  className={`input ${emailError ? "invalid" : ""}`}
-                  type="email"
-                  id="email"
-                  required
-                  placeholder='email'
-                  value={email}
-                  onChange={handleEmailChange}
-                  style={{ paddingLeft: 32 }}
-                />
-              </div>
-              {emailError && (
-                <div className="error-message">{emailError}</div>
-              )}
-
-              <div style={{ position: "relative" }}>
-                <LockIcon style={{ position: "absolute", top: 20, left: 20 }} />
-                <input
-                  className={`input ${passwordError ? "invalid" : ""}`}
-                  type="password"
-                  id="password"
-                  required
-                  placeholder='Password'
-                  value={password}
-                  onChange={handlePasswordChange}
-                  style={{ paddingLeft: 32 }}
-                />
-              </div>
-              {passwordError && (
-                <div className="error-message">{passwordError}</div>
-              )}
-
-              <div style={{ position: "relative" }}>
-                <EnhancedEncryptionIcon style={{ position: "absolute", top: 20, left: 20 }} />
-                <input
-                  className={`input ${confirmPasswordError ? "invalid" : ""}`}
-                  type="password"
-                  id="cpassword"
-                  required
-                  placeholder='Confirm Password'
-                  value={confirmPassword}
-                  onChange={handleConfirmPasswordChange}
-                  style={{ paddingLeft: 32 }}
-                />
-              </div>
-              {confirmPasswordError && (
-                <div className="error-message">{confirmPasswordError}</div>
-              )}
-
+          <h1>Register</h1>
+        </div>
+        <br />
+        <div>
+          <Formik
+            initialValues={initialValues}
+            onSubmit={onSubmit}
+            validationSchema={validationSchema}
+          >
+            <Form>
              
-              <div>
-                <div style={{ marginLeft: "10px" }}>
-                  <a href="/login">I am already member</a>
-                </div>
-                <button type="submit" className="btn btn-primary" >
-                  SIGN UP
-                </button>
-                {error && <p>{error}</p>}
+              <div class="form-outline mb-4 form-floating" >
+              <Field
+                autocomplete="off"
+                class="form-control form-control-md"
+                id="inputCreateUser"
+                name="name"
+                placeholder="First name & last name"
+              /><label class="form-label" for="name">
+              Name
+            </label>
               </div>
-            </div>
-          </form>
+              <ErrorMessage name="name" component="div" className="text-danger"/>
+              <br />
+              
+              <div class="form-outline mb-4 form-floating">
+              <Field
+                class="form-control form-control-md"
+                autocomplete="off"
+                id="email"
+                name="email"
+                placeholder="Email address"
+              />
+               <label class="form-label" for="email">
+                    Email address
+                  </label>
+              </div>
+              <ErrorMessage name="email" component="div" className="text-danger"/>
+              <br />
+             
+              <div class="form-outline mb-4 form-floating" >
+              <Field
+                class="form-control form-control-md"
+                autocomplete="off"
+                type="password"
+                id="inputCreateUser"
+                name="password"
+                placeholder="password"
+              /><label class="form-label" for="password">
+              Password
+            </label>
+              </div>
+              <ErrorMessage name="password" component="div" className="text-danger"/>
+              <br />
+              
+              < div class="form-outline mb-4 form-floating" >
+              <Field
+                class="form-control form-control-md"
+                autocomplete="off"
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                placeholder="confirm password"
+              /><label class="form-label" for="confirmPassword">
+              Confirm Password
+            </label>
+              </div>
+              <ErrorMessage name="confirmPassword" component="div" className="text-danger"/>
+              <br />
+              <button type="submit">Sign Up</button>
+            </Form>
+          </Formik>
         </div>
       </div>
     </div>
-
-  )
-}
+  );
+};
 
 export default Register;
