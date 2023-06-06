@@ -70,3 +70,12 @@
     margin-left: 11PX;
 }
 
+.reg-btn{
+    background-color: #E86E18;
+    color: white;
+    border-radius: 5px;
+    margin-left: 47vh;
+    border: none;
+    height: 6vh;
+    width: 15vh;
+}
