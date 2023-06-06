@@ -7,7 +7,7 @@ import Forecast from "../weatherApi/Forecast"
 
 const Gallery = () => {
 
-  const tripDate = new Date('2023-03-30');
+  const tripDate = new Date('2023-07-01');
 
   //pull changed location from child components to this cmponent
   const [globalLocation, setGlobalLocation] = useState('Kandy');

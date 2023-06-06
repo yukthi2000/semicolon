@@ -60,7 +60,7 @@ function SevenDayForecast(props) {
 
   return (
     <div>
-      <span className="weather-display-ins">The weather forecast for the seven days following the trip day.</span>
+      <span className="weather-display-ins">The weather forecast for the seven days following the trip day.</span><br/>
       <span className="sevenday-error"> {errorMassege} </span>
       {SevenDayArray.map((data, index) => (
         <Accordion key={index} 

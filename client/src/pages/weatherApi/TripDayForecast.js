@@ -55,6 +55,10 @@ const TripDayForecast = (props) => {
 
     //calculate trip Day index for API
     const dateIndex = Math.floor(Math.abs(tripDate - today) / (1000 * 60 * 60 * 24));
+   
+    if(dateIndex < 0 || dateIndex > 30){
+        console.log("invalid date");
+    }
 
 
     //configure proper Tripdate format
