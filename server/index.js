@@ -20,6 +20,15 @@ db.sequelize.sync().then(() => {
   });
 });
 
+const weatherOptionsRouter = require('./routes/WeatherOptions')
+app.use("/WeatherOptions", weatherOptionsRouter);
+
+db.sequelize.sync().then(()=>{
+    app.listen(3002, () => {
+        console.log("server is running")
+    })
+})
+
 // const db=mysql.createConnection(
 //     {
 //         user:"root",

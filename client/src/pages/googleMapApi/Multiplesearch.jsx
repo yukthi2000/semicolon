@@ -49,7 +49,7 @@ function Multiplesearch (props)  {
     console.log(searchdata);
   });
   //for weather
-  const tripDate = new Date("2023-04-11");
+  const tripDate = new Date('2023-06-11');
 
   //pass changed location from child components to this cmponent
   const [globalLocation, setGlobalLocation] = useState("Kandy");
