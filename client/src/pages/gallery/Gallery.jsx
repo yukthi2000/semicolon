@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Header2 from "../../componets/Header2";
 import WeatherOptions from "../weatherApi/WeatherOptions"
 import Forecast from "../weatherApi/Forecast"
-
+import WeatherScore from '../weatherApi/WeatherScore';
 
 
 const Gallery = () => {
@@ -30,6 +30,8 @@ const Gallery = () => {
           Globalfunc={pull_newGlobalLocation} //passing location function
 
         />
+
+<WeatherScore/>
       </div>
 
     </div>

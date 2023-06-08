@@ -14,20 +14,21 @@ app.use("/auth", userRouter);
 const LocationRouter = require("./routes/Locations");
 app.use("/Locations", LocationRouter);
 
+const weatherOptionsRouter = require('./routes/WeatherOptions')
+app.use("/WeatherOptions", weatherOptionsRouter);
+
 db.sequelize.sync().then(() => {
   app.listen(3001, () => {
     console.log("server is running");
   });
 });
 
-const weatherOptionsRouter = require('./routes/WeatherOptions')
-app.use("/WeatherOptions", weatherOptionsRouter);
+// db.sequelize.sync().then(()=>{
+//     app.listen(3002, () => {
+//         console.log("server is running")
+//     })
+// })
 
-db.sequelize.sync().then(()=>{
-    app.listen(3002, () => {
-        console.log("server is running")
-    })
-})
 
 // const db=mysql.createConnection(
 //     {
