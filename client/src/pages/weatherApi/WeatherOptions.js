@@ -465,7 +465,7 @@ export default function WeatherOptions(props) {
                                     </div>
                                 </div>
 
-                                <div className='switchContainer'>
+                                {/* <div className='switchContainer'>
 
                                     <FormControlLabel
                                         control={
@@ -488,12 +488,12 @@ export default function WeatherOptions(props) {
                                             Show weather bubbles
                                         </div>} />
 
-                                </div>
+                                </div> */}
 
                                 <div className='weather-options-footer'>
 
-                                    <Button variant="text" onClick={handleClear}  >CLEAR ALL</Button>
-                                    <Button type="submit" variant="contained" >APPLY</Button>
+                                    <Button variant="text" onClick={handleClear} color="warning" >CLEAR ALL</Button>
+                                    <Button type="submit" variant="contained" color="warning" >APPLY</Button>
 
 
                                 </div>

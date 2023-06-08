@@ -3,6 +3,7 @@ module.exports = (sequelize, DataTypes) => {
         tripID: {
             type: DataTypes.STRING,
         },
+        
         temperature: {
             type: DataTypes.FLOAT,
         },
@@ -11,6 +12,9 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.FLOAT,
         },
         overall: {
+            type: DataTypes.STRING,
+        },
+        iconID: {
             type: DataTypes.STRING,
         },
     });

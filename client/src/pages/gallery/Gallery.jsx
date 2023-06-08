@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import Header2 from "../../componets/Header2";
 import WeatherOptions from "../weatherApi/WeatherOptions"
 import Forecast from "../weatherApi/Forecast"
-import WeatherScore from '../weatherApi/WeatherScore';
+import WeatherScore from '../weatherApi/WeatherScore/WeatherScore';
+import PostTripDayWeather from '../weatherApi/WeatherScore/PostTripDayWeather';
 
 
 const Gallery = () => {
@@ -31,7 +32,13 @@ const Gallery = () => {
 
         />
 
-<WeatherScore/>
+        <WeatherScore />
+        <PostTripDayWeather
+          currentCity={globalLocation}
+          tripID="1234"
+          tripDate={tripDate}
+        />
+
       </div>
 
     </div>
