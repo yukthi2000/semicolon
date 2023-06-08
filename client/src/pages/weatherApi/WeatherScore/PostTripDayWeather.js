@@ -31,7 +31,6 @@ const PostTripDayWeather = (props) => {
         axios.get(url)
             .then((response) => {
                 setData(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.log(error);
@@ -43,7 +42,7 @@ const PostTripDayWeather = (props) => {
         if (data.code) {
             //assign tripday data to state variables 
             setTemperature(data.list[dateIndex].temp && data.list[dateIndex].temp.day.toFixed());
-            setOverall(data.list[dateIndex] && data.list[dateIndex].weather[0] && data.list[dateIndex].weather[0].description);
+            setOverall(data.list[dateIndex] && data.list[dateIndex].weather[0] && data.list[dateIndex].weather[0].main);
             setWindSpeed(data.list[dateIndex] && data.list[dateIndex].speed);
             setIconId(data.list[dateIndex] && data.list[dateIndex].weather[0] && data.list[dateIndex].weather[0].icon);
         }
@@ -53,6 +52,7 @@ const PostTripDayWeather = (props) => {
         try {
           const PostData = {
             tripID: tripID,
+            location: location,
             temperature: temperature,
             windSpeed: windSpeed,
             overall: overall,

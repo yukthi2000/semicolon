@@ -32,12 +32,14 @@ const Gallery = () => {
 
         />
 
-        {/* <WeatherScore />
+        <WeatherScore 
+          tripID = "8888" />
+
         <PostTripDayWeather
           currentCity={globalLocation}
-          tripID="1234"
+          tripID="12345"
           tripDate={tripDate}
-        /> */}
+        />
 
       </div>
 

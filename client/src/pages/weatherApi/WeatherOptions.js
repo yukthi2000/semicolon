@@ -17,7 +17,7 @@ import {
     WiCloudy,
     WiRain,
     WiLightning,
-    WiNightStormShowers
+    WiSnow
 } from 'weather-icons-react';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -129,7 +129,7 @@ export default function WeatherOptions(props) {
                 "averageW": checkboxValues.averageW,
                 "slightW": checkboxValues.slightW
             };
-           
+
             // Send the POST request to the backend server
             const response = await axios.post("http://localhost:3001/WeatherOptions", PostData);
 
@@ -299,11 +299,11 @@ export default function WeatherOptions(props) {
                                                 }} />}
 
                                         label={<div className='weather-options-checkbox-label'>
-                                            Storm
+                                            Snow
                                         </div>}
                                     />
 
-                                    <WiNightStormShowers className="weather-options-weather-icons" />
+                                    <WiSnow className="weather-options-weather-icons" />
                                 </div>
 
 
