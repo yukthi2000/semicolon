@@ -100,7 +100,7 @@
     padding-left: 20px;
     padding-RIGHt: 20px;
     display:flex ;
-    justify-content: space-between;
+    justify-content: flex-end;
 }
 
 .weather-options-weather-icons{
