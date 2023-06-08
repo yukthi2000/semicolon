@@ -6,12 +6,12 @@ module.exports = (sequelize, DataTypes) => {
         },
         location: {
             type: DataTypes.STRING,
+            primaryKey: true,
         },
-
+        
         temperature: {
             type: DataTypes.FLOAT,
-        },
-
+        }, 
         windSpeed: {
             type: DataTypes.FLOAT,
         },
@@ -21,6 +21,8 @@ module.exports = (sequelize, DataTypes) => {
         iconID: {
             type: DataTypes.STRING,
         },
+
     });
     return TripDayWeather;
+    
 }

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 function WeatherScore(props) {
 
   const tripID = props.tripID;
+  const location = props.location;
 
   //declare use states to store weather options and 
   const [weatherOptionsData, setWeatherOptionsData] = useState([]);
@@ -17,9 +18,10 @@ function WeatherScore(props) {
       try {
         const [weatherOptionsResponse, actualWeatherResponse] = await Promise.all([
           axios.get(`http://localhost:3001/WeatherOptions/${tripID}`),
-          axios.get(`http://localhost:3001/TripDayWeather/${tripID}`)
+          axios.get(`http://localhost:3001/TripDayWeather/${tripID}/${location}`)
+          
         ]);
-
+        console.log(actualWeatherResponse.data);
         setWeatherOptionsData(weatherOptionsResponse.data);
         setActualWeatherData(actualWeatherResponse.data);
       } catch (error) {
@@ -28,7 +30,7 @@ function WeatherScore(props) {
     };
 
     fetchData();
-  }, [tripID]);;
+  }, [tripID,location]);
 
   useEffect(() => {
     //console.log(weatherOptionsData);

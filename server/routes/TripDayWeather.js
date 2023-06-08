@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {TripDayWeather} = require("../models");
 
-router.get("/:tripID", async (req, res) => {
+router.get("/:tripID/:location", async (req, res) => {
     const { tripID } = req.params;
     const tripDayWeatherResponse = await TripDayWeather.findByPk(tripID);
     

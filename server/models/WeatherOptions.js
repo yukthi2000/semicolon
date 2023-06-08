@@ -49,6 +49,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.BOOLEAN,
             allowNull: false,
         },
+    
         averageW: {
             type: DataTypes.BOOLEAN,
             allowNull: false,

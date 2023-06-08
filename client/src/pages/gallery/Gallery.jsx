@@ -3,12 +3,13 @@ import Header2 from "../../componets/Header2";
 import WeatherOptions from "../weatherApi/WeatherOptions"
 import Forecast from "../weatherApi/Forecast"
 import WeatherScore from '../weatherApi/WeatherScore/WeatherScore';
-import PostTripDayWeather from '../weatherApi/WeatherScore/PostTripDayWeather';
+import PostTripDayLocationList from '../weatherApi/WeatherScore/PostTripDayLocationList';
 
 
 const Gallery = () => {
 
   const tripDate = new Date('2023-07-01');
+  const locations = ["Kandy","Matale","Moratuwa","Gampaha"]
 
   //pull changed location from child components to this cmponent
   const [globalLocation, setGlobalLocation] = useState('Kandy');
@@ -33,13 +34,14 @@ const Gallery = () => {
         />
 
         <WeatherScore 
-          tripID = "8888" />
+          tripID = "7878"
+          location = "Matale" />
 
-        <PostTripDayWeather
-          currentCity={globalLocation}
-          tripID="12345"
+        {/* <PostTripDayLocationList
+          locationList = {locations}
+          tripID="7878"
           tripDate={tripDate}
-        />
+        /> */}
 
       </div>
 

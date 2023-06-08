@@ -79,6 +79,8 @@ export default function WeatherOptions(props) {
         setCheckboxValues({});
     };
 
+    
+
     const validateForm = (values) => {
         let errors = {};
 
@@ -110,11 +112,12 @@ export default function WeatherOptions(props) {
         return errors;
     };
 
+    const [successMsg,setSuccessMsg] = useState ("");
     const handleSubmit = async (event) => {
         try {
             const PostData = {
 
-                "tripID": "1234",
+                "tripID": props.tripID,
                 "sunny": checkboxValues.sunny,
                 "cloudy": checkboxValues.cloudy,
                 "rain": checkboxValues.rain,
@@ -135,6 +138,7 @@ export default function WeatherOptions(props) {
 
             // Handle the response from the server
             console.log(response.PostData); // Assuming the server sends a success message
+            setSuccessMsg("Applied Successfully!")
         }
         catch (error) {
             console.error('Error creating TripDayWeather entry:', error);
@@ -491,6 +495,7 @@ export default function WeatherOptions(props) {
                             </div>
 
                             <div className='weather-options-footer'>
+                                <p className='weather-options-suc-text'>{successMsg}</p>
                                 <Button type='submit' variant="contained" color="success" >APPLY</Button>
                             </div>
                         </Form>
