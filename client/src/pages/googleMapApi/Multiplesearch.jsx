@@ -14,6 +14,7 @@ import { useState } from "react";
 import Searchbox from "./Searchboxformultisearch";
 import Forecast from "../weatherApi/Forecast";
 import axios from "axios";
+import ScoreIcon from '@mui/icons-material/Score';
 
 function Multiplesearch (props)  {
   // const Searchplan = !prop.Searchplan;
@@ -138,7 +139,7 @@ function Multiplesearch (props)  {
           </Box>
 
           <Box className="buttons">
-            <Box className="but1" style={{ paddingBotnotetom: 30 }}>
+            <Box className="but1" style={{ paddingBotnotetom: 0 }}>
               <Button
                 variant="elevated"
                 sx={{ width: 220, color: "#EF7E2A", borderBottom: 3 }}
@@ -150,7 +151,7 @@ function Multiplesearch (props)  {
                 </Typography>
               </Button>
             </Box>
-            <Box className="but2" style={{ paddingBottom: 30 }}>
+            <Box className="but2" style={{ paddingBottom: 0 }}>
               <Button
                 variant="elevated"
                 sx={{ width: 220, color: "#EF7E2A", borderBottom: 3 }}
@@ -162,7 +163,19 @@ function Multiplesearch (props)  {
                 </Typography>
               </Button>
             </Box>
-            <Box className="but3" style={{ paddingBottom: 30 }}>
+            <Box className="but4" style={{ paddingBottom: 0 }}>
+              <Button
+                variant="elevated"
+                sx={{ width: 220, color: "#EF7E2A", borderBottom: 3 }}
+              >
+                <ScoreIcon  sx={{ marginRight: 1 }} />
+                <Typography variant="h7" sx={{ color: "#EF7E2A" }}>
+                  {" "}
+                  Weather Score
+                </Typography>
+              </Button>
+            </Box>
+            <Box className="but3" style={{ paddingBottom: 0 }}>
               <Forecast
                 currentCity={globalLocation}
                 tripDate={tripDate}

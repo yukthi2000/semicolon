@@ -3,15 +3,22 @@ const router = express.Router();
 const { Locations } = require("../models");
 
 router.post("/", async (req, res) => {
-  const data = req.body;
-  await Locations.bulkCreate(data)
-    .then(() => res.json(data))
-    .catch((err) => res.status(500).send(err));
-  
+  try {
+    const data = req.body;
+    const names = data.name; // Assuming the array of names is provided as "name" in req.body
+    const locations = names.map((name) => ({ name })); // Convert each name to an object with the "name" property
+    const createdLocations = await Locations.bulkCreate(locations);
+    res.json(createdLocations);
+  } catch (error) {
+    console.error("Error saving locations data:", error);
+    res.status(500).send(error);
+  }
 });
+
 
 router.get("/a", (req, res) => {
   res.json("hello world");
 });
 
 module.exports = router;
+

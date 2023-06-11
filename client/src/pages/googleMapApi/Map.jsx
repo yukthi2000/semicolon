@@ -18,6 +18,7 @@ import { useContext, useEffect } from "react";
 import { HomeContext } from "../../Context/HomeContext";
 import { InfoBox } from "@react-google-maps/infobox";
 import { Box } from "@mui/material";
+import axios from "axios";
 
 import usePlacesAutocomplete, {
   getGeocode,
@@ -124,7 +125,6 @@ export default function Map(latlng, props) {
     //calculateRoute();
     Setnewarrat();
     Reroute();
-    
   }, [firstAndLastSearchData, searchDataWithoutFirstAndLast]);
 
   useEffect(() => {
@@ -254,12 +254,12 @@ export default function Map(latlng, props) {
 
   async function CalculateREarangeRoute() {
     console.log("calculateRoute start");
-   
+
     const middleLocations = newLocations.slice(1, -1);
 
     // iterate over each element in middleLocations and add it to arrangedmiddlelocations
-    middleLocations.map(location => arrangedmiddlelocations.push(location));
-    
+    middleLocations.map((location) => arrangedmiddlelocations.push(location));
+
     const size = newLocations.length;
 
     if (
@@ -271,7 +271,7 @@ export default function Map(latlng, props) {
     }
     console.log(newLocations[0]);
     console.log(arrangedmiddlelocations);
-    console.log(newLocations[size-1]);
+    console.log(newLocations[size - 1]);
 
     //eslint-disable-next-line  no-undef
     const directionService = new google.maps.DirectionsService();
@@ -432,6 +432,7 @@ export default function Map(latlng, props) {
     });
     //console.log(newLocations);
   };
+
   const Reroute = async () => {
     const numofpoints = all.length;
     const NumofPonitsToSTARTpoints = Math.ceil(numofpoints / 4 + 1);
@@ -465,6 +466,15 @@ export default function Map(latlng, props) {
         newDistances
       );
       console.log(sortedPoints);
+
+      //backend endpoint
+      axios
+        .post("http://localhost:3001/Locations", sortedPoints)
+        .then((Response) => {
+          console.log("worked");
+        });
+      ///
+
       setNewall(sortedPoints); // update all with sortedPoints
       const updatedNetances = Array.from(sortedDistances);
       updatedNetances.forEach((value, index) => {
@@ -673,9 +683,9 @@ export default function Map(latlng, props) {
           </InfoWindow>
         ) : null}
       </GoogleMap>
-      <button type="button" onClick={recivelocations}>
+      {/* <button type="button" onClick={recivelocations}>
         asasfa
-      </button>
+      </button> */}
       {/* {console.log(markers)} */}
       {console.log(curr)}
     </>
