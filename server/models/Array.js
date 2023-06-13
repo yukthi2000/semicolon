@@ -1,5 +1,6 @@
+
 module.exports = (sequelize, DataTypes) => {
-    const Locations = sequelize.define("Locations", {
+    const Array = sequelize.define("Array", {
         name: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -7,5 +8,5 @@ module.exports = (sequelize, DataTypes) => {
       
         
     });
-    return Locations;
+    return Array;
 }

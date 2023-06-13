@@ -468,11 +468,21 @@ export default function Map(latlng, props) {
       console.log(sortedPoints);
 
       //backend endpoint
-      axios
-        .post("http://localhost:3001/Locations", sortedPoints)
-        .then((Response) => {
-          console.log("worked");
+       // Generate a unique key
+      const uniqueKey = generateUniqueKey();
+      function generateUniqueKey() {
+        return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      }
+      
+
+      axios.post("http://localhost:3001/Locations", { key: uniqueKey, data: sortedPoints })
+        .then((response) => {
+          console.log("Request successful");
+        })
+        .catch((error) => {
+          console.error("An error occurred", error);
         });
+      
       ///
 
       setNewall(sortedPoints); // update all with sortedPoints
