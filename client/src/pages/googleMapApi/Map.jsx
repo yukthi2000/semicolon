@@ -85,6 +85,7 @@ export default function Map(latlng, props) {
   const newDistances = [];
   const newLocations = [];
   const arrangedmiddlelocations = [];
+  const [loading, setloading] = useState(false);
   const onmarkk = (data) => {
     console.log("dadfa");
     //Setmarkers(data);
@@ -436,6 +437,10 @@ export default function Map(latlng, props) {
   const Reroute = async () => {
     const numofpoints = all.length;
     const NumofPonitsToSTARTpoints = Math.ceil(numofpoints / 4 + 1);
+    console.log(numofpoints, loading);
+    if (numofpoints < 2 && loading) {
+      prompt("gsdfs");
+    }
 
     for (let j = 0; j < NumofPonitsToSTARTpoints; j++) {
       // const newArray = [...all];
@@ -468,21 +473,24 @@ export default function Map(latlng, props) {
       console.log(sortedPoints);
 
       //backend endpoint
-       // Generate a unique key
-      const uniqueKey = generateUniqueKey();
-      function generateUniqueKey() {
-        return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-      }
-      
 
-      axios.post("http://localhost:3001/Locations", { key: uniqueKey, data: sortedPoints })
+      // Generate a unique key
+
+      // function generateUniqueKey() {
+      //   return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      // }
+
+      // const uniqueKey = generateUniqueKey();
+
+      axios
+        .post("http://localhost:3001/Array", sortedPoints)
         .then((response) => {
           console.log("Request successful");
         })
         .catch((error) => {
           console.error("An error occurred", error);
         });
-      
+
       ///
 
       setNewall(sortedPoints); // update all with sortedPoints
@@ -559,6 +567,7 @@ export default function Map(latlng, props) {
 
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback((map) => {
+    setloading(!loading);
     mapRef.current = map;
   }, []);
 
@@ -683,7 +692,6 @@ export default function Map(latlng, props) {
             directions={directionResponse}
           />
         )}
-
         {selected ? (
           <InfoWindow position={{ lat: selected.lat, lng: selected.lng }}>
             <div>
