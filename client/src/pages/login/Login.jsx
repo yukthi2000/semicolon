@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import HomePageLinkIcon from "../../componets/HomePageLinkIcon";
 import A from "../../assets/A.jpg";
+import { AuthContext } from "../../helpers/AuthContext";
+
 
 const Login = () => {
    // Define email and password as state variables.
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const {setAuthState}= useContext(AuthContext);
 
   const history = useNavigate();
 
@@ -18,8 +21,12 @@ const Login = () => {
       if (response.data.error) {
         alert(response.data.error);
       } else {
-        localStorage.setItem("accessToken", response.data.accessToken);
-        
+        localStorage.setItem("accessToken", response.data.token);
+        setAuthState({
+        email: response.data.email, 
+        id:response.data.id, 
+        name: response.data.name,
+        status: true,})
         console.log(response.data)
         history("/");
       }
@@ -29,9 +36,9 @@ const Login = () => {
   return (
     <div className="reg-form">
       <img className="airBalloon" src={A} alt="" />
-      <div>
+      {/* <div>
         <HomePageLinkIcon />
-      </div>
+      </div> */}
       <div className="Register-form">
         <div>
         <h5>Login</h5> 

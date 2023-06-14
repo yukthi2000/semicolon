@@ -1,3 +1,5 @@
+
+
 .content {
   position: absolute;
   top: 10vh;
@@ -79,3 +81,134 @@
   height: 400px;
   background-color: #e4d449;
 }
+
+.Backgroung-img{
+  position: relative;
+}
+
+.tourist{
+  position: absolute;
+  z-index: 10;
+  top: 170px;
+  right: 100px;
+}
+
+.blob{
+position: absolute;
+  height: 600px;
+  width: 580px;
+  top: 40px;
+  right: 0px;
+  
+}
+
+.background{
+    height: 100%;
+    width: 100%;
+}
+.background_image{
+    height: 80%;
+    width: 30vw;
+}
+.carousel1{
+  width: 0vw;
+}
+
+.aboutUs{
+  width: 80vw;
+  align-items: center;
+}
+p{
+  font-size: 15px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+
+
+.cUsContent{
+
+  width: 100%;
+  display: grid;
+ 
+  grid-template-columns: 1fr 1fr;
+}
+/* 
+.contPara{
+  flex-direction: row;
+  width: 50%;
+}
+
+.contForm{
+  flex-direction: row;
+}
+
+  
+  ::placeholder {
+      color: #999;
+      font-size: 14px;
+      font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  .input{
+  height: 7vh;
+  width: 60vh;
+  margin: 1.5vh;
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  border-bottom: 2px solid #fbabab;
+  text-indent: 20px;
+  }
+  
+  .input:focus,
+  .message:focus {
+      outline: none;
+      background-color: rgb(71, 70, 70);
+      color: black;
+    }
+  
+  .input:not(:placeholder-shown),
+  .message:not(:placeholder-shown) {
+      background-color: #7dabf9;
+      color: black;
+  }
+  
+  .message{
+  height: 20vh;
+  width: 60vh;
+  margin: 1.5vh;
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  border-bottom: 2px solid #fbabab;
+  text-indent: 20px;
+  padding-top: 14px;
+  }
+  
+  .form-button{
+  left: 100vh;
+  }
+  
+  .CUform-button{
+      position: absolute;
+      left: 40vh;
+      width: 10vh;
+      height: 5vh;
+      color: #F04B47;
+      background: white;
+      font-weight: 500;
+      font-family: 'Inria Serif';
+  }
+  
+  
+  .CUform-button1{
+      position: absolute;
+      left: 51.5vh;
+      width: 10vh;
+      height: 5vh;
+      color: white;
+      background: #F04B47;
+      font-weight: 500;
+      font-family: 'Inria Serif';
+  }
+  
+   */

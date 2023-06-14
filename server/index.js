@@ -14,6 +14,13 @@ app.use("/auth", userRouter);
 const LocationRouter = require("./routes/Locations");
 app.use("/Locations", LocationRouter);
 
+const ContactUsRouter = require("./routes/ContactUs");
+app.use("/contactUs", ContactUsRouter);
+
+//gallery
+const imageRoutes = require("./routes/imageRoutes");
+app.use('/api/images', imageRoutes);
+
 db.sequelize.sync().then(() => {
   app.listen(3001, () => {
     console.log("server is running");

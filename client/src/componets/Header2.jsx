@@ -18,31 +18,32 @@ import MenuItem from "@mui/material/MenuItem";
 const Header2 = () => {
   
 
-  const handleLogout  =() =>{
-    localStorage.removeItem("accessToken");
-  }
+  // const handleLogout  =() =>{
+  //   localStorage.removeItem("accessToken");
+  // }
 
-  const settings = [
-    { label: "Profile", link: "/userProfile" },
-    { label: "Logout", onClick: handleLogout  },
-  ];
+  // const settings = [
+  //   { label: "Profile", link: "/userProfile" },
+  //   { label: "Logout", onClick: handleLogout  },
+  // ];
 
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  // const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
+  // const handleOpenUserMenu = (event) => {
+  //   setAnchorElUser(event.currentTarget);
+  // };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+  // const handleCloseUserMenu = () => {
+  //   setAnchorElUser(null);
+  // };
 
   return (
     <AppBar
       sx={{
-        backgroundColor: "rgba(255, 255, 255, 0.001)",
+        backgroundColor: "rgb(7, 94, 26)",
         borderBottom: "1px solid green",
-        backdropFilter: "blur(10px)",
+        
+        // backdropFilter: "blur(0px)",
       }}
     >
       <Toolbar>
@@ -65,6 +66,7 @@ const Header2 = () => {
               display: { xs: "none", sm: "block" },
               fontFamily: "Piedra",
               color: "#EF7E2A",
+              
             }}
           >
             JourneyJive
@@ -147,8 +149,9 @@ const Header2 = () => {
           sx={{ display: { xs: "block", sm: "none" }, marginRight: "20px" }}
         />
 
-      
-        {!localStorage.getItem("accessToken") ? (
+{/*       
+        {
+        !localStorage.getItem("accessToken") ? (
           <>
             <a href="register">
               <Button
@@ -183,7 +186,7 @@ const Header2 = () => {
           </>
         ) : (
           <>
-            {/* <Button
+            { <Button
               sx={{
                 marginLeft: "20px",
                 color: "Blue",
@@ -194,8 +197,8 @@ const Header2 = () => {
               }}
             >
               P
-            </Button> */}
-            <Box sx={{ flexGrow: 0 }}>
+            </Button> }
+            {<Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -229,9 +232,11 @@ const Header2 = () => {
                   </MenuItem>
                 ))}
               </Menu>
-            </Box>
+            </Box> }
           </>
-        )}
+        )
+        } */}
+        
       </Toolbar>
     </AppBar>
   );
