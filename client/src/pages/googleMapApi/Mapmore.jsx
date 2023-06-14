@@ -77,6 +77,16 @@ export default function Map(latlng, props) {
   const originfromsearch = (data) => {
     setOrigin(data);
   };
+
+  const singlelocation=()=>{
+    Setmarkers(() => [
+      {
+        lat: origin.coords.latitude,
+        lng: origin.coords.longitude,
+        time: new Date(),
+      },
+    ]);
+  }
   const destinationfromsearch = (data) => {
     setDestination(data);
   };
@@ -238,6 +248,7 @@ export default function Map(latlng, props) {
                     type="button"
                     sx={{ p: "10px" }}
                     aria-label="search"
+                    onClick={singlelocation}
                   >
                     <SearchIcon />
                   </IconButton>

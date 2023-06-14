@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const { Locations } = require("../models");
+const { Array } = require("../models");
 
 let currentId = 100; // Initialize a variable to track the current ID
 
 router.post("/", async (req, res) => {
-  const locations = req.body;
-  await Locations.create(locations);
-  res.json(Locations);
+  const array = req.body;
+  await Array.create(array);
+  res.json(array);
 });
 
 router.get("/a", (req, res) => {

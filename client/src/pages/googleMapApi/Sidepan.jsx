@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 const Sidepan = (prop) => {
   return (
-    <div>
+    
       <Box>
         <Paper
           elevation={12}
@@ -26,13 +26,9 @@ const Sidepan = (prop) => {
             backgroundColor: "#435555",
           }}
         >
-          <div
-            className="div1"
-            style={{
-              width: 379,
-              height: 228,
-            }}
-          >
+          <Box  className="div1" sx={{width: 379,
+              height: 228,}}>
+         
             <Link to="Tripplan">
               <Button
                 variant="contained"
@@ -64,10 +60,10 @@ const Sidepan = (prop) => {
               <LocationOnIcon sx={{ marginRight: 4 }} />
               Search
             </Button>
-          </div>
+            </Box>
         </Paper>
       </Box>
-    </div>
+    
   );
 };
 

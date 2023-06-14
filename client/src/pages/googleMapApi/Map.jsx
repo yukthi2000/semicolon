@@ -18,6 +18,7 @@ import { useContext, useEffect } from "react";
 import { HomeContext } from "../../Context/HomeContext";
 import { InfoBox } from "@react-google-maps/infobox";
 import { Box } from "@mui/material";
+import axios from "axios";
 
 import usePlacesAutocomplete, {
   getGeocode,
@@ -84,6 +85,7 @@ export default function Map(latlng, props) {
   const newDistances = [];
   const newLocations = [];
   const arrangedmiddlelocations = [];
+  const [loading, setloading] = useState(false);
   const onmarkk = (data) => {
     console.log("dadfa");
     //Setmarkers(data);
@@ -124,7 +126,6 @@ export default function Map(latlng, props) {
     //calculateRoute();
     Setnewarrat();
     Reroute();
-    
   }, [firstAndLastSearchData, searchDataWithoutFirstAndLast]);
 
   useEffect(() => {
@@ -254,12 +255,12 @@ export default function Map(latlng, props) {
 
   async function CalculateREarangeRoute() {
     console.log("calculateRoute start");
-   
+
     const middleLocations = newLocations.slice(1, -1);
 
     // iterate over each element in middleLocations and add it to arrangedmiddlelocations
-    middleLocations.map(location => arrangedmiddlelocations.push(location));
-    
+    middleLocations.map((location) => arrangedmiddlelocations.push(location));
+
     const size = newLocations.length;
 
     if (
@@ -271,7 +272,7 @@ export default function Map(latlng, props) {
     }
     console.log(newLocations[0]);
     console.log(arrangedmiddlelocations);
-    console.log(newLocations[size-1]);
+    console.log(newLocations[size - 1]);
 
     //eslint-disable-next-line  no-undef
     const directionService = new google.maps.DirectionsService();
@@ -432,9 +433,14 @@ export default function Map(latlng, props) {
     });
     //console.log(newLocations);
   };
+
   const Reroute = async () => {
     const numofpoints = all.length;
     const NumofPonitsToSTARTpoints = Math.ceil(numofpoints / 4 + 1);
+    console.log(numofpoints, loading);
+    if (numofpoints < 2 && loading) {
+      prompt("gsdfs");
+    }
 
     for (let j = 0; j < NumofPonitsToSTARTpoints; j++) {
       // const newArray = [...all];
@@ -465,6 +471,28 @@ export default function Map(latlng, props) {
         newDistances
       );
       console.log(sortedPoints);
+
+      //backend endpoint
+
+      // Generate a unique key
+
+      // function generateUniqueKey() {
+      //   return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      // }
+
+      // const uniqueKey = generateUniqueKey();
+
+      axios
+        .post("http://localhost:3001/Array", sortedPoints)
+        .then((response) => {
+          console.log("Request successful");
+        })
+        .catch((error) => {
+          console.error("An error occurred", error);
+        });
+
+      ///
+
       setNewall(sortedPoints); // update all with sortedPoints
       const updatedNetances = Array.from(sortedDistances);
       updatedNetances.forEach((value, index) => {
@@ -539,6 +567,7 @@ export default function Map(latlng, props) {
 
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback((map) => {
+    setloading(!loading);
     mapRef.current = map;
   }, []);
 
@@ -663,7 +692,6 @@ export default function Map(latlng, props) {
             directions={directionResponse}
           />
         )}
-
         {selected ? (
           <InfoWindow position={{ lat: selected.lat, lng: selected.lng }}>
             <div>
@@ -673,9 +701,9 @@ export default function Map(latlng, props) {
           </InfoWindow>
         ) : null}
       </GoogleMap>
-      <button type="button" onClick={recivelocations}>
+      {/* <button type="button" onClick={recivelocations}>
         asasfa
-      </button>
+      </button> */}
       {/* {console.log(markers)} */}
       {console.log(curr)}
     </>
