@@ -9,13 +9,13 @@ import { Link } from 'react-router-dom';
 import homeBg from "../../assets/homeBG.jpg"
 
 function Color() {
-  const [review, setReview] = useState(ProductData);
+  const [review, setReview] = useState(ProductData); // displaying hardcored data 
  
   const addReview = newReview => {
     newReview.id = uuidv4();
     setReview([newReview, ...review]);
   };
-  const deleteFeedback = id => {
+  const deleteFeedback = id => {                             // deleting a review
    if (window.confirm('Are you sure you want to delete?')) {
     setReview(review.filter(item => item.id !== id));
     }

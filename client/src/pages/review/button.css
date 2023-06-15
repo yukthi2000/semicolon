@@ -20,7 +20,7 @@
   opacity: 0.9;
 }
 .btn:disabled { 
-  background-color: #cccccc;
+  background-color: #5c1515;
   color: #333;
   cursor: auto;
 }
