@@ -73,32 +73,67 @@ export default function Map(latlng, props) {
 
   const [dataFromChild, setDataFromChild] = useState("");
   const [clearroute, setClearroute] = React.useState(false);
+  const [isLocationEntered, setIsLocationEntered] = React.useState(true);
 
   const originfromsearch = (data) => {
     setOrigin(data);
+    if (data.length > 0) {
+      setIsLocationEntered(true);
+    }
+
+    //console.log(data);
   };
 
-  const singlelocation=()=>{
-    Setmarkers(() => [
-      {
-        lat: origin.coords.latitude,
-        lng: origin.coords.longitude,
-        time: new Date(),
-      },
-    ]);
-  }
+  const singlelocation = async () => {
+    if (origin.length > 0) {
+      setIsLocationEntered(true);
+    } else {
+      setIsLocationEntered(false);
+    }
+    console.log("singlelocation function called");
+    console.log("Origin:", origin);
+
+    try {
+      const results = await getGeocode({ address: origin });
+      const { lat, lng } = await getLatLng(results[0]);
+      console.log("Latitude:", lat);
+      console.log("Longitude:", lng);
+
+      Setmarkers([
+        {
+          lat: lat,
+          lng: lng,
+          time: new Date(),
+        },
+      ]);
+    } catch (error) {
+      console.log("Error fetching geolocation:", error);
+    }
+    console.log("XXXX");
+  };
+
   const destinationfromsearch = (data) => {
     setDestination(data);
+    if (data.length > 0) {
+      setIsLocationEntered(true);
+    }
+    //console.log(data);
   };
 
   async function calculateRoute() {
+    console.log("XXXX");
+    if (destination.length > 0) {
+      setIsLocationEntered(true);
+    } else {
+      setIsLocationEntered(false);
+    }
     setClearroute(true);
-    if (!origin.current) return;
+    if (!origin) return;
     //eslint-disable-next-line  no-undef
     const directionService = new google.maps.DirectionsService();
     const result = await directionService.route({
-      origin: origin.current.value,
-      destination: destination.current.value,
+      origin: origin,
+      destination: destination,
       //eslint-disable-next-line  no-undef
       travelMode: google.maps.TravelMode.DRIVING,
     });
@@ -122,9 +157,9 @@ export default function Map(latlng, props) {
     setduration("");
 
     // setOrigin(null);
-    origin.current.value = "";
+    origin = "";
     // setDestination(null);
-    destination.current.value = "";
+    destination = "";
     SetdirectionResponse(null);
     // console.log(directionResponse, distance);
   }
@@ -179,7 +214,6 @@ export default function Map(latlng, props) {
     mapRef.current.setZoom(14);
   }, []);
 
-
   if (loadError)
     return (
       <div
@@ -225,7 +259,6 @@ export default function Map(latlng, props) {
                 Searchplanshow={Searchplanshow}
                 Searchplan={Searchplan}
                 heading={heading}
-                
               />
             ) : (
               <div className="searchbar">
@@ -332,7 +365,7 @@ export default function Map(latlng, props) {
             (
               <Marker
                 key={marker.time.toISOString()}
-                position={{ lat: mylat, lng: mylng }}
+                position={{ lat: marker.lat, lng: marker.lng }}
                 icon={{
                   scaledSize: new window.google.maps.Size(30, 30),
                   origin: new window.google.maps.Point(10, 10),
@@ -350,23 +383,53 @@ export default function Map(latlng, props) {
         )}
 
         {/* {!clearroute && <DirectionsRenderer directions={null} />} */}
+        {markers.slice(0, 1).map((marker) =>
+          selected ? (
+            <InfoWindow
+              position={{ lat: marker.lat, lng: marker.lng }}
+              icon={{
+                scaledSize: new window.google.maps.Size(10, 10),
+                anchor: new window.google.maps.Point(15, 15),
+              }}
+            >
+              <div>{origin}</div>
+            </InfoWindow>
+          ) : null
+        )}
+      </GoogleMap>
+      {!isLocationEntered && (
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: "9999",
+            width: "300px",
+            height: "50px",
 
-        {selected ? (
-          <InfoWindow
-            position={{ lat: mylat, lng: mylng }}
-            icon={{
-              scaledSize: new window.google.maps.Size(10, 10),
-              anchor: new window.google.maps.Point(15, 15),
+            backgroundColor: "#f8d7da",
+            padding: "10px",
+            borderRadius: "6px",
+            textAlign: "center",
+            animationName: "highlight",
+            animationDuration: "1.5s",
+            animationIterationCount: "infinite",
+            boxShadow: "0 0 0 2px #f8d7da",
+          }}
+        >
+          <p
+            style={{
+              background: "none",
+              border: "none",
+              color: "red",
+              zIndex: 9999,
             }}
           >
-            <div>Your Current Location </div>
-          </InfoWindow>
-        ) : null}
-      </GoogleMap>
-      <button type="button" onClick={CleareRoute}>
-        dada
-      </button>
-      {console.log(dataFromChild)}
+            Please enter a location. {console.log("fsDFad")}
+          </p>
+        </div>
+      )}
     </>
   );
 }
