@@ -39,6 +39,7 @@ import {
   Marker,
   InfoWindow,
   DirectionsRenderer,
+  InfoWindowF,
 } from "@react-google-maps/api";
 
 import { formatRelative } from "date-fns";
@@ -230,18 +231,33 @@ export default function Map(latlng, props,mapLocation ) {
         onClick={() => handleMarkerClick(attraction)}
       >
         {selectedPlace && selectedPlace.place_id === attraction.place_id && (
-          <InfoWindow
+          <InfoWindowF
             position={{
               lat: selectedPlace.geometry.location.lat(),
-              lng: selectedPlace.geometry.location.lng()
+              lng: selectedPlace.geometry.location.lng(),
             }}
+            onCloseClick={() => setSelectedPlace(null)}
+            
           >
-            <div>{selectedPlace.name}</div>
-          </InfoWindow>
+            <div>
+              <img
+                src={selectedPlace.icon}
+                alt="Place Icon"
+                style={{ width: "20px", height: "20px", margin: "8px" }}
+              />
+              <span 
+              style={{fontWeight:500 ,fontFamily:'poppins' }}>
+                {selectedPlace.name}</span>
+            </div>
+          </InfoWindowF>
         )}
       </Marker>
     ));
   };
+  
+  
+
+  
   
   
   

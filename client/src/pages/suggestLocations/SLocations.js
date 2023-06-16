@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
+import { GoogleMap, useLoadScript, Marker, InfoWindow } from "@react-google-maps/api";
 
 const libraries = ["places"];
 
@@ -15,6 +15,7 @@ const SLocations = () => {
   });
 
   const [touristAttractions, setTouristAttractions] = useState([]);
+  const [selectedAttraction, setSelectedAttraction] = useState(null);
   const mapRef = useRef(null);
   const mapContainerStyle = {
     width: "100vw",
@@ -37,7 +38,6 @@ const SLocations = () => {
             const lat = results[0].geometry.location.lat();
             const lng = results[0].geometry.location.lng();
             locationsWithLatLng.push({ lat, lng });
-            console.log(locationsWithLatLng);
             resolve();
           } else {
             reject(status);
@@ -85,21 +85,40 @@ const SLocations = () => {
     return () => clearTimeout(timeout);
   }, []);
 
-  const renderMarkers = () => {
-    return touristAttractions.map((attraction) => (
-      <Marker
-        key={attraction.place_id}
-        position={{
-          lat: attraction.geometry.location.lat(),
-          lng: attraction.geometry.location.lng(),
-        }}
-        icon={{
-          url: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
-        }}
-      />
-    ));
-  };
+  const [selectedPlace, setSelectedPlace] = useState(null);
 
+  const handleMarkerClick = (place) => {
+    setSelectedPlace(place);
+  };
+  const renderMarkers = () => {
+  return touristAttractions.map((attraction) => (
+    <Marker
+      key={attraction.place_id}
+      position={{
+        lat: attraction.geometry.location.lat(),
+        lng: attraction.geometry.location.lng(),
+      }}
+      icon={{
+        url: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
+      }}
+      onClick={() => handleMarkerClick(attraction)}
+    >
+      {selectedPlace && selectedPlace.place_id === attraction.place_id && (
+        <InfoWindow
+          position={{
+            lat: selectedPlace.geometry.location.lat(),
+            lng: selectedPlace.geometry.location.lng(),
+          }}
+          onCloseClick={() => setSelectedPlace(null)}
+        >
+          <div>{selectedPlace.name}</div>
+        </InfoWindow>
+      )}
+    </Marker>
+  ));
+};
+
+  
   if (loadError) {
     return <div>Error loading map</div>;
   }
@@ -113,7 +132,10 @@ const SLocations = () => {
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         zoom={7.5}
-        center={{lat: 7.2905715, lng: 80.6337262}}
+        center={ {
+          lat: 7.84774,
+          lng: 80.7003,
+        }}
         options={options}
         onLoad={(map) => (mapRef.current = map)}
       >
