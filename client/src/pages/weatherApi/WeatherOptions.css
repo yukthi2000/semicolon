@@ -31,7 +31,7 @@
     background: #D9D9D9;
     margin-top: 10px;
     margin-bottom: 10px;
-    display: flex;
+    display: block;
 }
 
 .weather-options-ins-text {
@@ -41,6 +41,14 @@
     color: #435555;
     font-weight: bold;
     font-size: 14px;
+  }
+  .weather-options-ins-text2 {
+    
+    font-family: 'Poppins';
+    font-weight: 400;
+    font-style: normal;
+    color: #435555;
+    font-size: 12px;
 }
 .weather-options-suc-text {
 
@@ -48,15 +56,23 @@
     font-style: normal;
     color: #044242;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 12px;
 }
 .weather-options-err-text {
 
     font-family: 'Poppins';
     font-style: normal;
     color: red;
-    font-weight: bold;
-    font-size: 14px;
+    font-weight:bold;
+    font-size: 12px;
+}
+.weather-options-ins-text1 {
+
+    font-family: 'Poppins';
+    font-style: normal;
+    color: #044242;
+    font-weight:bold;
+    font-size: 12px;
 }
 
 .weather-options-subtitle {

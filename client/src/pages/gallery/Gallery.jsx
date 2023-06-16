@@ -36,7 +36,8 @@ const Gallery = () => {
       <br />
       <br /><br />
       <div className="gallerycontainer">
-        {/* <WeatherOptions />
+        <WeatherOptions
+        tripID="88888" />
         <Forecast
 
           currentCity={globalLocation}
@@ -47,7 +48,7 @@ const Gallery = () => {
 
         <WeatherScore
           tripID="7878"
-          location="Matale" /> */}
+          location="Matale" />
 
         {/* <PostTripDayLocationList
           locationList = {locations}
@@ -69,7 +70,7 @@ const Gallery = () => {
           lat= "7.2906"
           lng= "80.6337"
           /> */}
-        <SLocations />
+        {/* <SLocations /> */}
 
       </div>
 

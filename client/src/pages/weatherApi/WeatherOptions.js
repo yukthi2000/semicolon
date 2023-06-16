@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { useState } from 'react';
+import { Formik, Form,} from 'formik';
+import { useState, useEffect } from 'react';
 import './WeatherOptions.css';
 import axios from 'axios';
 
@@ -67,6 +67,10 @@ export default function WeatherOptions(props) {
         slightW: false,
     };
 
+    const [formValid, setFormValid] = useState(false);
+    const [successToggle,setSuccessToggle] = useState(false);
+
+
     const handleCheckboxChange = (event) => {
         const { name, checked } = event.target;
         setCheckboxValues((prevState) => ({
@@ -75,45 +79,16 @@ export default function WeatherOptions(props) {
         }));
     };
 
-    const handleReset = () => {
-        setCheckboxValues({});
-    };
+    useEffect(() => {
+        const overallChecked = checkboxValues.sunny || checkboxValues.cloudy || checkboxValues.rain || checkboxValues.thunder || checkboxValues.storm;
+        const temperatureChecked = checkboxValues.exHot || checkboxValues.hot || checkboxValues.averageT || checkboxValues.cold || checkboxValues.exCold;
+        const windSpeedChecked = checkboxValues.heavyW || checkboxValues.averageW || checkboxValues.slightW;
 
-    
+        setFormValid(overallChecked && temperatureChecked && windSpeedChecked);
+    }, [checkboxValues]);
 
-    const validateForm = (values) => {
-        let errors = {};
-
-        // Check if at least one checkbox is checked in each form group
-        if (
-            !values.cloudy &&
-            !values.sunny &&
-            !values.rain &&
-            !values.thunder &&
-            !values.storm
-        ) {
-            errors.overall = 'Please select at least one weather condition.';
-        }
-
-        if (
-            !values.exHot &&
-            !values.hot &&
-            !values.averageT &&
-            !values.cold &&
-            !values.exCold
-        ) {
-            errors.temperature = 'Please select at least one temperature range.';
-        }
-
-        if (!values.heavyW && !values.averageW && !values.slightW) {
-            errors.wind = 'Please select at least one wind speed range.';
-        }
-
-        return errors;
-    };
-
-    const [successMsg,setSuccessMsg] = useState ("");
-    const [succERRclass,setsuccERRclass] = useState ("");
+    const [successMsg, setSuccessMsg] = useState("Select atleast one option from each group.");
+    const [succERRclass, setsuccERRclass] = useState("weather-options-ins-text1");
     const handleSubmit = async (event) => {
         try {
             const PostData = {
@@ -140,13 +115,14 @@ export default function WeatherOptions(props) {
             // Handle the response from the server
             console.log(response.PostData); // Assuming the server sends a success message
             setSuccessMsg("Applied Successfully!");
-            setsuccERRclass("weather-options-suc-text")
-            
+            setsuccERRclass("weather-options-suc-text");
+            setSuccessToggle(true);
+
         }
         catch (error) {
             console.error('Error creating TripDayWeather entry:', error);
             // Handle error response from the server
-            setSuccessMsg("Something went wrong!")
+            setSuccessMsg("Something went wrong. Try again!")
             setsuccERRclass("weather-options-err-text")
         }
     };
@@ -201,7 +177,7 @@ export default function WeatherOptions(props) {
                                 <div className='weather-options-ins-text'>
                                     Please enter your desired weather conditions.
                                 </div>
-
+                                
                             </div>
 
                             <div className='weather-options-subtitle'>
@@ -501,13 +477,17 @@ export default function WeatherOptions(props) {
 
                             <div className='weather-options-footer'>
                                 <p className={succERRclass}>{successMsg}</p>
-                                <Button type='submit' variant="contained" color="success" >APPLY</Button>
+                                <Button type='submit' variant="contained" color="success" disabled={!formValid}>
+                                    APPLY
+                                </Button>
+
                             </div>
                         </Form>
                     </Formik>
                 </div>
 
             </Dialog>
+            
         </div>
     );
 
