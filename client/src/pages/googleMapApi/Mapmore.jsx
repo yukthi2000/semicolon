@@ -17,6 +17,12 @@ import Header2 from "../../componets/Header2";
 import Sidepan from "./Sidepan";
 import { useEffect, useRef } from "react";
 import Searchbox from "./Searchboxformulti";
+import Ratings from "./singleLocationData/Ratings";
+import Viewer from "./singleLocationData/Viewer";
+
+import { Box } from "@mui/material";
+import axios from "axios";
+import "./singleLocationData/rating.css";
 
 import usePlacesAutocomplete, {
   getGeocode,
@@ -73,32 +79,87 @@ export default function Map(latlng, props) {
 
   const [dataFromChild, setDataFromChild] = useState("");
   const [clearroute, setClearroute] = React.useState(false);
+  const [isLocationEntered, setIsLocationEntered] = React.useState(true);
+  const [listofdata, setListofdata] = useState([]);
+  const [sidepan, setSidepan] = React.useState(false);
+  //connection for database for retrive reviews
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/Ratings/location", {
+        params: {
+          location: origin,
+        },
+      })
+      .then((response) => {
+        setListofdata(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [origin]);
 
   const originfromsearch = (data) => {
     setOrigin(data);
+    if (data.length > 0) {
+      setIsLocationEntered(true);
+    }
+
+    //console.log(data);
   };
 
-  const singlelocation=()=>{
-    Setmarkers(() => [
-      {
-        lat: origin.coords.latitude,
-        lng: origin.coords.longitude,
-        time: new Date(),
-      },
-    ]);
-  }
+  const singlelocation = async () => {
+    if (origin.length > 0) {
+      setIsLocationEntered(true);
+      setSidepan(true);
+    } else {
+      setIsLocationEntered(false);
+      setSidepan(false);
+    }
+    console.log("singlelocation function called");
+    console.log("Origin:", origin);
+
+    try {
+      const results = await getGeocode({ address: origin });
+      const { lat, lng } = await getLatLng(results[0]);
+      console.log("Latitude:", lat);
+      console.log("Longitude:", lng);
+
+      Setmarkers([
+        {
+          lat: lat,
+          lng: lng,
+          time: new Date(),
+        },
+      ]);
+    } catch (error) {
+      console.log("Error fetching geolocation:", error);
+    }
+    console.log("XXXX");
+  };
+
   const destinationfromsearch = (data) => {
     setDestination(data);
+    if (data.length > 0) {
+      setIsLocationEntered(true);
+    }
+    //console.log(data);
   };
 
   async function calculateRoute() {
+    console.log("XXXX");
+    if (destination.length > 0) {
+      setIsLocationEntered(true);
+    } else {
+      setIsLocationEntered(false);
+    }
     setClearroute(true);
-    if (!origin.current) return;
+    if (!origin) return;
     //eslint-disable-next-line  no-undef
     const directionService = new google.maps.DirectionsService();
     const result = await directionService.route({
-      origin: origin.current.value,
-      destination: destination.current.value,
+      origin: origin,
+      destination: destination,
       //eslint-disable-next-line  no-undef
       travelMode: google.maps.TravelMode.DRIVING,
     });
@@ -122,26 +183,26 @@ export default function Map(latlng, props) {
     setduration("");
 
     // setOrigin(null);
-    origin.current.value = "";
+    origin = "";
     // setDestination(null);
-    destination.current.value = "";
+    destination = "";
     SetdirectionResponse(null);
     // console.log(directionResponse, distance);
   }
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      setMylat(position.coords.latitude);
-      setMylng(position.coords.longitude);
-      console.log(position);
-      Setmarkers(() => [
-        {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-          time: new Date(),
-        },
-      ]);
-    });
-  }, []);
+  // useEffect(() => {
+  //   navigator.geolocation.getCurrentPosition((position) => {
+  //     setMylat(position.coords.latitude);
+  //     setMylng(position.coords.longitude);
+  //     console.log(position);
+  //     Setmarkers(() => [
+  //       {
+  //         lat: position.coords.latitude,
+  //         lng: position.coords.longitude,
+  //         time: new Date(),
+  //       },
+  //     ]);
+  //   });
+  // }, []);
 
   const handlesearch = () => {
     setSearch(!search);
@@ -174,11 +235,22 @@ export default function Map(latlng, props) {
     mapRef.current = map;
   }, []);
 
-  const panTo = React.useCallback(({ lat, lng }) => {
-    mapRef.current.panTo({ lat, lng });
-    mapRef.current.setZoom(14);
-  }, []);
+  const panTo = React.useCallback(
+    ({ lat, lng }) => {
+      mapRef.current.panTo({ lat, lng });
 
+      if (origin.length > 0) {
+        mapRef.current.setZoom(10); // Zoom out to original level
+
+        setTimeout(() => {
+          mapRef.current.setZoom(14); // Zoom in to new location
+        }, 1000); // Delay of one second
+      } else {
+        mapRef.current.setZoom(14); // Zoom in to new location
+      }
+    },
+    [origin]
+  );
 
   if (loadError)
     return (
@@ -225,7 +297,6 @@ export default function Map(latlng, props) {
                 Searchplanshow={Searchplanshow}
                 Searchplan={Searchplan}
                 heading={heading}
-                
               />
             ) : (
               <div className="searchbar">
@@ -318,6 +389,93 @@ export default function Map(latlng, props) {
           )}
         </div>
       </div>
+      <div style={{ backgroundColor: "cyan" }}>
+        {/*viewerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr */}
+
+        {sidepan ? (
+          <div className="viewer">
+            <Box>
+              <Paper
+                sx={{
+                  width: 400,
+                  borderRadius: 0,
+                  zIndex: 9999,
+                  position: "absolute",
+                  height: 250,
+                  marginTop: 25,
+                  marginLeft: 1.5,
+                }}
+              >
+                <div
+                  className="locawe"
+                  style={{
+                    marginLeft: 10,
+                    marginTop: 10,
+                    marginRight: 10,
+                    display: "flex",
+                    justifyContent: "space-between",
+                    height: 55,
+                  }}
+                >
+                  <div className="loc">{origin} name</div>
+                  <div className="we">weather</div>
+                </div>
+                <hr />
+                <div
+                  className="title"
+                  style={{
+                    marginLeft: 10,
+                  }}
+                >
+                  Reviews
+                </div>
+                <div className="reviews-container">
+                  <div className="reviews">
+                    {listofdata.map((value, key) => {
+                      return (
+                        <div className="all" key={key}>
+                          <div className="card">
+                            <div className="rating">{value.rating}</div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </Paper>
+            </Box>
+          </div>
+        ) : (
+          ""
+        )}
+        {/*viewerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr */}
+
+        {/*Imagesssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss */}
+
+        {sidepan ? (
+          <div className="viewer">
+            <Box>
+              <Paper
+                sx={{
+                  width: 400,
+                  borderRadius: 4,
+                  zIndex: 9999,
+                  position: "absolute",
+                  height: 250,
+                  marginTop: 60,
+                  marginLeft: 1.5,
+                }}
+              >
+                dfasfasfa
+              </Paper>
+            </Box>
+          </div>
+        ) : (
+          ""
+        )}
+
+        {/*Imagesssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss */}
+      </div>
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         zoom={7.5}
@@ -332,11 +490,14 @@ export default function Map(latlng, props) {
             (
               <Marker
                 key={marker.time.toISOString()}
-                position={{ lat: mylat, lng: mylng }}
+                position={{ lat: marker.lat, lng: marker.lng }}
                 icon={{
                   scaledSize: new window.google.maps.Size(30, 30),
                   origin: new window.google.maps.Point(10, 10),
                   anchor: new window.google.maps.Point(25, 25),
+                }}
+                onLoad={() => {
+                  panTo({ lat: marker.lat, lng: marker.lng }); // Zoom in to the marker's position when it's loaded
                 }}
                 onClick={() => {
                   setSelected(marker);
@@ -350,23 +511,53 @@ export default function Map(latlng, props) {
         )}
 
         {/* {!clearroute && <DirectionsRenderer directions={null} />} */}
+        {markers.slice(0, 1).map((marker) =>
+          selected ? (
+            <InfoWindow
+              position={{ lat: marker.lat, lng: marker.lng }}
+              icon={{
+                scaledSize: new window.google.maps.Size(10, 10),
+                anchor: new window.google.maps.Point(15, 15),
+              }}
+            >
+              <div>{origin}</div>
+            </InfoWindow>
+          ) : null
+        )}
+      </GoogleMap>
+      {!isLocationEntered && (
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: "9999",
+            width: "300px",
+            height: "50px",
 
-        {selected ? (
-          <InfoWindow
-            position={{ lat: mylat, lng: mylng }}
-            icon={{
-              scaledSize: new window.google.maps.Size(10, 10),
-              anchor: new window.google.maps.Point(15, 15),
+            backgroundColor: "#f8d7da",
+            padding: "10px",
+            borderRadius: "6px",
+            textAlign: "center",
+            animationName: "highlight",
+            animationDuration: "1.5s",
+            animationIterationCount: "infinite",
+            boxShadow: "0 0 0 2px #f8d7da",
+          }}
+        >
+          <p
+            style={{
+              background: "none",
+              border: "none",
+              color: "red",
+              zIndex: 9999,
             }}
           >
-            <div>Your Current Location </div>
-          </InfoWindow>
-        ) : null}
-      </GoogleMap>
-      <button type="button" onClick={CleareRoute}>
-        dada
-      </button>
-      {console.log(dataFromChild)}
+            Please enter a location. {console.log("fsDFad")}
+          </p>
+        </div>
+      )}
     </>
   );
 }

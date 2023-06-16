@@ -19,6 +19,7 @@ import { HomeContext } from "../../Context/HomeContext";
 import { InfoBox } from "@react-google-maps/infobox";
 import { Box } from "@mui/material";
 import axios from "axios";
+import { useLocation, useSearchParams } from "react-router-dom";
 
 import usePlacesAutocomplete, {
   getGeocode,
@@ -46,6 +47,7 @@ import { Button } from "@mui/material";
 // import SearchBox from "react-google-maps/lib/components/places/SearchBox";
 const heading = "kandy";
 const libraries = ["places"];
+
 const mapContainerStyle = {
   width: "100vw",
   height: "100vh",
@@ -86,6 +88,7 @@ export default function Map(latlng, props) {
   const newLocations = [];
   const arrangedmiddlelocations = [];
   const [loading, setloading] = useState(false);
+  const [locationsstart,setlocationsstart]=useState([]);
   const onmarkk = (data) => {
     console.log("dadfa");
     //Setmarkers(data);
@@ -101,6 +104,16 @@ export default function Map(latlng, props) {
   const Searchplanshow = () => {
     setSearchplan(!Searchplan);
   };
+  //get start location from url
+  const location = useLocation();
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const startlocation = searchParams.get("startlocation");
+    // Use the startlocation value as needed
+    setlocationsstart(startlocation);
+    console.log(startlocation);
+  }, [location.search]);
 
   const mapWithoutFirstAndLast = (array) => {
     return array.slice(1, array.length - 1);
@@ -620,6 +633,7 @@ export default function Map(latlng, props) {
               Searchplan={Searchplan}
               heading={heading}
               sendlocations={recivelocations}
+              locationsstart={locationsstart} // start location
               //optimizeroute={calculateRoute}
             />
           ) : (

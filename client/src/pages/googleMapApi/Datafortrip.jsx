@@ -26,7 +26,15 @@ import dayjs from "dayjs";
 
 const Datafortrip = (prop) => {
   const [gobutton, setGobutton] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [weather, setWeather] = useState("");
+  const [vehicle, setVehicle] = useState("");
+  const [showError, setShowError] = useState(false);
   const gobuttonhandle = () => {
+    if (!selectedDate || !weather || !vehicle) {
+      setShowError(true);
+      return;
+    }
     setGobutton(!gobutton);
     prop.gobuttonhandle();
   };
@@ -39,12 +47,11 @@ const Datafortrip = (prop) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const [weather, setWeather] = useState("");
-
+ 
   const weatherop = (e) => {
     setWeather(e.target.value);
   };
-  const [vehicle, setVehicle] = useState("");
+
 
   const vehicleop = (e) => {
     setVehicle(e.target.value);
@@ -218,6 +225,11 @@ const Datafortrip = (prop) => {
               </Button>
             </div>
           )}
+          {showError && (!selectedDate || !weather || !vehicle) && (
+        <Typography variant="body1" color="error">
+          Please fill in all fields.
+        </Typography>
+      )}
         </Paper>
       </Box>
     </div>
