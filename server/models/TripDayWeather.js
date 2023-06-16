@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             primaryKey: true,
         },
-        
+         
         temperature: {
             type: DataTypes.FLOAT,
         }, 
@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         },
 
     });
+    
     return TripDayWeather;
     
 }

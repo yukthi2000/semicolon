@@ -18,6 +18,7 @@ import { useContext, useEffect } from "react";
 import { HomeContext } from "../../Context/HomeContext";
 import { InfoBox } from "@react-google-maps/infobox";
 import { Box } from "@mui/material";
+import axios from "axios";
 
 import usePlacesAutocomplete, {
   getGeocode,
@@ -59,7 +60,7 @@ const options = {
   streetViewControl: true,
 };
 
-export default function Map(latlng, props) {
+export default function Map(latlng, props,mapLocation ) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: "AIzaSyCjTfIEci5TjcUCYMifDVtiC6nt7tFRqko",
     libraries,
@@ -84,6 +85,7 @@ export default function Map(latlng, props) {
   const newDistances = [];
   const newLocations = [];
   const arrangedmiddlelocations = [];
+  const [loading, setloading] = useState(false);
   const onmarkk = (data) => {
     console.log("dadfa");
     //Setmarkers(data);
@@ -117,6 +119,8 @@ export default function Map(latlng, props) {
     setAll([firstElement, ...restElements, lastElement]);
   };
 
+ 
+
   useEffect(() => {
     // This will log the updated state values
     console.log(firstAndLastSearchData);
@@ -124,7 +128,6 @@ export default function Map(latlng, props) {
     //calculateRoute();
     Setnewarrat();
     Reroute();
-    
   }, [firstAndLastSearchData, searchDataWithoutFirstAndLast]);
 
   useEffect(() => {
@@ -138,6 +141,112 @@ export default function Map(latlng, props) {
   // await calculateRoute();
   // console.log("optimizeroute end");
   // };
+
+  //Harshana
+  
+  const [mapLocations, setMapLocations] = useState([]);
+  const reciveSuggestlocations = (data) => {
+    setMapLocations(data);
+  };
+  const [touristAttractions, setTouristAttractions] = useState([]);
+
+  const [selectedPlace, setSelectedPlace] = useState(null);
+ 
+  const handleMarkerClick = (place) => {
+    setSelectedPlace(place);
+  };
+
+  useEffect(() => {
+    const geocoder = new window.google.maps.Geocoder();
+    const locationsWithLatLng = [];
+
+    const geocodeLocation = (locationName) => {
+      return new Promise((resolve, reject) => {
+        geocoder.geocode({ address: locationName }, (results, status) => {
+          if (status === window.google.maps.GeocoderStatus.OK && results[0]) {
+            const lat = results[0].geometry.location.lat();
+            const lng = results[0].geometry.location.lng();
+            locationsWithLatLng.push({ lat, lng });
+            //console.log(locationsWithLatLng);
+            resolve();
+          } else {
+            reject(status);
+          }
+        });
+      });
+    };
+
+    const fetchTouristAttractions = async () => {
+      try {
+        for (const location of mapLocations) {
+          await geocodeLocation(location);
+        }
+      } catch (error) {
+        console.log("Error geocoding location:", error);
+      }
+
+      if (locationsWithLatLng.length > 0) {
+        locationsWithLatLng.forEach((location) => {
+          const service = new window.google.maps.places.PlacesService(mapRef.current);
+          const request = {
+            location: new window.google.maps.LatLng(location.lat, location.lng),
+            radius: 2000,
+            type: "tourist_attraction",
+          };
+          service.nearbySearch(request, (results, status) => {
+            if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+              setTouristAttractions((prevAttractions) => [...prevAttractions, ...results]);
+            }
+          });
+        });
+      }
+    };
+
+    if (isLoaded) {
+      fetchTouristAttractions();
+    }
+  }, [isLoaded, mapLocations]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setMapLocations(mapLocations);
+    }, 1000);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
+  
+  const renderMarkers = () => {
+    return touristAttractions.map((attraction) => (
+      <Marker
+        key={attraction.place_id}
+        position={{
+          lat: attraction.geometry.location.lat(),
+          lng: attraction.geometry.location.lng(),
+        }}
+        icon={{
+          url: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
+        }}
+        onClick={() => handleMarkerClick(attraction)}
+      >
+        {selectedPlace && selectedPlace.place_id === attraction.place_id && (
+          <InfoWindow
+            position={{
+              lat: selectedPlace.geometry.location.lat(),
+              lng: selectedPlace.geometry.location.lng()
+            }}
+          >
+            <div>{selectedPlace.name}</div>
+          </InfoWindow>
+        )}
+      </Marker>
+    ));
+  };
+  
+  
+  
+  
+
 
   //function to calculate route
   async function calculateRoute() {
@@ -254,12 +363,12 @@ export default function Map(latlng, props) {
 
   async function CalculateREarangeRoute() {
     console.log("calculateRoute start");
-   
+
     const middleLocations = newLocations.slice(1, -1);
 
     // iterate over each element in middleLocations and add it to arrangedmiddlelocations
-    middleLocations.map(location => arrangedmiddlelocations.push(location));
-    
+    middleLocations.map((location) => arrangedmiddlelocations.push(location));
+
     const size = newLocations.length;
 
     if (
@@ -271,7 +380,7 @@ export default function Map(latlng, props) {
     }
     console.log(newLocations[0]);
     console.log(arrangedmiddlelocations);
-    console.log(newLocations[size-1]);
+    console.log(newLocations[size - 1]);
 
     //eslint-disable-next-line  no-undef
     const directionService = new google.maps.DirectionsService();
@@ -432,9 +541,14 @@ export default function Map(latlng, props) {
     });
     //console.log(newLocations);
   };
+
   const Reroute = async () => {
     const numofpoints = all.length;
     const NumofPonitsToSTARTpoints = Math.ceil(numofpoints / 4 + 1);
+    console.log(numofpoints, loading);
+    if (numofpoints < 2 && loading) {
+      // prompt("gsdfs");
+    }
 
     for (let j = 0; j < NumofPonitsToSTARTpoints; j++) {
       // const newArray = [...all];
@@ -465,6 +579,28 @@ export default function Map(latlng, props) {
         newDistances
       );
       console.log(sortedPoints);
+
+      //backend endpoint
+
+      // Generate a unique key
+
+      // function generateUniqueKey() {
+      //   return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      // }
+
+      // const uniqueKey = generateUniqueKey();
+
+      axios
+        .post("http://localhost:3001/Array", sortedPoints)
+        .then((response) => {
+          console.log("Request successful");
+        })
+        .catch((error) => {
+          console.error("An error occurred", error);
+        });
+
+      ///
+
       setNewall(sortedPoints); // update all with sortedPoints
       const updatedNetances = Array.from(sortedDistances);
       updatedNetances.forEach((value, index) => {
@@ -539,6 +675,7 @@ export default function Map(latlng, props) {
 
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback((map) => {
+    setloading(!loading);
     mapRef.current = map;
   }, []);
 
@@ -591,6 +728,9 @@ export default function Map(latlng, props) {
               Searchplan={Searchplan}
               heading={heading}
               sendlocations={recivelocations}
+              sendSuggestlocations={reciveSuggestlocations}
+              
+
               //optimizeroute={calculateRoute}
             />
           ) : (
@@ -639,6 +779,7 @@ export default function Map(latlng, props) {
         //onClick={onMapClick}
         onLoad={onMapLoad}
       >
+          {renderMarkers()}
         {markers.map((marker) => (
           <Marker
             key={marker.time.toISOString()}
@@ -663,7 +804,6 @@ export default function Map(latlng, props) {
             directions={directionResponse}
           />
         )}
-
         {selected ? (
           <InfoWindow position={{ lat: selected.lat, lng: selected.lng }}>
             <div>
@@ -673,9 +813,9 @@ export default function Map(latlng, props) {
           </InfoWindow>
         ) : null}
       </GoogleMap>
-      <button type="button" onClick={recivelocations}>
+      {/* <button type="button" onClick={recivelocations}>
         asasfa
-      </button>
+      </button> */}
       {/* {console.log(markers)} */}
       {console.log(curr)}
     </>

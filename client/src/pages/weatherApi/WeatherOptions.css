@@ -50,6 +50,14 @@
     font-weight: bold;
     font-size: 14px;
 }
+.weather-options-err-text {
+
+    font-family: 'Poppins';
+    font-style: normal;
+    color: red;
+    font-weight: bold;
+    font-size: 14px;
+}
 
 .weather-options-subtitle {
     padding: 5px 25px 0px 25px;

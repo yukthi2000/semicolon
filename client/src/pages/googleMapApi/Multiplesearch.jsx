@@ -65,6 +65,10 @@ function Multiplesearch (props)  {
     
   }
 
+  function handleSuggest() {
+    props.sendSuggestlocations(searchdata);
+  }
+
   function saveData(data) {
     axios.post("http://localhost:3001/Locations", data)
       .then((res) => {
@@ -154,6 +158,7 @@ function Multiplesearch (props)  {
               <Button
                 variant="elevated"
                 sx={{ width: 220, color: "#EF7E2A", borderBottom: 3 }}
+                onClick={handleSuggest}
               >
                 <AddLocationAltIcon sx={{ marginRight: 1 }} />
                 <Typography variant="h7" sx={{ color: "#EF7E2A" }}>

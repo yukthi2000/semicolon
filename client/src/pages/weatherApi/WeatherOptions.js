@@ -113,6 +113,7 @@ export default function WeatherOptions(props) {
     };
 
     const [successMsg,setSuccessMsg] = useState ("");
+    const [succERRclass,setsuccERRclass] = useState ("");
     const handleSubmit = async (event) => {
         try {
             const PostData = {
@@ -138,11 +139,15 @@ export default function WeatherOptions(props) {
 
             // Handle the response from the server
             console.log(response.PostData); // Assuming the server sends a success message
-            setSuccessMsg("Applied Successfully!")
+            setSuccessMsg("Applied Successfully!");
+            setsuccERRclass("weather-options-suc-text")
+            
         }
         catch (error) {
             console.error('Error creating TripDayWeather entry:', error);
             // Handle error response from the server
+            setSuccessMsg("Something went wrong!")
+            setsuccERRclass("weather-options-err-text")
         }
     };
 
@@ -495,7 +500,7 @@ export default function WeatherOptions(props) {
                             </div>
 
                             <div className='weather-options-footer'>
-                                <p className='weather-options-suc-text'>{successMsg}</p>
+                                <p className={succERRclass}>{successMsg}</p>
                                 <Button type='submit' variant="contained" color="success" >APPLY</Button>
                             </div>
                         </Form>
