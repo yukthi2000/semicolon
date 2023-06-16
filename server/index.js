@@ -17,6 +17,9 @@ app.use("/Locations", LocationRouter);
 const ArrayRouter = require("./routes/Array");
 app.use("/Array", ArrayRouter);
 
+const RatingsRouter = require("./routes/Ratings");
+app.use("/Ratings", RatingsRouter);
+
 db.sequelize.sync().then(() => {
   app.listen(3001, () => {
     console.log("server is running");
