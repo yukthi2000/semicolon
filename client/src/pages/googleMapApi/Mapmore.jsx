@@ -19,6 +19,7 @@ import { useEffect, useRef } from "react";
 import Searchbox from "./Searchboxformulti";
 import Ratings from "./singleLocationData/Ratings";
 import Viewer from "./singleLocationData/Viewer";
+import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 
 import { Box } from "@mui/material";
 import axios from "axios";
@@ -82,6 +83,8 @@ export default function Map(latlng, props) {
   const [isLocationEntered, setIsLocationEntered] = React.useState(true);
   const [listofdata, setListofdata] = useState([]);
   const [sidepan, setSidepan] = React.useState(false);
+  const [panopen, setpanopen] = React.useState(true);
+
   //connection for database for retrive reviews
   useEffect(() => {
     axios
@@ -389,93 +392,128 @@ export default function Map(latlng, props) {
           )}
         </div>
       </div>
-      <div style={{ backgroundColor: "cyan" }}>
-        {/*viewerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr */}
-
+      {/*viewerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr */}
+      
+      {panopen ? (
+      <div>
         {sidepan ? (
-          <div className="viewer">
-            <Box>
-              <Paper
-                sx={{
-                  width: 400,
-                  borderRadius: 0,
-                  zIndex: 9999,
-                  position: "absolute",
-                  height: 250,
-                  marginTop: 25,
-                  marginLeft: 1.5,
-                }}
-              >
-                <div
-                  className="locawe"
-                  style={{
-                    marginLeft: 10,
-                    marginTop: 10,
-                    marginRight: 10,
-                    display: "flex",
-                    justifyContent: "space-between",
-                    height: 55,
-                  }}
-                >
-                  <div className="loc">{origin} name</div>
-                  <div className="we">weather</div>
-                </div>
-                <hr />
-                <div
-                  className="title"
-                  style={{
-                    marginLeft: 10,
-                  }}
-                >
-                  Reviews
-                </div>
-                <div className="reviews-container">
-                  <div className="reviews">
-                    {listofdata.map((value, key) => {
-                      return (
-                        <div className="all" key={key}>
-                          <div className="card">
-                            <div className="rating">{value.rating}</div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </Paper>
-            </Box>
+          <div
+            className="sidepan"
+            style={{
+              marginTop: 180,
+              backgroundColor: "#E86E18",
+              zIndex: 999,
+              width: 435,
+              height: 550,
+              position: "fixed",
+              borderRadius: 6,
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <div
+              className="left"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent:"space-around",
+                width: 400,
+                height: 550,
+              }}
+            >
+              <div className="viewer" style={{height: 250,
+                      width: 400,marginLeft: 10,}}>
+                <Box>
+                  <Paper
+                    sx={{
+                      width: 400,
+                      borderRadius: 4,
+                      zIndex: 9999,
+                      position: "absolute",
+                      height: 250,
+                      
+                      // marginTop: 2,
+                      // marginLeft: 1,
+                    }}
+                  >
+                    dfasfasfa
+                  </Paper>
+                </Box>
+              </div>
+              <div className="rating" style={{height: 250,
+                      width: 400,marginLeft: 10,}}>
+                <Box>
+                  <Paper
+                    sx={{
+                      width: 400,
+                      borderRadius: 0,
+                      zIndex: 9999,
+                      position: "absolute",
+                      height: 250,
+                      // marginTop: 35,
+                      // marginLeft: 1,
+                    }}
+                  >
+                    <div
+                      className="locawe"
+                      style={{
+                        marginLeft: 10,
+                        marginTop: 10,
+                        marginRight: 10,
+                        display: "flex",
+                        justifyContent: "space-between",
+                        height: 40,
+                      }}
+                    >
+                      <div className="loc">{origin} </div>
+                      <div className="we">weather</div>
+                    </div>
+                    <hr />
+                    <div
+                      className="title"
+                      style={{
+                        marginLeft: 10,
+                      }}
+                    >
+                      Reviews
+                    </div>
+                    <div className="reviews-container">
+                      <div className="reviews">
+                        {listofdata.map((value, key) => {
+                          return (
+                            <div className="all" key={key}>
+                              <div className="card">
+                                <div className="rating">{value.rating}</div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </Paper>
+                </Box>
+              </div>
+            </div>
+            <div
+              className="right"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                alignContent: "center",
+              }}
+            >
+              <IconButton onClick={()=>{setpanopen(!panopen)}}>
+                <DoubleArrowIcon />
+              </IconButton>
+            </div>
           </div>
         ) : (
           ""
         )}
-        {/*viewerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr */}
-
-        {/*Imagesssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss */}
-
-        {sidepan ? (
-          <div className="viewer">
-            <Box>
-              <Paper
-                sx={{
-                  width: 400,
-                  borderRadius: 4,
-                  zIndex: 9999,
-                  position: "absolute",
-                  height: 250,
-                  marginTop: 60,
-                  marginLeft: 1.5,
-                }}
-              >
-                dfasfasfa
-              </Paper>
-            </Box>
-          </div>
-        ) : (
-          ""
-        )}
-
-        {/*Imagesssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss */}
       </div>
+      ):}
+      {/*viewerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr */}
+
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         zoom={7.5}
