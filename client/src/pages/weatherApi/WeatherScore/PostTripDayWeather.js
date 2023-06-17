@@ -80,10 +80,6 @@ const PostTripDayWeather = (props) => {
         }
     }
 
-    return (
-        <div>
-        </div>
-    );
 }
 
 export default PostTripDayWeather;

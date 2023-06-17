@@ -252,17 +252,9 @@ export default function Map(latlng, props,mapLocation ) {
       </Marker>
     ));
   };
-  
-  
-  
+  //Harshana End
 
   
-  
-  
-  
-  
-
-
   //function to calculate route
   async function calculateRoute() {
     console.log("calculateRoute start");

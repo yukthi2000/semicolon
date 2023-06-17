@@ -169,6 +169,24 @@ export default function Map(latlng, props) {
     mapRef.current.setZoom(14);
   }, []);
 
+  //Harshana
+  const [infoWindowVisible, setInfoWindowVisible] = React.useState(false);
+  const generateInfoWindow = (lat, lng) => {
+    return (
+      <InfoWindow
+        position={{ lat: lat, lng: lng }}
+        onCloseClick={() => setInfoWindowVisible(false)}
+      >
+        <div>
+          jnkjnsakdj
+        </div>
+      </InfoWindow>
+    );
+  };
+
+  const onButtonClick = () => {
+    setInfoWindowVisible(true);
+  };
 
   if (loadError)
     return (
@@ -197,8 +215,13 @@ export default function Map(latlng, props) {
       </div>
     );
 
+
+    
+
   return (
     <>
+    <button onClick={onButtonClick}>Show Info Window</button>
+
       <div>
         <Header2 />
         <div
@@ -315,6 +338,8 @@ export default function Map(latlng, props) {
         // onClick={onMapClick}
         onLoad={onMapLoad}
       >
+        {infoWindowVisible && generateInfoWindow(7.291418, 80.636696)}
+        
         {markers.slice(0, 1).map(
           (marker) => (
             console.log(marker),
@@ -356,6 +381,17 @@ export default function Map(latlng, props) {
         dada
       </button>
       {console.log(dataFromChild)}
+
+      <div
+          style={{
+            marginTop: 70,
+            marginLeft: 10,
+            position: "absolute",
+            zIndex: 100,
+          }}
+        >
+          
+        </div>
     </>
   );
 }

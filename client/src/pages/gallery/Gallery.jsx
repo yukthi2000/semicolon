@@ -8,6 +8,7 @@ import MapForSuggest from '../suggestLocations/MapForSuggest';
 import TouristAttractions from '../suggestLocations/TouristAttractions';
 import TestMark from '../suggestLocations/TestMark';
 import SLocations from '../suggestLocations/SLocations';
+import NameToLatLng from '../weatherApi/WeatherScore/NameToLatLng';
 
 
 const Gallery = () => {
@@ -25,9 +26,8 @@ const Gallery = () => {
 
   const location = { lat: 7.467465, lng: 80.623416 };
   const locations = [
-    { lat: 40.712776, lng: -74.005974 }, // Example location 1
-    { lat: 7.2906, lng: 80.6337 }, // Example location 2
-    // Add more locations as needed
+    'Temple of the tooth Relic දළදා මාළිගාව, Temple Square, Kandy, Sri Lanka',
+    'Nalanda Gedige, Gedige Rd, Matale, Sri Lanka'
   ];
 
   return (
@@ -49,6 +49,8 @@ const Gallery = () => {
         <WeatherScore
           tripID="7878"
           location="Matale" />
+
+          <NameToLatLng locations={locations}/>
 
         {/* <PostTripDayLocationList
           locationList = {locations}
