@@ -33,6 +33,7 @@ import {
   Marker,
   InfoWindow,
   DirectionsRenderer,
+  InfoWindowF,
 } from "@react-google-maps/api";
 
 import { formatRelative } from "date-fns";
@@ -55,7 +56,7 @@ const options = {
   streetViewControl: true,
 };
 
-export default function Map(latlng, props) {
+export default function Map(latlng, props,mapLocation ) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: "AIzaSyCjTfIEci5TjcUCYMifDVtiC6nt7tFRqko",
     libraries,
@@ -140,6 +141,8 @@ export default function Map(latlng, props) {
     setAll([firstElement, ...restElements, lastElement]);
   };
 
+ 
+
   useEffect(() => {
     // This will log the updated state values
     console.log(firstAndLastSearchData);
@@ -161,6 +164,118 @@ export default function Map(latlng, props) {
   // console.log("optimizeroute end");
   // };
 
+  //Harshana
+  
+  const [mapLocations, setMapLocations] = useState([]);
+  const reciveSuggestlocations = (data) => {
+    setMapLocations(data);
+  };
+  const [touristAttractions, setTouristAttractions] = useState([]);
+
+  const [selectedPlace, setSelectedPlace] = useState(null);
+ 
+  const handleMarkerClick = (place) => {
+    setSelectedPlace(place);
+  };
+
+  useEffect(() => {
+    const geocoder = new window.google.maps.Geocoder();
+    const locationsWithLatLng = [];
+
+    const geocodeLocation = (locationName) => {
+      return new Promise((resolve, reject) => {
+        geocoder.geocode({ address: locationName }, (results, status) => {
+          if (status === window.google.maps.GeocoderStatus.OK && results[0]) {
+            const lat = results[0].geometry.location.lat();
+            const lng = results[0].geometry.location.lng();
+            locationsWithLatLng.push({ lat, lng });
+            //console.log(locationsWithLatLng);
+            resolve();
+          } else {
+            reject(status);
+          }
+        });
+      });
+    };
+
+    const fetchTouristAttractions = async () => {
+      try {
+        for (const location of mapLocations) {
+          await geocodeLocation(location);
+        }
+      } catch (error) {
+        console.log("Error geocoding location:", error);
+      }
+
+      if (locationsWithLatLng.length > 0) {
+        locationsWithLatLng.forEach((location) => {
+          const service = new window.google.maps.places.PlacesService(mapRef.current);
+          const request = {
+            location: new window.google.maps.LatLng(location.lat, location.lng),
+            radius: 2000,
+            type: "tourist_attraction",
+          };
+          service.nearbySearch(request, (results, status) => {
+            if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+              setTouristAttractions((prevAttractions) => [...prevAttractions, ...results]);
+            }
+          });
+        });
+      }
+    };
+
+    if (isLoaded) {
+      fetchTouristAttractions();
+    }
+  }, [isLoaded, mapLocations]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setMapLocations(mapLocations);
+    }, 1000);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
+  
+  const renderMarkers = () => {
+    return touristAttractions.map((attraction) => (
+      <Marker
+        key={attraction.place_id}
+        position={{
+          lat: attraction.geometry.location.lat(),
+          lng: attraction.geometry.location.lng(),
+        }}
+        icon={{ url: require("../../../src/assets/suggested_pin.png"), scaledSize: { width: 32, height: 32 } }}
+        onClick={() => handleMarkerClick(attraction)}
+        animation={selectedPlace && selectedPlace.place_id === attraction.place_id ? window.google.maps.Animation.BOUNCE : null}
+      >
+        {selectedPlace && selectedPlace.place_id === attraction.place_id && (
+          <InfoWindowF
+            position={{
+              lat: selectedPlace.geometry.location.lat(),
+              lng: selectedPlace.geometry.location.lng(),
+            }}
+            onCloseClick={() => setSelectedPlace(null)}
+          >
+            <div>
+              <img
+                src={selectedPlace.icon}
+                alt="Place Icon"
+                style={{ width: "20px", height: "20px", margin: "8px" }}
+              />
+              <span style={{ fontWeight: 500, fontFamily: 'poppins' }}>
+                {selectedPlace.name}
+              </span>
+            </div>
+          </InfoWindowF>
+        )}
+      </Marker>
+    ));
+  };
+  //Harshana End
+
+  
   //function to calculate route
   async function calculateRoute() {
     console.log("calculateRoute start");
@@ -657,9 +772,12 @@ export default function Map(latlng, props) {
               Searchplanshow={Searchplanshow}
               Searchplan={Searchplan}
               heading={heading}
-              sendlocations={recivelocations}
+              sendlocations={recivelocations} 
               locationsstart={locationsstart}
               indexsend={indexsend} // start location
+              sendSuggestlocations={reciveSuggestlocations}//Sugest Locations Harshana
+              
+
               //optimizeroute={calculateRoute}
             />
           ) : (
@@ -708,6 +826,7 @@ export default function Map(latlng, props) {
         //onClick={onMapClick}
         onLoad={onMapLoad}
       >
+          {renderMarkers()}
         {markers.map((marker) => (
           <Marker
             key={marker.time.toISOString()}

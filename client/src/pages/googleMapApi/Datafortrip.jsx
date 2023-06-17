@@ -147,7 +147,8 @@ const Datafortrip = (prop) => {
             </Typography>
             <div>
               <div>
-                <WeatherOptions />
+                <WeatherOptions 
+                  tripID = "1987" />
               </div>
             </div>
           </div>

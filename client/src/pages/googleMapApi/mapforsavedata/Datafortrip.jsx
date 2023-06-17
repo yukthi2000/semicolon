@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./datafortrip.css";
 import styled from "styled-components";
 import { Box, Paper, Typography } from "@mui/material";
@@ -59,6 +59,20 @@ const Datafortrip = (prop) => {
     setVehicle(e.target.value);
   };
   const username = "yukthi";
+
+  //Harshana
+  const handleDateChange = (date) => { //Harshana Date
+    setSelectedDate(date);
+    console.log(date);
+  };
+  
+  const[weatherDate,setWeatherDate] = useState("2023-06-15")
+  
+  useEffect(() => {
+   
+  }, [selectedDate])
+  
+
   return (
     <div
       style={{
@@ -135,6 +149,8 @@ const Datafortrip = (prop) => {
                         borderRadius: 2,
                       }}
                       showDaysOutsideCurrentMonth
+                      value={selectedDate}
+                      onChange={handleDateChange}
                     />
                   </DemoContainer>
                 </LocalizationProvider>

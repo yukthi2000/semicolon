@@ -12,8 +12,6 @@ const Review = () => {
         <Header2 />
       </div>
       <div className="content-review">
-        <h1 style={{paddingTop:100}}>Start coding...</h1>
-
         
         <Map /> 
       </div>
