@@ -9,7 +9,7 @@ const Review = () => {
   return (
     <div className="review-page">
       <div className="header">
-        <Header2 />
+        {/* <Header2 /> */}
       </div>
       <div className="content-review">
         

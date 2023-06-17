@@ -1,45 +1,78 @@
-import React from "react";
-import "./Register.css";
-import A from "../../assets/A.jpg"
-import HomePageLinkIcon from "../../componets/HomePageLinkIcon";
-import EmailIcon from '@mui/icons-material/Email';
 
-
+import React, { useState } from "react";
 
 const ForgetPassword = () => {
+  const [status, setStatus] = useState("Send");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("Sending..");
+    const { email } = e.target.elements;
+    let details = {
+      email: email.value,
+    };
 
-    return (
-        <div className="reg-form">
-            <img className="airBalloon" src={A} alt="" />
-            <div>
-                <HomePageLinkIcon />
-            </div>
-            <div className="login-form">
-                <div><h1>Password Reset</h1></div><br />
+    try {
+      let response = await fetch("http://localhost:3001/passwordReset/resetLink", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+        body: JSON.stringify(details),
+      });
+
+      setStatus("Submit");
+
+      if (!response.ok) {
+        throw new Error("Error occurred during request");
+      }
+
+      let result = await response.json();
+      alert(result.status);
+    } catch (error) {
+      console.error(error);
+      alert("An error occurred during the request.");
+    }
+  };
+
+
+  return (
+    <div className="contactUs">
+      <div>
+        <h2>
+          <center>Forget password</center>
+        </h2>
+      </div>
+
+      <div className="cUsContent">
+        <div className="contForm">
+          <div className="contact-us container-fluid">
+            <div className="form">
+              <form onSubmit={handleSubmit}>
                 <div>
-                    <form>
-                        <div><h6>No worries! Enter your email address and we will <br />send you a link to reset password</h6></div><br />
-                        <div>
-                            <div style={{ position: "relative" }}>
-                                <EmailIcon style={{ position: "absolute", top: 24, left: 20 }}/>
-                                <input
-                                    className='input'
-                                    type="email"
-                                    id="email"
-                                    required
-                                    placeholder='email'
-                                    style={{ paddingLeft: 32 }}
-                                />
-                            </div>
-                            <br />
-                            <div><a class="btn btn-primary" href="reset-password" role="button">SEND</a></div>
-                        </div>
-                    </form>
+                 
+                  <div>
+                    <label>Email</label>
+                    <input
+                      className="input"
+                      type="email"
+                      id="email"
+                      required
+                      placeholder="email"
+                    />
+                  </div>      
+                  <div>
+                    <button type="submit" className="CUform-button1">
+                      {status}
+                    </button>
+                  </div>
                 </div>
+              </form>
             </div>
+          </div>
         </div>
-
-    )
-}
+      </div>
+    </div>
+  );
+};
 
 export default ForgetPassword;

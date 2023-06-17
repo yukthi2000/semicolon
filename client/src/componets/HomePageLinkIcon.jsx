@@ -12,7 +12,7 @@ const HomePageLinkIcon = () => {
         borderRadius: "5px",
         height: "30px",
         width: "30px",
-        marginTop:"6vh",
+        marginTop:"10vh",
         marginLeft: "6vh",
       }} /></a>
   </div>
