@@ -772,10 +772,10 @@ export default function Map(latlng, props,mapLocation ) {
               Searchplanshow={Searchplanshow}
               Searchplan={Searchplan}
               heading={heading}
-              sendlocations={recivelocations}
+              sendlocations={recivelocations} 
               locationsstart={locationsstart}
               indexsend={indexsend} // start location
-              sendSuggestlocations={reciveSuggestlocations}
+              sendSuggestlocations={reciveSuggestlocations}//Sugest Locations Harshana
               
 
               //optimizeroute={calculateRoute}

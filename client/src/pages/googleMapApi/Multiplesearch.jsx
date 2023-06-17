@@ -66,8 +66,8 @@ function Multiplesearch(props) {
     props.sendlocations(searchdata);
     // props.optimizeroute(true);
   }
-//Harshana
-  
+
+  //Harshana  
   function handleSuggest() {
     props.sendSuggestlocations(searchdata);
   }
