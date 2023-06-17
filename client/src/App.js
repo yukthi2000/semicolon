@@ -29,7 +29,7 @@ import Header2 from "./componets/Header2";
 import Avatar from "@mui/material/Avatar";
 import { useNavigate } from "react-router-dom";
 import ContactUs from "./pages/ContactUs/ContactUs";
-import AboutUs from "./pages/AboutUs/AboutUs";
+
 
 const App = () => {
   const [authState, setAuthState] = useState({
@@ -117,7 +117,8 @@ const App = () => {
                       color: "white",
                       backgroundColor: "#EF7E2A",
                       borderRadius: "6px",
-                      left: "15px",
+                      left: "91vh",
+                      top: "5px",
                       "&:hover": {
                         backgroundColor: "white",
                         color: "#EF7E2A",
@@ -133,8 +134,9 @@ const App = () => {
                       color: "white",
                       backgroundColor: "#EF7E2A",
                       borderRadius: "6px",
-                      left: "100px",
-                      top: "-37px",
+                      left: "95vh",
+                      top: "5px",
+                      
                       "&:hover": {
                         backgroundColor: "white",
                         color: "#EF7E2A",
@@ -217,12 +219,11 @@ const App = () => {
           <Route path="mapp" element={<Mapmore />} />
           <Route path="mapp/Tripplan" element={<Tripplan />} />
           <Route path="/contactUs" element={<ContactUs />} />
-          <Route path="/aboutUs" element={<AboutUs />} />
-
+         
           <Route path="userProfile" element={<UserProfile />}>
             <Route path="" element={<UserGallery />} />
             <Route path="review" element={<UserReview />} />
-            <Route path="plannedTrip" element={<PlannedTrip />} />
+            <Route path="plannedTrip/:id" element={<PlannedTrip />} />
           </Route>
           <Route path="admin" element={<Admin />}>
             <Route path="" element={<Dashboard />} />

@@ -6,6 +6,7 @@ const {validateToken} = require ('../middlewares/AuthMiddleware');
 const { sign } = require("jsonwebtoken")
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 
 
 router.post("/", async (req, res) => {
@@ -104,48 +105,66 @@ router.get("/auth", validateToken, (req, res)=>{
 // });
 
 
-// POST /api/forgot-password
-router.post('/forgot-password', async (req, res) => {
-  const { email } = req.body;
 
-  try {
-    // Check if email exists in the database
-    const user = await User.findOne({ where: { email } });
-    if (!user) {
-      return res.status(404).json({ message: 'Email not found.' });
-    }
+// function generateResetToken() {
+//   const tokenLength = 32; // Length of the reset token
+//   return crypto.randomBytes(tokenLength).toString('hex');
+// }
 
-    // Generate a JWT token with a reset password payload
-    const payload = { userId: user.id };
-    const token = jwt.sign(payload, 'your-secret-key', { expiresIn: '1h' });
+// router.post('/forgot-password', async (req, res) => {
+//   const { email } = req.body;
 
-    // Create a password reset link
-    const resetLink = `http://your-frontend-app/reset-password?token=${token}`;
+//   try {
+//     // Check if email exists in the database
+//     const user = await User.findOne({ where: { email } });
+//     if (!user) {
+//       return res.status(404).json({ message: 'Email not found.' });
+//     }
 
+//     // Generate a password reset token
+//     const resetToken = generateResetToken();
 
-    // Send the reset link to the user's email address
-    const transporter = nodemailer.createTransport({
-      service: 'Gmail',
-      auth: {
-        user: 'ldsliyanage99@gmail.com',
-        pass: 'Diliya#99',
-      },
-    });
+//     // Save the reset token and its expiry in the database for the user
+//     user.resetToken = resetToken;
+//     user.resetTokenExpiry = Date.now() + 3600000; // Set expiry to 1 hour from the current time
+//     await user.save();
 
-    const mailOptions = {
-      from: 'ldsliyanage99@gmail.com',
-      to: email,
-      subject: 'Password Reset',
-      html: `Click the following link to reset your password: <a href="${resetLink}">${resetLink}</a>`,
-    };
+//     // Create a password reset link
+//     const resetLink = `http://localhost:3001/reset-password?token=${resetToken}`;
 
-    await transporter.sendMail(mailOptions);
+//     // Send the reset link to the user's email address
+//     const transporter = nodemailer.createTransport({
+//       service: 'Gmail',
+//       auth: {
+//         user: 'ldsliyanage99@gmail.com',
+//         pass: 'mfnwugjwlawbewkd',
+//       },
+//     });
 
-    res.status(200).json({ message: 'Reset link sent to your email address.' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Internal server error.' });
-  }
-});
+//     transporter.verify((error) => {
+//       if (error) {
+//         console.log("error in password reset link");
+//       } else {
+//         console.log("Ready to Send password reset link");
+//       }
+//     });
+  
 
-module.exports = router;
+//     const mailOptions = {
+//       from: 'ldsliyanage99@gmail.com',
+//       to: email,
+//       subject: 'Password Reset',
+//       html: `Click the following link to reset your password: <a href="${resetLink}">${resetLink}</a>`,
+//     };
+
+//     await transporter.sendMail(mailOptions);
+
+//     res.status(200).json({ message: 'Reset link sent to your email address.' });
+//   } catch (error) {
+    
+//     console.error(error);
+//     res.status(500).json({ message: 'Internal server error.' });
+//   }
+// });
+
+ module.exports = router;

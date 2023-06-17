@@ -21,6 +21,10 @@ app.use("/contactUs", ContactUsRouter);
 const imageRoutes = require("./routes/imageRoutes");
 app.use('/api/images', imageRoutes);
 
+//ForgetPassword
+const forgetPasswordRoutes = require("./routes/ForgetPassword");
+app.use('/passwordReset',forgetPasswordRoutes);
+
 db.sequelize.sync().then(() => {
   app.listen(3001, () => {
     console.log("server is running");

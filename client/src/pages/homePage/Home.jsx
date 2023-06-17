@@ -1,20 +1,27 @@
 import React from "react";
 import home from "../../assets/home.jpg";
-import tourist from "../../assets/tourist.png";
 import Saly from "../../assets/Saly-3.png";
-import carousel1 from "../../assets/AboutUs/1.jpg";
-import carousel2 from "../../assets/AboutUs/2.jpg";
-import carousel3 from "../../assets/AboutUs/3.jpg";
-import background from "../../assets/About us.jpg";
+import Saly19 from "../../assets/Saly-19.png";
 import "./Home.css";
 import Button from "@mui/material/Button";
 import Search from "./Search";
-import { Link } from "react-router-dom";
 import axios from "axios";
-import Header from "../../componets/Header";
-import Register from "../login/Register";
-import Header2 from "../../componets/Header2";
 import { useState } from "react";
+import weatherForecast from "../../assets/weatherForecast.jpg";
+import routeOptimize from "../../assets/routeOptimize.png";
+import Kabaragala from "../../assets/Kabaragala.jpg";
+import dunhinda from "../../assets/dunhinda.jpg";
+import pasikuda from "../../assets/pasikuda.jpg";
+import sigiriya from "../../assets/sigiriya.jpg";
+import airBallon from "../../assets/airBallon.png";
+import travelPack from "../../assets/travelPack.png";
+import abc from "../../assets/abc.jpg";
+
+
+
+
+
+
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
@@ -30,6 +37,7 @@ import {
 import "@reach/combobox/styles.css";
 import { height, width } from "@mui/system";
 import { HomeContext } from "../../Context/HomeContext";
+import ContactUs from "../ContactUs/ContactUs";
 
 const Home = () => {
   const [startlocation, setstartLocation] = React.useState([]);
@@ -95,28 +103,20 @@ const Home = () => {
     }
   };
 
-  const handleReset = (e) => {
-    e.preventDefault();
-    const { name, email, message } = e.target.form;
-    name.value = "";
-    email.value = "";
-    message.value = "";
-  };
-
   return (
-    <div>
+    <div className="home-page">
       {React.useEffect(() => {
         console.log(startlocation);
         //console.log(endlocation);
       })}
-      <div>
-        <div>{/* <Header2 /> */}</div>
-        <div className="Backgroung-img">
+      
+      <div className="div-section">
+      <div className="Backgroung-img">
           <img
             src={home}
             alt=""
             height="750px"
-            width="100%"
+            width="1519px"
             position="relative"
           />
 
@@ -202,208 +202,226 @@ const Home = () => {
             Go
           </Button>
         </div>
-        <div>
-          <p className="p2"></p>
-          <div></div>
-        </div>
       </div>
-      <div className="gallery">
-        <Link to="/contactUs">
-          <h4>Contact us</h4>
-        </Link>
-        <Link to="/aboutUs">
-          <h4>About us</h4>
-        </Link>
-      </div>
-      <div className="place">
-        {" "}
-        <div className="aboutUs mx-auto">
-          <div className="aboutus_image"></div>
-          <div className="about_us_text">
-            <div className="graph_1 text-center">
-              <h2>
-                <center className="">About Us</center>
-              </h2>
-              <div>
-                <h3>
-                  <br />
-                  Welcome to JourneyJive!
-                </h3>
-              </div>
-              <div>
-                <h5>
-                  <p >
-                    your passport to seamless travel planning and unforgettable
-                    adventures. Our mission is to inspire and empower travelers
-                    like you to explore the world and create lifelong memories.
-                    JourneyJive is your one-stop destination for everything
-                    travel-related. Discover exciting destinations, from hidden
-                    gems to popular hotspots, through our comprehensive location
-                    search. Gain valuable insights from fellow travelers by
-                    reading and writing reviews, helping you make informed
-                    decisions about your next journey. Capture the essence of
-                    your experiences with our image upload feature, and be
-                    inspired by the stunning visuals shared by our vibrant
-                    travel community.
-                  </p>
-
-                  <p>
-                    Let us optimize your itinerary with our intelligent route
-                    planning, ensuring you make the most of your time and visit
-                    the must-see attractions. Stay ahead of the weather with our
-                    real-time forecasts, providing you with the information you
-                    need to pack appropriately and plan your activities
-                    accordingly. And the best part? Save all your trip details
-                    and itineraries in one place, easily accessible whenever you
-                    need them. JourneyJive is here to simplify your travel
-                    planning process, leaving you free to focus on the joy of
-                    exploration. So embark on your next adventure with
-                    confidence and let JourneyJive be your trusted companion on
-                    this extraordinary journey.
-                  </p>
-                </h5>
-              </div>
-              {/* <div>
-                <h4>
-                  Adventure awaits. Let JourneyJive be your compass and turn
-                  your travel dreams into cherished memories.
-                </h4>
-              </div> */}
+        
+       <div className="div-section">
+       <div className="Features">
+            <div className="Features1">
+              {" "}
+              <img
+                src={Saly19}
+                alt=""
+                height="450px"
+                width="500px"
+                position="abosolute"
+              />
             </div>
-          </div>
-
-          {/* <div className="background">
-            <img src={background} alt="" className="background_image" />
-          </div> */}
-
-          {/* 
-          <div id="carouselExampleIndicators" class="carousel slide carousel1 " data-ride="carousel">
-  <ol class="carousel-indicators">
-    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-  </ol>
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img class="d-block w-100" src={carousel1} alt="First slide" ></img>
-    </div>
-    <div class="carousel-item">
-      <img class="d-block w-100" src={carousel2} alt="Second slide"></img>
-    </div>
-    <div class="carousel-item">
-      <img class="d-block w-100" src={carousel3} alt="Third slide"></img>
-    </div>
-  </div>
-  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
-</div> */}
-        </div>
-
-
-
-        <div className="Contactus">
-        <div>
-        <h2>
-          <center>Contact Us</center>
-        </h2>
-      </div>
-
-      <div className="cUsContent">
-        <div className="contPara">
-          <div>
-            <h4>
-              <p>
-                <br />
-                We value your connection and are eager to hear from you.
-                JourneyJive, your trusted travel companion, is always just a
-                message away. Whether you have questions, feedback, or simply
-                want to share your travel stories, we're here to listen and
-                assist. Our team is dedicated to providing exceptional support
-                and ensuring that your journey with us is nothing short of
-                extraordinary. Get in touch with us through the contact
-                information provided below, and let's embark on a conversation
-                that brings your travel aspirations to life. Together, let's
-                create meaningful memories and explore the world with
-                JourneyJive.
-              </p>
-            </h4>
-          </div>
-          <div>
-            <h4>Happy travels!</h4>
-          </div>
-        </div>
-        <div className="contForm">
-          <div className="contact-us container-fluid">
-            {/* <div className='paragraph'>
-        <div className='header'>Get in touch..<br/></div>
-        <div className='para'>
-        Fill out this form and we will get back to you shortly<br/><br/>
-        Address:<br/>
-        Students’ Union,<br/>
-        Faculty of Information Technology,<br/>
-        University of Moratuwa<br/><br/>
-        Telephone:<br/>
-        +94775467896<br/><br/>
-        Email:<br/>
-        abd@gmail.com<br/>
-        </div>
-      </div> */}
-            <div className="form">
-              <form onSubmit={handleSubmit}>
-                <div>
-                  <div>
-                    <input
-                      className="input"
-                      type="text"
-                      id="name"
-                      required
-                      placeholder="name"
-                    />
-                  </div>
-                  <div>
-                    <input
-                      className="input"
-                      type="email"
-                      id="email"
-                      required
-                      placeholder="email"
-                    />
-                  </div>
-                  <div>
-                    <textarea
-                      className="message"
-                      id="message"
-                      required
-                      placeholder="Message"
-                    />
-                  </div>
-                  <div>
-                    <button
-                      type="reset"
-                      className="CUform-button"
-                      onClick={handleReset}
-                    >
-                      Reset
-                    </button>
-                    <button type="submit" className="CUform-button1">
-                      {status}
-                    </button>
-                  </div>
+            <div className="Features2">
+              FEATURES TO REPLACE ALL YOUR OTHER TOOLS
+              <div className="cards">
+                <div className="card">
+                  <section class="articles">
+                    <article>
+                      <div class="article-wrapper">
+                        <figure className="figure">
+                          <img
+                            src={routeOptimize}
+                            alt=""
+                            width="170px"
+                            height="100px"
+                          />
+                        </figure>
+                        <div class="article-body">
+                          <h4 className="Header-card">Route Optimization</h4>
+                          <p className="body-card">
+                            Perfect for road trips and saving $$$ on gas! Get
+                            the best route auto-rearranged.
+                          </p>
+                        </div>
+                      </div>
+                    </article>
+                  </section>
                 </div>
-              </form>
+                <div className="card">
+                  <section class="articles">
+                    <article>
+                      <div class="article-wrapper">
+                        <figure className="figure">
+                          <img
+                            src={weatherForecast}
+                            alt=""
+                            width="170px"
+                            height="100px"
+                            left="5vh"
+                          />
+                        </figure>
+                        <div class="article-body">
+                          <h4 className="Header-card">Weather Forecast</h4>
+                          <p className="body-card">
+                            analysis of the state of the weather in an
+                            destination you travel...
+                          </p>
+                        </div>
+                      </div>
+                    </article>
+                  </section>
+                </div>
+              </div>
+              <div className="cards">
+                <div className="card">
+                  <section class="articles">
+                    <article>
+                      <div class="article-wrapper">
+                        <figure className="figure">
+                          <img
+                            src={routeOptimize}
+                            alt=""
+                            width="170px"
+                            height="100px"
+                          />
+                        </figure>
+                        <div class="article-body">
+                          <h4 className="Header-card">Route Optimization</h4>
+                          <p className="body-card">
+                            Perfect for road trips and saving $$$ on gas! Get
+                            the best route auto-rearranged.
+                          </p>
+                        </div>
+                      </div>
+                    </article>
+                  </section>
+                </div>
+                <div className="card">
+                  <section class="articles">
+                    <article>
+                      <div class="article-wrapper">
+                        <figure className="figure">
+                          <img
+                            src={weatherForecast}
+                            alt=""
+                            width="170px"
+                            height="100px"
+                            left="5vh"
+                          />
+                        </figure>
+                        <div class="article-body">
+                          <h4 className="Header-card">Weather Forecast</h4>
+                          <p className="body-card">
+                            analysis of the state of the weather in an
+                            destination you travel...
+                          </p>
+                        </div>
+                      </div>
+                    </article>
+                  </section>
+                </div>
+              </div>
             </div>
+      </div>
+       </div>
+       <div className="div-section">
+       <div className="Gallery">
+            <div className="Features2">Find popular destination...</div>
+           <br/><br/>
+            <div className="airBallon">
+              <img
+            src={airBallon}
+            alt=""
+            height="250px"
+            width="280px"
+          />
+            </div>
+            <div className="image-gallery">
+              <div class="responsive">
+                <div class="gallery">
+                  <a target="_blank">
+                    <img src={dunhinda} alt="Cinque Terre" />
+                  </a>
+                  <div class="desc">Dunhinda</div>
+                </div>
+              </div>
+
+              <div class="responsive">
+                <div class="gallery">
+                  <a target="_blank">
+                    <img src={pasikuda} alt="Forest" />
+                  </a>
+                  <div class="desc">Pasikuda</div>
+                </div>
+              </div>
+
+              <div class="responsive">
+                <div class="gallery">
+                  <a target="_blank">
+                    <img src={sigiriya} alt="Northern Lights" />
+                  </a>
+                  <div class="desc">Sigiriya</div>
+                </div>
+              </div>
+
+              <div class="responsive">
+                <div class="gallery">
+                  <a target="_blank">
+                    <img src={Kabaragala} alt="Mountains" />
+                  </a>
+                  <div class="desc">Kabaragala</div>
+                </div>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+            <div>
+              <br/><br/>
+              <Button
+                href="/gallery"
+                sx={{
+                  marginLeft: "auto",
+                  color: "white",
+                  backgroundColor: "#EF7E2A",
+                  borderRadius: "6px",
+                  left: "163vh",
+                  top: "5px",
+                  "&:hover": {
+                    backgroundColor: "white",
+                    color: "#EF7E2A",
+                  },
+                }}
+              >
+               More ...
+              </Button>
+            </div>
+      </div>
+       </div>
+       <div  className="div-section">
+        <div className="contactUs">
+          <div className="Features2">Feel free to ask anything from us ...</div>
+          <div className="contact-us-body">
+            <div className="col01">
+              <div className="row01">
+              <p className="p-contUs">We value your connection and are eager to hear from you. JourneyJive, your trusted travel companion, 
+              is always just a message away. Whether you have questions, 
+              feedback, or simply want to share your travel stories, we're here to listen and assist.<br/>
+              Together, let's create meaningful memories and explore the world with JourneyJive.</p>
+
+              </div>
+              <div className="row02">
+              <img
+            src={travelPack}
+            alt=""
+            height="520px"
+            width="740px"
+            position="relative"
+          />
+              </div>
+            </div>
+            <div className="col02">
+              <ContactUs/>
+            </div>
+          </div>  
+          <div className="footer">
+            <div className="footer-txt-div"><p className="footer-txt">© 2023 copy right JourneyJive.com</p></div>
           </div>
         </div>
-      </div>
-          
-        </div>
-      </div>
+       </div>
     </div>
   );
 };
