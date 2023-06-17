@@ -1,0 +1,109 @@
+.weather-options-head{
+    /* width: 100%; */
+    background: #132320;
+    height: 20;
+    color: #FFFFFF;
+    text-align: center;
+    display: flex;
+    font-family: 'Poppins';
+}
+
+.weather-options-head-text{
+    width: 95%;
+    padding: 10px;
+    font-family: 'Poppins';
+}
+.weather-options-close-icon{
+    width: 5%;
+    justify-content: right;
+    display: flex;
+}
+
+.weather-options-container {
+    /* width: 100%; */
+    height: 650px;
+    overflow: auto;
+}
+.weather-options-ins-text-background {
+    /* width: 100%; */
+    padding: 10px 25px 10px 25px;
+    background: #D9D9D9;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+}
+
+.weather-options-ins-text {
+
+    font-family: 'Poppins';
+    font-style: normal;
+    color: #435555;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.weather-options-subtitle {
+    padding: 5px 25px 0px 25px;
+    font-family: 'Poppins';
+    font-style: normal;
+    color: #F28330;
+    font-weight: bold;
+    font-size: 16px;
+    background:rgba(217, 217, 217, 0.25);
+
+}
+
+.weather-options-form-background {
+    background:rgba(217, 217, 217, 0.25);
+    margin-bottom: 10px;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+    padding: 10px 35px 10px 35px;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    justify-content: space-between;
+    
+}
+
+.weather-options-form-background-tempereture {
+    background:rgba(217, 217, 217, 0.25);
+    margin-bottom: 10px;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+    padding: 10px 35px 10px 35px;
+}
+
+.weather-options-items{
+   display: flex;
+}
+
+.weather-options-checkbox-label {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-size: 12px;
+}
+
+.weather-options-switch-label{
+    color: #4A4A56;
+    font-family: 'Poppins';
+    font-weight:bold;
+    font-size: 13px;
+}
+
+.switchContainer{
+    padding-left: 40px;
+    margin-top: 25px;
+
+}
+
+.weather-options-footer{
+    /* width: 100%; */
+    padding-top: 30px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-RIGHt: 20px;
+    display:flex ;
+    justify-content: space-between;
+}
+
+.weather-options-weather-icons{
+    font-size: 25px;
+    color: #368C18;
+    margin-top: 6px;
+}

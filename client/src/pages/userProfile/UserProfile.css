@@ -1,0 +1,116 @@
+
+.profile-header{
+    height: 25vh;
+    background-color: rgb(72, 150, 91);
+}
+
+.profile-body-up{
+    height: 10vh;
+    background-color: rgb(231, 231, 231);
+}
+
+.profile-frame{
+    background: rgb(255, 255, 255);
+    border-radius: 50%;
+    width: 25vh;
+    height: 25vh;
+    z-index: 10;
+    margin-top: 5vh;
+    margin-left: 10vh;
+    position: fixed;
+    
+}
+
+.profile-header{
+display: flex;
+}
+
+.header-data{
+    position: absolute;
+    left: 40vh;
+    top: 10vh;
+}
+
+.dot-icon{
+    position: absolute;
+    left: 195vh;
+    top: 2vh;
+    width: 30px;
+    height: 30px;
+}
+
+.hr{
+    margin: 0.5px;
+    width: 1px;
+    height: 1px;
+}
+
+.hr2{
+    margin: 0.9px;
+    width: 1px;
+    height: 1px;
+
+}
+.menu {
+    position: absolute;
+    list-style-type: none;
+    margin: 5px 0;
+    padding: 0;
+    width: 20vh;
+    left: 180vh;
+    top: 6vh;
+    border-radius: 5px;
+    background-color: white;
+  }
+
+  .profile-nav{
+    margin-left: 34vh;
+    display: flex;
+    gap: 5rem;
+    padding-top: 30px;
+   
+  }
+
+  .probody{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+
+
+  .profile-body-down{
+    background-color: rgb(241, 241, 241);
+    height: 64vh;
+    margin: 0 auto;
+    width: 75%;
+    padding: 10px;
+    overflow-y: auto;
+
+  }
+
+.profile-body{
+    background-color: white;
+    z-index: 10;
+    height: auto;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+  
+.link{
+  text-decoration: none;
+  color: black;
+}
+  
+
+.profile-nav2{
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 20px;
+  list-style: none;
+}
+
+.home-btn{
+  position: absolute;
+  margin-left: -3vh;
+  margin-top: -3vh;
+}

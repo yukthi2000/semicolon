@@ -1,95 +1,161 @@
 import React from "react";
 import "./Register.css";
-import regMan from "../../assets/regMan.png"
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import EmailIcon from '@mui/icons-material/Email';
-import LockIcon from '@mui/icons-material/Lock';
-import EnhancedEncryptionIcon from '@mui/icons-material/EnhancedEncryption';
-import Checkbox from '@mui/material/Checkbox';
-import HomeIcon from '@mui/icons-material/Home';
-
-const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
-
+import axios from "axios";
+import A from "../../assets/A.jpg";
+import HomePageLinkIcon from "../../componets/HomePageLinkIcon";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
+import Login from "./Login";
+import { Link } from "react-router-dom";
 
 const Register = () => {
+// Define initialValues for the form
+  const navigate = useNavigate();
+  const initialValues = {
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  };
+  // Define validation schema for the form
+  const validationSchema = Yup.object().shape({
+    name: Yup.string()
+      .required("Name is required")
+      .matches(/^[a-zA-Z ]*$/, "Invalid name format"),
+    email: Yup.string()
+      .required("Email is required")
+      .email("Invalid email format"),
+    password: Yup.string()
+      .min(6, "Password must be at least 6 characters")
+      .max(20, "Password must not exceed 20 characters")
+      .required("Password is required"),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("password"), null], "Passwords must match")
+      .required("Please confirm your password"),
+  });
 
+// Handle form submission
+  const onSubmit = (data) => {
+    axios.post("http://localhost:3001/auth", data).then((response) => {
+      console.log(data);
+      navigate("/login");
+    });
+
+  };
+
+  // Render the Register form
   return (
     <div className="reg-form">
+      <img className="airBalloon" src={A} alt="" />
       <div>
-        <a href="/"><HomeIcon
-          sx={{
-            position:"absolute",
-            color: "#E86E18",
-            backgroundColor: "rgb(238, 238, 238)",
-            borderRadius: "5px",
-            height: "30px",
-            width: "30px",
-            marginLeft:"175vh",
-            marginTop:"-10vh"
-          }} /></a>
+        <HomePageLinkIcon />
       </div>
-      <div className="form">
-        <div><h1>Register</h1></div><br /><br />
+      <div className="Register-form">
         <div>
-          <form>
-            <div>
-              <div>
-                <AccountCircleIcon />
-                <input
-                  className='input'
-                  type="text"
-                  id="name"
-                  required
-                  placeholder='First name & Last name'
+          <h1>Register</h1>
+        </div>
+        <br />
+        <div>
+            {/* Define Formik form with fields and error messages */}
+          <Formik
+            initialValues={initialValues}
+            onSubmit={onSubmit}
+            validationSchema={validationSchema}
+          >
+            <Form>
+              <div class="form-outline mb-4 form-floating">
+                <Field
+                  autocomplete="off"
+                  class="form-control form-control-md"
+                  id="inputCreateUser"
+                  name="name"
+                  placeholder="First name & last name"
                 />
+                <label class="form-label" for="name">
+                  Name
+                </label>
               </div>
-              <div>
-                <EmailIcon />
-                <input
-                  className='input'
-                  type="email"
+               {/* Show error message if name field is invalid */}
+              <ErrorMessage
+                name="name"
+                component="div"
+                className="text-danger"
+              />
+              <br />
+
+              <div class="form-outline mb-4 form-floating">
+                <Field
+                  class="form-control form-control-md"
+                  autocomplete="off"
                   id="email"
-                  required
-                  placeholder='email'
+                  name="email"
+                  placeholder="Email address"
                 />
+                <label class="form-label" for="email">
+                  Email address
+                </label>
               </div>
-              <div>
-                <LockIcon />
-                <input
-                  className='input'
+               {/* Show error message if email field is invalid */}
+              <ErrorMessage
+                name="email"
+                component="div"
+                className="text-danger"
+              />
+              <br />
+
+              <div class="form-outline mb-4 form-floating">
+                <Field
+                  class="form-control form-control-md"
+                  autocomplete="off"
                   type="password"
-                  id="password"
-                  required
-                  placeholder='Password'
+                  id="inputCreateUser"
+                  name="password"
+                  placeholder="password"
                 />
+                <label class="form-label" for="password">
+                  Password
+                </label>
               </div>
-              <div>
-                <EnhancedEncryptionIcon />
-                <input
-                  className='input'
+               {/* Show error message if password field is invalid */}
+              <ErrorMessage
+                name="password"
+                component="div"
+                className="text-danger"
+              />
+              <br />
+
+              <div class="form-outline mb-4 form-floating">
+                <Field
+                  class="form-control form-control-md"
+                  autocomplete="off"
                   type="password"
-                  id="cpassword"
-                  required
-                  placeholder='Confirm Password'
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  placeholder="confirm password"
                 />
+                <label class="form-label" for="confirmPassword">
+                  Confirm Password
+                </label>
               </div>
-              <div><Checkbox {...label} />I agree all statements in services</div>
-              <div><a class="btn btn-primary" href="login" role="button">SIGN UP</a></div>
-            </div>
-          </form>
-        </div>
-      </div>
-      <div className="reg-man">
-        <div>
-          <img className="regMan-img" src={regMan} alt=""></img>
-        </div>
-        <div>
-          <a href="/login">I am already member</a>
+              {/* Show error message if confirm Password field is invalid */}
+              <ErrorMessage
+                name="confirmPassword"
+                component="div"
+                className="text-danger"
+              />
+              <br />
+              
+                <button className="reg-btn" role="button" type="submit" >
+                  Sign Up
+                </button>
+            
+            </Form>
+          </Formik>
         </div>
       </div>
     </div>
-
-  )
-}
+  );
+};
 
 export default Register;

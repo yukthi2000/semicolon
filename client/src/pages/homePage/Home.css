@@ -1,68 +1,81 @@
-.content{
-    position: absolute;
-    top: 10vh;
-    left: 10vh;
+.content {
+  position: absolute;
+  top: 10vh;
+  left: 10vh;
 }
-.w1{
-    margin-top: 10vh;
-    color: #E86E18;
-    font-size: 80px;
-    font-family: "Piedra";
+.w1 {
+  margin-top: 10vh;
+  color: #EF7E2A;
+  font-size: 80px;
+  font-family: "Piedra";
 }
-.w2{
-    color: #F9F9F9;
-    font-size: 80px;
-    font-family: "Piedra";
+.w2 {
+  color: #f9f9f9;
+  font-size: 80px;
+  font-family: "Piedra";
 }
-.p{
-    font-size:18px;
-    font-family: "Poppins";
-    color: #8B8D8E;
-    line-height: 25px;
+.p {
+  font-size: 18px;
+  font-family: "Poppins";
+  color: #8b8d8e;
+  line-height: 25px;
 }
-.box{
-    display: flex;
-    box-sizing: border-box;
-    position: absolute;
-    width: 90vh;
-    height: 12vh;
-    left: 10vh;
-    top: 68vh;
-    background: #08170D;
-    border: 3px solid #8B8D8E;
-    border-radius: 5px;
-}
-
-.destination1, .destination2{
-    flex-direction: row;
-    box-sizing: border-box;
-    position: absolute;
-    background-color: transparent;
-    width: 35vh;
-    height: 8vh;
-    left: 12vh;
-    top: 70vh;
-    border: 1px solid #368C18;
-    border-radius: 5px;
+.box {
+  display: flex;
+  box-sizing: border-box;
+  position: absolute;
+  width: 90vh;
+  height: 12vh;
+  left: 10vh;
+  top: 68vh;
+  background: #8b8d8e3d;
+  border: 3px solid #8b8d8e2b;
+  border-radius: 5px;
 }
 
-.destination2{
-    left: 50vh;
+.destination1,
+.destination2 {
+  flex-direction: row;
+  box-sizing: border-box;
+  position: absolute;
+  background-color: transparent;
+  width: 60.5vh;
+  height: 8.5vh;
+  left: 12vh;
+  top: 70vh;
+  border-radius: 5px;
 }
 
-.p2{
-    font-size: 60px;
+.destination2 {
+  left: 50vh;
 }
 
-.custom-modal{
-    top:50px;
-    left: 450px;
-    max-width: 400px;
-    max-height: 600px;
+.p2 {
+  font-size: 60px;
 }
 
-.center-modal{
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.custom-modal {
+  top: 50px;
+  left: 450px;
+  max-width: 400px;
+  max-height: 600px;
+}
+
+.center-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gallery{
+  height: 400px;
+  background-color: #d39362;
+}
+.place{
+  height: 400px;
+  background-color: #39e6ce;
+}
+.get_start{
+  height: 400px;
+  background-color: #e4d449;
 }

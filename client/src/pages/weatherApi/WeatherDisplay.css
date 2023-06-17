@@ -1,0 +1,137 @@
+.WeatherDisplay-container {
+    display: flex;
+}
+
+.weatherDisplay-icon {
+    height: 180px;
+    width: 180px;
+
+}
+
+.WeatherDisplay-search {
+    margin: 5px
+}
+
+
+.main-weather-box-inside {
+    padding: 5px 10px;
+}
+
+
+.main-weather-temp {
+    display: flex;
+}
+
+
+.main-weather-temp-number {
+    flex: 1;
+    font-size: 65px;
+    font-family: "poppins";
+    padding-left: 15px;
+}
+
+.main-weather-temp-celcius {
+    flex: 1;
+    font-size: 35px;
+    font-family: "poppins";
+    padding-top: 10px;
+    font-weight: 350;
+}
+
+
+.main-weather-description {
+    font-size: 19.5px;
+    font-family: "poppins";
+    font-weight: 350;
+    color: dimgray;
+    padding-left: 15px;
+}
+
+.WeatherDisplay-leftPanel {
+    margin-left: 10px;
+    width: 100%;
+}
+
+
+.main-weather-date-month {
+    font-size: 20px;
+    font-family: "poppins";
+    font-weight: 350;
+    color: dimgray;
+}
+
+
+.main-weather-date-day {
+    font-size: 20px;
+    font-family: "poppins";
+    font-weight: bolder;
+    padding-left: 15px;
+}
+
+
+.weather-details-container {
+    margin-top: 5px;
+}
+
+.wether-details-row{
+    display: flex;
+}
+
+
+.weather-details-card {
+    border-radius: 5px;
+    background-color: #ffff;
+    padding: 5px;
+    width: 50%;
+    margin: 5px;
+}
+
+
+.weather-details-card-headding {
+    font-family: "poppins";
+    color: dimgray;
+    font-size: 12px;
+
+}
+
+.invalid-location{
+    font-family: "poppins";
+    color: red;
+    font-size: 12px;
+    margin-left: 10px;
+
+}
+
+.weather-details-icons-feel {
+    color: #F28330;
+}
+.weather-details-icons-wind {
+    color: #4050D2;
+    margin-left: 10px;
+}
+
+
+
+.weather-details-card-heading {
+    font-family: "poppins";
+    font-size: 13px;
+    font-weight: light;
+    color: #a3a2a2;
+}
+
+.weather-details-card-content {
+    justify-content: space-between;
+    display: flex;
+
+
+}
+
+.weather-details-card-content-text {
+    font-family: "poppins";
+    font-size: 25px;
+}
+
+.weather-details-card-content-text-secondary{
+    font-family: "poppins";
+    font-size: 12px;
+}
