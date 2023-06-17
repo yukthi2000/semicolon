@@ -1,0 +1,72 @@
+
+    .contactUs{
+        margin-top: 15vh;
+    }
+
+    .input-cUS{
+        height: 7vh;
+        width: 58vh;
+        margin: 1.5vh;
+        border: none;
+        border-radius: 20px;
+        background-color: #ededed;
+        border-bottom: 2px solid #888888;
+        text-indent: 20px;
+        }
+
+        .input:focus,
+    .message:focus {
+        background-color: rgb(78, 78, 78);
+        color: rgb(253, 253, 253);
+      }
+    
+    .message-cUS{
+    height: 15vh;
+    width: 58vh;
+    margin: 1.5vh;
+    background-color: #ededed;
+    border-bottom: 2.5px solid #888888;
+    border-radius: 25px;
+    text-indent: 20px;
+    padding-top: 14px;
+    }
+    
+    .form{
+        color: rgb(112, 255, 129);
+        top: 30vh;
+        left: 120vh;
+        }
+        
+        ::placeholder {
+            color: #535353;
+            font-size: 14px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+
+.CUform-btn-reset{
+    width: 10vh;
+    height: 5vh;
+    color: #fb962a;
+    background: rgb(229, 229, 229);
+    font-weight: 500;
+    font-family: 'Inria Serif';
+    margin: 2vh;
+    border: none;
+    border-radius: 5px;
+}
+
+.CUform-btn-submit{
+    width: 10vh;
+    height: 5vh;
+    color: white;
+    background: #fb962a;
+    font-weight: 500;
+    font-family: 'Inria Serif';
+    border: none;
+    border-radius: 5px;
+}
+
+.cUs-btn{
+    margin-left: 35vh;
+}

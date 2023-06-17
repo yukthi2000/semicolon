@@ -48,9 +48,9 @@ const Register = () => {
   return (
     <div className="reg-form">
       <img className="airBalloon" src={A} alt="" />
-      <div>
+      {/* <div>
         <HomePageLinkIcon />
-      </div>
+      </div> */}
       <div className="Register-form">
         <div>
           <h1>Register</h1>
@@ -82,7 +82,7 @@ const Register = () => {
                 component="div"
                 className="text-danger"
               />
-              <br />
+              {/* <br /> */}
 
               <div class="form-outline mb-4 form-floating">
                 <Field
@@ -102,7 +102,7 @@ const Register = () => {
                 component="div"
                 className="text-danger"
               />
-              <br />
+              {/* <br /> */}
 
               <div class="form-outline mb-4 form-floating">
                 <Field
@@ -123,7 +123,7 @@ const Register = () => {
                 component="div"
                 className="text-danger"
               />
-              <br />
+              {/* <br /> */}
 
               <div class="form-outline mb-4 form-floating">
                 <Field

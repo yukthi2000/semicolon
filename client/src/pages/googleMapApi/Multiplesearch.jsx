@@ -52,10 +52,10 @@ function Multiplesearch(props) {
     console.log(searchdata);
   });
   //for weather
-  const tripDate = new Date("2023-04-11");
+  const tripDate = new Date('2023-06-11');
 
   //pass changed location from child components to this cmponent
-  const [globalLocation, setGlobalLocation] = useState("Kandy");
+  const [globalLocation, setGlobalLocation] = useState("Sri Lanka");
 
   const pull_newGlobalLocation = (newLocation) => {
     setGlobalLocation(newLocation);
@@ -65,6 +65,11 @@ function Multiplesearch(props) {
     //saveData(searchdata);
     props.sendlocations(searchdata);
     // props.optimizeroute(true);
+  }
+
+  //Harshana  
+  function handleSuggest() {
+    props.sendSuggestlocations(searchdata);
   }
 
   function saveData(data) {
@@ -159,6 +164,7 @@ function Multiplesearch(props) {
               <Button
                 variant="elevated"
                 sx={{ width: 220, color: "#EF7E2A", borderBottom: 3 }}
+                onClick={handleSuggest}
               >
                 <AddLocationAltIcon sx={{ marginRight: 1 }} />
                 <Typography variant="h7" sx={{ color: "#EF7E2A" }}>
