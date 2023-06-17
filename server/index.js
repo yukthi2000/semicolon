@@ -17,6 +17,9 @@ app.use("/Locations", LocationRouter);
 const ContactUsRouter = require("./routes/ContactUs");
 app.use("/contactUs", ContactUsRouter);
 
+const ReviewRouter = require("./routes/Review");
+app.use("/reviews", ReviewRouter);
+
 //gallery
 const imageRoutes = require("./routes/imageRoutes");
 app.use('/api/images', imageRoutes);

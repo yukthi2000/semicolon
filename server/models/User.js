@@ -3,15 +3,19 @@ module.exports = (sequelize, DataTypes) => {
         name: {
             type: DataTypes.STRING,
             allowNull: false,
-        },
-        email: {
+          },
+          email: {
             type: DataTypes.STRING,
             allowNull: false,
-        },
-        password: {
+          },
+          password: {
             type: DataTypes.STRING,
             allowNull: false,
-        },
+          },
+          photo: {
+            type: DataTypes.BLOB('long'),
+            allowNull: true,
+          },
         
     });
     
