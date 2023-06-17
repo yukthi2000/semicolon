@@ -18,19 +18,14 @@ import { useContext, useEffect } from "react";
 import { HomeContext } from "../../Context/HomeContext";
 import { InfoBox } from "@react-google-maps/infobox";
 import { Box } from "@mui/material";
+import axios from "axios";
+import { useLocation, useSearchParams } from "react-router-dom";
 
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
-import {
-  Combobox,
-  ComboboxInput,
-  ComboboxPopover,
-  ComboboxList,
-  ComboboxOption,
-  ComboboxOptionText,
-} from "@reach/combobox";
+
 import "@reach/combobox/styles.css";
 import {
   GoogleMap,
@@ -38,6 +33,7 @@ import {
   Marker,
   InfoWindow,
   DirectionsRenderer,
+  InfoWindowF,
 } from "@react-google-maps/api";
 
 import { formatRelative } from "date-fns";
@@ -45,6 +41,7 @@ import { Button } from "@mui/material";
 // import SearchBox from "react-google-maps/lib/components/places/SearchBox";
 const heading = "kandy";
 const libraries = ["places"];
+
 const mapContainerStyle = {
   width: "100vw",
   height: "100vh",
@@ -59,7 +56,7 @@ const options = {
   streetViewControl: true,
 };
 
-export default function Map(latlng, props) {
+export default function Map(latlng, props,mapLocation ) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: "AIzaSyCjTfIEci5TjcUCYMifDVtiC6nt7tFRqko",
     libraries,
@@ -84,6 +81,12 @@ export default function Map(latlng, props) {
   const newDistances = [];
   const newLocations = [];
   const arrangedmiddlelocations = [];
+  const [loading, setloading] = useState(false);
+  const [locationsstart, setlocationsstart] = useState([]);
+  const [isOneEntered, setisOneEntered] = React.useState(true);
+  const [issecondentered, setissecondentered] = React.useState(true);
+  let indexloc = 0;
+
   const onmarkk = (data) => {
     console.log("dadfa");
     //Setmarkers(data);
@@ -99,6 +102,16 @@ export default function Map(latlng, props) {
   const Searchplanshow = () => {
     setSearchplan(!Searchplan);
   };
+  //get start location from url
+  const location = useLocation();
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const startlocation = searchParams.get("startlocation");
+    // Use the startlocation value as needed
+    setlocationsstart(startlocation);
+    console.log(startlocation);
+  }, [location.search]);
 
   const mapWithoutFirstAndLast = (array) => {
     return array.slice(1, array.length - 1);
@@ -107,6 +120,17 @@ export default function Map(latlng, props) {
   const recivelocations = (data) => {
     console.log("recivelocations");
     console.log(data);
+
+    if (data.length === 0) {
+      setisOneEntered(false);
+    } else if (data.length === 1) {
+      setissecondentered(false);
+    } else {
+      setissecondentered(true);
+      setisOneEntered(true);
+    }
+    console.log(isOneEntered);
+    console.log(issecondentered);
 
     const [firstElement, ...restElement] = data;
     const lastElement = data[data.length - 1];
@@ -117,6 +141,8 @@ export default function Map(latlng, props) {
     setAll([firstElement, ...restElements, lastElement]);
   };
 
+ 
+
   useEffect(() => {
     // This will log the updated state values
     console.log(firstAndLastSearchData);
@@ -124,7 +150,6 @@ export default function Map(latlng, props) {
     //calculateRoute();
     Setnewarrat();
     Reroute();
-    
   }, [firstAndLastSearchData, searchDataWithoutFirstAndLast]);
 
   useEffect(() => {
@@ -139,6 +164,118 @@ export default function Map(latlng, props) {
   // console.log("optimizeroute end");
   // };
 
+  //Harshana
+  
+  const [mapLocations, setMapLocations] = useState([]);
+  const reciveSuggestlocations = (data) => {
+    setMapLocations(data);
+  };
+  const [touristAttractions, setTouristAttractions] = useState([]);
+
+  const [selectedPlace, setSelectedPlace] = useState(null);
+ 
+  const handleMarkerClick = (place) => {
+    setSelectedPlace(place);
+  };
+
+  useEffect(() => {
+    const geocoder = new window.google.maps.Geocoder();
+    const locationsWithLatLng = [];
+
+    const geocodeLocation = (locationName) => {
+      return new Promise((resolve, reject) => {
+        geocoder.geocode({ address: locationName }, (results, status) => {
+          if (status === window.google.maps.GeocoderStatus.OK && results[0]) {
+            const lat = results[0].geometry.location.lat();
+            const lng = results[0].geometry.location.lng();
+            locationsWithLatLng.push({ lat, lng });
+            //console.log(locationsWithLatLng);
+            resolve();
+          } else {
+            reject(status);
+          }
+        });
+      });
+    };
+
+    const fetchTouristAttractions = async () => {
+      try {
+        for (const location of mapLocations) {
+          await geocodeLocation(location);
+        }
+      } catch (error) {
+        console.log("Error geocoding location:", error);
+      }
+
+      if (locationsWithLatLng.length > 0) {
+        locationsWithLatLng.forEach((location) => {
+          const service = new window.google.maps.places.PlacesService(mapRef.current);
+          const request = {
+            location: new window.google.maps.LatLng(location.lat, location.lng),
+            radius: 2000,
+            type: "tourist_attraction",
+          };
+          service.nearbySearch(request, (results, status) => {
+            if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+              setTouristAttractions((prevAttractions) => [...prevAttractions, ...results]);
+            }
+          });
+        });
+      }
+    };
+
+    if (isLoaded) {
+      fetchTouristAttractions();
+    }
+  }, [isLoaded, mapLocations]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setMapLocations(mapLocations);
+    }, 1000);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
+  
+  const renderMarkers = () => {
+    return touristAttractions.map((attraction) => (
+      <Marker
+        key={attraction.place_id}
+        position={{
+          lat: attraction.geometry.location.lat(),
+          lng: attraction.geometry.location.lng(),
+        }}
+        icon={{ url: require("../../../src/assets/suggested_pin.png"), scaledSize: { width: 32, height: 32 } }}
+        onClick={() => handleMarkerClick(attraction)}
+        animation={selectedPlace && selectedPlace.place_id === attraction.place_id ? window.google.maps.Animation.BOUNCE : null}
+      >
+        {selectedPlace && selectedPlace.place_id === attraction.place_id && (
+          <InfoWindowF
+            position={{
+              lat: selectedPlace.geometry.location.lat(),
+              lng: selectedPlace.geometry.location.lng(),
+            }}
+            onCloseClick={() => setSelectedPlace(null)}
+          >
+            <div>
+              <img
+                src={selectedPlace.icon}
+                alt="Place Icon"
+                style={{ width: "20px", height: "20px", margin: "8px" }}
+              />
+              <span style={{ fontWeight: 500, fontFamily: 'poppins' }}>
+                {selectedPlace.name}
+              </span>
+            </div>
+          </InfoWindowF>
+        )}
+      </Marker>
+    ));
+  };
+  //Harshana End
+
+  
   //function to calculate route
   async function calculateRoute() {
     console.log("calculateRoute start");
@@ -250,16 +387,33 @@ export default function Map(latlng, props) {
     console.log("calculateRoute end");
   }
 
+  //location indexes
+
+  const indexsend = (data) => {
+    indexloc= data;
+    console.log(data);
+    console.log(indexloc);
+    if (indexloc === 0) {
+      setisOneEntered(true);
+    } else if (indexloc === 1) {
+      setissecondentered(true);
+      return ;
+    } else {
+      setissecondentered(false);
+      setisOneEntered(false);
+    }
+  };
+
   //function to calculate ReArrange route
 
   async function CalculateREarangeRoute() {
     console.log("calculateRoute start");
-   
+
     const middleLocations = newLocations.slice(1, -1);
 
     // iterate over each element in middleLocations and add it to arrangedmiddlelocations
-    middleLocations.map(location => arrangedmiddlelocations.push(location));
-    
+    middleLocations.map((location) => arrangedmiddlelocations.push(location));
+
     const size = newLocations.length;
 
     if (
@@ -271,7 +425,7 @@ export default function Map(latlng, props) {
     }
     console.log(newLocations[0]);
     console.log(arrangedmiddlelocations);
-    console.log(newLocations[size-1]);
+    console.log(newLocations[size - 1]);
 
     //eslint-disable-next-line  no-undef
     const directionService = new google.maps.DirectionsService();
@@ -432,9 +586,14 @@ export default function Map(latlng, props) {
     });
     //console.log(newLocations);
   };
+
   const Reroute = async () => {
     const numofpoints = all.length;
     const NumofPonitsToSTARTpoints = Math.ceil(numofpoints / 4 + 1);
+    // console.log(numofpoints, loading);
+    // if (numofpoints < 2 && loading) {
+    //   prompt("gsdfs");
+    // }
 
     for (let j = 0; j < NumofPonitsToSTARTpoints; j++) {
       // const newArray = [...all];
@@ -465,6 +624,28 @@ export default function Map(latlng, props) {
         newDistances
       );
       console.log(sortedPoints);
+
+      //backend endpoint
+
+      // Generate a unique key
+
+      // function generateUniqueKey() {
+      //   return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      // }
+
+      // const uniqueKey = generateUniqueKey();
+
+      axios
+        .post("http://localhost:3001/Array", sortedPoints)
+        .then((response) => {
+          console.log("Request successful");
+        })
+        .catch((error) => {
+          console.error("An error occurred", error);
+        });
+
+      ///
+
       setNewall(sortedPoints); // update all with sortedPoints
       const updatedNetances = Array.from(sortedDistances);
       updatedNetances.forEach((value, index) => {
@@ -539,6 +720,7 @@ export default function Map(latlng, props) {
 
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback((map) => {
+    setloading(!loading);
     mapRef.current = map;
   }, []);
 
@@ -590,7 +772,12 @@ export default function Map(latlng, props) {
               Searchplanshow={Searchplanshow}
               Searchplan={Searchplan}
               heading={heading}
-              sendlocations={recivelocations}
+              sendlocations={recivelocations} 
+              locationsstart={locationsstart}
+              indexsend={indexsend} // start location
+              sendSuggestlocations={reciveSuggestlocations}//Sugest Locations Harshana
+              
+
               //optimizeroute={calculateRoute}
             />
           ) : (
@@ -639,6 +826,7 @@ export default function Map(latlng, props) {
         //onClick={onMapClick}
         onLoad={onMapLoad}
       >
+          {renderMarkers()}
         {markers.map((marker) => (
           <Marker
             key={marker.time.toISOString()}
@@ -663,7 +851,6 @@ export default function Map(latlng, props) {
             directions={directionResponse}
           />
         )}
-
         {selected ? (
           <InfoWindow position={{ lat: selected.lat, lng: selected.lng }}>
             <div>
@@ -673,11 +860,78 @@ export default function Map(latlng, props) {
           </InfoWindow>
         ) : null}
       </GoogleMap>
-      <button type="button" onClick={recivelocations}>
+      {/* <button type="button" onClick={recivelocations}>
         asasfa
-      </button>
+      </button> */}
       {/* {console.log(markers)} */}
       {console.log(curr)}
+      //Error handleing
+      {!isOneEntered && (
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: "9999",
+            width: "300px",
+            height: "50px",
+
+            backgroundColor: "#f8d7da",
+            padding: "10px",
+            borderRadius: "6px",
+            textAlign: "center",
+            animationName: "highlight",
+            animationDuration: "1.5s",
+            animationIterationCount: "infinite",
+            boxShadow: "0 0 0 2px #f8d7da",
+          }}
+        >
+          <p
+            style={{
+              background: "none",
+              border: "none",
+              color: "red",
+              zIndex: 9999,
+            }}
+          >
+            Please enter Start location. {console.log("fsDFad")}
+          </p>
+        </div>
+      )}
+      {!issecondentered && (
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: "9999",
+            width: "300px",
+            height: "50px",
+
+            backgroundColor: "#f8d7da",
+            padding: "10px",
+            borderRadius: "6px",
+            textAlign: "center",
+            animationName: "highlight",
+            animationDuration: "1.5s",
+            animationIterationCount: "infinite",
+            boxShadow: "0 0 0 2px #f8d7da",
+          }}
+        >
+          <p
+            style={{
+              background: "none",
+              border: "none",
+              color: "red",
+              zIndex: 9999,
+            }}
+          >
+            Please enter Destinations. {console.log("fsDFad")}
+          </p>
+        </div>
+      )}
     </>
   );
 }

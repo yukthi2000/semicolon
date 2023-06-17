@@ -24,13 +24,14 @@
     height: 650px;
     overflow: auto;
 }
+
 .weather-options-ins-text-background {
     /* width: 100%; */
     padding: 10px 25px 10px 25px;
     background: #D9D9D9;
     margin-top: 10px;
     margin-bottom: 10px;
-    display: flex;
+    display: block;
 }
 
 .weather-options-ins-text {
@@ -40,6 +41,38 @@
     color: #435555;
     font-weight: bold;
     font-size: 14px;
+  }
+  .weather-options-ins-text2 {
+    
+    font-family: 'Poppins';
+    font-weight: 400;
+    font-style: normal;
+    color: #435555;
+    font-size: 12px;
+}
+.weather-options-suc-text {
+
+    font-family: 'Poppins';
+    font-style: normal;
+    color: #044242;
+    font-weight: bold;
+    font-size: 12px;
+}
+.weather-options-err-text {
+
+    font-family: 'Poppins';
+    font-style: normal;
+    color: red;
+    font-weight:bold;
+    font-size: 12px;
+}
+.weather-options-ins-text1 {
+
+    font-family: 'Poppins';
+    font-style: normal;
+    color: #044242;
+    font-weight:bold;
+    font-size: 12px;
 }
 
 .weather-options-subtitle {
@@ -94,7 +127,7 @@
 
 .weather-options-footer{
     /* width: 100%; */
-    padding-top: 30px;
+    /* padding-top: 30px; */
     padding-bottom: 20px;
     padding-left: 20px;
     padding-RIGHt: 20px;
@@ -107,3 +140,157 @@
     color: #368C18;
     margin-top: 6px;
 }
+
+
+
+/* checkbox */
+
+  .checkbox-wrapper-42 input[type="checkbox"] {
+    display: none;
+    visibility: hidden;
+  }
+
+  .checkbox-wrapper-42 label {
+    display: inline-block;
+  }
+
+  .checkbox-wrapper-42 .cbx {
+    position: relative;
+    top: 1px;
+    width: 17px;
+    height: 17px;
+    border: 1px solid #c8ccd4;
+    border-radius: 3px;
+    vertical-align: middle;
+    transition: background 0.1s ease;
+    cursor: pointer;
+  }
+  .checkbox-wrapper-42 .cbx:after {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 5px;
+    width: 5px;
+    height: 11px;
+    opacity: 0;
+    transform: rotate(45deg) scale(0);
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    transition: all 0.3s ease;
+    transition-delay: 0.15s;
+  }
+  .checkbox-wrapper-42 .lbl {
+    margin-left: 5px;
+    vertical-align: middle;
+    cursor: pointer;
+  }
+  .checkbox-wrapper-42 input[type="checkbox"]:checked ~ .cbx {
+    border-color: transparent;
+    background: #6871f1;
+    animation: jelly-42 0.6s ease;
+  }
+  .checkbox-wrapper-42 input[type="checkbox"]:checked ~ .cbx:after {
+    opacity: 1;
+    transform: rotate(45deg) scale(1);
+  }
+  .checkbox-wrapper-42 .cntr {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    text-align: center;
+  }
+  @-moz-keyframes jelly-42 {
+    from {
+      transform: scale(1, 1);
+    }
+    30% {
+      transform: scale(1.25, 0.75);
+    }
+    40% {
+      transform: scale(0.75, 1.25);
+    }
+    50% {
+      transform: scale(1.15, 0.85);
+    }
+    65% {
+      transform: scale(0.95, 1.05);
+    }
+    75% {
+      transform: scale(1.05, 0.95);
+    }
+    to {
+      transform: scale(1, 1);
+    }
+  }
+  @-webkit-keyframes jelly-42 {
+    from {
+      transform: scale(1, 1);
+    }
+    30% {
+      transform: scale(1.25, 0.75);
+    }
+    40% {
+      transform: scale(0.75, 1.25);
+    }
+    50% {
+      transform: scale(1.15, 0.85);
+    }
+    65% {
+      transform: scale(0.95, 1.05);
+    }
+    75% {
+      transform: scale(1.05, 0.95);
+    }
+    to {
+      transform: scale(1, 1);
+    }
+  }
+  @-o-keyframes jelly-42 {
+    from {
+      transform: scale(1, 1);
+    }
+    30% {
+      transform: scale(1.25, 0.75);
+    }
+    40% {
+      transform: scale(0.75, 1.25);
+    }
+    50% {
+      transform: scale(1.15, 0.85);
+    }
+    65% {
+      transform: scale(0.95, 1.05);
+    }
+    75% {
+      transform: scale(1.05, 0.95);
+    }
+    to {
+      transform: scale(1, 1);
+    }
+  }
+  @keyframes jelly-42 {
+    from {
+      transform: scale(1, 1);
+    }
+    30% {
+      transform: scale(1.25, 0.75);
+    }
+    40% {
+      transform: scale(0.75, 1.25);
+    }
+    50% {
+      transform: scale(1.15, 0.85);
+    }
+    65% {
+      transform: scale(0.95, 1.05);
+    }
+    75% {
+      transform: scale(1.05, 0.95);
+    }
+    to {
+      transform: scale(1, 1);
+    }
+  }
+
+

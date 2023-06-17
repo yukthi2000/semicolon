@@ -2,16 +2,26 @@ const express = require("express");
 const router = express.Router();
 const { Locations } = require("../models");
 
-router.post("/", async (req, res) => {
-  const data = req.body;
-  await Locations.bulkCreate(data)
-    .then(() => res.json(data))
-    .catch((err) => res.status(500).send(err));
-  
+router.get("/", async (req, res) => {
+  try {
+    const locations = await Locations.findAll();
+    res.status(200).json(locations);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({error:"failed"});
+  }
 });
 
-router.get("/a", (req, res) => {
-  res.json("hello world");
+router.post("/", async (req, res) => {
+  try {
+    const locations = req.body;
+    const createdlocations = await Locations.create(locations);
+    res.status(201).json(createdlocations);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({error:"failed"});
+  }
 });
+
 
 module.exports = router;

@@ -1,21 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 
+//importing material UI components
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
 import TripDayForecast from "./TripDayForecast";
 import './SevenDayForecast.css'
 
 
 function SevenDayForecast(props) {
 
+  // getting current city and trip date from props
   const location = props.currentCity;
-
   const tripDate = new Date(props.tripDate);
+  
+  //get today as a date
   const today = new Date();
+
 
   const [errorMassege, seterrorMassege] = useState(null); //error messege variable
   const [arrayExecuted, setArrayExecuted] = useState(false); //variable to see whether array executed
@@ -27,35 +29,38 @@ function SevenDayForecast(props) {
     );
   }
 
+   //state variable to hold the seven day forecast array
   const [SevenDayArray, setSevenDayArray] = useState([])
 
   //complete array to map function
   for (let i = 1; i <= 7; i++) {
 
-    //break if array executed or array out of bound 
+    //break if array already executed or array out of bound 
     if ((SevenDayArray.length >= 7) || (arrayExecuted === true)) {
       break;
     }
 
+    //creating new data object for each day
     const newData = {
       id: i,
       date: tripDate.setDate(tripDate.getDate() + 1),
     }
-    console.log(daysGap(today, newData.date));
 
     if (daysGap(today, newData.date) === 29) {
+      
       //set error message when array ot of bound
       seterrorMassege('Sorry! We can only provide weather data for up to 30 days from today.');
       setArrayExecuted(true);
       break;
     }
+    //adding new data to the seven day forecast array
     SevenDayArray.push(newData);
   }
   console.log(SevenDayArray);
 
   return (
     <div>
-      <span className="weather-display-ins">The weather forecast for the seven days following the trip day.</span>
+      <span className="weather-display-ins">The weather forecast for the seven days following the trip day.</span><br/>
       <span className="sevenday-error"> {errorMassege} </span>
       {SevenDayArray.map((data, index) => (
         <Accordion key={index} 

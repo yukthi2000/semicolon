@@ -1,5 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
     const User = sequelize.define("User", {
+
         name: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -17,7 +18,15 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true,
           },
         
+
     });
-    
+  
+    User.associate = (models) => {
+      User.hasMany(models.Trip, {
+        foreignKey: 'userId'
+      });
+    };
+  
     return User;
-}
+  };
+  

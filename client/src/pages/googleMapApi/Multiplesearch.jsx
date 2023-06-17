@@ -14,8 +14,9 @@ import { useState } from "react";
 import Searchbox from "./Searchboxformultisearch";
 import Forecast from "../weatherApi/Forecast";
 import axios from "axios";
+import ScoreIcon from "@mui/icons-material/Score";
 
-function Multiplesearch (props)  {
+function Multiplesearch(props) {
   // const Searchplan = !prop.Searchplan;
   // const searsplanpop = () => {
   //   prop.Searchplanshow(!Searchplan);
@@ -25,6 +26,7 @@ function Multiplesearch (props)  {
   const [searchdata, setSearchdata] = useState([]);
   const [data, setData] = useState("");
   const [sedata, setSedata] = useState(["temp"]);
+  const { startlocation } = props;
 
   const adddate = () => {
     setSedata([...sedata, data]);
@@ -36,6 +38,7 @@ function Multiplesearch (props)  {
   };
 
   const getLocation = (data, index) => {
+    props.indexsend(index);
     setSearchdata([
       ...searchdata.slice(0, index),
       data,
@@ -49,24 +52,29 @@ function Multiplesearch (props)  {
     console.log(searchdata);
   });
   //for weather
-  const tripDate = new Date("2023-04-11");
+  const tripDate = new Date('2023-06-11');
 
   //pass changed location from child components to this cmponent
-  const [globalLocation, setGlobalLocation] = useState("Kandy");
+  const [globalLocation, setGlobalLocation] = useState("Sri Lanka");
 
   const pull_newGlobalLocation = (newLocation) => {
     setGlobalLocation(newLocation);
   };
 
   function handleSave() {
-     //saveData(searchdata);
+    //saveData(searchdata);
     props.sendlocations(searchdata);
-   // props.optimizeroute(true);
-    
+    // props.optimizeroute(true);
+  }
+
+  //Harshana  
+  function handleSuggest() {
+    props.sendSuggestlocations(searchdata);
   }
 
   function saveData(data) {
-    axios.post("http://localhost:3001/Locations", data)
+    axios
+      .post("http://localhost:3001/Locations", data)
       .then((res) => {
         console.log(res.data); // log response data to console
         alert(res.data); // show response data in alert dialog
@@ -74,17 +82,17 @@ function Multiplesearch (props)  {
       })
       .catch((error) => console.error(error));
   }
-    // axios.get("http://localhost:3001/Locations").then((responses) => {
-    //   console.log("gaeg");
-    // });
+  // axios.get("http://localhost:3001/Locations").then((responses) => {
+  //   console.log("gaeg");
+  // });
 
   return (
     <Box>
       {/* <Box> */}
-        {/* <Box className="searchfields" style={{ zIndex: 10 }}>
+      {/* <Box className="searchfields" style={{ zIndex: 10 }}>
           <Search placeholder={"Enter a location"} />
         </Box> */}
-      {/* </Box> */} 
+      {/* </Box> */}
       <Box>
         <Paper sx={{ width: 350, height: "90vh" }}>
           <Box className="upper">
@@ -105,6 +113,7 @@ function Multiplesearch (props)  {
                     <Searchbox
                       location={index === 0 ? "Start Location" : "Location"}
                       currLocation={(data) => getLocation(data, index)}
+          
                       index={index}
                     />
                   </Box>
@@ -136,9 +145,10 @@ function Multiplesearch (props)  {
               </Box>
             ))}
           </Box>
+          
 
           <Box className="buttons">
-            <Box className="but1" style={{ paddingBotnotetom: 30 }}>
+            <Box className="but1" style={{ paddingBotnotetom: 0 }}>
               <Button
                 variant="elevated"
                 sx={{ width: 220, color: "#EF7E2A", borderBottom: 3 }}
@@ -150,10 +160,11 @@ function Multiplesearch (props)  {
                 </Typography>
               </Button>
             </Box>
-            <Box className="but2" style={{ paddingBottom: 30 }}>
+            <Box className="but2" style={{ paddingBottom: 0 }}>
               <Button
                 variant="elevated"
                 sx={{ width: 220, color: "#EF7E2A", borderBottom: 3 }}
+                onClick={handleSuggest}
               >
                 <AddLocationAltIcon sx={{ marginRight: 1 }} />
                 <Typography variant="h7" sx={{ color: "#EF7E2A" }}>
@@ -162,7 +173,19 @@ function Multiplesearch (props)  {
                 </Typography>
               </Button>
             </Box>
-            <Box className="but3" style={{ paddingBottom: 30 }}>
+            <Box className="but4" style={{ paddingBottom: 0 }}>
+              <Button
+                variant="elevated"
+                sx={{ width: 220, color: "#EF7E2A", borderBottom: 3 }}
+              >
+                <ScoreIcon sx={{ marginRight: 1 }} />
+                <Typography variant="h7" sx={{ color: "#EF7E2A" }}>
+                  {" "}
+                  Weather Score
+                </Typography>
+              </Button>
+            </Box>
+            <Box className="but3" style={{ paddingBottom: 0 }}>
               <Forecast
                 currentCity={globalLocation}
                 tripDate={tripDate}
@@ -174,6 +197,6 @@ function Multiplesearch (props)  {
       </Box>
     </Box>
   );
-};
+}
 
 export default Multiplesearch;
