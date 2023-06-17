@@ -1,4 +1,4 @@
-
+/* 
 .profile-header{
     height: 25vh;
     background-color: rgb(72, 150, 91);
@@ -113,4 +113,88 @@ display: flex;
   position: absolute;
   margin-left: -3vh;
   margin-top: -3vh;
+} */
+
+.link{
+  text-decoration: none;
+  color: black;
+}
+
+.user-profile{
+  margin: 8vh auto;
+  display:flex;
+  width: 95.95%;
+
+}
+
+.left-side{
+flex-direction: column;
+width: 20%;
+height: 80vh;
+background-color: azure;
+
+}
+
+.right-side{
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  width: 80%;
+
+  }
+
+  .profile-frame{
+    background: rgb(250, 189, 189);
+    border-radius: 50%;
+    width: 25vh;
+    height: 25vh;
+    z-index: 10;
+    margin-top: 2vh;
+    margin: 7vh;
+    position: absolute;
+    
+}
+
+.navBar{
+  flex-direction: row;
+  height: 10%;
+  width: 100%;
+  background-color:rgb(211, 138, 2) ;
+}
+
+.proBody{
+  flex-direction: row;
+  height: 90%;
+}
+
+
+.profile-nav{
+  display: flex;
+  gap: 5rem;
+  padding-top: 30px;
+  background-color: rgb(211, 138, 2);
+  width: 0vh;
+  left: 30vh;
+ 
+}
+
+.link{
+  text-decoration: none;
+  color: black;
+}
+  
+
+.profile-nav2{
+  /* padding-left: 10px;
+  padding-right: 10px; */
+  font-size: 20px;
+  list-style: none;
+}
+
+.profile-body-down{
+  background-color: rgb(224, 224, 224);
+  height: 70vh;
+  width: 100%;
+  overflow-y: auto;
+
 }

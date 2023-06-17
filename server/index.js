@@ -31,6 +31,20 @@ app.use("/WeatherOptions", weatherOptionsRouter);
 const tripDayWeatherRouter = require('./routes/TripDayWeather')
 app.use("/TripDayWeather", tripDayWeatherRouter);
 
+const ContactUsRouter = require("./routes/ContactUs");
+app.use("/contactUs", ContactUsRouter);
+
+const ReviewRouter = require("./routes/Review");
+app.use("/reviews", ReviewRouter);
+
+//gallery
+const imageRoutes = require("./routes/imageRoutes");
+app.use('/api/images', imageRoutes);
+
+//ForgetPassword
+const forgetPasswordRoutes = require("./routes/ForgetPassword");
+app.use('/passwordReset',forgetPasswordRoutes);
+
 db.sequelize.sync().then(() => {
   app.listen(3001, () => {
     console.log("server is running");
