@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": "123258789",
-    "database": "new",
+    "database": "newtwo",
     "host": "localhost",
     "dialect": "mysql"
   },
