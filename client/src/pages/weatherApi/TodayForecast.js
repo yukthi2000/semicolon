@@ -4,9 +4,11 @@ import WeatherDisplay from "./WeatherDisplay";
 
 const TodayForecast = (props) => {
 
+    // State variables to hold the weather data and location information
     const [data, setData] = useState({});
     const [location, setLocation] = useState(props.currentCity);
     
+    // State variables to hold specific weather information
     const [temperature, setTemperature] = useState(null);
     const [description, setDescription] = useState(null);
     const [feelsLike, setFeelsLike] = useState(null);
@@ -17,9 +19,10 @@ const TodayForecast = (props) => {
     const [sunrise, SetSunrise] = useState([null,null]);
     const [sunset, SetSunset] = useState([null,null]);
 
+    // State variable to hold error message for invalid location
     const [invalidLocation, setInvalidLocation] = useState(null);
 
-   
+   // API url for retrieving weather data based on the location
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=2cdb7a87b467f79781996b8eb03eecda`;
 
     //function to exchange location
@@ -27,6 +30,7 @@ const TodayForecast = (props) => {
         setLocation(newlocation);
     }
 
+    // useEffect hook to retrieve the weather data using the API url
     useEffect(() => {
         axios.get(url)
         .then((response) => {
@@ -44,9 +48,8 @@ const TodayForecast = (props) => {
 
 
     //configure today as a date
-
     const today = new Date();
-    //const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    
     const weekday = today.toLocaleDateString('en-US', { weekday: 'long' });
     const month = today.toLocaleDateString('en-US', { month: 'long' });
     const day = today.toLocaleDateString('en-US', { day: 'numeric' });
@@ -68,7 +71,6 @@ const TodayForecast = (props) => {
             setFeelsLike(data.main.feels_like.toFixed());
             setWindSpeed(data.wind.speed);
             setHumidity(data.main.humidity);
-            // setVisibility(data.visibility);
             setIconId(data.weather[0].icon);
             SetSunrise(unixToTime(data.sys.sunrise))
             SetSunset(unixToTime(data.sys.sunset))

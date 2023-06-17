@@ -1,11 +1,15 @@
+// import required libraries and components
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import WeatherDisplay from "./WeatherDisplay";
 
+// functional component TripDayForecast
 const TripDayForecast = (props) => {
 
+    // convert props.tripDate to Date format
     const tripDate = new Date(props.tripDate);
 
+    // initialize state variables for weather data
     const [data, setData] = useState({});
     const [location, setLocation] = useState(props.currentCity);
     const [temperature, setTemperature] = useState(null);
@@ -15,31 +19,33 @@ const TripDayForecast = (props) => {
     const [humidity, setHumidity] = useState(null);
     const [iconID, setIconId] = useState(null);
     const [rain, setRain] = useState();
-    const [sunrise, SetSunrise] = useState([null,null]);
-    const [sunset, SetSunset] = useState([null,null]);
-    
+    const [sunrise, SetSunrise] = useState([null, null]);
+    const [sunset, SetSunset] = useState([null, null]);
 
+    //state variableto display error msg when invalid location entered
     const [invalidLocation, setInvalidLocation] = useState(null);
 
+    // configure url for API call
     const url = `https://pro.openweathermap.org/data/2.5/forecast/climate?q=${location}&units=metric&appid=2cdb7a87b467f79781996b8eb03eecda`;
 
-      
+
     //function to exchange location
-    const pullLocation  = (newlocation) => {
+    const pullLocation = (newlocation) => {
         setLocation(newlocation);
     }
 
+    // useEffect hook to make API call when location changes
     useEffect(() => {
         axios.get(url)
-        .then((response) => {
-            setData(response.data);
-            console.log(response.data);
-            props.pushLocationForcast(location);
-        })
-        .catch((error) => {
-            console.log(error);
-            setInvalidLocation('*Invalid location or Connection Error');
-        });
+            .then((response) => {
+                setData(response.data);
+                console.log(response.data);
+                props.pushLocationForcast(location);
+            })
+            .catch((error) => {
+                console.log(error);
+                setInvalidLocation('*Invalid location or Connection Error');
+            });
 
     }, [location])
 
@@ -49,11 +55,13 @@ const TripDayForecast = (props) => {
 
     //calculate trip Day index for API
     const dateIndex = Math.floor(Math.abs(tripDate - today) / (1000 * 60 * 60 * 24));
-    
-    
-    //configure proper Tripdate format
+   
+    if(dateIndex < 0 || dateIndex > 30){
+        console.log("invalid date");
+    }
 
-    // const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+    //configure proper Tripdate format
     const weekday = tripDate.toLocaleDateString('en-US', { weekday: 'long' });
     const month = tripDate.toLocaleDateString('en-US', { month: 'long' });
     const day = tripDate.toLocaleDateString('en-US', { day: 'numeric' });
@@ -63,8 +71,9 @@ const TripDayForecast = (props) => {
         const Udate = new Date(unix * 1000); // Multiply by 1000 to convert seconds to milliseconds
         const options = { hour: 'numeric', minute: 'numeric', hour12: true, hourCycle: 'h12' }; // Set options to get hour and minute in 12-hour format with AM/PM
         const timeString = Udate.toLocaleString('en-US', options)
-        return ([timeString.slice(0, -2),timeString.slice(-2)]); //output time and AM/PM separately
+        return ([timeString.slice(0, -2), timeString.slice(-2)]); //output time and AM/PM separately
     }
+    
     // Update state variables when weather data is retrieved
     useEffect(() => {
         if (data.code) {
@@ -106,10 +115,10 @@ const TripDayForecast = (props) => {
             sunrise={sunrise}
             sunset={sunset}
 
-            
-            transferData = {pullLocation}
-            invalidLocation = {invalidLocation}
-            showSearch = {props.showSearch}
+
+            transferData={pullLocation}
+            invalidLocation={invalidLocation}
+            showSearch={props.showSearch}
         />
     );
 }
