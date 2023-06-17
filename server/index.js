@@ -11,14 +11,19 @@ const db = require("./models");
 const userRouter = require("./routes/User");
 app.use("/auth", userRouter);
 
-const LocationRouter = require("./routes/Locations");
-app.use("/Locations", LocationRouter);
-
 const ArrayRouter = require("./routes/Array");
 app.use("/Array", ArrayRouter);
 
 const RatingsRouter = require("./routes/Ratings");
 app.use("/Ratings", RatingsRouter);
+
+const TripRouter = require("./routes/Trip");
+app.use("/Trips", TripRouter);
+
+
+const LocationRouter = require("./routes/Locations");
+app.use("/Locations",LocationRouter);
+
 
 db.sequelize.sync().then(() => {
   app.listen(3001, () => {

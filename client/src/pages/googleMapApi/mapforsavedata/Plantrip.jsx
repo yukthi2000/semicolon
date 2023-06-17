@@ -1,7 +1,7 @@
-import loading from "../../assets/loading (1).gif";
-import error from "../../assets/error.gif";
+import loading from "../../../assets/loading (1).gif";
+import error from "../../../assets/error.gif";
 import * as React from "react";
-// import Searchbar from "./Searchbar";
+
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import Divider from "@mui/material/Divider";
@@ -13,9 +13,11 @@ import { useState } from "react";
 import "./Searc.css";
 import Multiplesearch from "./Multiplesearch";
 import { PropTypes } from "prop-types";
-import Searchbox from "./Searchboxformulti";
+import Header2 from "../../../componets/Header2";
+//import Sidepan from "./Sidepan";
+import Datafortrip from "./Datafortrip";
 import { useContext, useEffect } from "react";
-import { HomeContext } from "../../Context/HomeContext";
+import { HomeContext } from "../../../Context/HomeContext";
 import { InfoBox } from "@react-google-maps/infobox";
 import { Box } from "@mui/material";
 import axios from "axios";
@@ -26,7 +28,6 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from "use-places-autocomplete";
 
-import "@reach/combobox/styles.css";
 import {
   GoogleMap,
   useLoadScript,
@@ -40,7 +41,6 @@ import { Button } from "@mui/material";
 // import SearchBox from "react-google-maps/lib/components/places/SearchBox";
 const heading = "kandy";
 const libraries = ["places"];
-
 const mapContainerStyle = {
   width: "100vw",
   height: "100vh",
@@ -55,7 +55,7 @@ const options = {
   streetViewControl: true,
 };
 
-export default function Map(latlng, props) {
+export default function Tripplan(latlng, props) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: "AIzaSyCjTfIEci5TjcUCYMifDVtiC6nt7tFRqko",
     libraries,
@@ -64,8 +64,8 @@ export default function Map(latlng, props) {
   const [selected, setSelected] = React.useState(null);
   const [Searchplan, setSearchplan] = useState(false);
   const [Searchplan2, setSearchplan2] = useState(props.Searchplan);
-  const [searchdata, setSearchdata] = useState([]);
-  const [searchdata2, setSearchdata2] = useState([]);
+  const [search, setSearch] = useState(false);
+  const [gobutton, setGobutton] = useState(true);
   const { curr } = useContext(HomeContext);
   const [directionResponse, SetdirectionResponse] = React.useState(null);
   const [distance, setDistance] = React.useState(0);
@@ -86,35 +86,49 @@ export default function Map(latlng, props) {
   const [issecondentered, setissecondentered] = React.useState(true);
   let indexloc = 0;
 
+  //location indexes
+
+  const indexsend = (data) => {
+    indexloc = data;
+    console.log(data);
+    console.log(indexloc);
+    if (indexloc === 0) {
+      setisOneEntered(true);
+    } else if (indexloc === 1) {
+      setissecondentered(true);
+      return;
+    } else {
+      setissecondentered(false);
+      setisOneEntered(false);
+    }
+  };
+
+  const gobuttonhandle = () => {
+    setGobutton(!gobutton);
+  };
+
+  const handlesearch = () => {
+    setSearch(!search);
+  };
+
   const onmarkk = (data) => {
     console.log("dadfa");
-    //Setmarkers(data);
-    Setmarkers((current) => [
-      ...current,
-      {
-        lat: data.lat,
-        lng: data.lng,
-        time: new Date(),
-      },
-    ]);
+    Setmarkers(data);
   };
   const Searchplanshow = () => {
     setSearchplan(!Searchplan);
   };
-  //get start location from url
-  const location = useLocation();
 
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const startlocation = searchParams.get("startlocation");
-    // Use the startlocation value as needed
-    setlocationsstart(startlocation);
-    console.log(startlocation);
-  }, [location.search]);
-
-  const mapWithoutFirstAndLast = (array) => {
-    return array.slice(1, array.length - 1);
-  };
+  const onMapClick = React.useCallback((event) => {
+    Setmarkers((current) => [
+      ...current,
+      {
+        lat: event.latLng.lat(),
+        lng: event.latLng.lng(),
+        time: new Date(),
+      },
+    ]);
+  }, []);
 
   const recivelocations = (data) => {
     console.log("recivelocations");
@@ -154,12 +168,6 @@ export default function Map(latlng, props) {
       distanceMarker.setMap(mapRef.current);
     }
   }, [distanceMarker]);
-
-  // const optimizeroute = async () => {
-  //   console.log("optimizeroute start");
-  // await calculateRoute();
-  // console.log("optimizeroute end");
-  // };
 
   //function to calculate route
   async function calculateRoute() {
@@ -271,23 +279,6 @@ export default function Map(latlng, props) {
 
     console.log("calculateRoute end");
   }
-
-  //location indexes
-
-  const indexsend = (data) => {
-    indexloc= data;
-    console.log(data);
-    console.log(indexloc);
-    if (indexloc === 0) {
-      setisOneEntered(true);
-    } else if (indexloc === 1) {
-      setissecondentered(true);
-      return ;
-    } else {
-      setissecondentered(false);
-      setisOneEntered(false);
-    }
-  };
 
   //function to calculate ReArrange route
 
@@ -462,8 +453,9 @@ export default function Map(latlng, props) {
     // Return both sorted arrays as an object
     return { sortedPoints, sortedDistances };
   }
+
   const Setnewarrat = () => {
-    //console.log(all);
+    console.log(all);
 
     const updatedLoc = Array.from(all);
     updatedLoc.forEach((value, index) => {
@@ -555,57 +547,8 @@ export default function Map(latlng, props) {
     //       console.log(sortedPoints);
   };
 
-  // const Reroute = () => {
-  //   const numofpoints = all.length;
-  //   const NumofPonitsToSTARTpoints = Math.ceil(numofpoints / 4 + 1);
-
-  //   for (let j = 0; j < NumofPonitsToSTARTpoints; j++) {
-  //     const newArray = [...newall]; // make a copy of the array
-  //     newArray[j] = all[j]; // add new data to the array at the specified index
-  //     setNewall(newArray);
-  //     const newdis = [...distancedest]; // make a copy of the array
-  //     newdis[j] = 0; // add new data to the array at the specified index
-  //     setDistancedest(newdis);
-  //     for (let i = j + 1; i < numofpoints - 1; i++) {
-  //       //setNewall([...newall,all[i]])
-  //       const newArray = [...newall]; // make a copy of the array
-  //       newArray[i] = all[i]; // add new data to the array at the specified index
-  //       setNewall(newArray); // update the state with the new array
-
-  //       //setDistancedest([...distancedest,calculateDistance(all[j],all[i])])
-  //       const newdis = [...distancedest]; // make a copy of the array
-  //       newdis[i] = calculateDistance(all[j], all[i]); // add new data to the array at the specified index
-  //       setDistancedest(newdis); // update the state with the new array
-
-  //       //compare karanna ona palaweni start point ejkat ekka
-  //       //dura ekka arraya ekata location piliwelata watenna ona
-  //     }
-  //     [all, distancedest] = sortByDistance(newall, distancedest);
-
-  //     // setNewall(prevNewall => {
-  //     //   const newNewall = [...prevNewall];
-  //     //   for(let i=j+1;i<numofpoints-1;i++) {
-  //     //     newNewall.push(calculateDistance(all[i],all[i+1]));
-  //     //   }
-  //     //   return newNewall;
-  //     // });
-  //   }
-  // };
-
-  const onMapClick = React.useCallback((event) => {
-    Setmarkers((current) => [
-      ...current,
-      {
-        lat: event.latLng.lat(),
-        lng: event.latLng.lng(),
-        time: new Date(),
-      },
-    ]);
-  }, []);
-
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback((map) => {
-    setloading(!loading);
     mapRef.current = map;
   }, []);
 
@@ -644,7 +587,39 @@ export default function Map(latlng, props) {
   return (
     <>
       <div>
+        <Header2 />
         <div
+          style={{
+            marginTop: 0,
+            position: "absolute",
+            zIndex: 100,
+            width: "100%",
+          }}
+        >
+          {gobutton ? (
+            <Datafortrip gobuttonhandle={gobuttonhandle} />
+          ) : (
+            <div
+              style={{
+                marginTop: 70,
+                marginLeft: 10,
+                position: "absolute",
+                zIndex: 100,
+              }}
+            >
+              <Multiplesearch
+                Searchplanshow={Searchplanshow}
+                Searchplan={Searchplan}
+                heading={heading}
+                sendlocations={recivelocations}
+                locationsstart={locationsstart}
+                indexsend={indexsend} // start location
+                //optimizeroute={calculateRoute}
+              />
+            </div>
+          )}
+        </div>
+        {/* <div
           style={{
             marginTop: 70,
             marginLeft: 10,
@@ -652,60 +627,15 @@ export default function Map(latlng, props) {
             zIndex: 100,
           }}
         >
-          {!Searchplan ? (
-            <Multiplesearch
-              Searchplanshow={Searchplanshow}
-              Searchplan={Searchplan}
-              heading={heading}
-              sendlocations={recivelocations}
-              locationsstart={locationsstart}
-              indexsend={indexsend} // start location
-              //optimizeroute={calculateRoute}
-            />
-          ) : (
-            <div className="searchbar">
-              <Paper
-                component="form"
-                sx={{
-                  p: "2px 4px",
-                  display: "flex",
-                  alignItems: "center",
-                  width: 400,
-                  border: 0,
-                }}
-              >
-                <IconButton sx={{ p: "10px" }} aria-label="menu">
-                  <MenuIcon onClick={Searchplanshow} />
-                </IconButton>
-                <Searchbox placeholder={"Enter Location"} />
-
-                {/* {console.log(markers)} */}
-                <IconButton
-                  type="button"
-                  sx={{ p: "10px" }}
-                  aria-label="search"
-                >
-                  <SearchIcon />
-                </IconButton>
-                <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-                <IconButton
-                  color="primary"
-                  sx={{ p: "10px" }}
-                  aria-label="directions"
-                >
-                  <DirectionsIcon />
-                </IconButton>
-              </Paper>
-            </div>
-          )}
-        </div>
+          
+        </div> */}
       </div>
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         zoom={7.5}
         center={center}
         options={options}
-        //onClick={onMapClick}
+        onClick={onMapClick}
         onLoad={onMapLoad}
       >
         {markers.map((marker) => (
@@ -715,11 +645,12 @@ export default function Map(latlng, props) {
             // icon={
 
             // }
-            // onClick={() => {
-            //   setSelected(marker);
-            // }}
+            onClick={() => {
+              setSelected(marker);
+            }}
           />
         ))}
+
         {directionResponse && (
           <DirectionsRenderer
             options={{
@@ -732,6 +663,7 @@ export default function Map(latlng, props) {
             directions={directionResponse}
           />
         )}
+
         {selected ? (
           <InfoWindow position={{ lat: selected.lat, lng: selected.lng }}>
             <div>
@@ -741,11 +673,7 @@ export default function Map(latlng, props) {
           </InfoWindow>
         ) : null}
       </GoogleMap>
-      {/* <button type="button" onClick={recivelocations}>
-        asasfa
-      </button> */}
       {/* {console.log(markers)} */}
-      {console.log(curr)}
       //Error handleing
       {!isOneEntered && (
         <div

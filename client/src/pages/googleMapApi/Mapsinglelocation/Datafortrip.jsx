@@ -21,7 +21,7 @@ import TwoWheelerIcon from "@mui/icons-material/TwoWheeler";
 import AirportShuttleIcon from "@mui/icons-material/AirportShuttle";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import SendIcon from "@mui/icons-material/Send";
-import WeatherOptions from "../weatherApi/WeatherOptions";
+import WeatherOptions from "../../weatherApi/WeatherOptions";
 import dayjs from "dayjs";
 
 const Datafortrip = (prop) => {

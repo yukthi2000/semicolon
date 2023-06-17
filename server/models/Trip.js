@@ -1,22 +1,30 @@
 module.exports = (sequelize, DataTypes) => {
-  const Trip = sequelize.define("Trip", {
+    const Trip = sequelize.define("Trip", {
       id: {
-          type: DataTypes.INTEGER,
-          primaryKey: true,
-          autoIncrement: true
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
       },
-      location: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
+      date: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      vehicleType: {
+        type: DataTypes.STRING,
+        allowNull: false,
       }
-  });
-
-  Trip.associate = (models) => {
-      Trip.hasMany(models.Locations, { foreignKey: 'tripId' });
-      Trip.belongsToMany(models.UserSec, { through: models.UserTrip, foreignKey: 'tripId' });
-      Trip.belongsToMany(models.Locations, { through: models.TripLocations, foreignKey: 'tripId' });
+    });
+  
+    Trip.associate = (models) => {
+      Trip.belongsTo(models.User, {
+        foreignKey: 'userId',
+        allowNull: false
+      });
+      Trip.hasMany(models.Locations, {
+        foreignKey: 'tripId'
+      });
+    };
+  
+    return Trip;
   };
-
-  return Trip;
-};
-
+  

@@ -12,7 +12,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { useState } from "react";
 import Searchbox from "./Searchboxformultisearch";
-import Forecast from "../weatherApi/Forecast";
+import Forecast from "../../weatherApi/Forecast";
 import axios from "axios";
 import ScoreIcon from "@mui/icons-material/Score";
 
@@ -108,7 +108,6 @@ function Multiplesearch(props) {
                     <Searchbox
                       location={index === 0 ? "Start Location" : "Location"}
                       currLocation={(data) => getLocation(data, index)}
-          
                       index={index}
                     />
                   </Box>
@@ -140,7 +139,6 @@ function Multiplesearch(props) {
               </Box>
             ))}
           </Box>
-          
 
           <Box className="buttons">
             <Box className="but1" style={{ paddingBotnotetom: 0 }}>

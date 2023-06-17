@@ -1,5 +1,5 @@
-import loading from "../../assets/loading (1).gif";
-import error from "../../assets/error.gif";
+import loading from "../../../assets/loading (1).gif";
+import error from "../../../assets/error.gif";
 import * as React from "react";
 
 import Paper from "@mui/material/Paper";
@@ -10,19 +10,19 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import DirectionsIcon from "@mui/icons-material/Directions";
 import { useState } from "react";
-import "./Searc.css";
+import "../Searc.css";
 import Multiplesearch from "./Multiplesearch";
 import { PropTypes } from "prop-types";
-import Header2 from "../../componets/Header2";
-import Sidepan from "./Sidepan";
+import Header2 from "../../../componets/Header2";
+import Sidepan from "../Sidepan";
 import { useEffect, useRef } from "react";
 import Searchbox from "./Searchboxformulti";
-import Ratings from "./singleLocationData/Ratings";
-import Viewer from "./singleLocationData/Viewer";
-
+// import Ratings from "./singleLocationData/Ratings";
+// import Viewer from "./singleLocationData/Viewer";
+import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import { Box } from "@mui/material";
 import axios from "axios";
-import "./singleLocationData/rating.css";
+import "../singleLocationData/rating.css";
 
 import usePlacesAutocomplete, {
   getGeocode,
@@ -82,22 +82,42 @@ export default function Map(latlng, props) {
   const [isLocationEntered, setIsLocationEntered] = React.useState(true);
   const [listofdata, setListofdata] = useState([]);
   const [sidepan, setSidepan] = React.useState(false);
+  const [panopen, setpanopen] = React.useState(true);
+  const [orginforshow, setorginforshow] = useState("");
+  const [locationsstart, setlocationsstart] = useState([]);
+  const [isOneEntered, setisOneEntered] = React.useState(true);
+  const [issecondentered, setissecondentered] = React.useState(true);
+  const [firstAndLastSearchData, setFirstAndLastSearchData] = useState([]);
+  const [all, setAll] = useState([]);
+  const [searchDataWithoutFirstAndLast, setSearchDataWithoutFirstAndLast] =
+    useState([]);
+
   //connection for database for retrive reviews
-  useEffect(() => {
-    axios
-      .get("http://localhost:3001/Ratings/location", {
-        params: {
-          location: origin,
-        },
-      })
-      .then((response) => {
-        setListofdata(response.data);
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [origin]);
+  useEffect(() => {}, [origin]);
+
+  const recivelocations = (data) => {
+    console.log("recivelocations");
+    console.log(data);
+
+    if (data.length === 0) {
+      setisOneEntered(false);
+    } else if (data.length === 1) {
+      setissecondentered(false);
+    } else {
+      setissecondentered(true);
+      setisOneEntered(true);
+    }
+    console.log(isOneEntered);
+    console.log(issecondentered);
+
+    const [firstElement, ...restElement] = data;
+    const lastElement = data[data.length - 1];
+    const restElements = data.slice(1, data.length - 1);
+
+    setFirstAndLastSearchData([firstElement, lastElement]);
+    setSearchDataWithoutFirstAndLast(restElements);
+    setAll([firstElement, ...restElements, lastElement]);
+  };
 
   const originfromsearch = (data) => {
     setOrigin(data);
@@ -112,6 +132,20 @@ export default function Map(latlng, props) {
     if (origin.length > 0) {
       setIsLocationEntered(true);
       setSidepan(true);
+      setorginforshow(origin);
+      axios
+        .get("http://localhost:3001/Ratings/location", {
+          params: {
+            location: origin,
+          },
+        })
+        .then((response) => {
+          setListofdata(response.data);
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     } else {
       setIsLocationEntered(false);
       setSidepan(false);
@@ -170,6 +204,9 @@ export default function Map(latlng, props) {
 
   const handledirection = () => {
     setDirection(!direction);
+    if (origin && origin.length > 0) {
+      setpanopen(!panopen);
+    }
   };
 
   const secondsearchmenuhandler = () => {
@@ -297,6 +334,9 @@ export default function Map(latlng, props) {
                 Searchplanshow={Searchplanshow}
                 Searchplan={Searchplan}
                 heading={heading}
+                sendlocations={recivelocations}
+                locationsstart={locationsstart} // start location
+                //optimizeroute={calculateRoute}
               />
             ) : (
               <div className="searchbar">
@@ -320,6 +360,7 @@ export default function Map(latlng, props) {
                     sx={{ p: "10px" }}
                     aria-label="search"
                     onClick={singlelocation}
+                    disabled={origin && origin.length > 0 && direction}
                   >
                     <SearchIcon />
                   </IconButton>
@@ -360,20 +401,14 @@ export default function Map(latlng, props) {
                       {/* put a placeholder */}
 
                       {/* {console.log(markers)} */}
-                      <IconButton
-                        type="button"
-                        sx={{ p: "10px" }}
-                        aria-label="search"
-                      >
-                        <SearchIcon />
-                      </IconButton>
+
                       <Divider
                         sx={{ height: 28, m: 0.5 }}
                         orientation="vertical"
                       />
                       <IconButton
                         color="primary"
-                        sx={{ p: "10px" }}
+                        sx={{ p: "10px", marginLeft: "30px" }}
                         aria-label="directions"
                         onClick={calculateRoute}
                       >
@@ -389,93 +424,157 @@ export default function Map(latlng, props) {
           )}
         </div>
       </div>
-      <div style={{ backgroundColor: "cyan" }}>
-        {/*viewerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr */}
-
-        {sidepan ? (
-          <div className="viewer">
-            <Box>
-              <Paper
-                sx={{
+      {/*viewerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr */}
+      {panopen ? (
+        <div>
+          {sidepan ? (
+            <div
+              className="sidepan"
+              style={{
+                marginTop: 180,
+                backgroundColor: "#E86E18",
+                zIndex: 999,
+                width: 435,
+                height: 550,
+                position: "fixed",
+                borderRadius: 6,
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <div
+                className="left"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-around",
                   width: 400,
-                  borderRadius: 0,
-                  zIndex: 9999,
-                  position: "absolute",
-                  height: 250,
-                  marginTop: 25,
-                  marginLeft: 1.5,
+                  height: 550,
                 }}
               >
                 <div
-                  className="locawe"
-                  style={{
-                    marginLeft: 10,
-                    marginTop: 10,
-                    marginRight: 10,
-                    display: "flex",
-                    justifyContent: "space-between",
-                    height: 55,
-                  }}
+                  className="viewer"
+                  style={{ height: 250, width: 400, marginLeft: 10 }}
                 >
-                  <div className="loc">{origin} name</div>
-                  <div className="we">weather</div>
+                  <Box>
+                    <Paper
+                      sx={{
+                        width: 400,
+                        borderRadius: 4,
+                        zIndex: 9999,
+                        position: "absolute",
+                        height: 250,
+
+                        // marginTop: 2,
+                        // marginLeft: 1,
+                      }}
+                    >
+                      dfasfasfa
+                    </Paper>
+                  </Box>
                 </div>
-                <hr />
                 <div
-                  className="title"
-                  style={{
-                    marginLeft: 10,
-                  }}
+                  className="rating"
+                  style={{ height: 250, width: 400, marginLeft: 10 }}
                 >
-                  Reviews
-                </div>
-                <div className="reviews-container">
-                  <div className="reviews">
-                    {listofdata.map((value, key) => {
-                      return (
-                        <div className="all" key={key}>
-                          <div className="card">
-                            <div className="rating">{value.rating}</div>
-                          </div>
+                  <Box>
+                    <Paper
+                      sx={{
+                        width: 400,
+                        borderRadius: 0,
+                        zIndex: 9999,
+                        position: "absolute",
+                        height: 250,
+                        // marginTop: 35,
+                        // marginLeft: 1,
+                      }}
+                    >
+                      <div
+                        className="locawe"
+                        style={{
+                          marginLeft: 10,
+                          marginTop: 10,
+                          marginRight: 10,
+                          display: "flex",
+                          justifyContent: "space-between",
+                          height: 40,
+                        }}
+                      >
+                        <div className="loc">{orginforshow} </div>
+                        <div className="we">weather</div>
+                      </div>
+                      <hr />
+                      <div
+                        className="title"
+                        style={{
+                          marginLeft: 10,
+                        }}
+                      >
+                        Reviews
+                      </div>
+                      <div className="reviews-container">
+                        <div className="reviews">
+                          {listofdata.map((value, key) => {
+                            return (
+                              <div className="all" key={key}>
+                                <div className="card">
+                                  <div className="rating">{value.rating}</div>
+                                </div>
+                              </div>
+                            );
+                          })}
                         </div>
-                      );
-                    })}
-                  </div>
+                      </div>
+                    </Paper>
+                  </Box>
                 </div>
-              </Paper>
-            </Box>
-          </div>
-        ) : (
-          ""
-        )}
-        {/*viewerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr */}
-
-        {/*Imagesssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss */}
-
-        {sidepan ? (
-          <div className="viewer">
-            <Box>
-              <Paper
-                sx={{
-                  width: 400,
-                  borderRadius: 4,
-                  zIndex: 9999,
-                  position: "absolute",
-                  height: 250,
-                  marginTop: 60,
-                  marginLeft: 1.5,
+              </div>
+              <div
+                className="right"
+                style={{
+                  display: "flex",
+                  alignContent: "center",
+                  width: 35,
+                  height: 550,
                 }}
               >
-                dfasfasfa
-              </Paper>
-            </Box>
-          </div>
-        ) : (
-          ""
-        )}
-
-        {/*Imagesssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss */}
-      </div>
+                <IconButton
+                  onClick={() => {
+                    setpanopen(!panopen);
+                  }}
+                >
+                  <DoubleArrowIcon />
+                </IconButton>
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
+      ) : (
+        <div
+          className="smallsidepan"
+          style={{
+            width: 35,
+            height: 550,
+            display: "flex",
+            alignContent: "center",
+            marginTop: 180,
+            backgroundColor: "#E86E18",
+            zIndex: 999,
+            position: "fixed",
+          }}
+        >
+          <IconButton
+            onClick={() => {
+              setpanopen(!panopen);
+            }}
+          >
+            <DoubleArrowIcon />
+          </IconButton>
+        </div>
+      )}
+      {/*viewerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr */}
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         zoom={7.5}
@@ -507,7 +606,16 @@ export default function Map(latlng, props) {
           )
         )}
         {directionResponse && (
-          <DirectionsRenderer directions={directionResponse} />
+          <DirectionsRenderer
+            options={{
+              polylineOptions: {
+                strokeColor: "#0000FF",
+                strokeOpacity: 0.7,
+                strokeWeight: 4,
+              },
+            }}
+            directions={directionResponse}
+          />
         )}
 
         {/* {!clearroute && <DirectionsRenderer directions={null} />} */}
@@ -555,6 +663,73 @@ export default function Map(latlng, props) {
             }}
           >
             Please enter a location. {console.log("fsDFad")}
+          </p>
+        </div>
+      )}
+      //Error handleing
+      {!isOneEntered && (
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: "9999",
+            width: "300px",
+            height: "50px",
+
+            backgroundColor: "#f8d7da",
+            padding: "10px",
+            borderRadius: "6px",
+            textAlign: "center",
+            animationName: "highlight",
+            animationDuration: "1.5s",
+            animationIterationCount: "infinite",
+            boxShadow: "0 0 0 2px #f8d7da",
+          }}
+        >
+          <p
+            style={{
+              background: "none",
+              border: "none",
+              color: "red",
+              zIndex: 9999,
+            }}
+          >
+            Please enter Start location. {console.log("fsDFad")}
+          </p>
+        </div>
+      )}
+      {!issecondentered && (
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: "9999",
+            width: "300px",
+            height: "50px",
+
+            backgroundColor: "#f8d7da",
+            padding: "10px",
+            borderRadius: "6px",
+            textAlign: "center",
+            animationName: "highlight",
+            animationDuration: "1.5s",
+            animationIterationCount: "infinite",
+            boxShadow: "0 0 0 2px #f8d7da",
+          }}
+        >
+          <p
+            style={{
+              background: "none",
+              border: "none",
+              color: "red",
+              zIndex: 9999,
+            }}
+          >
+            Please enter Destinations. {console.log("fsDFad")}
           </p>
         </div>
       )}
