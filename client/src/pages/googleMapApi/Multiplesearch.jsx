@@ -52,7 +52,7 @@ function Multiplesearch (props)  {
   const tripDate = new Date('2023-06-11');
 
   //pass changed location from child components to this cmponent
-  const [globalLocation, setGlobalLocation] = useState("Kandy");
+  const [globalLocation, setGlobalLocation] = useState("Sri Lanka");
 
   const pull_newGlobalLocation = (newLocation) => {
     setGlobalLocation(newLocation);
@@ -64,7 +64,8 @@ function Multiplesearch (props)  {
    // props.optimizeroute(true);
     
   }
-
+//Harshana
+  
   function handleSuggest() {
     props.sendSuggestlocations(searchdata);
   }

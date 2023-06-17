@@ -17,7 +17,7 @@ const Gallery = () => {
   const [map, setMap] = useState(null);
 
   //pull changed location from child components to this cmponent
-  const [globalLocation, setGlobalLocation] = useState('Kandy');
+  const [globalLocation, setGlobalLocation] = useState('Sri Lanka');
 
   const pull_newGlobalLocation = (newLocation) => {
     setGlobalLocation(newLocation);

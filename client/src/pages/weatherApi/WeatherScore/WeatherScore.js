@@ -43,11 +43,11 @@ function WeatherScore(props) {
   const CalculateOverallScore = () => {
     let score = 0 ;
     if (
-      (weatherOptionsData.sunny == true && actualWeatherData.overall == "Clear") ||
-      (weatherOptionsData.cloudy == true && actualWeatherData.overall == "Clouds") ||
-      (weatherOptionsData.rain == true && actualWeatherData.overall == "Rain") ||
-      (weatherOptionsData.thunder == true && actualWeatherData.overall == "Thunderstorm") ||
-      (weatherOptionsData.storm == true && actualWeatherData.overall == "Snow")
+      (weatherOptionsData.sunny === true && actualWeatherData.overall === "Clear") ||
+      (weatherOptionsData.cloudy === true && actualWeatherData.overall === "Clouds") ||
+      (weatherOptionsData.rain === true && actualWeatherData.overall === "Rain") ||
+      (weatherOptionsData.thunder === true && actualWeatherData.overall === "Thunderstorm") ||
+      (weatherOptionsData.storm === true && actualWeatherData.overall === "Snow")
     ) {
       score = 100 ;
     }
@@ -62,20 +62,20 @@ function WeatherScore(props) {
     let score = 0 ;
 
     if (
-      (weatherOptionsData.exHot == true && actualWeatherData.temperature >= 35) ||
-      (weatherOptionsData.hot == true && actualWeatherData.temperature >= 30 && actualWeatherData.temperature < 35) ||
-      (weatherOptionsData.averageT == true && actualWeatherData.temperature >= 20 && actualWeatherData.temperature < 30) ||
-      (weatherOptionsData.cold == true && actualWeatherData.temperature >= 15 && actualWeatherData.temperature < 20) ||
-      (weatherOptionsData.exCold == true && actualWeatherData.temperature < 15)
+      (weatherOptionsData.exHot === true && actualWeatherData.temperature >= 35) ||
+      (weatherOptionsData.hot === true && actualWeatherData.temperature >= 30 && actualWeatherData.temperature < 35) ||
+      (weatherOptionsData.averageT === true && actualWeatherData.temperature >= 20 && actualWeatherData.temperature < 30) ||
+      (weatherOptionsData.cold === true && actualWeatherData.temperature >= 15 && actualWeatherData.temperature < 20) ||
+      (weatherOptionsData.exCold === true && actualWeatherData.temperature < 15)
     ) {
       score = 100 ;
     }
     else if (
-      (weatherOptionsData.exHot == true && actualWeatherData.temperature >= 30 && actualWeatherData.temperature < 35) ||
-      (weatherOptionsData.hot == true && (actualWeatherData.temperature >= 35) || (actualWeatherData.temperature >= 20 && actualWeatherData.temperature < 30)) ||
-      (weatherOptionsData.averageT == true && (actualWeatherData.temperature >= 20 && actualWeatherData.temperature < 30) || (actualWeatherData.temperature >= 15 && actualWeatherData.temperature < 20)) ||
-      (weatherOptionsData.cold == true && (actualWeatherData.temperature >= 30 && actualWeatherData.temperature < 35) || (actualWeatherData.temperature < 15)) ||
-      (weatherOptionsData.exCold == true && actualWeatherData.temperature >= 15 && actualWeatherData.temperature < 20)
+      (weatherOptionsData.exHot === true && actualWeatherData.temperature >= 30 && actualWeatherData.temperature < 35) ||
+      (weatherOptionsData.hot === true && (actualWeatherData.temperature >= 35) || (actualWeatherData.temperature >= 20 && actualWeatherData.temperature < 30)) ||
+      (weatherOptionsData.averageT === true && (actualWeatherData.temperature >= 20 && actualWeatherData.temperature < 30) || (actualWeatherData.temperature >= 15 && actualWeatherData.temperature < 20)) ||
+      (weatherOptionsData.cold === true && (actualWeatherData.temperature >= 30 && actualWeatherData.temperature < 35) || (actualWeatherData.temperature < 15)) ||
+      (weatherOptionsData.exCold === true && actualWeatherData.temperature >= 15 && actualWeatherData.temperature < 20)
     ) {
       score = 50;
     }
@@ -88,9 +88,9 @@ function WeatherScore(props) {
   const CalculateWindScore = () => {
     let score = 0;
     if (
-      (weatherOptionsData.heavyW == true && actualWeatherData.windSpeed >= 17) ||
-      (weatherOptionsData.averageW == true && actualWeatherData.windSpeed < 17 && actualWeatherData.windSpeed >= 8) ||
-      (weatherOptionsData.slightW == true && actualWeatherData.windSpeed < 8)
+      (weatherOptionsData.heavyW === true && actualWeatherData.windSpeed >= 17) ||
+      (weatherOptionsData.averageW === true && actualWeatherData.windSpeed < 17 && actualWeatherData.windSpeed >= 8) ||
+      (weatherOptionsData.slightW === true && actualWeatherData.windSpeed < 8)
     ) {
       score = 100;
     }

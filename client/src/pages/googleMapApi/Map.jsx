@@ -225,10 +225,9 @@ export default function Map(latlng, props,mapLocation ) {
           lat: attraction.geometry.location.lat(),
           lng: attraction.geometry.location.lng(),
         }}
-        icon={{
-          url: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
-        }}
+        icon={{ url: require("../../../src/assets/suggested_pin.png"), scaledSize: { width: 32, height: 32 } }}
         onClick={() => handleMarkerClick(attraction)}
+        animation={selectedPlace && selectedPlace.place_id === attraction.place_id ? window.google.maps.Animation.BOUNCE : null}
       >
         {selectedPlace && selectedPlace.place_id === attraction.place_id && (
           <InfoWindowF
@@ -237,7 +236,6 @@ export default function Map(latlng, props,mapLocation ) {
               lng: selectedPlace.geometry.location.lng(),
             }}
             onCloseClick={() => setSelectedPlace(null)}
-            
           >
             <div>
               <img
@@ -245,15 +243,16 @@ export default function Map(latlng, props,mapLocation ) {
                 alt="Place Icon"
                 style={{ width: "20px", height: "20px", margin: "8px" }}
               />
-              <span 
-              style={{fontWeight:500 ,fontFamily:'poppins' }}>
-                {selectedPlace.name}</span>
+              <span style={{ fontWeight: 500, fontFamily: 'poppins' }}>
+                {selectedPlace.name}
+              </span>
             </div>
           </InfoWindowF>
         )}
       </Marker>
     ));
   };
+  
   
   
 
@@ -834,6 +833,7 @@ export default function Map(latlng, props,mapLocation ) {
       </button> */}
       {/* {console.log(markers)} */}
       {console.log(curr)}
+
     </>
   );
 }

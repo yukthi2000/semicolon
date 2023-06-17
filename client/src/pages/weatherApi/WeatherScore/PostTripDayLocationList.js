@@ -8,7 +8,7 @@ export default function PostTripDayLocationList(props){
           key={item} //
           currentCity={item}
           tripID={props.tripID}
-          tripDate={props.tripDate}
+          tripDate={props.tripDate}          
         />
       ));
     
