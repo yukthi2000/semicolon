@@ -19,7 +19,8 @@ import { HomeContext } from "../../Context/HomeContext";
 import { InfoBox } from "@react-google-maps/infobox";
 import { Box } from "@mui/material";
 import axios from "axios";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
+import { styled } from "@mui/system";
 
 import usePlacesAutocomplete, {
   getGeocode,
@@ -54,6 +55,35 @@ const options = {
   zoomControl: true,
   streetViewControl: true,
 };
+
+const AnimatedButton = styled(Button)({
+  position: "fixed",
+  top: 90,
+  right: 30,
+  zIndex: 999999,
+  variant: "elevated",
+  animation: "animateBorder 2s infinite",
+  border: "2px solid transparent",
+  color: "#132320",
+
+  "&:hover": {
+    animation: "none",
+    border: "2px solid #EF7E2A",
+
+    backgroundColor: "rgba(239, 126, 34, 0.5)",
+  },
+  "@keyframes animateBorder": {
+    "0%": {
+      borderColor: "transparent",
+    },
+    "50%": {
+      borderColor: "#EF7E2A", // Change this to the desired border color
+    },
+    "100%": {
+      borderColor: "transparent",
+    },
+  },
+});
 
 export default function Map(latlng, props) {
   const { isLoaded, loadError } = useLoadScript({
@@ -275,14 +305,14 @@ export default function Map(latlng, props) {
   //location indexes
 
   const indexsend = (data) => {
-    indexloc= data;
+    indexloc = data;
     console.log(data);
     console.log(indexloc);
     if (indexloc === 0) {
       setisOneEntered(true);
     } else if (indexloc === 1) {
       setissecondentered(true);
-      return ;
+      return;
     } else {
       setissecondentered(false);
       setisOneEntered(false);
@@ -644,6 +674,10 @@ export default function Map(latlng, props) {
   return (
     <>
       <div>
+        <Link to="/mapp/Tripplan">
+          <AnimatedButton>Plan a Trip</AnimatedButton>
+        </Link>
+
         <div
           style={{
             marginTop: 70,
