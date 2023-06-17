@@ -23,22 +23,46 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import SendIcon from "@mui/icons-material/Send";
 import WeatherOptions from "../../weatherApi/WeatherOptions";
 import dayjs from "dayjs";
+import { addDays, subDays } from "date-fns";
 
 const Datafortrip = (prop) => {
   const [gobutton, setGobutton] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
-  const [weather, setWeather] = useState("");
+  const [weather, setWeather] = useState("fafdas");
   const [vehicle, setVehicle] = useState("");
   const [showError, setShowError] = useState(false);
-  const gobuttonhandle = () => {
+
+  // Calculate the minimum and maximum selectable dates
+  const currentDate = new Date();
+  const minDate = currentDate; // Current date
+  const maxDate = addDays(currentDate, 30);
+
+  const dateObj = new Date(minDate);
+
+  const year = dateObj.getFullYear();
+  const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+  const day = String(dateObj.getDate()).padStart(2, "0");
+
+  const formattedDate = `${year}-${month}-${day}`;
+
+  const dateObj1 = new Date(maxDate);
+
+  const year1 = dateObj1.getFullYear();
+  const month1 = String(dateObj1.getMonth() + 1).padStart(2, "0");
+  const day1 = String(dateObj1.getDate()).padStart(2, "0");
+
+  const formattedDate1 = `${year1}-${month1}-${day1}`;
+
+  const gobuttonhandlefunc = () => {
+    //  const formattedDate = selectedDate.format("YYYY-MM-DD");
+
+    if (!selectedDate || !weather || !vehicle) {
+      setShowError(true);
+      return;
+    }
+
     setGobutton(!gobutton);
     prop.gobuttonhandle();
-    // if (!selectedDate || !weather || !vehicle) {
-    //   setShowError(true);
-    //   return;
-    // }
-    // setGobutton(!gobutton);
-    // prop.gobuttonhandle();
   };
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -49,15 +73,15 @@ const Datafortrip = (prop) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
- 
-  const weatherop = (e) => {
-    setWeather(e.target.value);
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
   };
 
-
-  const vehicleop = (e) => {
+  const handleVehicleChange = (e) => {
     setVehicle(e.target.value);
   };
+
   const username = "yukthi";
   return (
     <div
@@ -131,10 +155,17 @@ const Datafortrip = (prop) => {
                     <DatePicker
                       label="Date"
                       sx={{
-                        backgroundColor: "rgba(255,255,255,0.30)",
+                        backgroundColor: "rgba(255, 255, 255, 0.30)",
                         borderRadius: 2,
+                        border: "1px solid",
+                        borderColor:
+                          showError && !selectedDate ? "red" : "initial",
                       }}
                       showDaysOutsideCurrentMonth
+                      value={selectedDate}
+                      onChange={handleDateChange}
+                      minDate={dayjs(formattedDate)}
+                      maxDate={dayjs(formattedDate1)}
                     />
                   </DemoContainer>
                 </LocalizationProvider>
@@ -161,7 +192,15 @@ const Datafortrip = (prop) => {
             <div>
               {" "}
               <div>
-                <FormControl fullWidth sx={{ width: 150 }}>
+                <FormControl
+                  fullWidth
+                  sx={{
+                    width: 150,
+                    border: "1px solid",
+                    borderRadius: 2,
+                    borderColor: showError && !vehicle ? "red" : "initial",
+                  }}
+                >
                   <InputLabel>
                     <div>
                       <DirectionsCarIcon sx={{ color: "#8B8D8E" }} />
@@ -169,7 +208,11 @@ const Datafortrip = (prop) => {
                       <AirportShuttleIcon sx={{ color: "#8B8D8E" }} />
                     </div>
                   </InputLabel>
-                  <Select onChange={vehicleop} sx={{ color: "#8B8D8E" }}>
+                  <Select
+                    value={vehicle}
+                    onChange={handleVehicleChange}
+                    sx={{ color: "#8B8D8E" }}
+                  >
                     <MenuItem value="car">
                       Car <DirectionsCarIcon />
                     </MenuItem>
@@ -216,7 +259,7 @@ const Datafortrip = (prop) => {
             >
               <Button
                 variant="contained"
-                onClick={gobuttonhandle}
+                onClick={gobuttonhandlefunc}
                 sx={{
                   backgroundColor: "#132320",
                   width: 100,
@@ -227,11 +270,15 @@ const Datafortrip = (prop) => {
               </Button>
             </div>
           )}
-          {/* {showError && (!selectedDate || !weather || !vehicle) && (
-        <Typography variant="body1" color="error">
-          Please fill in all fields.
-        </Typography>
-      )} */}
+          {showError && (!selectedDate || !weather || !vehicle) && (
+            <Typography
+              variant="body1"
+              color="error"
+              sx={{ marginLeft: 3, marginTop: 1 }}
+            >
+              Please fill in all fields.
+            </Typography>
+          )}
         </Paper>
       </Box>
     </div>
@@ -239,179 +286,3 @@ const Datafortrip = (prop) => {
 };
 
 export default Datafortrip;
-
-//     <div>
-//       <div className="body">
-//         <Box
-//           sx={{
-//             display: "flex",
-//             // alignItems: "center",
-//             flexDirection: "column",
-//             background: "rgba(19,35,32,0.15)",
-//             boxShadow: "0 8px 32px 0 rgba(31,38,135,0.37)",
-//             backdropFilter: "blur(8.5px)",
-//             borderRadius: "14px",
-//             height: {
-//               xs: "60%",
-//               sm: "60%",
-//               md: "80%",
-//               lg: "80%",
-//               xl: "80%",
-//             },
-//             width: {
-//               xs: "50%",
-//               sm: "50%",
-//               md: "35%",
-//               lg: "35%",
-//               xl: "35%",
-//             },
-//           }}
-//         >
-//           <Typography
-//             sx={{
-//               marginLeft: 3,
-//               marginTop: 5,
-//               textTransform: "upperCase",
-//               color: "white",
-//               fontFamily: "cursive",
-//             }}
-//             variant="h3"
-//           >
-//             Hey {username},
-//           </Typography>
-//           <Line />
-//           <Typography variant="h4" sx={{ color: "#435555" }}>
-//             <center>Let's Make it Happen!</center>
-//           </Typography>
-//           <Line />
-//           <div className="bottom">
-//             <div className="date">
-//               <Typography variant="h5" sx={{ color: "white" }}>
-//                 Date:
-//               </Typography>
-//               <div>
-//                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-//                   <DemoContainer components={["DatePicker"]}>
-//                     <DatePicker
-//                       label="Date"
-//                       sx={{
-//                         backgroundColor: "rgba(255,255,255,0.30)",
-//                         borderRadius: 2,
-//                       }}
-//                     />
-//                   </DemoContainer>
-//                 </LocalizationProvider>
-//               </div>
-//             </div>
-//           </div>
-//           <div className="weather">
-//             <Typography variant="h5" sx={{ paddingRight: 6, color: "white" }}>
-//               Prefferd weather:
-//             </Typography>
-//             <div>
-//               {" "}
-//               <div>
-//                 <WeatherOptions />
-//               </div>
-//             </div>
-//           </div>
-//           <div className="vehicle">
-//             <Typography variant="h5" sx={{ paddingRight: 11, color: "white" }}>
-//               Vehicle Type:
-//             </Typography>
-//             <div>
-//               {" "}
-//               <div>
-//                 <FormControl fullWidth sx={{ width: 150 }}>
-//                   <InputLabel>
-//                     <div>
-//                       <DirectionsCarIcon sx={{ color: "#8B8D8E" }} />
-//                       <TwoWheelerIcon sx={{ color: "#8B8D8E" }} />
-//                       <AirportShuttleIcon sx={{ color: "#8B8D8E" }} />
-//                     </div>
-//                   </InputLabel>
-//                   <Select onChange={vehicleop} sx={{ color: "white" }}>
-//                     <MenuItem value="car">
-//                       Car <DirectionsCarIcon />
-//                     </MenuItem>
-//                     <MenuItem value="van">
-//                       Van <AirportShuttleIcon />
-//                     </MenuItem>
-//                     <MenuItem value="bike">
-//                       Bike
-//                       <TwoWheelerIcon />
-//                     </MenuItem>
-//                   </Select>
-//                 </FormControl>
-//               </div>
-//             </div>
-//           </div>
-//           {gobutton ? (
-//             <div
-//               style={{
-//                 display: "flex",
-//                 justifyContent: "center",
-//                 paddingTop: 30,
-//               }}
-//             >
-//               <Button
-//                 variant="contained"
-//                 sx={{
-//                   backgroundColor: "#132320",
-//                   width: 100,
-//                   "&:hover": { backgroundColor: "#368C18" },
-//                 }}
-//               >
-//                 <SendIcon />
-//                 <SendIcon />
-//                 <SendIcon />
-//               </Button>
-//             </div>
-//           ) : (
-//             <div
-//               style={{
-//                 display: "flex",
-//                 justifyContent: "center",
-//                 paddingTop: 30,
-//               }}
-//             >
-//               <Button
-//                 variant="contained"
-//                 onClick={gobuttonhandle}
-//                 sx={{
-//                   backgroundColor: "#132320",
-//                   width: 100,
-//                   "&:hover": { backgroundColor: "#368C18" },
-//                 }}
-//               >
-//                 Goooo!
-//               </Button>
-//             </div>
-//           )}
-//         </Box>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Datafortrip;
-
-// const Maincontainer = styled.div`
-//   display: flex;
-//   align-items: center;
-//   flex-direction: column;
-//   height: 80vh;
-//   width: 30vw;
-//   background: rgba(255, 255, 255, 0.15);
-//   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-//   backdrop-filter: blur(8.5px);
-//   border-radius: 10px;
-// `;
-
-// const Line = styled.hr`
-//   border: 10px solid;
-//   color: #ef7e2a;
-//   width: 80%;
-//   margin-left: 45px;
-//   opacity: 1;
-// `;

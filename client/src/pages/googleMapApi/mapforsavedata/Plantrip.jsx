@@ -36,6 +36,7 @@ import {
   DirectionsRenderer,
 } from "@react-google-maps/api";
 
+
 import { formatRelative } from "date-fns";
 import { Button } from "@mui/material";
 // import SearchBox from "react-google-maps/lib/components/places/SearchBox";
@@ -86,17 +87,18 @@ export default function Tripplan(latlng, props) {
   const [issecondentered, setissecondentered] = React.useState(true);
   let indexloc = 0;
 
+
   //location indexes
 
   const indexsend = (data) => {
-    indexloc = data;
+    indexloc= data;
     console.log(data);
     console.log(indexloc);
     if (indexloc === 0) {
       setisOneEntered(true);
     } else if (indexloc === 1) {
       setissecondentered(true);
-      return;
+      return ;
     } else {
       setissecondentered(false);
       setisOneEntered(false);
@@ -168,6 +170,7 @@ export default function Tripplan(latlng, props) {
       distanceMarker.setMap(mapRef.current);
     }
   }, [distanceMarker]);
+
 
   //function to calculate route
   async function calculateRoute() {
@@ -279,6 +282,7 @@ export default function Tripplan(latlng, props) {
 
     console.log("calculateRoute end");
   }
+
 
   //function to calculate ReArrange route
 
@@ -547,6 +551,9 @@ export default function Tripplan(latlng, props) {
     //       console.log(sortedPoints);
   };
 
+
+
+
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback((map) => {
     mapRef.current = map;
@@ -599,24 +606,22 @@ export default function Tripplan(latlng, props) {
           {gobutton ? (
             <Datafortrip gobuttonhandle={gobuttonhandle} />
           ) : (
-            <div
-              style={{
-                marginTop: 70,
-                marginLeft: 10,
-                position: "absolute",
-                zIndex: 100,
-              }}
-            >
-              <Multiplesearch
-                Searchplanshow={Searchplanshow}
-                Searchplan={Searchplan}
-                heading={heading}
-                sendlocations={recivelocations}
-                locationsstart={locationsstart}
-                indexsend={indexsend} // start location
-                //optimizeroute={calculateRoute}
-              />
+            <div style={{
+              marginTop: 70,
+              marginLeft: 10,
+              position: "absolute",
+              zIndex: 100,
+            }}><Multiplesearch
+            Searchplanshow={Searchplanshow}
+            Searchplan={Searchplan}
+            heading={heading}
+            sendlocations={recivelocations}
+            locationsstart={locationsstart}
+            indexsend={indexsend} // start location
+            //optimizeroute={calculateRoute}
+          />
             </div>
+
           )}
         </div>
         {/* <div
@@ -651,7 +656,7 @@ export default function Tripplan(latlng, props) {
           />
         ))}
 
-        {directionResponse && (
+{directionResponse && (
           <DirectionsRenderer
             options={{
               polylineOptions: {
@@ -744,3 +749,5 @@ export default function Tripplan(latlng, props) {
     </>
   );
 }
+
+
