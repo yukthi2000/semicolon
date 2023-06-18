@@ -23,16 +23,13 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import SendIcon from "@mui/icons-material/Send";
 import WeatherOptions from "../../weatherApi/WeatherOptions";
 import dayjs from "dayjs";
-<<<<<<< Updated upstream
-import { addDays, subDays } from "date-fns";
-=======
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../helpers/AuthContext";
 import { useContext } from "react";
->>>>>>> Stashed changes
 
 const Datafortrip = (prop) => {
+
   const { authState } = useContext(AuthContext);
 
   const navigate = useNavigate();
@@ -43,66 +40,37 @@ const Datafortrip = (prop) => {
 
   const [gobutton, setGobutton] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
-  const [weather, setWeather] = useState("fafdas");
+  const [weather, setWeather] = useState("");
   const [vehicle, setVehicle] = useState("");
   const [showError, setShowError] = useState(false);
 
-<<<<<<< Updated upstream
-  // Calculate the minimum and maximum selectable dates
-  const currentDate = new Date();
-  const minDate = currentDate; // Current date
-  const maxDate = addDays(currentDate, 30);
 
-  const dateObj = new Date(minDate);
-
-  const year = dateObj.getFullYear();
-  const month = String(dateObj.getMonth() + 1).padStart(2, "0");
-  const day = String(dateObj.getDate()).padStart(2, "0");
-
-  const formattedDate = `${year}-${month}-${day}`;
-
-  const dateObj1 = new Date(maxDate);
-
-  const year1 = dateObj1.getFullYear();
-  const month1 = String(dateObj1.getMonth() + 1).padStart(2, "0");
-  const day1 = String(dateObj1.getDate()).padStart(2, "0");
-
-  const formattedDate1 = `${year1}-${month1}-${day1}`;
-
-  const gobuttonhandlefunc = () => {
-    //  const formattedDate = selectedDate.format("YYYY-MM-DD");
-
-    if (!selectedDate || !weather || !vehicle) {
-      setShowError(true);
-      return;
-    }
-
-=======
+ 
   useEffect(() => {
     if (!localStorage.getItem("accessToken")) {
       navigate("/login");
     }
   }, []);
+  
 
-  const submitthandle = (data) => {
-    console.log(data);
-    axios
-      .post("http://localhost:3001/Trips/tripdata", data, {
-        headers: { accessToken: localStorage.getItem("accessToken") },
-      })
-      .then((response) => {
-        navigate("/");
-      });
-  };
+  const submitthandle = ( data)=>{
+
+  }
+
 
   // const onSubmit = (data) => {
-
+ 
   // };
 
   const gobuttonhandle = () => {
->>>>>>> Stashed changes
     setGobutton(!gobutton);
     prop.gobuttonhandle();
+    // if (!selectedDate || !weather || !vehicle) {
+    //   setShowError(true);
+    //   return;
+    // }
+    // setGobutton(!gobutton);
+    // prop.gobuttonhandle();
   };
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -113,36 +81,29 @@ const Datafortrip = (prop) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-<<<<<<< Updated upstream
-
-  // const handleDateChange = (date) => {
-  //   setSelectedDate(date);
-  // };
-
-  const handleVehicleChange = (e) => {
-=======
-
+ 
   const weatherop = (e) => {
     setWeather(e.target.value);
   };
 
+
   const vehicleop = (e) => {
->>>>>>> Stashed changes
     setVehicle(e.target.value);
   };
-
   const username = "yukthi";
 
   //Harshana
-  const handleDateChange = (date) => {
-    //Harshana Date
+  const handleDateChange = (date) => { //Harshana Date
     setSelectedDate(date);
     console.log(date);
   };
-
-  const [weatherDate, setWeatherDate] = useState("2023-06-15");
-
-  useEffect(() => {}, [selectedDate]);
+  
+  const[weatherDate,setWeatherDate] = useState("2023-06-15")
+  
+  useEffect(() => {
+   
+  }, [selectedDate])
+  
 
   return (
     <div
@@ -216,17 +177,12 @@ const Datafortrip = (prop) => {
                     <DatePicker
                       label="Date"
                       sx={{
-                        backgroundColor: "rgba(255, 255, 255, 0.30)",
+                        backgroundColor: "rgba(255,255,255,0.30)",
                         borderRadius: 2,
-                        border: "1px solid",
-                        borderColor:
-                          showError && !selectedDate ? "red" : "initial",
                       }}
                       showDaysOutsideCurrentMonth
                       value={selectedDate}
                       onChange={handleDateChange}
-                      minDate={dayjs(formattedDate)}
-                      maxDate={dayjs(formattedDate1)}
                     />
                   </DemoContainer>
                 </LocalizationProvider>
@@ -253,15 +209,7 @@ const Datafortrip = (prop) => {
             <div>
               {" "}
               <div>
-                <FormControl
-                  fullWidth
-                  sx={{
-                    width: 150,
-                    border: "1px solid",
-                    borderRadius: 2,
-                    borderColor: showError && !vehicle ? "red" : "initial",
-                  }}
-                >
+                <FormControl fullWidth sx={{ width: 150 }}>
                   <InputLabel>
                     <div>
                       <DirectionsCarIcon sx={{ color: "#8B8D8E" }} />
@@ -269,11 +217,7 @@ const Datafortrip = (prop) => {
                       <AirportShuttleIcon sx={{ color: "#8B8D8E" }} />
                     </div>
                   </InputLabel>
-                  <Select
-                    value={vehicle}
-                    onChange={handleVehicleChange}
-                    sx={{ color: "#8B8D8E" }}
-                  >
+                  <Select onChange={vehicleop} sx={{ color: "#8B8D8E" }}>
                     <MenuItem value="car">
                       Car <DirectionsCarIcon />
                     </MenuItem>
@@ -320,12 +264,8 @@ const Datafortrip = (prop) => {
             >
               <Button
                 variant="contained"
-<<<<<<< Updated upstream
-                onClick={gobuttonhandlefunc}
-=======
                 onClick={gobuttonhandle}
                 onSubmit={submitthandle}
->>>>>>> Stashed changes
                 sx={{
                   backgroundColor: "#132320",
                   width: 100,
@@ -336,15 +276,11 @@ const Datafortrip = (prop) => {
               </Button>
             </div>
           )}
-          {showError && (!selectedDate || !weather || !vehicle) && (
-            <Typography
-              variant="body1"
-              color="error"
-              sx={{ marginLeft: 3, marginTop: 1 }}
-            >
-              Please fill in all fields.
-            </Typography>
-          )}
+          {/* {showError && (!selectedDate || !weather || !vehicle) && (
+        <Typography variant="body1" color="error">
+          Please fill in all fields.
+        </Typography>
+      )} */}
         </Paper>
       </Box>
     </div>
