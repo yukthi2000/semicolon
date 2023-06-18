@@ -71,6 +71,7 @@ const Datafortrip = (prop) => {
   // }, []);
 
   const submitthandle = (data) => {
+    gobuttonhandle();
     console.log(data);
     axios
       .post("http://localhost:3001/Trips/tripdata", data, {
@@ -128,43 +129,29 @@ const Datafortrip = (prop) => {
         width: "100vw",
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          height: "100vh",
-        }}
-      >
-        <Paper
+      <form>
+        <Box
           sx={{
             display: "flex",
-            // alignItems: "center",
-            flexDirection: "column",
-
-            borderRadius: "5px",
-            height: {
-              xs: "60%",
-              sm: "60%",
-              md: "80%",
-              lg: "55%",
-              xl: "55%",
-            },
-            width: {
-              xs: "50%",
-              sm: "50%",
-              md: "35%",
-              lg: "35%",
-              xl: "35%",
-            },
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100vh",
           }}
         >
-          <div
-            style={{
+          <Paper
+            sx={{
               display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "60px",
+              // alignItems: "center",
+              flexDirection: "column",
+
+              borderRadius: "5px",
+              height: {
+                xs: "60%",
+                sm: "60%",
+                md: "80%",
+                lg: "55%",
+                xl: "55%",
+              },
               width: {
                 xs: "50%",
                 sm: "50%",
@@ -172,141 +159,168 @@ const Datafortrip = (prop) => {
                 lg: "35%",
                 xl: "35%",
               },
-              borderBottom: "1px solid black",
-              backgroundColor: "#132320",
             }}
           >
-            <Typography variant="h5" sx={{ color: "white" }}>
-              <center>Let's Make it Happen!</center>
-            </Typography>
-          </div>
-          {/* <Line /> */}
-          <div className="bottom">
-            <div className="date">
-              <Typography variant="h6" sx={{ color: "#EF7E2A" }}>
-                Date:
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "60px",
+                width: {
+                  xs: "50%",
+                  sm: "50%",
+                  md: "35%",
+                  lg: "35%",
+                  xl: "35%",
+                },
+                borderBottom: "1px solid black",
+                backgroundColor: "#132320",
+              }}
+            >
+              <Typography variant="h5" sx={{ color: "white" }}>
+                <center>Let's Make it Happen!</center>
+              </Typography>
+            </div>
+            {/* <Line /> */}
+            <div className="bottom">
+              <div className="date">
+                <Typography variant="h6" sx={{ color: "#EF7E2A" }}>
+                  Date:
+                </Typography>
+                <div>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DemoContainer components={["DatePicker"]}>
+                      <DatePicker
+                        label="Date"
+                        sx={{
+                          backgroundColor: "rgba(255,255,255,0.30)",
+                          borderRadius: 2,
+                          border: "1px solid",
+                          borderColor:
+                            showError && !selectedDate ? "red" : "initial",
+                        }}
+                        showDaysOutsideCurrentMonth
+                        value={selectedDate}
+                        onChange={handleDateChange}
+                        minDate={dayjs(formattedDate)}
+                        maxDate={dayjs(formattedDate1)}
+                      />
+                    </DemoContainer>
+                  </LocalizationProvider>
+                </div>
+              </div>
+            </div>
+            <div className="weather">
+              <Typography
+                variant="h6"
+                sx={{ paddingRight: 8, color: "#EF7E2A" }}
+              >
+                Prefferd weather:
               </Typography>
               <div>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DemoContainer components={["DatePicker"]}>
-                    <DatePicker
-                      label="Date"
-                      sx={{
-                        backgroundColor: "rgba(255,255,255,0.30)",
-                        borderRadius: 2,
-                        border: "1px solid",
-                        borderColor:
-                          showError && !selectedDate ? "red" : "initial",
-                      }}
-                      showDaysOutsideCurrentMonth
-                      value={selectedDate}
-                      onChange={handleDateChange}
-                      minDate={dayjs(formattedDate)}
-                      maxDate={dayjs(formattedDate1)}
-                    />
-                  </DemoContainer>
-                </LocalizationProvider>
+                <div>
+                  <WeatherOptions />
+                </div>
               </div>
             </div>
-          </div>
-          <div className="weather">
-            <Typography variant="h6" sx={{ paddingRight: 8, color: "#EF7E2A" }}>
-              Prefferd weather:
-            </Typography>
-            <div>
+            <div className="vehicle">
+              <Typography
+                variant="h6"
+                sx={{ paddingRight: 12, color: "#EF7E2A" }}
+              >
+                Vehicle Type:
+              </Typography>
               <div>
-                <WeatherOptions />
-              </div>
-            </div>
-          </div>
-          <div className="vehicle">
-            <Typography
-              variant="h6"
-              sx={{ paddingRight: 12, color: "#EF7E2A" }}
-            >
-              Vehicle Type:
-            </Typography>
-            <div>
-              {" "}
-              <div>
-                <FormControl fullWidth sx={{ width: 150 , border: "1px solid", borderColor: showError && !vehicle ? "red" : "initial" }}>
-                  <InputLabel>
-                    <div>
-                      <DirectionsCarIcon sx={{ color: "#8B8D8E" }} />
-                      <TwoWheelerIcon sx={{ color: "#8B8D8E" }} />
-                      <AirportShuttleIcon sx={{ color: "#8B8D8E" }} />
-                    </div>
-                  </InputLabel>
-                  <Select
-                    onChange={handleVehicleChange}
-                    value={vehicle}
-                    sx={{ color: "#8B8D8E" }}
+                {" "}
+                <div>
+                  <FormControl
+                    fullWidth
+                    sx={{
+                      width: 150,
+                      border: "1px solid",
+                      borderColor: showError && !vehicle ? "red" : "initial",
+                    }}
                   >
-                    <MenuItem value="car">
-                      Car <DirectionsCarIcon />
-                    </MenuItem>
-                    <MenuItem value="van">
-                      Van <AirportShuttleIcon />
-                    </MenuItem>
-                    <MenuItem value="bike">
-                      Bike
-                      <TwoWheelerIcon />
-                    </MenuItem>
-                  </Select>
-                </FormControl>
+                    <InputLabel>
+                      <div>
+                        <DirectionsCarIcon sx={{ color: "#8B8D8E" }} />
+                        <TwoWheelerIcon sx={{ color: "#8B8D8E" }} />
+                        <AirportShuttleIcon sx={{ color: "#8B8D8E" }} />
+                      </div>
+                    </InputLabel>
+                    <Select
+                      onChange={handleVehicleChange}
+                      value={vehicle}
+                      sx={{ color: "#8B8D8E" }}
+                    >
+                      <MenuItem value="car">
+                        Car <DirectionsCarIcon />
+                      </MenuItem>
+                      <MenuItem value="van">
+                        Van <AirportShuttleIcon />
+                      </MenuItem>
+                      <MenuItem value="bike">
+                        Bike
+                        <TwoWheelerIcon />
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
+                </div>
               </div>
             </div>
-          </div>
-          {gobutton ? (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                paddingTop: 30,
-              }}
-            >
-              <Button
-                variant="contained"
-                sx={{
-                  backgroundColor: "#132320",
-                  width: 100,
-                  "&:hover": { backgroundColor: "#368C18" },
+            {gobutton ? (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  paddingTop: 30,
                 }}
               >
-                <SendIcon />
-                <SendIcon />
-                <SendIcon />
-              </Button>
-            </div>
-          ) : (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                paddingTop: 30,
-              }}
-            >
-              <Button
-                variant="contained"
-                onClick={gobuttonhandle}
-                onSubmit={submitthandle}
-                sx={{
-                  backgroundColor: "#132320",
-                  width: 100,
-                  "&:hover": { backgroundColor: "#368C18" },
+                <Button
+                  variant="contained"
+                  sx={{
+                    backgroundColor: "#132320",
+                    width: 100,
+                    "&:hover": { backgroundColor: "#368C18" },
+                  }}
+                >
+                  <SendIcon />
+                  <SendIcon />
+                  <SendIcon />
+                </Button>
+              </div>
+            ) : (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  paddingTop: 30,
                 }}
               >
-                Goooo!
-              </Button>
-            </div>
-          )}
-          {showError && (!selectedDate || !weather || !vehicle) && (
-            <Typography variant="body1" color="error">
-              Please fill in all fields.
-            </Typography>
-          )}
-        </Paper>
-      </Box>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    submitthandle({ selectedDate, weather, vehicle });
+                  }}
+                  sx={{
+                    backgroundColor: "#132320",
+                    width: 100,
+                    "&:hover": { backgroundColor: "#368C18" },
+                  }}
+                >
+                  Goooo!
+                </Button>
+              </div>
+            )}
+            {showError && (!selectedDate || !weather || !vehicle) && (
+              <Typography variant="body1" color="error">
+                Please fill in all fields.
+              </Typography>
+            )}
+          </Paper>
+        </Box>
+      </form>
     </div>
   );
 };
