@@ -74,97 +74,12 @@ router.get("/auth", validateToken, (req, res)=>{
 
 
 
-
-
-
-// // Define the POST /reset-password route
-// router.post('/reset-password', async (req, res) => {
-//   const { newPassword, confirmPassword } = req.body;
-//   const userId = req.user.id; // Assuming you have implemented user authentication
-
-//   // Check if the newPassword and confirmPassword match
-//   if (newPassword !== confirmPassword) {
-//     return res.status(400).json({ error: 'Passwords do not match' });
-//   }
-
-//   try {
-//     // Hash the new password
-//     const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-//     // Update the user's password in the database
-//     await User.update(
-//       { password: hashedPassword },
-//       { where: { id: userId } }
-//     );
-
-//     res.status(200).json({ message: 'Password updated successfully' });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: 'An error occurred' });
-//   }
-// });
-
-
-
-// function generateResetToken() {
-//   const tokenLength = 32; // Length of the reset token
-//   return crypto.randomBytes(tokenLength).toString('hex');
-// }
-
-// router.post('/forgot-password', async (req, res) => {
-//   const { email } = req.body;
-
-//   try {
-//     // Check if email exists in the database
-//     const user = await User.findOne({ where: { email } });
-//     if (!user) {
-//       return res.status(404).json({ message: 'Email not found.' });
-//     }
-
-//     // Generate a password reset token
-//     const resetToken = generateResetToken();
-
-//     // Save the reset token and its expiry in the database for the user
-//     user.resetToken = resetToken;
-//     user.resetTokenExpiry = Date.now() + 3600000; // Set expiry to 1 hour from the current time
-//     await user.save();
-
-//     // Create a password reset link
-//     const resetLink = `http://localhost:3001/reset-password?token=${resetToken}`;
-
-//     // Send the reset link to the user's email address
-//     const transporter = nodemailer.createTransport({
-//       service: 'Gmail',
-//       auth: {
-//         user: 'ldsliyanage99@gmail.com',
-//         pass: 'mfnwugjwlawbewkd',
-//       },
-//     });
-
-//     transporter.verify((error) => {
-//       if (error) {
-//         console.log("error in password reset link");
-//       } else {
-//         console.log("Ready to Send password reset link");
-//       }
-//     });
-  
-
-//     const mailOptions = {
-//       from: 'ldsliyanage99@gmail.com',
-//       to: email,
-//       subject: 'Password Reset',
-//       html: `Click the following link to reset your password: <a href="${resetLink}">${resetLink}</a>`,
-//     };
-
-//     await transporter.sendMail(mailOptions);
-
-//     res.status(200).json({ message: 'Reset link sent to your email address.' });
-//   } catch (error) {
-    
-//     console.error(error);
-//     res.status(500).json({ message: 'Internal server error.' });
-//   }
-// });
+//profile basic info fetching
+router.get("/basicInfo/:id", async(req, res)=>{
+      const id = req.params.id;
+      const basicInfo= await User.findByPk(id, {attributes: {exclude: ['password'] }
+    });
+    res.json(basicInfo)
+})
 
  module.exports = router;

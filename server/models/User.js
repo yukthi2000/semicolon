@@ -13,6 +13,14 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
           },
+          resetToken: {
+            type: DataTypes.STRING,
+            allowNull: true,
+          },
+          expiryTime: {
+            type: DataTypes.DATE,
+            allowNull: true,
+          },
           photo: {
             type: DataTypes.BLOB('long'),
             allowNull: true,
@@ -23,6 +31,12 @@ module.exports = (sequelize, DataTypes) => {
   
     User.associate = (models) => {
       User.hasMany(models.Trip, {
+        foreignKey: 'userId'
+      });
+    };
+
+    User.associate = (models) => {
+      User.hasMany(models.Review, {
         foreignKey: 'userId'
       });
     };

@@ -188,7 +188,7 @@ const App = () => {
                         onClick={handleOutsideClick}
                       >
                         <h4 className="Name">{authState.name}</h4>
-                        <a className="view-profile" href="/userProfile">View Profile</a>
+                        <a className="view-profile" href={`userProfile/${authState.id}`}>View Profile</a>
                         <button className="logout-button" onClick={logout}>Logout</button>
                       </div>
                     )}
@@ -220,11 +220,11 @@ const App = () => {
           <Route path="mapp/Tripplan" element={<Tripplan />} />
           <Route path="/contactUs" element={<ContactUs />} />
          
-          <Route path="userProfile" element={<UserProfile />}>
+          <Route path="userProfile/:id" element={<UserProfile />}>
             <Route path="" element={<UserGallery />} />
             <Route path="review" element={<UserReview />} />
-            <Route path="plannedTrip/:id" element={<PlannedTrip />} />
-          </Route>
+            <Route path="plannedTrip" element={<PlannedTrip />} />
+            </Route>
           <Route path="admin" element={<Admin />}>
             <Route path="" element={<Dashboard />} />
             <Route path="gallery-view" element={<GalleryView />} />

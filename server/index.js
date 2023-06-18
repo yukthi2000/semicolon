@@ -34,8 +34,8 @@ app.use("/TripDayWeather", tripDayWeatherRouter);
 const ContactUsRouter = require("./routes/ContactUs");
 app.use("/contactUs", ContactUsRouter);
 
-const ReviewRouter = require("./routes/Review");
-app.use("/reviews", ReviewRouter);
+// const ReviewRouter = require("./routes/Review");
+// app.use("/reviews", ReviewRouter);
 
 //gallery
 const imageRoutes = require("./routes/imageRoutes");

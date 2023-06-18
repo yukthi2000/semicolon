@@ -8,12 +8,17 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      userId: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
+      
 
     });
+
+    Review.associate = (models) => {
+      Review.belongsTo(models.User, {
+        foreignKey: 'userId',
+        allowNull: false
+      });
+     
+    };
 
     return Review;
   }
