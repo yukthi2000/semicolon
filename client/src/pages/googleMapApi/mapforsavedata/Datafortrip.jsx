@@ -60,7 +60,7 @@ const Datafortrip = (prop) => {
 
   const [gobutton, setGobutton] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
-  const [weather, setWeather] = useState("");
+  const [weather, setWeather] = useState("dsf");
   const [vehicle, setVehicle] = useState("");
   const [showError, setShowError] = useState(false);
 
@@ -86,14 +86,13 @@ const Datafortrip = (prop) => {
   // };
 
   const gobuttonhandle = () => {
+    if (!selectedDate || !weather || !vehicle) {
+      setShowError(true);
+      return;
+    }
+
     setGobutton(!gobutton);
     prop.gobuttonhandle();
-    // if (!selectedDate || !weather || !vehicle) {
-    //   setShowError(true);
-    //   return;
-    // }
-    // setGobutton(!gobutton);
-    // prop.gobuttonhandle();
   };
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -105,11 +104,7 @@ const Datafortrip = (prop) => {
     setAnchorEl(null);
   };
 
-  const weatherop = (e) => {
-    setWeather(e.target.value);
-  };
-
-  const vehicleop = (e) => {
+  const handleVehicleChange = (e) => {
     setVehicle(e.target.value);
   };
   const username = "yukthi";
@@ -199,6 +194,9 @@ const Datafortrip = (prop) => {
                       sx={{
                         backgroundColor: "rgba(255,255,255,0.30)",
                         borderRadius: 2,
+                        border: "1px solid",
+                        borderColor:
+                          showError && !selectedDate ? "red" : "initial",
                       }}
                       showDaysOutsideCurrentMonth
                       value={selectedDate}
@@ -231,7 +229,7 @@ const Datafortrip = (prop) => {
             <div>
               {" "}
               <div>
-                <FormControl fullWidth sx={{ width: 150 }}>
+                <FormControl fullWidth sx={{ width: 150 , border: "1px solid", borderColor: showError && !vehicle ? "red" : "initial" }}>
                   <InputLabel>
                     <div>
                       <DirectionsCarIcon sx={{ color: "#8B8D8E" }} />
@@ -239,7 +237,11 @@ const Datafortrip = (prop) => {
                       <AirportShuttleIcon sx={{ color: "#8B8D8E" }} />
                     </div>
                   </InputLabel>
-                  <Select onChange={vehicleop} sx={{ color: "#8B8D8E" }}>
+                  <Select
+                    onChange={handleVehicleChange}
+                    value={vehicle}
+                    sx={{ color: "#8B8D8E" }}
+                  >
                     <MenuItem value="car">
                       Car <DirectionsCarIcon />
                     </MenuItem>
@@ -298,11 +300,11 @@ const Datafortrip = (prop) => {
               </Button>
             </div>
           )}
-          {/* {showError && (!selectedDate || !weather || !vehicle) && (
-        <Typography variant="body1" color="error">
-          Please fill in all fields.
-        </Typography>
-      )} */}
+          {showError && (!selectedDate || !weather || !vehicle) && (
+            <Typography variant="body1" color="error">
+              Please fill in all fields.
+            </Typography>
+          )}
         </Paper>
       </Box>
     </div>
