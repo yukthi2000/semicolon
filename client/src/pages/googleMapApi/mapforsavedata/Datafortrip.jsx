@@ -27,8 +27,28 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../helpers/AuthContext";
 import { useContext } from "react";
+import { addDays, subDays } from "date-fns";
 
 const Datafortrip = (prop) => {
+  const currentDate = new Date();
+  const minDate = currentDate; // Current date
+  const maxDate = addDays(currentDate, 30); // max date (30+ days)
+
+  const dateObj = new Date(minDate);
+
+  const year = dateObj.getFullYear();
+  const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+  const day = String(dateObj.getDate()).padStart(2, "0");
+
+  const formattedDate = `${year}-${month}-${day}`;
+
+  const dateObj1 = new Date(maxDate);
+
+  const year1 = dateObj1.getFullYear();
+  const month1 = String(dateObj1.getMonth() + 1).padStart(2, "0");
+  const day1 = String(dateObj1.getDate()).padStart(2, "0");
+
+  const formattedDate1 = `${year1}-${month1}-${day1}`;
 
   const { authState } = useContext(AuthContext);
 
@@ -44,22 +64,25 @@ const Datafortrip = (prop) => {
   const [vehicle, setVehicle] = useState("");
   const [showError, setShowError] = useState(false);
 
+  // useEffect(() => {
+  //   if (!localStorage.getItem("accessToken")) {
+  //     navigate("/login");
+  //   }
+  // }, []);
 
- 
-  useEffect(() => {
-    if (!localStorage.getItem("accessToken")) {
-      navigate("/login");
-    }
-  }, []);
-  
-
-  const submitthandle = ( data)=>{
-
-  }
-
+  const submitthandle = (data) => {
+    console.log(data);
+    axios
+      .post("http://localhost:3001/Trips/tripdata", data, {
+        headers: { accessToken: localStorage.getItem("accessToken") },
+      })
+      .then((response) => {
+        navigate("/");
+      });
+  };
 
   // const onSubmit = (data) => {
- 
+
   // };
 
   const gobuttonhandle = () => {
@@ -81,11 +104,10 @@ const Datafortrip = (prop) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
- 
+
   const weatherop = (e) => {
     setWeather(e.target.value);
   };
-
 
   const vehicleop = (e) => {
     setVehicle(e.target.value);
@@ -93,17 +115,15 @@ const Datafortrip = (prop) => {
   const username = "yukthi";
 
   //Harshana
-  const handleDateChange = (date) => { //Harshana Date
+  const handleDateChange = (date) => {
+    //Harshana Date
     setSelectedDate(date);
     console.log(date);
   };
-  
-  const[weatherDate,setWeatherDate] = useState("2023-06-15")
-  
-  useEffect(() => {
-   
-  }, [selectedDate])
-  
+
+  const [weatherDate, setWeatherDate] = useState("2023-06-15");
+
+  useEffect(() => {}, [selectedDate]);
 
   return (
     <div
@@ -183,6 +203,8 @@ const Datafortrip = (prop) => {
                       showDaysOutsideCurrentMonth
                       value={selectedDate}
                       onChange={handleDateChange}
+                      minDate={dayjs(formattedDate)}
+                      maxDate={dayjs(formattedDate1)}
                     />
                   </DemoContainer>
                 </LocalizationProvider>

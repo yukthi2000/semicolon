@@ -25,7 +25,7 @@ router.post("/", async (req, res) => {
 });
 
 
-router.post("/tripdata", validateToken ,async (req, res) => {
+router.post("/tripdata" ,async (req, res) => {
   try {
     const tripData = req.body;
     const userId=req.user.id;
@@ -37,6 +37,8 @@ router.post("/tripdata", validateToken ,async (req, res) => {
   }
 });
 
+
+//validateToken
 
 
 
