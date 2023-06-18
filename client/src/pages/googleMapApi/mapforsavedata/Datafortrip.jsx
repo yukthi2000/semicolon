@@ -74,9 +74,9 @@ const Datafortrip = (prop) => {
     setAnchorEl(null);
   };
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
+  // const handleDateChange = (date) => {
+  //   setSelectedDate(date);
+  // };
 
   const handleVehicleChange = (e) => {
     setVehicle(e.target.value);

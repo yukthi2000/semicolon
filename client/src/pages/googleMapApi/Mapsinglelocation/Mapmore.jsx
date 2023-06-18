@@ -666,7 +666,7 @@ export default function Map(latlng, props) {
           </p>
         </div>
       )}
-      //Error handleing
+      {/* Error handleing */}
       {!isOneEntered && (
         <div
           style={{
