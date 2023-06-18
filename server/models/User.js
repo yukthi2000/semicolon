@@ -23,7 +23,9 @@ module.exports = (sequelize, DataTypes) => {
   
     User.associate = (models) => {
       User.hasMany(models.Trip, {
-        foreignKey: 'userId'
+        foreignKey: 'userId',
+        onDelete:"cascade",
+        
       });
     };
   

@@ -2,7 +2,11 @@
   "development": {
     "username": "root",
     "password": "123258789",
+<<<<<<< Updated upstream
     "database": "routelocations",
+=======
+    "database": "news",
+>>>>>>> Stashed changes
     "host": "localhost",
     "dialect": "mysql"
   },

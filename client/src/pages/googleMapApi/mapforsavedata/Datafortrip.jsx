@@ -23,15 +23,31 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import SendIcon from "@mui/icons-material/Send";
 import WeatherOptions from "../../weatherApi/WeatherOptions";
 import dayjs from "dayjs";
+<<<<<<< Updated upstream
 import { addDays, subDays } from "date-fns";
+=======
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../helpers/AuthContext";
+import { useContext } from "react";
+>>>>>>> Stashed changes
 
 const Datafortrip = (prop) => {
+  const { authState } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+  const initialValues = {
+    title: "",
+    postText: "",
+  };
+
   const [gobutton, setGobutton] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [weather, setWeather] = useState("fafdas");
   const [vehicle, setVehicle] = useState("");
   const [showError, setShowError] = useState(false);
 
+<<<<<<< Updated upstream
   // Calculate the minimum and maximum selectable dates
   const currentDate = new Date();
   const minDate = currentDate; // Current date
@@ -61,6 +77,30 @@ const Datafortrip = (prop) => {
       return;
     }
 
+=======
+  useEffect(() => {
+    if (!localStorage.getItem("accessToken")) {
+      navigate("/login");
+    }
+  }, []);
+
+  const submitthandle = (data) => {
+    console.log(data);
+    axios
+      .post("http://localhost:3001/Trips/tripdata", data, {
+        headers: { accessToken: localStorage.getItem("accessToken") },
+      })
+      .then((response) => {
+        navigate("/");
+      });
+  };
+
+  // const onSubmit = (data) => {
+
+  // };
+
+  const gobuttonhandle = () => {
+>>>>>>> Stashed changes
     setGobutton(!gobutton);
     prop.gobuttonhandle();
   };
@@ -73,29 +113,36 @@ const Datafortrip = (prop) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+<<<<<<< Updated upstream
 
   // const handleDateChange = (date) => {
   //   setSelectedDate(date);
   // };
 
   const handleVehicleChange = (e) => {
+=======
+
+  const weatherop = (e) => {
+    setWeather(e.target.value);
+  };
+
+  const vehicleop = (e) => {
+>>>>>>> Stashed changes
     setVehicle(e.target.value);
   };
 
   const username = "yukthi";
 
   //Harshana
-  const handleDateChange = (date) => { //Harshana Date
+  const handleDateChange = (date) => {
+    //Harshana Date
     setSelectedDate(date);
     console.log(date);
   };
-  
-  const[weatherDate,setWeatherDate] = useState("2023-06-15")
-  
-  useEffect(() => {
-   
-  }, [selectedDate])
-  
+
+  const [weatherDate, setWeatherDate] = useState("2023-06-15");
+
+  useEffect(() => {}, [selectedDate]);
 
   return (
     <div
@@ -273,7 +320,12 @@ const Datafortrip = (prop) => {
             >
               <Button
                 variant="contained"
+<<<<<<< Updated upstream
                 onClick={gobuttonhandlefunc}
+=======
+                onClick={gobuttonhandle}
+                onSubmit={submitthandle}
+>>>>>>> Stashed changes
                 sx={{
                   backgroundColor: "#132320",
                   width: 100,

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { Trip } = require("../models");
+const {validateToken} = require ('../middlewares/AuthMiddleware');
 
 router.get("/", async (req, res) => {
   try {
@@ -22,6 +23,22 @@ router.post("/", async (req, res) => {
     res.status(500).json({ error: "Failed to create a trip" });
   }
 });
+
+
+router.post("/tripdata", validateToken ,async (req, res) => {
+  try {
+    const tripData = req.body;
+    const userId=req.user.id;
+    const createdTrip = await Trip.create(tripData);
+    res.status(201).json(createdTrip);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to create a trip" });
+  }
+});
+
+
+
 
 module.exports = router;
 
