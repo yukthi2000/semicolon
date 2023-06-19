@@ -1,7 +1,7 @@
 import React from "react";
 import Header2 from "../../componets/Header2";
 import { BsFillCheckCircleFill } from 'react-icons/bs'
-import { MdDisabledByDefault } from 'react-icons/md'
+import { MdDisabledByDefault, MdSafetyDivider } from 'react-icons/md'
 import StripeCheckout from 'react-stripe-checkout'
 import "./subscription.css"
 import axios from 'axios';
@@ -51,7 +51,7 @@ const Subscription = () => {
         }
     };
     return (
-        <div>
+        <div> 
             <Header2 />
             <>
                 <div className="head">
@@ -59,8 +59,8 @@ const Subscription = () => {
                     </p><p>Our subscription service is the perfect way to stay in the loop and receive exclusive offers straight to your inbox.</p>
                 </div>
                 <div className="background">
-                    <div className="container package_container" >
-                        <article className="package">
+                    <div className="container" >
+                        <div className="package">
                             <div className="package_head">
                                 <h2>Free Plan<br />
                                     Rs.0%</h2>
@@ -90,8 +90,8 @@ const Subscription = () => {
                                         Add feature</p>
                                 </li>
                             </ul>
-                        </article>
-                        <article className="package">
+                        </div>
+                        <div className="package">
                             <div className="package_head">
                                 <h2>Premium Plan<br />Rs.1000</h2>
 
@@ -131,7 +131,7 @@ const Subscription = () => {
                                 </li>
 
                             </ul>
-                        </article>
+                        </div>
                     </div>
                 </div>
             </>
