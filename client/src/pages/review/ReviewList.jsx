@@ -11,7 +11,7 @@ function ReviewList({ review, handleDelete, placeId}) {
   const [reviewItemDeleted, setDeletedItem] = useState(0);
 
   useEffect(() => {
-    fetch(`http://localhost:3001/api/ratings/${[placeId]}`)
+    fetch(`http://localhost:9000/api/ratings/${[placeId]}`)
     .then((response) => response.json())
     .then((actualData) => {setData(actualData); console.log(data);})
     .catch((err) => {

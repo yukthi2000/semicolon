@@ -8,7 +8,7 @@ function ReviewItem({ item, handleDelete, setDeletedItem}) {
   const deleteFeedback = (ratingId) => {
     if (window.confirm('Are you sure you want to delete?')) {
      
-     fetch(`http://localhost:3001/api/deleteRating/`+ratingId).then(() =>setDeletedItem(ratingId));
+     fetch(`http://localhost:9000/api/deleteRating/`+ratingId).then(() =>setDeletedItem(ratingId));
      }
      
     }

@@ -2,7 +2,7 @@
 
 export default async function postReview(placeId, userId, avgRating, comment){
 
-    fetch(`http://localhost:3001/api/ratings/${placeId}/${userId}`, {
+    fetch(`http://localhost:9000/api/ratings/${placeId}/${userId}`, {
 
         method: 'POST',
         headers: {

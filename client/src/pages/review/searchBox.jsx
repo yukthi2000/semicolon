@@ -1,70 +1,82 @@
-import { useState, useEffect  } from 'react';
-import { Link } from 'react-router-dom';
-import Review from './Review'
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import React from "react";
+import { useRef, useState } from "react";
+import { GoogleMap, useLoadScript, Autocomplete } from "@react-google-maps/api";
 
+const Searchbox = ({ place, currLocation, index }) => {
+  const [error, setError] = useState("");
+  const [isValid, setIsValid] = useState(true);
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: "AIzaSyA1tZY8x6OG7mt7a2iovZTDIj8SDV6sL8s",
+    libraries: ["places"], //enable googlemap places api
+  });
+  /** @type React.MutableRefObject<HTMLInputElement> */
+  const originRef = useRef();
+  //   /** @type React.MutableRefObject<HTMLInputElement> */
+  //   const destinationRef = useRef();
+  //eslint-disable-next-line  no-undef
 
-function SearchBoxReview(){
-    const   [place, setPlace] = useState('');
-    const navigate = useNavigate();
-    const [placeIdRec, setPlaceId] = useState('');
-    
+  const restrictions = {
+    country: "lk", //restrict search locations into srilanka
+  };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        alert(`The place you entered was: ${place}`)
-        
+  const options = {
+    strictBounds: true,
+  };
 
-        // get the place id from backend and set the session variable
-        // fetch(`http://localhost:9000/api/ratingsPlaceId`)
-        //  .then((response) => response.json())
-        //  .then((actualData) => {setPlaceId(actualData[0].placeId);})
-        //  .then(alert(placeIdRec))
-        //  .then( sessionStorage.setItem('placeIdRec', placeIdRec))
-        //  .then(navigate('/review'));
+  const sendLocations = () => {
+    const inputValue = originRef.current.value.trim();
 
-        fetch(`http://localhost:3001/api/ratingsPlaceId`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            "placeName": `${place}` 
-        })
-
-      })
-         .then((response) => response.json())
-         .then((json) => {
-            // Handle data
-            //console.log(json);
-            // sessionStorage.setItem('placeIdRec', json.placeId);
-            
-            navigate('/review?placeIdURL='+json.placeId);
-            
-         })
-        .catch((err) => {
-            console.log(err.message);
-            return 404;
-         });
-        
-        
-        
+    if (inputValue === "") {
+      setError("Please enter a location.");
+      setIsValid(false);
+    } else {
+      setError("");
+      setIsValid(true);
+      currLocation(inputValue);
     }
+  };
+  return (
+    <div>
+      <div>
+        {console.log(index)}
+        <Autocomplete restrictions={restrictions} options={options}>
+          {index === 1 ? (
+            <input
+              type="text"
+              placeholder={place}
+              ref={originRef}
+              style={{
+                padding: "17px",
+                fontSize: "18px",
+                fontFamily: "Courier New",
+                width: "475px",
+                borderRadius: "4px",
+                border: isValid ? "" : "2px solid red",
+              }}
+              onBlur={sendLocations}
+              readOnly
+            />
+          ) : (
+            <input
+              type="text"
+              placeholder={place}
+              ref={originRef}
+              style={{
+                padding: "17px",
+                fontSize: "18px",
+                fontFamily: "Courier New",
+                width: "475px",
+                borderRadius: "4px",
+                border: isValid ? "" : "2px solid red",
+              }}
+              onBlur={sendLocations}
+            />
+          )}
+        </Autocomplete>
+      </div>
+      {error && <p style={{ color: "red" }}>{error}</p>}
+    </div>
+  );
+};
 
-    return (
-        <form id="searchBar" onSubmit={handleSubmit}>
-            <center>
-        <div className="searchBar">
-            <div class="searchInputBoxCont"><input class="searchInputBox" onChange={(e) => setPlace(e.target.value)} value={place}/></div>
-            <button type='submit' class="btn btn-info searchBtn">Review</button>
-            {/* <div><Link to="/review"><button class="btn btn-info searchBtn">Review</button></Link></div> */}
-        
-        </div>
-        </center>   
-        </form>
-
-    );
-}
-
-
-export default SearchBoxReview;
+export default Searchbox;

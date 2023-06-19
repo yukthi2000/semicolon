@@ -10,7 +10,7 @@ function ReviewStats({review, placeId}) {
   //   }, 0) / review.length;
   // average = average.toFixed(1);
   useEffect(() => {
-    fetch(`http://localhost:3001/api/avgRating/${placeId}`)
+    fetch(`http://localhost:9000/api/avgRating/${placeId}`)
     .then((response) => response.json())
     .then((json) => {setAverage(json[0].averageRating.toFixed(1)); setRevCount(json[0].count);})
     .catch((err) => {
