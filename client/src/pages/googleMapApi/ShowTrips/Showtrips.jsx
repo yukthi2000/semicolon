@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import {Switch} from  "antd"
+
 
 const Showtrips = () => {
   const [data, setdata] = useState({});
@@ -59,7 +59,6 @@ const Showtrips = () => {
             </tbody>
           </table>
         </div>
-        <Switch defaultChecked={false} checkedChildren="aaaaaaaa" unCheckedChildren="bbbbbb" />
       </div>
     </div>
   );
