@@ -64,29 +64,13 @@ const Datafortrip = (prop) => {
   const [vehicle, setVehicle] = useState("");
   const [showError, setShowError] = useState(false);
 
-  // useEffect(() => {
-  //   if (!localStorage.getItem("accessToken")) {
-  //     navigate("/login");
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (!localStorage.getItem("accessToken")) {
+      navigate("/login");
+    }
+  }, []);
 
   const submitthandle = (data) => {
-    gobuttonhandle();
-    console.log(data);
-    axios
-      .post("http://localhost:3001/Trips/tripdata", data, {
-        headers: { accessToken: localStorage.getItem("accessToken") },
-      })
-      .then((response) => {
-        navigate("/");
-      });
-  };
-
-  // const onSubmit = (data) => {
-
-  // };
-
-  const gobuttonhandle = () => {
     if (!selectedDate || !weather || !vehicle) {
       setShowError(true);
       return;
@@ -94,7 +78,26 @@ const Datafortrip = (prop) => {
 
     setGobutton(!gobutton);
     prop.gobuttonhandle();
+    // Convert selectedDate to yyyy-mm-dd format
+    const formattedDate = dayjs(data.date).format("YYYY-MM-DD");
+
+    // Update the date property with the formatted date
+    data.date = formattedDate;
+    console.log(data);
+    axios
+      .post("http://localhost:3001/Trips/tripdata", data, {
+        headers: { accessToken: localStorage.getItem("accessToken") },
+      })
+      .then((response) => {
+       
+      });
   };
+
+  // const onSubmit = (data) => {
+
+  // };
+
+  const gobuttonhandle = () => {};
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -301,7 +304,7 @@ const Datafortrip = (prop) => {
                 <Button
                   variant="contained"
                   onClick={() => {
-                    submitthandle({ selectedDate, weather, vehicle });
+                    submitthandle({ date: selectedDate, vehicleType: vehicle });
                   }}
                   sx={{
                     backgroundColor: "#132320",

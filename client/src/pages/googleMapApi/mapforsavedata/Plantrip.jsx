@@ -95,12 +95,13 @@ export default function Tripplan(latlng, props) {
     console.log(indexloc);
     if (indexloc === 0) {
       setisOneEntered(true);
+      return;
     } else if (indexloc === 1) {
       setissecondentered(true);
       return;
     } else {
-      setissecondentered(false);
-      setisOneEntered(false);
+      setissecondentered(true);
+      setisOneEntered(true);
     }
   };
 
@@ -513,14 +514,14 @@ export default function Tripplan(latlng, props) {
 
       // const uniqueKey = generateUniqueKey();
 
-      axios
-        .post("http://localhost:3001/Array", sortedPoints)
-        .then((response) => {
-          console.log("Request successful");
-        })
-        .catch((error) => {
-          console.error("An error occurred", error);
-        });
+      // axios
+      //   .post("http://localhost:3001/Array", sortedPoints)
+      //   .then((response) => {
+      //     console.log("Request successful");
+      //   })
+      //   .catch((error) => {
+      //     console.error("An error occurred", error);
+      //   });
 
       ///
 

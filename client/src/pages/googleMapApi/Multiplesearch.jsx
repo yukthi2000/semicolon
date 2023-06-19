@@ -52,7 +52,7 @@ function Multiplesearch(props) {
     console.log(searchdata);
   });
   //for weather
-  const tripDate = new Date('2023-06-11');
+  const tripDate = new Date("2023-06-11");
 
   //pass changed location from child components to this cmponent
   const [globalLocation, setGlobalLocation] = useState("Sri Lanka");
@@ -61,13 +61,24 @@ function Multiplesearch(props) {
     setGlobalLocation(newLocation);
   };
 
-  function handleSave() {
+  function handleSavenormal() {
     //saveData(searchdata);
-    props.sendlocations(searchdata);
+    const status = "normal";
+    props.sendlocations({ searchdata, status });
+    console.log({ searchdata, status });
     // props.optimizeroute(true);
   }
 
-  //Harshana  
+  function handleSaveoptimized() {
+    //saveData(searchdata);
+    const status = "optimize";
+    props.sendlocations({ searchdata, status });
+    console.log({ searchdata, status });
+
+    // props.optimizeroute(true);
+  }
+
+  //Harshana
   function handleSuggest() {
     props.sendSuggestlocations(searchdata);
   }
@@ -113,7 +124,6 @@ function Multiplesearch(props) {
                     <Searchbox
                       location={index === 0 ? "Start Location" : "Location"}
                       currLocation={(data) => getLocation(data, index)}
-          
                       index={index}
                     />
                   </Box>
@@ -145,20 +155,51 @@ function Multiplesearch(props) {
               </Box>
             ))}
           </Box>
-          
 
           <Box className="buttons">
             <Box className="but1" style={{ paddingBotnotetom: 0 }}>
-              <Button
-                variant="elevated"
-                sx={{ width: 220, color: "#EF7E2A", borderBottom: 3 }}
-                onClick={handleSave}
-              >
-                <RouteIcon sx={{ marginRight: 1 }} />
-                <Typography variant="h7" sx={{ color: "#EF7E2A" }}>
-                  Optimize Route
-                </Typography>
-              </Button>
+              <div style={{ display: "flex" }}>
+                <Button
+                  variant="elevated"
+                  sx={{
+                    width: 110,
+                    color: "#EF7E2A",
+                    borderBottom: 3,
+                    padding: 0,
+                    margin: 0,
+                    borderTopRightRadius: 0,
+                    borderBottomRightRadius: 0,
+                    borderTop: 3,
+                    borderRight: 2,
+                  }}
+                  onClick={handleSavenormal}
+                >
+                  <RouteIcon sx={{ marginRight: 1 }} />
+                  <Typography variant="h7" sx={{ color: "#EF7E2A" }}>
+                    Route
+                  </Typography>
+                </Button>
+                <Button
+                  variant="elevated"
+                  sx={{
+                    width: 110,
+                    color: "#EF7E2A",
+                    borderBottom: 3,
+                    padding: 0,
+                    margin: 0,
+                    borderTopLeftRadius: 0,
+                    borderBottomLeftRadius: 0,
+                    borderTop: 3,
+                    borderLeft: 2,
+                  }}
+                  onClick={handleSaveoptimized}
+                >
+                  <RouteIcon sx={{ marginRight: 1 }} />
+                  <Typography variant="h7" sx={{ color: "#EF7E2A" }}>
+                    Optimize Route
+                  </Typography>
+                </Button>
+              </div>
             </Box>
             <Box className="but2" style={{ paddingBottom: 0 }}>
               <Button

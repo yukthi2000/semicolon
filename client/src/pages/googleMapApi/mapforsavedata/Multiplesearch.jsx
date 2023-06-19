@@ -112,6 +112,7 @@ function Multiplesearch(props) {
               <Box key={index} className="searchoptions">
                 <Box className="multisearch">
                   <Box className="searchh">
+                    {console.log(index)}
                     <Searchbox
                       location={index === 0 ? "Start Location" : "Location"}
                       currLocation={(data) => getLocation(data, index)}
