@@ -125,7 +125,7 @@ const Header2 = () => {
           sx={{ flexGrow: 0.75, display: { xs: "none", sm: "block" } }}
         >
           <Link
-            to="/review"
+            to="/reviewhome"
             style={{ textDecoration: "none", color: "white", fontSize: "20px" }}
           >
             Review

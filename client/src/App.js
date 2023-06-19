@@ -20,6 +20,7 @@ import Admin from "./pages/admin/Admin";
 import Dashboard from "./pages/admin/Dashboard";
 import GalleryView from "./pages/admin/GalleryView";
 import ReviewsView from "./pages/admin/ReviewsView";
+import Color from "./pages/review/reviewhomepage";
 
 
 
@@ -29,7 +30,8 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="gallery" element={<Gallery />} />
-        <Route path="review" element={<Review />} />
+        {/* <Route path="review" element={<Review />} /> */}
+        <Route path="reviewhome" element={<Color />} />
         <Route path="googleMapApi" element={<GoogleMapApi />} />
         <Route path="register" element={<Register />} />
         <Route path="login" element={<Login />} />

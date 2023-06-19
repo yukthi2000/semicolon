@@ -11,7 +11,7 @@ import { useLocation } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { useState } from 'react';
 
-import "./";
+import "./Review.css"
 
 
 

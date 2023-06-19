@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'framer-motion';
+// import { motion, AnimatePresence } from 'framer-motion';
 import ReviewItem from './ReviewItem';
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
@@ -28,13 +28,10 @@ function ReviewList({ review, handleDelete, placeId}) {
   }
   return (
    <div className="feedback-list" id="feedback-list">
-   <AnimatePresence>
+  
   {data.map(item => (
-  <motion.div key={item.ratingId} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
    <ReviewItem key={item.ratingId} item={item} handleDelete={handleDelete}  setDeletedItem={setDeletedItem}   />
-  </motion.div>
    ))}
- </AnimatePresence>
  </div>
  );
 }

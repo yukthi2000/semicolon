@@ -11,6 +11,8 @@ const connection = mysql.createConnection({
 });
 
 connection.connect();
+app.use(express.json());
+app.use(cors());
 
 
 //Routes
@@ -47,71 +49,88 @@ connection.connect();
               res.status(400).send("data not found in the body");
           }
       });
-
-
-
-      // return place ID
-app.post('/api/ratingsPlaceId', (req, res) => {
-    
-  if(req.body.placeName){
-      res.set('Access-Control-Allow-Origin', '*');
+  
+  //     //Past reviews
+  // app.get('/api/ratingsPlaceId/:place', (req,res) => { 
+  //     if(req.params.place){
+  //         res.set('Access-Control-Allow-Origin', '*');
+  //         connection.query(`SELECT placeId FROM place where name="${req.params.place}"`, (err, rows, fields) => {
+  //             if (err) throw err
+  //             if(rows)
+  //                 res.send(rows);
+  //             else
+  //                 res.send("place not found");
+  
+  //                 // create place if it doesn't exit and return its Id
+  
+  //           })
+  //     }
+  //     else{    
+  //         res.status(400).send("Bad request. Please provide place id");
+  //     }
+  // });
+  
+  // return place ID
+  app.post('/api/ratingsPlaceId', (req, res) => {
       
-      connection.query(`SELECT placeId FROM place where name="${req.body.placeName}"`, (err, rows, fields) => {
-          if (err) throw err
-          if(rows[0])
-              res.send(rows[0]);
-          else{
-              //res.send("place not found");
-              const randomId = uuidv4();
-              connection.query(`INSERT INTO place (name, placeId) VALUES( "${req.body.placeName}", "${randomId}")`, (err, rows, fields) => {
-                  if (err) throw err
-              });
-              const data = [
-                  {
-                    placeId: randomId
-                  }
-                ];
-                
-                
-              res.send(data[0]); 
-          }
+      if(req.body.placeName){
+          res.set('Access-Control-Allow-Origin', '*');
           
-    })
-
-  }else{
-      res.status(400).send("data not found in the body");
-  }
-});
-
-// delete rating function
-app.get('/api/deleteRating/:ratingId', (req,res) => { 
-  if(req.params.ratingId){
-      res.set('Access-Control-Allow-Origin', '*');
-      connection.query(`delete FROM userRatingsPlace where ratingId="${req.params.ratingId}"`, (err, rows, fields) => {
-          if (err) throw err
-          res.status(200).send(req.params.ratingId);
-        })
-  }
-  else{    
-      res.status(400).send("rating ID not included");
-  }
-});
-
-// Get Place Average Rating
-app.get('/api/avgRating/:placeId', (req,res) => { 
-  if(req.params.placeId){
-      res.set('Access-Control-Allow-Origin', '*');
-      connection.query(`SELECT AVG(avgRating) AS averageRating, COUNT(avgRating) AS count FROM  userRatingsPlace where placeId="${req.params.placeId}"`, (err, rows, fields) => {
-          if (err) throw err
+          connection.query(`SELECT placeId FROM place where name="${req.body.placeName}"`, (err, rows, fields) => {
+              if (err) throw err
               if(rows[0])
-                  res.status(200).send(rows);
+                  res.send(rows[0]);
+              else{
+                  //res.send("place not found");
+                  const randomId = uuidv4();
+                  connection.query(`INSERT INTO place (name, placeId) VALUES( "${req.body.placeName}", "${randomId}")`, (err, rows, fields) => {
+                      if (err) throw err
+                  });
+                  const data = [
+                      {
+                        placeId: randomId
+                      }
+                    ];
+                    
+                    
+                  res.send(data[0]); 
+              }
+              
         })
-  }
-  else{    
-      res.status(400).send("placeID invalid");
-  }
-});
-
+  
+      }else{
+          res.status(400).send("data not found in the body");
+      }
+  });
+  
+  // delete rating function
+  app.get('/api/deleteRating/:ratingId', (req,res) => { 
+      if(req.params.ratingId){
+          res.set('Access-Control-Allow-Origin', '*');
+          connection.query(`delete FROM userRatingsPlace where ratingId="${req.params.ratingId}"`, (err, rows, fields) => {
+              if (err) throw err
+              res.status(200).send(req.params.ratingId);
+            })
+      }
+      else{    
+          res.status(400).send("rating ID not included");
+      }
+  });
+  
+  // Get Place Average Rating
+  app.get('/api/avgRating/:placeId', (req,res) => { 
+      if(req.params.placeId){
+          res.set('Access-Control-Allow-Origin', '*');
+          connection.query(`SELECT AVG(avgRating) AS averageRating, COUNT(avgRating) AS count FROM  userRatingsPlace where placeId="${req.params.placeId}"`, (err, rows, fields) => {
+              if (err) throw err
+                  if(rows[0])
+                      res.status(200).send(rows);
+            })
+      }
+      else{    
+          res.status(400).send("placeID invalid");
+      }
+  });
 
 app.use(express.json());
 app.use(cors());
