@@ -40,7 +40,7 @@ const App = () => {
         <Route path="mapp/Tripplan" element={<Tripplan />} />
         <Route path="userProfile" element={<UserProfile />} >
           <Route path="" element={<UserGallery />} />
-          <Route path="review" element={<UserReview />} />
+          <Route path="reviewu" element={<UserReview />} />
           <Route path="plannedTrip" element={<PlannedTrip />} />
         </Route>
         <Route path="admin" element={<Admin />}>

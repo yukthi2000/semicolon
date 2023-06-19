@@ -1,29 +1,44 @@
-//import { motion, AnimatePresence } from 'framer-motion';
-import ReviewItem from './ReviewDestination';
+import { motion, AnimatePresence } from 'framer-motion';
+import ReviewItem from './ReviewItem';
 import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
+function ReviewList({ review, handleDelete, placeId}) {
+
+  //fetch reviews from backend
+  const [data, setData] = useState([{"ratingId": 0, "placeId": 'test', "userId": 'test', "avgRating": 0, "comment": 'Loading'}, {"ratingId": 1, "placeId": 'test', "userId": 'test', "avgRating": 0, "comment": 'Loading'}]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [reviewItemDeleted, setDeletedItem] = useState(0);
+
+  useEffect(() => {
+    fetch(`http://localhost:3001/api/ratings/${[placeId]}`)
+    .then((response) => response.json())
+    .then((actualData) => {setData(actualData); console.log(data);})
+    .catch((err) => {
+     console.log(err.message);
+    });
+    
+  }, [reviewItemDeleted]);
+
+   //data fetch end
 
 
-function DestReviewList({ review, handleDelete }) {
   if (!review || review.length === 0) {
     return <p>No reviews yet</p>;
   }
   return (
-   <div className="feedback-list">
-   {/* <AnimatePresence>
-  {review.map(item => (
-  <motion.div key={item.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-   <ReviewItem key={item.id} item={item} handleDelete={handleDelete}     />
+   <div className="feedback-list" id="feedback-list">
+   <AnimatePresence>
+  {data.map(item => (
+  <motion.div key={item.ratingId} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+   <ReviewItem key={item.ratingId} item={item} handleDelete={handleDelete}  setDeletedItem={setDeletedItem}   />
   </motion.div>
    ))}
- </AnimatePresence> */}
- {review.map((item)=>(
-  <div>
-  <ReviewItem key={item.id} item={item} handleDelete={handleDelete}     />
-</div> ))}
+ </AnimatePresence>
  </div>
  );
 }
-DestReviewList.propTypes = {
+ReviewList.propTypes = {
   review: PropTypes.arrayOf(
   PropTypes.shape({
   id: PropTypes.number.isRequired,
@@ -32,4 +47,4 @@ DestReviewList.propTypes = {
    })
   )
 };
-export default DestReviewList;
+export default ReviewList;

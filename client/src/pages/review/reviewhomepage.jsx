@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Link } from 'react-router-dom';
 import homeBg from "../../assets/homeBG.jpg"
+import SearchBoxReview from './searchBox';
 
 function Color() {
   const [review, setReview] = useState(ProductData); // displaying hardcored data 
@@ -27,27 +28,28 @@ function Color() {
       <center><h1>Give a tip</h1></center>
    <center><h1>Make a wonderful trip for another</h1></center>
       </div>
-      <div className="searchBar">
+      <SearchBoxReview />
+      {/* <div className="searchBar">
         <div class="searchInputBoxCont"><input class="searchInputBox" placeholder="     Write the location....."/></div>
-        <div><Link to="/review "><button class="btn btn-info searchBtn">Review</button></Link></div>
+        <div><Link to="/review"><button class="btn btn-info searchBtn">Review</button></Link></div>
         
-      </div>
+      </div> */}
       <div className="bottom-section">
-      <h3>Your Previous Reviews</h3>
-      <div className="containerR">
-    <div class="ReviewStatComp">  
+      {/* <h3>Your Previous Reviews</h3>
+      <div className="containerR"> */}
+    {/* <div class="ReviewStatComp">  
      <DestReviewStats review={review}/>
-   </div>
-   <div class="pastReviews">
+   </div> */}
+   {/* <div class="pastReviews">
       <DestReviewList 
       review={review} 
       handleDelete={deleteFeedback} 
       />
-  </div>
+  </div> */}
   {/* < TestRadioRating qNo={1}/> */}
       
 
-  </div>
+  {/* </div> */}
       </div>
     </div>
   );
