@@ -19,7 +19,7 @@ router.get("/data", validateToken,async (req, res) => {
   try {
     const userId = req.user.id;
     const trips = await Trip.findAll({ where: { userId } });
-    res.json(trips);
+    //res.json(trips);
     res.status(200).json(trips);
   } catch (error) {
     console.error(error);
@@ -44,13 +44,16 @@ router.post("/tripdata", validateToken, async (req, res) => {
     const userId = req.user.id;
     tripData.userId = userId;
     const createdTrip = await Trip.create(tripData);
-
-    res.status(201).json(createdTrip);
+    const createdTripId=createdTrip.id;
+    console.log(createdTripId);
+    res.status(201).json({ tripId: createdTripId });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to create a trip" });
   }
 });
+
+router.delete("/droptrips",)
 
 module.exports = router;
 

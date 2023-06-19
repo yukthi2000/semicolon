@@ -88,8 +88,9 @@ const Datafortrip = (prop) => {
       .post("http://localhost:3001/Trips/tripdata", data, {
         headers: { accessToken: localStorage.getItem("accessToken") },
       })
-      .then((response) => {
-       
+      .then((res) => {
+        const tripId = res.data.tripId;
+        
       });
   };
 

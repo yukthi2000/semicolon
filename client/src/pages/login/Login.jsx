@@ -26,6 +26,7 @@ const Login = () => {
         email: response.data.email, 
         id:response.data.id, 
         name: response.data.name,
+        userType: response.data.userType,
         status: true,})
         console.log(response.data)
         history("/");

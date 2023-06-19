@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-
 const Showtrips = () => {
   const [data, setdata] = useState({});
 
@@ -12,17 +11,21 @@ const Showtrips = () => {
       })
       .then((res) => {
         setdata(res.data);
-        console.log(res.data);
+        
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
 
+  const handledelete = (uid) => {
+    console.log(uid);
+  };
+
   return (
     <div>
-      <div className="body">
-        <div className="table-responsive">
+      <div className="main">
+        <div className="table">
           <table
             className="table table-bordered"
             id="dataTable"
@@ -34,11 +37,13 @@ const Showtrips = () => {
                 <th></th>
                 <th>Date</th>
                 <th>Locations</th>
+                <th> </th>
               </tr>
             </thead>
             <tbody>
-              {Object.values(data).map((datas) => (
-                <tr key={datas.UserId}>
+              {Object.values(data).map((datas, index) => (
+                <tr key={datas.id}>
+                  <td>{index + 1}</td>
                   <td>{datas.date}</td>
                   <td>{datas.vehicleType}</td>
 
@@ -48,7 +53,7 @@ const Showtrips = () => {
                       <button
                         className="btn btn-danger equal-width delete-button"
                         type="button"
-                        //   onClick={() => handleCancel(datas.UserId)}
+                        onClick={()=>{handledelete(datas.id)}}
                       >
                         Delete
                       </button>

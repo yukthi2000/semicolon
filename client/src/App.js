@@ -35,6 +35,7 @@ const App = () => {
   const [authState, setAuthState] = useState({
     name: "",
     email: "",
+    userType: "",
     id: 0,
     status: false,
   });
@@ -55,6 +56,7 @@ const App = () => {
             name: response.data.name,
             email: response.data.email,
             id: response.data.id,
+            userType: response.data.userType,
             status: true,
           });
         }
@@ -72,6 +74,7 @@ const App = () => {
     setAuthState({
       name: "",
       email: "",
+      userType: "",
       id: 0,
       status: false,
     });
