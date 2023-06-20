@@ -29,7 +29,10 @@ router.post("/", async (req, res) => {
 router.post("/locations/:tripid", async (req, res) => {
   try {
     const tripId = req.params.tripid;
-    const locationsArray = req.body;
+    const locationsObject = req.body;
+    const locationsArray = Object.values(locationsObject);
+
+    // console.log('Received locations:', locationsArray);
 
     const createdLocations = await Promise.all(
       locationsArray.map((locationData) => {
@@ -37,14 +40,17 @@ router.post("/locations/:tripid", async (req, res) => {
       })
     );
 
+    // console.log('Created locations:', createdLocations);
+
     res.status(200).json({
       message: "Locations saved successfully",
-      locations: createdLocations,
+      // locations: createdLocations,
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to save locations" });
   }
 });
+
 
 module.exports = router;

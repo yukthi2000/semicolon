@@ -63,12 +63,17 @@ const Datafortrip = (prop) => {
   const [weather, setWeather] = useState("dsf");
   const [vehicle, setVehicle] = useState("");
   const [showError, setShowError] = useState(false);
+  const [currenttripif, setcurrenttripif] = useState();
+
 
   useEffect(() => {
     if (!localStorage.getItem("accessToken")) {
       navigate("/login");
     }
   }, []);
+
+
+
 
   const submitthandle = (data) => {
     if (!selectedDate || !weather || !vehicle) {
@@ -85,11 +90,13 @@ const Datafortrip = (prop) => {
     data.date = formattedDate;
     console.log(data);
     axios
-      .post("http://localhost:3001/Trips/tripdaa", data, {
+      .post("http://localhost:3001/Trips/tripdata", data, {
         headers: { accessToken: localStorage.getItem("accessToken") },
       })
       .then((res) => {
         const tripId = res.data.tripId;
+        prop.tripid(tripId);
+
         //error fetching
       });
   };

@@ -86,6 +86,12 @@ export default function Tripplan(latlng, props) {
   const [isOneEntered, setisOneEntered] = React.useState(true);
   const [issecondentered, setissecondentered] = React.useState(true);
   let indexloc = 0;
+  const [currtripid, setcurrtripid] = useState();
+
+  const tripid = (data) => {
+    console.log(data);
+    setcurrtripid(data);
+  };
 
   //location indexes
 
@@ -514,15 +520,6 @@ export default function Tripplan(latlng, props) {
 
       // const uniqueKey = generateUniqueKey();
 
-      // axios
-      //   .post("http://localhost:3001/Array", sortedPoints)
-      //   .then((response) => {
-      //     console.log("Request successful");
-      //   })
-      //   .catch((error) => {
-      //     console.error("An error occurred", error);
-      //   });
-
       ///
 
       setNewall(sortedPoints); // update all with sortedPoints
@@ -539,6 +536,21 @@ export default function Tripplan(latlng, props) {
       console.log("Sorted Distances:", sortedDistances);
     }
     CalculateREarangeRoute();
+
+    //savec to database
+    console.log(currtripid);
+
+    axios
+      .post(
+        `http://localhost:3001/Locations/locations/${currtripid}`,
+        newLocations
+      )
+      .then((response) => {
+        console.log("Request successful");
+      })
+      .catch((error) => {
+        console.error("An error occurred", error);
+      });
 
     // const distname=['Kandy, Sri Lanka', 'Gampola, Sri Lanka', 'Gelioya, Sri Lanka']
     // const dist=[0, 24507, 11467]
@@ -721,7 +733,7 @@ export default function Tripplan(latlng, props) {
           }}
         >
           {gobutton ? (
-            <Datafortrip gobuttonhandle={gobuttonhandle} />
+            <Datafortrip gobuttonhandle={gobuttonhandle} tripid={tripid} />
           ) : (
             <div
               style={{
