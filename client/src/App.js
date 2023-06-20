@@ -29,12 +29,13 @@ import Header2 from "./componets/Header2";
 import Avatar from "@mui/material/Avatar";
 import { useNavigate } from "react-router-dom";
 import ContactUs from "./pages/ContactUs/ContactUs";
-
+import Showtrips from "./pages/googleMapApi/ShowTrips/Showtrips";
 
 const App = () => {
   const [authState, setAuthState] = useState({
     name: "",
     email: "",
+    userType: "",
     id: 0,
     status: false,
   });
@@ -55,6 +56,7 @@ const App = () => {
             name: response.data.name,
             email: response.data.email,
             id: response.data.id,
+            userType: response.data.userType,
             status: true,
           });
         }
@@ -72,6 +74,7 @@ const App = () => {
     setAuthState({
       name: "",
       email: "",
+      userType: "",
       id: 0,
       status: false,
     });
@@ -93,9 +96,9 @@ const App = () => {
   };
 
   useEffect(() => {
-    document.addEventListener('click', handleOutsideClick);
+    document.addEventListener("click", handleOutsideClick);
     return () => {
-      document.removeEventListener('click', handleOutsideClick);
+      document.removeEventListener("click", handleOutsideClick);
     };
   }, []);
 
@@ -136,7 +139,7 @@ const App = () => {
                       borderRadius: "6px",
                       left: "95vh",
                       top: "5px",
-                      
+
                       "&:hover": {
                         backgroundColor: "white",
                         color: "#EF7E2A",
@@ -188,8 +191,12 @@ const App = () => {
                         onClick={handleOutsideClick}
                       >
                         <h4 className="Name">{authState.name}</h4>
-                        <a className="view-profile" href="/userProfile">View Profile</a>
-                        <button className="logout-button" onClick={logout}>Logout</button>
+                        <a className="view-profile" href="/userProfile">
+                          View Profile
+                        </a>
+                        <button className="logout-button" onClick={logout}>
+                          Logout
+                        </button>
                       </div>
                     )}
                   </div>
@@ -219,11 +226,12 @@ const App = () => {
           <Route path="mapp" element={<Mapmore />} />
           <Route path="mapp/Tripplan" element={<Tripplan />} />
           <Route path="/contactUs" element={<ContactUs />} />
-         
+          {/* <Route path="PlannedTrips" element={<Showtrips />} /> */}
+
           <Route path="userProfile" element={<UserProfile />}>
             <Route path="" element={<UserGallery />} />
             <Route path="review" element={<UserReview />} />
-            <Route path="plannedTrip/:id" element={<PlannedTrip />} />
+            <Route path="plannedTrip" element={<Showtrips />} />
           </Route>
           <Route path="admin" element={<Admin />}>
             <Route path="" element={<Dashboard />} />

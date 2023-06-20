@@ -27,7 +27,8 @@ const Sidepan = (prop) => {
           }}
         >
           <Box  className="div1" sx={{width: 379,
-              height: 228,}}>
+              height: 228,justifyContent:"space-around",
+              flexDirection:"column",display:"flex"}}>
          
             <Link to="Tripplan">
               <Button

@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
           },
+          userType: {
+            type: DataTypes.STRING,
+            allowNull: false,
+          },
           photo: {
             type: DataTypes.BLOB('long'),
             allowNull: true,
@@ -23,7 +27,9 @@ module.exports = (sequelize, DataTypes) => {
   
     User.associate = (models) => {
       User.hasMany(models.Trip, {
-        foreignKey: 'userId'
+        foreignKey: 'userId',
+        onDelete:"cascade",
+        
       });
     };
   

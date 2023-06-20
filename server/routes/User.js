@@ -1,13 +1,12 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const {  sequelize, User  } = require("../models");
+const { sequelize, User } = require("../models");
 const bcrypt = require("bcrypt");
-const {validateToken} = require ('../middlewares/AuthMiddleware');
-const { sign } = require("jsonwebtoken")
-const nodemailer = require('nodemailer');
-const jwt = require('jsonwebtoken');
-const crypto = require('crypto');
-
+const { validateToken } = require("../middlewares/AuthMiddleware");
+const { sign } = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
+const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 
 router.post("/", async (req, res) => {
   try {
@@ -25,7 +24,8 @@ router.post("/", async (req, res) => {
     const newUser = await User.create({
       name: name,
       email: email,
-      password: hashedPassword
+      password: hashedPassword,
+      userType: "public",
     });
 
     res.json(newUser);
@@ -41,7 +41,7 @@ router.post("/login", async (req, res) => {
 
     // Find the user with the given email
     const user = await User.findOne({ where: { email: email } });
-    console.log(user)
+    console.log(user);
 
     // Check if the user exists
     if (!user) {
@@ -57,25 +57,31 @@ router.post("/login", async (req, res) => {
 
     // Create a JWT token for the user
     const accessToken = sign(
-      { email: user.email, id: user.id, name:user.name },
+      {
+        email: user.email,
+        id: user.id,
+        name: user.name,
+        userType: user.userType,
+      },
       "importantsecret"
     );
 
-    res.json({ token: accessToken,email:email, id:user.id, name:user.name });
+    res.json({
+      token: accessToken,
+      email: email,
+      id: user.id,
+      name: user.name,
+      userType: user.userType,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Something went wrong" });
   }
 });
 
-router.get("/auth", validateToken, (req, res)=>{
-  res.json(req.user)
-})
-
-
-
-
-
+router.get("/auth", validateToken, (req, res) => {
+  res.json(req.user);
+});
 
 // // Define the POST /reset-password route
 // router.post('/reset-password', async (req, res) => {
@@ -103,8 +109,6 @@ router.get("/auth", validateToken, (req, res)=>{
 //     res.status(500).json({ error: 'An error occurred' });
 //   }
 // });
-
-
 
 // function generateResetToken() {
 //   const tokenLength = 32; // Length of the reset token
@@ -148,7 +152,6 @@ router.get("/auth", validateToken, (req, res)=>{
 //         console.log("Ready to Send password reset link");
 //       }
 //     });
-  
 
 //     const mailOptions = {
 //       from: 'ldsliyanage99@gmail.com',
@@ -161,10 +164,10 @@ router.get("/auth", validateToken, (req, res)=>{
 
 //     res.status(200).json({ message: 'Reset link sent to your email address.' });
 //   } catch (error) {
-    
+
 //     console.error(error);
 //     res.status(500).json({ message: 'Internal server error.' });
 //   }
 // });
 
- module.exports = router;
+module.exports = router;

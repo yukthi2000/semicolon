@@ -1,10 +1,25 @@
 const express = require("express");
 const router = express.Router();
 const { Trip } = require("../models");
+const { validateToken } = require("../middlewares/AuthMiddleware");
 
 router.get("/", async (req, res) => {
   try {
     const trips = await Trip.findAll();
+    res.status(200).json(trips);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to retrieve trips" });
+  }
+});
+
+
+
+router.get("/data", validateToken,async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const trips = await Trip.findAll({ where: { userId } });
+    //res.json(trips);
     res.status(200).json(trips);
   } catch (error) {
     console.error(error);
@@ -22,6 +37,23 @@ router.post("/", async (req, res) => {
     res.status(500).json({ error: "Failed to create a trip" });
   }
 });
+
+router.post("/tripdata", validateToken, async (req, res) => {
+  try {
+    const tripData =  req.body;
+    const userId = req.user.id;
+    tripData.userId = userId;
+    const createdTrip = await Trip.create(tripData);
+    const createdTripId=createdTrip.id;
+    console.log(createdTripId);
+    res.status(201).json({ tripId: createdTripId });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to create a trip" });
+  }
+});
+
+router.delete("/droptrips",)
 
 module.exports = router;
 

@@ -95,12 +95,13 @@ export default function Tripplan(latlng, props) {
     console.log(indexloc);
     if (indexloc === 0) {
       setisOneEntered(true);
+      return;
     } else if (indexloc === 1) {
       setissecondentered(true);
       return;
     } else {
-      setissecondentered(false);
-      setisOneEntered(false);
+      setissecondentered(true);
+      setisOneEntered(true);
     }
   };
 
@@ -513,14 +514,14 @@ export default function Tripplan(latlng, props) {
 
       // const uniqueKey = generateUniqueKey();
 
-      axios
-        .post("http://localhost:3001/Array", sortedPoints)
-        .then((response) => {
-          console.log("Request successful");
-        })
-        .catch((error) => {
-          console.error("An error occurred", error);
-        });
+      // axios
+      //   .post("http://localhost:3001/Array", sortedPoints)
+      //   .then((response) => {
+      //     console.log("Request successful");
+      //   })
+      //   .catch((error) => {
+      //     console.error("An error occurred", error);
+      //   });
 
       ///
 
@@ -549,7 +550,7 @@ export default function Tripplan(latlng, props) {
   };
 
   //Harshana
-  
+
   const [mapLocations, setMapLocations] = useState([]);
   const reciveSuggestlocations = (data) => {
     setMapLocations(data);
@@ -557,7 +558,7 @@ export default function Tripplan(latlng, props) {
   const [touristAttractions, setTouristAttractions] = useState([]);
 
   const [selectedPlace, setSelectedPlace] = useState(null);
- 
+
   const handleMarkerClick = (place) => {
     setSelectedPlace(place);
   };
@@ -593,7 +594,9 @@ export default function Tripplan(latlng, props) {
 
       if (locationsWithLatLng.length > 0) {
         locationsWithLatLng.forEach((location) => {
-          const service = new window.google.maps.places.PlacesService(mapRef.current);
+          const service = new window.google.maps.places.PlacesService(
+            mapRef.current
+          );
           const request = {
             location: new window.google.maps.LatLng(location.lat, location.lng),
             radius: 2000,
@@ -601,7 +604,10 @@ export default function Tripplan(latlng, props) {
           };
           service.nearbySearch(request, (results, status) => {
             if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-              setTouristAttractions((prevAttractions) => [...prevAttractions, ...results]);
+              setTouristAttractions((prevAttractions) => [
+                ...prevAttractions,
+                ...results,
+              ]);
             }
           });
         });
@@ -621,7 +627,6 @@ export default function Tripplan(latlng, props) {
     return () => clearTimeout(timeout);
   }, []);
 
-  
   const renderMarkers = () => {
     return touristAttractions.map((attraction) => (
       <Marker
@@ -630,9 +635,16 @@ export default function Tripplan(latlng, props) {
           lat: attraction.geometry.location.lat(),
           lng: attraction.geometry.location.lng(),
         }}
-        icon={{ url: require("../../../../src/assets/suggested_pin.png"), scaledSize: { width: 32, height: 32 } }}
+        icon={{
+          url: require("../../../../src/assets/suggested_pin.png"),
+          scaledSize: { width: 32, height: 32 },
+        }}
         onClick={() => handleMarkerClick(attraction)}
-        animation={selectedPlace && selectedPlace.place_id === attraction.place_id ? window.google.maps.Animation.BOUNCE : null}
+        animation={
+          selectedPlace && selectedPlace.place_id === attraction.place_id
+            ? window.google.maps.Animation.BOUNCE
+            : null
+        }
       >
         {selectedPlace && selectedPlace.place_id === attraction.place_id && (
           <InfoWindowF
@@ -648,7 +660,7 @@ export default function Tripplan(latlng, props) {
                 alt="Place Icon"
                 style={{ width: "20px", height: "20px", margin: "8px" }}
               />
-              <span style={{ fontWeight: 500, fontFamily: 'poppins' }}>
+              <span style={{ fontWeight: 500, fontFamily: "poppins" }}>
                 {selectedPlace.name}
               </span>
             </div>
@@ -726,7 +738,7 @@ export default function Tripplan(latlng, props) {
                 sendlocations={recivelocations}
                 locationsstart={locationsstart}
                 indexsend={indexsend} // start location
-                sendSuggestlocations={reciveSuggestlocations}//Sugest Locations Harshana
+                sendSuggestlocations={reciveSuggestlocations} //Sugest Locations Harshana
                 //optimizeroute={calculateRoute}
               />
             </div>
@@ -764,7 +776,6 @@ export default function Tripplan(latlng, props) {
             }}
           />
         ))}
-
         {directionResponse && (
           <DirectionsRenderer
             options={{
@@ -777,7 +788,6 @@ export default function Tripplan(latlng, props) {
             directions={directionResponse}
           />
         )}
-
         {selected ? (
           <InfoWindow position={{ lat: selected.lat, lng: selected.lng }}>
             <div>
@@ -788,7 +798,7 @@ export default function Tripplan(latlng, props) {
         ) : null}
       </GoogleMap>
       {/* {console.log(markers)} */}
-      //Error handleing
+      {/* Error handleing */}
       {!isOneEntered && (
         <div
           style={{

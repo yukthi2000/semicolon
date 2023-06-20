@@ -187,7 +187,11 @@ const Home = () => {
           </div>
 
           <Button
-            href={startlocation.length > 0 ? `/googleMapApi?startlocation=${startlocation}` : undefined}
+            href={
+              startlocation.length > 0
+                ? `/googleMapApi?startlocation=${startlocation}`
+                : undefined
+            }
             sx={{
               marginLeft: "auto",
               color: "white",

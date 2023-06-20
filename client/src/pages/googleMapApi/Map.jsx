@@ -19,7 +19,8 @@ import { HomeContext } from "../../Context/HomeContext";
 import { InfoBox } from "@react-google-maps/infobox";
 import { Box } from "@mui/material";
 import axios from "axios";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
+import { styled } from "@mui/system";
 
 import usePlacesAutocomplete, {
   getGeocode,
@@ -56,7 +57,36 @@ const options = {
   streetViewControl: true,
 };
 
-export default function Map(latlng, props,mapLocation ) {
+const AnimatedButton = styled(Button)({
+  position: "fixed",
+  top: 90,
+  right: 30,
+  zIndex: 999999,
+  variant: "elevated",
+  animation: "animateBorder 2s infinite",
+  border: "2px solid transparent",
+  color: "#132320",
+
+  "&:hover": {
+    animation: "none",
+    border: "2px solid #EF7E2A",
+
+    backgroundColor: "rgba(239, 126, 34, 0.5)",
+  },
+  "@keyframes animateBorder": {
+    "0%": {
+      borderColor: "transparent",
+    },
+    "50%": {
+      borderColor: "#EF7E2A", // Change this to the desired border color
+    },
+    "100%": {
+      borderColor: "transparent",
+    },
+  },
+});
+
+export default function Map(latlng, props) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: "AIzaSyCjTfIEci5TjcUCYMifDVtiC6nt7tFRqko",
     libraries,
@@ -86,6 +116,7 @@ export default function Map(latlng, props,mapLocation ) {
   const [isOneEntered, setisOneEntered] = React.useState(true);
   const [issecondentered, setissecondentered] = React.useState(true);
   let indexloc = 0;
+  const [currstatus, setcurrstatus] = React.useState();
 
   const onmarkk = (data) => {
     console.log("dadfa");
@@ -121,9 +152,16 @@ export default function Map(latlng, props,mapLocation ) {
     console.log("recivelocations");
     console.log(data);
 
-    if (data.length === 0) {
+    const searchdataArray = data.searchdata;
+    console.log(searchdataArray.length);
+
+    // const searchData = data.searchData;
+    const status = data.status;
+    setcurrstatus(status);
+
+    if (searchdataArray.length === 0) {
       setisOneEntered(false);
-    } else if (data.length === 1) {
+    } else if (searchdataArray.length === 1) {
       setissecondentered(false);
     } else {
       setissecondentered(true);
@@ -132,25 +170,30 @@ export default function Map(latlng, props,mapLocation ) {
     console.log(isOneEntered);
     console.log(issecondentered);
 
-    const [firstElement, ...restElement] = data;
-    const lastElement = data[data.length - 1];
-    const restElements = data.slice(1, data.length - 1);
+    const [firstElement, ...restElement] = searchdataArray;
+    const lastElement = searchdataArray[searchdataArray.length - 1];
+    const restElements = searchdataArray.slice(1, searchdataArray.length - 1);
 
     setFirstAndLastSearchData([firstElement, lastElement]);
     setSearchDataWithoutFirstAndLast(restElements);
     setAll([firstElement, ...restElements, lastElement]);
   };
 
- 
-
   useEffect(() => {
     // This will log the updated state values
     console.log(firstAndLastSearchData);
     console.log(searchDataWithoutFirstAndLast);
+
     //calculateRoute();
-    Setnewarrat();
-    Reroute();
-  }, [firstAndLastSearchData, searchDataWithoutFirstAndLast]);
+    // Setnewarrat();
+    // Reroute();
+    if (currstatus === "normal") {
+      calculateRoute();
+    } else if (currstatus === "optimize") {
+      Setnewarrat();
+      Reroute();
+    }
+  }, [currstatus, firstAndLastSearchData, searchDataWithoutFirstAndLast]);
 
   useEffect(() => {
     if (distanceMarker) {
@@ -165,7 +208,7 @@ export default function Map(latlng, props,mapLocation ) {
   // };
 
   //Harshana
-  
+
   const [mapLocations, setMapLocations] = useState([]);
   const reciveSuggestlocations = (data) => {
     setMapLocations(data);
@@ -173,7 +216,7 @@ export default function Map(latlng, props,mapLocation ) {
   const [touristAttractions, setTouristAttractions] = useState([]);
 
   const [selectedPlace, setSelectedPlace] = useState(null);
- 
+
   const handleMarkerClick = (place) => {
     setSelectedPlace(place);
   };
@@ -209,7 +252,9 @@ export default function Map(latlng, props,mapLocation ) {
 
       if (locationsWithLatLng.length > 0) {
         locationsWithLatLng.forEach((location) => {
-          const service = new window.google.maps.places.PlacesService(mapRef.current);
+          const service = new window.google.maps.places.PlacesService(
+            mapRef.current
+          );
           const request = {
             location: new window.google.maps.LatLng(location.lat, location.lng),
             radius: 2000,
@@ -217,7 +262,10 @@ export default function Map(latlng, props,mapLocation ) {
           };
           service.nearbySearch(request, (results, status) => {
             if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-              setTouristAttractions((prevAttractions) => [...prevAttractions, ...results]);
+              setTouristAttractions((prevAttractions) => [
+                ...prevAttractions,
+                ...results,
+              ]);
             }
           });
         });
@@ -237,7 +285,6 @@ export default function Map(latlng, props,mapLocation ) {
     return () => clearTimeout(timeout);
   }, []);
 
-  
   const renderMarkers = () => {
     return touristAttractions.map((attraction) => (
       <Marker
@@ -246,9 +293,16 @@ export default function Map(latlng, props,mapLocation ) {
           lat: attraction.geometry.location.lat(),
           lng: attraction.geometry.location.lng(),
         }}
-        icon={{ url: require("../../../src/assets/suggested_pin.png"), scaledSize: { width: 32, height: 32 } }}
+        icon={{
+          url: require("../../../src/assets/suggested_pin.png"),
+          scaledSize: { width: 32, height: 32 },
+        }}
         onClick={() => handleMarkerClick(attraction)}
-        animation={selectedPlace && selectedPlace.place_id === attraction.place_id ? window.google.maps.Animation.BOUNCE : null}
+        animation={
+          selectedPlace && selectedPlace.place_id === attraction.place_id
+            ? window.google.maps.Animation.BOUNCE
+            : null
+        }
       >
         {selectedPlace && selectedPlace.place_id === attraction.place_id && (
           <InfoWindowF
@@ -264,7 +318,7 @@ export default function Map(latlng, props,mapLocation ) {
                 alt="Place Icon"
                 style={{ width: "20px", height: "20px", margin: "8px" }}
               />
-              <span style={{ fontWeight: 500, fontFamily: 'poppins' }}>
+              <span style={{ fontWeight: 500, fontFamily: "poppins" }}>
                 {selectedPlace.name}
               </span>
             </div>
@@ -275,7 +329,6 @@ export default function Map(latlng, props,mapLocation ) {
   };
   //Harshana End
 
-  
   //function to calculate route
   async function calculateRoute() {
     console.log("calculateRoute start");
@@ -390,17 +443,17 @@ export default function Map(latlng, props,mapLocation ) {
   //location indexes
 
   const indexsend = (data) => {
-    indexloc= data;
+    indexloc = data;
     console.log(data);
     console.log(indexloc);
     if (indexloc === 0) {
       setisOneEntered(true);
     } else if (indexloc === 1) {
       setissecondentered(true);
-      return ;
+      return;
     } else {
-      setissecondentered(false);
-      setisOneEntered(false);
+      setissecondentered(true);
+      setisOneEntered(true);
     }
   };
 
@@ -635,14 +688,14 @@ export default function Map(latlng, props,mapLocation ) {
 
       // const uniqueKey = generateUniqueKey();
 
-      axios
-        .post("http://localhost:3001/Array", sortedPoints)
-        .then((response) => {
-          console.log("Request successful");
-        })
-        .catch((error) => {
-          console.error("An error occurred", error);
-        });
+      // axios
+      //   .post("http://localhost:3001/Array", sortedPoints)
+      //   .then((response) => {
+      //     console.log("Request successful");
+      //   })
+      //   .catch((error) => {
+      //     console.error("An error occurred", error);
+      //   });
 
       ///
 
@@ -759,6 +812,10 @@ export default function Map(latlng, props,mapLocation ) {
   return (
     <>
       <div>
+        <Link to="/mapp/Tripplan">
+          <AnimatedButton>Plan a Trip</AnimatedButton>
+        </Link>
+
         <div
           style={{
             marginTop: 70,
@@ -772,11 +829,10 @@ export default function Map(latlng, props,mapLocation ) {
               Searchplanshow={Searchplanshow}
               Searchplan={Searchplan}
               heading={heading}
-              sendlocations={recivelocations} 
+              sendlocations={recivelocations}
               locationsstart={locationsstart}
               indexsend={indexsend} // start location
-              sendSuggestlocations={reciveSuggestlocations}//Sugest Locations Harshana
-              
+              sendSuggestlocations={reciveSuggestlocations} //Sugest Locations Harshana
 
               //optimizeroute={calculateRoute}
             />
@@ -826,7 +882,7 @@ export default function Map(latlng, props,mapLocation ) {
         //onClick={onMapClick}
         onLoad={onMapLoad}
       >
-          {renderMarkers()}
+        {renderMarkers()}
         {markers.map((marker) => (
           <Marker
             key={marker.time.toISOString()}
@@ -865,7 +921,8 @@ export default function Map(latlng, props,mapLocation ) {
       </button> */}
       {/* {console.log(markers)} */}
       {console.log(curr)}
-      //Error handleing
+      {/* Error handleing */}
+
       {!isOneEntered && (
         <div
           style={{
