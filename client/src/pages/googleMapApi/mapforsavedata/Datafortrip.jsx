@@ -85,12 +85,12 @@ const Datafortrip = (prop) => {
     data.date = formattedDate;
     console.log(data);
     axios
-      .post("http://localhost:3001/Trips/tripdata", data, {
+      .post("http://localhost:3001/Trips/tripdaa", data, {
         headers: { accessToken: localStorage.getItem("accessToken") },
       })
       .then((res) => {
         const tripId = res.data.tripId;
-        
+        //error fetching
       });
   };
 

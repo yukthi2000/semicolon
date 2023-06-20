@@ -15,6 +15,7 @@ import Searchbox from "./Searchboxformultisearch";
 import Forecast from "../../weatherApi/Forecast";
 import axios from "axios";
 import ScoreIcon from "@mui/icons-material/Score";
+import { Switch } from "antd";
 
 function Multiplesearch(props) {
   // const Searchplan = !prop.Searchplan;
@@ -27,6 +28,7 @@ function Multiplesearch(props) {
   const [data, setData] = useState("");
   const [sedata, setSedata] = useState(["temp"]);
   const { startlocation } = props;
+  const [switchclick, setswitchclick] = useState(false);
 
   const adddate = () => {
     setSedata([...sedata, data]);
@@ -67,12 +69,10 @@ function Multiplesearch(props) {
     // props.optimizeroute(true);
   }
 
-  
-  //Harshana  
+  //Harshana
   function handleSuggest() {
     props.sendSuggestlocations(searchdata);
   }
-
 
   function saveData(data) {
     axios
@@ -100,11 +100,11 @@ function Multiplesearch(props) {
           <Box className="upper">
             <Typography
               variant="h4"
-              sx={{ color: "white", fontFamily: "cursive" }}
+              sx={{ color: "white", fontFamily: "cursive", paddingLeft: 2 }}
             >
               {" "}
-              <ArrowDropDownIcon sx={{ width: 50, height: 30 }} />
-              Trip to {props.heading}
+              {/* <ArrowDropDownIcon sx={{ width: 50, height: 30 }} /> */}
+              Happy Journey
             </Typography>
           </Box>
           <Box className="searcharea">
@@ -147,40 +147,79 @@ function Multiplesearch(props) {
               </Box>
             ))}
           </Box>
-
+          <div className="confirm" style={{ marginLeft: 5 }}>
+            <Switch
+              defaultChecked={false}
+              checkedChildren="Confirmed"
+              unCheckedChildren="Confirmation"
+              size="large"
+              onClick={() => {
+                setswitchclick(!switchclick);
+              }}
+            />
+          </div>
           <Box className="buttons">
-            <Box className="but1" style={{ paddingBotnotetom: 0 }}>
-              <Button
-                variant="elevated"
-                sx={{ width: 220, color: "#EF7E2A", borderBottom: 3 }}
-                onClick={handleSave}
-              >
-                <RouteIcon sx={{ marginRight: 1 }} />
-                <Typography variant="h7" sx={{ color: "#EF7E2A" }}>
-                  Optimize Route
-                </Typography>
-              </Button>
-            </Box>
             <Box className="but2" style={{ paddingBottom: 0 }}>
-            <Button
-                variant="elevated"
-                sx={{ width: 220, color: "#EF7E2A", borderBottom: 3 }}
+              <Button
+                variant="contained"
+                sx={{
+                  width: 220,
+                  color: "white",
+                  borderBottom: 3,
+                  background: "#8b8d8e",
+                  "&:hover": {
+                    background: "#EF7E2A", // Replace with your desired hover color
+                  },
+                }}
                 onClick={handleSuggest}
+                
               >
                 <AddLocationAltIcon sx={{ marginRight: 1 }} />
-                <Typography variant="h7" sx={{ color: "#EF7E2A" }}>
+                <Typography variant="h7" sx={{ color: "white" }}>
                   {" "}
                   Suggest Locations
                 </Typography>
               </Button>
             </Box>
+            <Box className="but1" style={{ paddingBotnotetom: 0 }}>
+              <Button
+                variant="contained"
+                sx={{
+                  width: 220,
+                  color: "white",
+                  borderBottom: 3,
+                  background: "#8b8d8e",
+                  "&:hover": {
+                    background: "#EF7E2A", // Replace with your desired hover color
+                  },
+                }}
+                onClick={handleSave}
+                disabled={switchclick}
+              >
+                <RouteIcon sx={{ marginRight: 1 }} />
+                <Typography variant="h7" sx={{ color: "white" }}>
+                  Optimize Route
+                </Typography>
+              </Button>
+            </Box>
+
             <Box className="but4" style={{ paddingBottom: 0 }}>
               <Button
-                variant="elevated"
-                sx={{ width: 220, color: "#EF7E2A", borderBottom: 3 }}
+                variant="contained"
+                disabled={switchclick}
+                sx={{
+                  width: 220,
+                  color: "white",
+                  borderBottom: 3,
+                  background: "#8b8d8e",
+                  "&:hover": {
+                    background: "#EF7E2A", // Replace with your desired hover color
+                  },
+                  
+                }}
               >
                 <ScoreIcon sx={{ marginRight: 1 }} />
-                <Typography variant="h7" sx={{ color: "#EF7E2A" }}>
+                <Typography variant="h7" sx={{ color: "white" }}>
                   {" "}
                   Weather Score
                 </Typography>
