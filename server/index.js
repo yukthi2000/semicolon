@@ -11,9 +11,6 @@ const db = require("./models");
 const userRouter = require("./routes/User");
 app.use("/auth", userRouter);
 
-const ArrayRouter = require("./routes/Array");
-app.use("/Array", ArrayRouter);
-
 const RatingsRouter = require("./routes/Ratings");
 app.use("/Ratings", RatingsRouter);
 

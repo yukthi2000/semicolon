@@ -1,5 +1,23 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+
+export default function CalculateWeatherScores(props) {
+  const { locationList, tripID } = props;
+
+  const weatherScoreMap = locationList.map((item) => (
+    <WeatherScore
+    key={item.location}
+    location={item} // Pass the entire item object as the location prop
+    tripID={tripID}
+    />
+  ));
+
+  console.log(weatherScoreMap);
+
+  return <div>{weatherScoreMap}</div>;
+
+  
+}
 
 function WeatherScore(props) {
   const tripID = props.tripID;
@@ -104,5 +122,3 @@ function WeatherScore(props) {
     </div>
   );
 }
-
-export default WeatherScore;

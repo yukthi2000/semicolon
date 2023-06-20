@@ -15,6 +15,8 @@ import Searchbox from "./Searchboxformultisearch";
 import Forecast from "../../weatherApi/Forecast";
 import axios from "axios";
 import ScoreIcon from "@mui/icons-material/Score";
+import PostTripDayLocationList from "../../weatherApi/WeatherScore/PostTripDayLocationList";
+import WeatherScoreList from "../../weatherApi/WeatherScore/WeatherScoreList";
 
 function Multiplesearch(props) {
   // const Searchplan = !prop.Searchplan;
@@ -51,8 +53,7 @@ function Multiplesearch(props) {
     console.log(sedata);
     console.log(searchdata);
   });
-  //for weather
-  const tripDate = new Date("2023-06-11");
+
 
   //pass changed location from child components to this cmponent
   const [globalLocation, setGlobalLocation] = useState("Sri Lanka");
@@ -67,12 +68,28 @@ function Multiplesearch(props) {
     // props.optimizeroute(true);
   }
 
-  
+
   //Harshana  
+
+  //for weather
+  const tripDate = new Date(props.dateinplantrip);
+  const tripID = '889977'
+
   function handleSuggest() {
     props.sendSuggestlocations(searchdata);
   }
 
+  const [PostToggle, setPostToggle] = useState(false);
+  function handleWeatherPost() {
+    //console.log(searchdata);
+    setPostToggle(true);
+  }
+  const [ScoreToggle, setScoreToggle] = useState(false);
+  function handleWeatherScore() {
+    console.log("score wada");
+    setScoreToggle(true);
+  }
+  //Harshana End
 
   function saveData(data) {
     axios
@@ -161,7 +178,7 @@ function Multiplesearch(props) {
               </Button>
             </Box>
             <Box className="but2" style={{ paddingBottom: 0 }}>
-            <Button
+              <Button
                 variant="elevated"
                 sx={{ width: 220, color: "#EF7E2A", borderBottom: 3 }}
                 onClick={handleSuggest}
@@ -177,6 +194,7 @@ function Multiplesearch(props) {
               <Button
                 variant="elevated"
                 sx={{ width: 220, color: "#EF7E2A", borderBottom: 3 }}
+                onClick={handleWeatherPost}
               >
                 <ScoreIcon sx={{ marginRight: 1 }} />
                 <Typography variant="h7" sx={{ color: "#EF7E2A" }}>
@@ -195,6 +213,21 @@ function Multiplesearch(props) {
           </Box>
         </Paper>
       </Box>
+
+      //Harshana
+      {PostToggle &&
+        <PostTripDayLocationList
+          locationList={searchdata}
+          tripID={tripID}
+          tripDate={tripDate}
+        />
+      }
+        <WeatherScoreList
+          tripID={tripID}
+          locationList={searchdata}
+        />
+      
+
     </Box>
   );
 }

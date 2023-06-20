@@ -549,6 +549,10 @@ export default function Tripplan(latlng, props) {
   };
 
   //Harshana
+  const [dateinplantrip,setDateinplantrip] = useState("");
+  const dateforweather=(data)=>{
+    setDateinplantrip(data);
+  }
   
   const [mapLocations, setMapLocations] = useState([]);
   const reciveSuggestlocations = (data) => {
@@ -709,7 +713,8 @@ export default function Tripplan(latlng, props) {
           }}
         >
           {gobutton ? (
-            <Datafortrip gobuttonhandle={gobuttonhandle} />
+            <Datafortrip gobuttonhandle={gobuttonhandle} 
+            dateforweather={dateforweather} />
           ) : (
             <div
               style={{
@@ -727,6 +732,7 @@ export default function Tripplan(latlng, props) {
                 locationsstart={locationsstart}
                 indexsend={indexsend} // start location
                 sendSuggestlocations={reciveSuggestlocations}//Sugest Locations Harshana
+                dateinplantrip={dateinplantrip}
                 //optimizeroute={calculateRoute}
               />
             </div>

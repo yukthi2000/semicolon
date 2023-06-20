@@ -33,6 +33,7 @@ const Datafortrip = (prop) => {
   const gobuttonhandle = () => {
     setGobutton(!gobutton);
     prop.gobuttonhandle();
+    prop.dateforweather(formattedDate);
     // if (!selectedDate || !weather || !vehicle) {
     //   setShowError(true);
     //   return;
@@ -59,18 +60,26 @@ const Datafortrip = (prop) => {
     setVehicle(e.target.value);
   };
   const username = "yukthi";
+  const tripID = "889977"
 
   //Harshana
+
+  const [formattedDate, setFormattedDate] = useState('');
+
+  useEffect(() => {
+    if (selectedDate) {
+      const newFormattedDate = dayjs(selectedDate).format('YYYY-MM-DD');
+      setFormattedDate(newFormattedDate);
+    } else {
+      setFormattedDate('');
+    }
+  }, [selectedDate]);
+
   const handleDateChange = (date) => { //Harshana Date
     setSelectedDate(date);
-    console.log(date);
   };
   
-  const[weatherDate,setWeatherDate] = useState("2023-06-15")
-  
-  useEffect(() => {
-   
-  }, [selectedDate])
+  //Harshana End
   
 
   return (
@@ -163,7 +172,8 @@ const Datafortrip = (prop) => {
             </Typography>
             <div>
               <div>
-                <WeatherOptions />
+                <WeatherOptions
+                  tripID = {tripID} />
               </div>
             </div>
           </div>
