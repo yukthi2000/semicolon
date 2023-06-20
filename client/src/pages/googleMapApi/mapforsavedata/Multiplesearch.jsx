@@ -194,7 +194,7 @@ function Multiplesearch(props) {
                   },
                 }}
                 onClick={handleSave}
-                disabled={switchclick}
+                disabled={!switchclick}
               >
                 <RouteIcon sx={{ marginRight: 1 }} />
                 <Typography variant="h7" sx={{ color: "white" }}>
@@ -206,7 +206,7 @@ function Multiplesearch(props) {
             <Box className="but4" style={{ paddingBottom: 0 }}>
               <Button
                 variant="contained"
-                disabled={switchclick}
+                disabled={!switchclick}
                 sx={{
                   width: 220,
                   color: "white",
