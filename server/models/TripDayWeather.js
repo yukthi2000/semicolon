@@ -8,7 +8,13 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             primaryKey: true,
         },
-         
+        lat: {
+            type: DataTypes.DOUBLE,
+        },
+        lng: {
+            type: DataTypes.DOUBLE,
+        },
+
         temperature: {
             type: DataTypes.FLOAT,
         }, 

@@ -99,6 +99,13 @@ const Datafortrip = (prop) => {
 
         //error fetching
       });
+    prop.dateforweather(formattedDate);
+    // if (!selectedDate || !weather || !vehicle) {
+    //   setShowError(true);
+    //   return;
+    // }
+    // setGobutton(!gobutton);
+    // prop.gobuttonhandle();
   };
 
   // const onSubmit = (data) => {
@@ -120,17 +127,16 @@ const Datafortrip = (prop) => {
     setVehicle(e.target.value);
   };
   const username = "yukthi";
+  const tripID = "889977"
 
   //Harshana
   const handleDateChange = (date) => {
     //Harshana Date
     setSelectedDate(date);
-    console.log(date);
   };
-
-  const [weatherDate, setWeatherDate] = useState("2023-06-15");
-
-  useEffect(() => {}, [selectedDate]);
+  
+  //Harshana End
+  
 
   return (
     <div

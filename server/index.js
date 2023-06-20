@@ -11,7 +11,6 @@ const db = require("./models");
 const userRouter = require("./routes/User");
 app.use("/auth", userRouter);
 
-
 const RatingsRouter = require("./routes/Ratings");
 app.use("/Ratings", RatingsRouter);
 

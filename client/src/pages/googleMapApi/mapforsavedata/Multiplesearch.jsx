@@ -16,6 +16,8 @@ import Forecast from "../../weatherApi/Forecast";
 import axios from "axios";
 import ScoreIcon from "@mui/icons-material/Score";
 import { Switch } from "antd";
+import PostTripDayLocationList from "../../weatherApi/WeatherScore/PostTripDayLocationList";
+import WeatherScoreList from "../../weatherApi/WeatherScore/WeatherScoreList";
 
 function Multiplesearch(props) {
   // const Searchplan = !prop.Searchplan;
@@ -53,8 +55,7 @@ function Multiplesearch(props) {
     console.log(sedata);
     console.log(searchdata);
   });
-  //for weather
-  const tripDate = new Date("2023-06-11");
+
 
   //pass changed location from child components to this cmponent
   const [globalLocation, setGlobalLocation] = useState("Sri Lanka");
@@ -69,10 +70,28 @@ function Multiplesearch(props) {
     // props.optimizeroute(true);
   }
 
-  //Harshana
+
+  //Harshana  
+
+  //for weather
+  const tripDate = new Date(props.dateinplantrip);
+  const tripID = '889977'
+
   function handleSuggest() {
     props.sendSuggestlocations(searchdata);
   }
+
+  const [PostToggle, setPostToggle] = useState(false);
+  function handleWeatherPost() {
+    //console.log(searchdata);
+    setPostToggle(true);
+  }
+  const [ScoreToggle, setScoreToggle] = useState(false);
+  function handleWeatherScore() {
+    console.log("score wada");
+    setScoreToggle(true);
+  }
+  //Harshana End
 
   function saveData(data) {
     axios
@@ -235,6 +254,21 @@ function Multiplesearch(props) {
           </Box>
         </Paper>
       </Box>
+
+      //Harshana
+      {PostToggle &&
+        <PostTripDayLocationList
+          locationList={searchdata}
+          tripID={tripID}
+          tripDate={tripDate}
+        />
+      }
+        <WeatherScoreList
+          tripID={tripID}
+          locationList={searchdata}
+        />
+      
+
     </Box>
   );
 }

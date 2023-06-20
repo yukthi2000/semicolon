@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Header2 from "../../componets/Header2";
 import WeatherOptions from "../weatherApi/WeatherOptions"
 import Forecast from "../weatherApi/Forecast"
-import WeatherScore from '../weatherApi/WeatherScore/WeatherScore';
 import PostTripDayLocationList from '../weatherApi/WeatherScore/PostTripDayLocationList';
 import MapForSuggest from '../suggestLocations/MapForSuggest';
 import TouristAttractions from '../suggestLocations/TouristAttractions';
 import TestMark from '../suggestLocations/TestMark';
 import SLocations from '../suggestLocations/SLocations';
 import NameToLatLng from '../weatherApi/WeatherScore/NameToLatLng';
-
+import WeatherScoreList from '../weatherApi/WeatherScore/WeatherScoreList';
+import WeatherScore from '../weatherApi/WeatherScore/TestScore';
+import CalculateWeatherScores from '../weatherApi/WeatherScore/CalculateWeatherScores';
 
 const Gallery = () => {
 
@@ -26,9 +27,14 @@ const Gallery = () => {
 
   const location = { lat: 7.467465, lng: 80.623416 };
   const locations = [
-    'Temple of the tooth Relic දළදා මාළිගාව, Temple Square, Kandy, Sri Lanka',
-    'Nalanda Gedige, Gedige Rd, Matale, Sri Lanka'
+    'Jaffna International Airport, Sri Lanka',
+    'Sri Lanka, Nuwara Eliya, nuwara eliya bus stand'
   ];
+
+  // console.log(NameToLatLng({locations}));
+  const tripID= "252525"
+
+  
 
   return (
     <div>
@@ -36,27 +42,33 @@ const Gallery = () => {
       <br />
       <br /><br />
       <div className="gallerycontainer">
-        <WeatherOptions
-        tripID="88888" />
+        
+        {/* <CalculateWeatherScores tripID = "252525"
+        locationList = {locations}/> */}
+        {/* <WeatherOptions
+        tripID="252525" />
         <Forecast
 
           currentCity={globalLocation}
           tripDate={tripDate}
           Globalfunc={pull_newGlobalLocation} //passing location function
 
-        />
-
-        <WeatherScore
-          tripID="7878"
-          location="Matale" />
-
-          <NameToLatLng locations={locations}/>
-
-        {/* <PostTripDayLocationList
-          locationList = {locations}
-          tripID="7878"
-          tripDate={tripDate}
         /> */}
+
+       {/* <WeatherScoreList
+        tripID = "252525"
+        locationList = {locations}
+        /> */}
+        {/* <WeatherScore
+         tripID = {252525}
+         locations = {locations}/> */}
+
+       
+        <PostTripDayLocationList
+          locationList = {locations}
+          tripID="6699"
+          tripDate={tripDate}
+        />
 
         {/* <MapForSuggest setMap={setMap} />
         {map && <TouristAttractions

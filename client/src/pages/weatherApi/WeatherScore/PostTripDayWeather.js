@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -8,11 +9,14 @@ const PostTripDayWeather = (props) => {
     const [data, setData] = useState({});
     //const [location, setLocation] = useState(props.currentCity);
     const location = props.currentCity;
+    const lat = props.lat ;
+    const lng = props.lng ;
     const tripID = props.tripID;
     const [temperature, setTemperature] = useState(null);
     const [overall, setOverall] = useState(null);
     const [windSpeed, setWindSpeed] = useState(null);
     const [iconID, setIconId] = useState(null);
+    //console.log(lat,lng)
 
     // convert props.tripDate to Date format
     const tripDate = new Date(props.tripDate);
@@ -24,13 +28,15 @@ const PostTripDayWeather = (props) => {
     const dateIndex = Math.floor(Math.abs(tripDate - today) / (1000 * 60 * 60 * 24));
 
     // configure url for API call
-    const url = `https://pro.openweathermap.org/data/2.5/forecast/climate?q=${location}&units=metric&appid=2cdb7a87b467f79781996b8eb03eecda`;
+    //const url1 = `https://pro.openweathermap.org/data/2.5/forecast/climate?q=${location}&units=metric&appid=2cdb7a87b467f79781996b8eb03eecda`;
+    const url = `https://pro.openweathermap.org/data/2.5/forecast/climate?lat=${lat}&lon=${lng}&units=metric&appid=2cdb7a87b467f79781996b8eb03eecda`;
 
     // useEffect hook to make API call when location changes
     useEffect(() => {
         axios.get(url)
             .then((response) => {
                 setData(response.data);
+                //console.log(response.data);
             })
             .catch((error) => {
                 console.log(error);
@@ -61,12 +67,14 @@ const PostTripDayWeather = (props) => {
             const PostData = {
                 tripID: tripID,
                 location: location,
+                lat:lat,
+                lng:lng,
                 temperature: temperature,
                 windSpeed: windSpeed,
                 overall: overall,
                 iconID: iconID
             };
-            console.log(PostData);
+            //console.log(PostData);
 
             // Send the POST request to the backend server
             const response = await axios.post("http://localhost:3001/TripDayWeather", PostData);
