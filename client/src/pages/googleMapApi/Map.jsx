@@ -772,6 +772,7 @@ export default function Map(latlng, props) {
   }, []);
 
   const mapRef = React.useRef();
+  
   const onMapLoad = React.useCallback((map) => {
     setloading(!loading);
     mapRef.current = map;

@@ -30,6 +30,7 @@ import Avatar from "@mui/material/Avatar";
 import { useNavigate } from "react-router-dom";
 import ContactUs from "./pages/ContactUs/ContactUs";
 import Showtrips from "./pages/googleMapApi/ShowTrips/Showtrips";
+import ViewTripsonMap from "./pages/googleMapApi/viewtrips/ViewTripsonMap"
 
 const App = () => {
   const [authState, setAuthState] = useState({
@@ -226,7 +227,7 @@ const App = () => {
           <Route path="mapp" element={<Mapmore />} />
           <Route path="mapp/Tripplan" element={<Tripplan />} />
           <Route path="/contactUs" element={<ContactUs />} />
-          {/* <Route path="PlannedTrips" element={<Showtrips />} /> */}
+          <Route path="ViewTripsonMap" element={<ViewTripsonMap />} />
 
           <Route path="userProfile" element={<UserProfile />}>
             <Route path="" element={<UserGallery />} />
