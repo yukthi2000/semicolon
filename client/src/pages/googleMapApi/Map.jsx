@@ -224,9 +224,9 @@ export default function Map(latlng, props) {
       // resetMap();
       calculateRoute();
     } else if (currstatus === "optimize") {
-      // if (authState.userType === "public") {
-      //   navigate("/subscription");
-      // }
+      if (authState.userType === "public") {
+        navigate("/subscription");
+      }
       // resetMap();
       Setnewarrat();
       Reroute();
