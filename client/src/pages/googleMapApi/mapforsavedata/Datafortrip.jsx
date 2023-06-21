@@ -28,6 +28,8 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../helpers/AuthContext";
 import { useContext } from "react";
 import { addDays, subDays } from "date-fns";
+// import { useContext } from "react";
+// import { AuthContext } from "../../helpers/AuthContext";
 
 const Datafortrip = (prop) => {
   const currentDate = new Date();
@@ -65,15 +67,36 @@ const Datafortrip = (prop) => {
   const [showError, setShowError] = useState(false);
   const [currenttripif, setcurrenttripif] = useState();
 
-
   useEffect(() => {
     if (!localStorage.getItem("accessToken")) {
       navigate("/login");
     }
   }, []);
 
+  // useEffect(() => {
+  //   const accessToken = localStorage.getItem("accessToken");
+  //   if (!accessToken || getAccessTokenUserType(accessToken) !== "public") {
+  //     navigate("/subscription");
+  //   }
+  // }, [navigate]);
 
+  useEffect(() => {
+    if (authState.userType === "public") {
+      navigate("/subscription");
+    }
+  }, []);
 
+  // useEffect(() => {
+  //   if (authState.userType === "public") {
+  //     // Wait for 3 seconds (3000 milliseconds) before redirecting
+  //     const timeout = setTimeout(() => {
+  //       navigate("/subscription");
+  //     }, 3000);
+
+  //     // Clean up the timeout on component unmount
+  //     return () => clearTimeout(timeout);
+  //   }
+  // }, [authState.userType, navigate]);
 
   const submitthandle = (data) => {
     if (!selectedDate || !weather || !vehicle) {

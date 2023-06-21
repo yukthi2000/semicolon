@@ -27,6 +27,8 @@ function Multiplesearch(props) {
   const [data, setData] = useState("");
   const [sedata, setSedata] = useState(["temp"]);
   const { startlocation } = props;
+  const [isClicked, setIsClicked] = useState(false);
+  const [isClicked2, setIsClicked2] = useState(false);
 
   const adddate = () => {
     setSedata([...sedata, data]);
@@ -62,20 +64,29 @@ function Multiplesearch(props) {
   };
 
   function handleSavenormal() {
+    setIsClicked(true);
+
     //saveData(searchdata);
     const status = "normal";
     props.sendlocations({ searchdata, status });
     console.log({ searchdata, status });
     // props.optimizeroute(true);
+    setTimeout(() => {
+      setIsClicked(false);
+    }, 2000);
   }
 
   function handleSaveoptimized() {
+    setIsClicked2(true);
     //saveData(searchdata);
     const status = "optimize";
     props.sendlocations({ searchdata, status });
     console.log({ searchdata, status });
 
     // props.optimizeroute(true);
+    setTimeout(() => {
+      setIsClicked2(false);
+    }, 2000);
   }
 
   //Harshana
@@ -113,7 +124,7 @@ function Multiplesearch(props) {
             >
               {" "}
               <ArrowDropDownIcon sx={{ width: 50, height: 30 }} />
-              Trip to {props.heading}
+              Happy Journey
             </Typography>
           </Box>
           <Box className="searcharea">
@@ -171,11 +182,16 @@ function Multiplesearch(props) {
                     borderBottomRightRadius: 0,
                     borderTop: 3,
                     borderRight: 2,
+                    background: isClicked ? "#EF7E2A" : "#8b8d8e",
+                    color: "white",
+                    "&:hover": {
+                      background: "#EF7E2A", // Replace with your desired hover color
+                    },
                   }}
                   onClick={handleSavenormal}
                 >
                   <RouteIcon sx={{ marginRight: 1 }} />
-                  <Typography variant="h7" sx={{ color: "#EF7E2A" }}>
+                  <Typography variant="h7" sx={{ color: "white" }}>
                     Route
                   </Typography>
                 </Button>
@@ -189,13 +205,18 @@ function Multiplesearch(props) {
                     margin: 0,
                     borderTopLeftRadius: 0,
                     borderBottomLeftRadius: 0,
+                    color: "white",
                     borderTop: 3,
                     borderLeft: 2,
+                    background: isClicked2 ? "#EF7E2A" : "#8b8d8e",
+                    "&:hover": {
+                      background: "#EF7E2A", // Replace with your desired hover color
+                    },
                   }}
                   onClick={handleSaveoptimized}
                 >
                   <RouteIcon sx={{ marginRight: 1 }} />
-                  <Typography variant="h7" sx={{ color: "#EF7E2A" }}>
+                  <Typography variant="h7" sx={{ color: "white" }}>
                     Optimize Route
                   </Typography>
                 </Button>
@@ -204,11 +225,19 @@ function Multiplesearch(props) {
             <Box className="but2" style={{ paddingBottom: 0 }}>
               <Button
                 variant="elevated"
-                sx={{ width: 220, color: "#EF7E2A", borderBottom: 3 }}
+                sx={{
+                  width: 220,
+                  color: "white",
+                  borderBottom: 3,
+                  background: "#8b8d8e",
+                  "&:hover": {
+                    background: "#EF7E2A", // Replace with your desired hover color
+                  },
+                }}
                 onClick={handleSuggest}
               >
                 <AddLocationAltIcon sx={{ marginRight: 1 }} />
-                <Typography variant="h7" sx={{ color: "#EF7E2A" }}>
+                <Typography variant="h7" sx={{ color: "white" }}>
                   {" "}
                   Suggest Locations
                 </Typography>
@@ -217,10 +246,18 @@ function Multiplesearch(props) {
             <Box className="but4" style={{ paddingBottom: 0 }}>
               <Button
                 variant="elevated"
-                sx={{ width: 220, color: "#EF7E2A", borderBottom: 3 }}
+                sx={{
+                  width: 220,
+                  color: "white",
+                  borderBottom: 3,
+                  background: "#8b8d8e",
+                  "&:hover": {
+                    background: "#EF7E2A", // Replace with your desired hover color
+                  },
+                }}
               >
                 <ScoreIcon sx={{ marginRight: 1 }} />
-                <Typography variant="h7" sx={{ color: "#EF7E2A" }}>
+                <Typography variant="h7" sx={{ color: "white" }}>
                   {" "}
                   Weather Score
                 </Typography>
