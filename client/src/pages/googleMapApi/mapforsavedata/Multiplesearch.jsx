@@ -74,9 +74,12 @@ function Multiplesearch(props) {
   //for weather
   const tripDate = new Date(props.dateinplantrip);
   const tripID = '91'
-
+  
+  const [SuggestButtonTxt,setSuggestButtonTxt] = useState("Show Suggestions");
   function handleSuggest() {
     props.sendSuggestlocations(searchdata);
+    props.sendMarkerVisibility((SuggestButtonTxt == "Show Suggestions") ? true : false);
+    setSuggestButtonTxt((SuggestButtonTxt == "Show Suggestions")?"Hide Suggestions" : "Show Suggestions");
   }
 
   const [PostToggle, setPostToggle] = useState(false);
@@ -182,7 +185,7 @@ function Multiplesearch(props) {
                 <AddLocationAltIcon sx={{ marginRight: 1 }} />
                 <Typography variant="h7" sx={{ color: "#EF7E2A" }}>
                   {" "}
-                  Suggest Locations
+                 { SuggestButtonTxt}  {/*  suggest Locations */}
                 </Typography>
               </Button>
             </Box>

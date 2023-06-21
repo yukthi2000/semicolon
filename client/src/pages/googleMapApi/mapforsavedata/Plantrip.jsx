@@ -630,6 +630,7 @@ export default function Tripplan(latlng, props) {
     return () => clearTimeout(timeout);
   }, []);
 
+  const [markerVisible, setMarkerVisible] = useState(false);
   const renderMarkers = () => {
 
     return touristAttractions.map((attraction) => (
@@ -651,17 +652,39 @@ export default function Tripplan(latlng, props) {
             }}
             onCloseClick={() => setSelectedPlace(null)}
           >
-            <div>
-              <img
-                src={selectedPlace.icon}
-                alt="Place Icon"
-                style={{ width: "20px", height: "20px", margin: "8px" }}
-              />
-              <span style={{ fontWeight: 500, fontFamily: 'poppins' }}>
-                {selectedPlace.name}
-              </span>
+            <div className="suggested-container">
+              <div className="suggested-heading">
+                <div className="suggested-ico">
+                  <img
+                    src={selectedPlace.icon}
+                    alt="Place Icon"
+                  />
+                </div>
+                <div className="suggested-name">
+                  {selectedPlace.name}
+                </div>
+              </div>
+              <div className="suggested-body">
+                <div className="vicinity">{selectedPlace.vicinity}</div>
+                {selectedPlace.rating && (
+                  <div className="Rating">
+                    <span className="txt-raiting">Rating :</span><span className="raiting"> {selectedPlace.rating} / 5</span>
+                  </div>
+                )}
+                <div className="suggested-img">
+
+                  {selectedPlace.photos && selectedPlace.photos.length > 0 && (
+                    <img
+                      src={selectedPlace.photos[0].getUrl()}
+                      alt="Place Photo"
+                    />
+                  )}
+                </div>
+              </div>
             </div>
           </InfoWindowF>
+
+
         )}
       </Marker>
     ));
@@ -677,11 +700,13 @@ export default function Tripplan(latlng, props) {
   };
 
   const [isClicked, setIsClicked] = useState(false);
+  const [SocreButtonTxt, setScoreButtonTxt] = useState("Show Weather Score");
   const getScoreArray = () => {
-    setIsClicked(true);
+    setIsClicked((prevState) => !prevState);
+    setScoreButtonTxt((SocreButtonTxt == "Show Weather Score") ? "Hide WeatherScore" : "Show Weather Score");
   }
 
-  console.log('Changed string:', weatherScoreJson);
+  //console.log('Changed string:', weatherScoreJson);
   const [selectedLocation, setSelectedLocation] = React.useState(null);
   const renderScoreInfoWindows = (locations) => {
     return locations.map((location) => (
@@ -690,16 +715,17 @@ export default function Tripplan(latlng, props) {
         position={{ lat: location.lat, lng: location.lng }}
         onCloseClick={() => setSelectedLocation(null)}
         visible={selectedLocation === location}
+
       >
         <div className="infowindow-container">
-          
+
           <div className="overall-text">
             {location.overall}
           </div>
-          
+
           <div className="Score-text">
-            {location.score}% Match 
-            </div>
+            {location.score}% Match
+          </div>
           <div className="weather-icon-container">
             <img src={WeatherIcon(location.iconID)}
               alt='weather icon' className="weather-icon" />
@@ -710,6 +736,11 @@ export default function Tripplan(latlng, props) {
         </div>
       </InfoWindowF>
     ));
+  };
+
+  const [showMark, setShowMark] = useState(false);
+  const MarkerVisiibility = (data) => {
+    setShowMark(data);
   };
 
   //Harshana End
@@ -758,7 +789,7 @@ export default function Tripplan(latlng, props) {
       <h1>jhdaks</h1>
       <h1>jhdaks</h1>
 
-      <button onClick={getScoreArray}>display Score</button>
+      <button onClick={getScoreArray}>{SocreButtonTxt}</button>
 
       {isClicked && <GetCombinedScore tripID='91' onStringChange={handleScoreArray} />}
       <div>
@@ -791,6 +822,7 @@ export default function Tripplan(latlng, props) {
                 locationsstart={locationsstart}
                 indexsend={indexsend} // start location
                 sendSuggestlocations={reciveSuggestlocations}//Sugest Locations Harshana
+                sendMarkerVisibility={MarkerVisiibility}
                 dateinplantrip={dateinplantrip}
               //optimizeroute={calculateRoute}
               />
@@ -817,7 +849,7 @@ export default function Tripplan(latlng, props) {
         onLoad={onMapLoad}
       >
         {isClicked && ScoreDataFetched && renderScoreInfoWindows(weatherScoreJson)} //weatherScore
-        {renderMarkers()} //suggestLocations
+        {showMark && renderMarkers()} //suggestLocations
 
         {markers.map((marker) => (
           <Marker

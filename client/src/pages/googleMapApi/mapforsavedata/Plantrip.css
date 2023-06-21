@@ -46,3 +46,90 @@ text-align: center;
     display: flex;
     justify-content: center;
 }
+
+
+/* suggested info winfow */
+
+.suggested-container {
+    height: auto;
+    width: 225px;
+    background-color: #fff;
+  }
+  
+  .suggested-heading {
+    display: flex;
+    align-items:center;
+    justify-content: space-evenly;
+  }
+  
+  .suggested-ico {
+  padding: 5px;
+  }
+
+  .vicinity{
+    margin:3px;
+  }
+  .suggested-img {
+    display: flex;
+  justify-content: center;
+  }
+  
+  .suggested-ico img {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .suggested-name {
+    font-weight: bold;
+    font-size: 15px;
+    margin-bottom: 8px;
+    font-family: "Poppins", sans-serif;
+    color: #333;
+    padding: 5px;
+  }
+  
+  .suggested-body {
+    margin-top: 5px;
+  }
+  
+  .suggested-body p {
+    margin-bottom: 8px;
+    font-family: "Roboto", sans-serif;
+    color: #666;
+    font-weight: 400;
+  }
+  
+  .suggested-body a {
+    color: #0366d6;
+    text-decoration: none;
+    font-weight: 400;
+  }
+  
+  .suggested-body a:hover {
+    text-decoration: underline;
+  }
+  
+  .suggested-body img {
+    width: 180px;
+    height: 180px;
+    margin-top: 3px;
+    margin-bottom: 8px;
+
+  }
+  .Rating{
+    margin: 3px;
+  }
+.raiting{
+    text-align: center;
+    font-weight: 700;
+    color: #FFA500;
+    font-size: 13px;
+    font-family: 'Montserrat';
+}
+.txt-raiting{
+    text-align: center;
+    font-weight: 700;
+    font-size: 13px;
+    font-family: 'Montserrat';
+}
+  
