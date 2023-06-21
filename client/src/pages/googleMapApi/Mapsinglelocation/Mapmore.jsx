@@ -95,6 +95,21 @@ export default function Map(latlng, props) {
   //connection for database for retrive reviews
   useEffect(() => {}, [origin]);
 
+  function CleareRoute() {
+    setClearroute(false);
+    SetdirectionResponse(null);
+    //window.location.reload(); rerender whole page,not thart much efficient way
+    setDistance("");
+    setduration("");
+
+    // // setOrigin(null);
+    // origin = "";
+    // // setDestination(null);
+    // destination = "";
+    // SetdirectionResponse(null);
+    // // console.log(directionResponse, distance);
+  }
+
   const recivelocations = (data) => {
     console.log("recivelocations");
     console.log(data);
@@ -197,6 +212,7 @@ export default function Map(latlng, props) {
       //eslint-disable-next-line  no-undef
       travelMode: google.maps.TravelMode.DRIVING,
     });
+    
     SetdirectionResponse(result);
     setDistance(result.routes[0].legs[0].distance.text);
     console.log(result, distance);
@@ -213,19 +229,7 @@ export default function Map(latlng, props) {
     handledirection();
     CleareRoute();
   };
-  function CleareRoute() {
-    setClearroute(false);
-    //window.location.reload(); rerender whole page,not thart much efficient way
-    setDistance("");
-    setduration("");
-
-    // setOrigin(null);
-    origin = "";
-    // setDestination(null);
-    destination = "";
-    SetdirectionResponse(null);
-    // console.log(directionResponse, distance);
-  }
+ 
   // useEffect(() => {
   //   navigator.geolocation.getCurrentPosition((position) => {
   //     setMylat(position.coords.latitude);
@@ -350,7 +354,8 @@ export default function Map(latlng, props) {
                   }}
                 >
                   <IconButton sx={{ p: "10px" }} aria-label="menu">
-                    <MenuIcon onClick={Searchplanshow} />
+                    {/* <MenuIcon onClick={Searchplanshow} /> */}
+                    <MenuIcon />
                   </IconButton>
                   <Searchbox datafromsearch={originfromsearch} />
 
@@ -606,17 +611,8 @@ export default function Map(latlng, props) {
           )
         )}
         {directionResponse && (
-          <DirectionsRenderer
-            options={{
-              polylineOptions: {
-                strokeColor: "#0000FF",
-                strokeOpacity: 0.7,
-                strokeWeight: 4,
-              },
-            }}
-            directions={directionResponse}
-          />
-        )}
+          <DirectionsRenderer directions={directionResponse} />
+        )  || console.log(directionResponse)}
 
         {/* {!clearroute && <DirectionsRenderer directions={null} />} */}
         {markers.slice(0, 1).map((marker) =>
