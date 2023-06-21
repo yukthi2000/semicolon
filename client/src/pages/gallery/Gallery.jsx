@@ -29,8 +29,8 @@ const Gallery = () => {
 
   const location = { lat: 7.467465, lng: 80.623416 };
   const locations = [
-    'Jaffna International Airport, Sri Lanka',
-    'Sri Lanka, Nuwara Eliya, nuwara eliya bus stand'
+    'Nuwara Eliya',
+    'Matale'
   ];
 
   const tripID= "444444"
@@ -46,11 +46,6 @@ const Gallery = () => {
 //   //setP(JSON.parse(h));
 //   console.log(p);
 
-const [s,setS] = useState(false)
-const handleClick = () => {
-  GetCombinedScore({tripID:'1'})
-};
-  
 
   return (
     <div>
@@ -59,15 +54,14 @@ const handleClick = () => {
       <br /><br />
       <div className="gallerycontainer">
         nsxam k
-        <button onClick={handleClick}>click me</button>
         
         {/* <PostWeatherScore 
         tripID = "3"
         location = "matale"
         score = {445.2} /> */}
 
-        {/* <CalculateWeatherScores tripID = "252525"
-        locationList = {locations}/> */}
+        <CalculateWeatherScores tripID = "2525"
+        locationList = {locations}/>
         {/* <WeatherOptions
         tripID="252525" />
         <Forecast

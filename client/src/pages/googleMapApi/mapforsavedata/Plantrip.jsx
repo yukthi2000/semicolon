@@ -2,6 +2,8 @@ import loading from "../../../assets/loading (1).gif";
 import error from "../../../assets/error.gif";
 import * as React from "react";
 
+import './Plantrip.css';
+import WeatherIcon from "../../weatherApi/WeatherIcon";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import Divider from "@mui/material/Divider";
@@ -22,8 +24,8 @@ import { InfoBox } from "@react-google-maps/infobox";
 import { Box } from "@mui/material";
 import axios from "axios";
 import { useLocation, useSearchParams } from "react-router-dom";
-import { InfoWindowF } from "@react-google-maps/api";
 
+import { InfoWindowF } from "@react-google-maps/api";
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
@@ -664,40 +666,51 @@ export default function Tripplan(latlng, props) {
       </Marker>
     ));
   };
-  
-  const[weatherScoreJson,setWeatherScoreJson]= useState([]);
-  const[ScoreDataFetched,setScoreDataFetched] = useState(false);
-  
+
+  const [weatherScoreJson, setWeatherScoreJson] = useState([]);
+  const [ScoreDataFetched, setScoreDataFetched] = useState(false);
+
   const handleScoreArray = (childString) => {
     setWeatherScoreJson(JSON.parse(childString));
-    setScoreDataFetched(true); 
+    setScoreDataFetched(true);
     //console.log(JSON.parse(childString));
   };
-  
-  const [isClicked,setIsClicked]=useState(false) ;
- const getScoreArray = () =>{
-  setIsClicked(true);
-}
 
-console.log('Changed string:', weatherScoreJson);
-const [selectedLocation, setSelectedLocation] = React.useState(null);
-const renderScoreInfoWindows = (locations) => {
-  return locations.map((location) => (
-    <InfoWindowF
-      key={location.tripID}
-      position={{ lat: location.lat, lng: location.lng }}
-      onCloseClick={() => setSelectedLocation(null)}
-      visible={selectedLocation === location}
-    >
-      <div>
-        <h2>{location.location}</h2>
-        <p>Temperature: {location.temperature}</p>
-        <p>Overall: {location.overall}</p>
-        <p>Score: {location.score}</p>
-      </div>
-    </InfoWindowF>
-  ));
-};
+  const [isClicked, setIsClicked] = useState(false);
+  const getScoreArray = () => {
+    setIsClicked(true);
+  }
+
+  console.log('Changed string:', weatherScoreJson);
+  const [selectedLocation, setSelectedLocation] = React.useState(null);
+  const renderScoreInfoWindows = (locations) => {
+    return locations.map((location) => (
+      <InfoWindowF
+        key={location.tripID}
+        position={{ lat: location.lat, lng: location.lng }}
+        onCloseClick={() => setSelectedLocation(null)}
+        visible={selectedLocation === location}
+      >
+        <div className="infowindow-container">
+          
+          <div className="overall-text">
+            {location.overall}
+          </div>
+          
+          <div className="Score-text">
+            {location.score}% Match 
+            </div>
+          <div className="weather-icon-container">
+            <img src={WeatherIcon(location.iconID)}
+              alt='weather icon' className="weather-icon" />
+          </div>
+
+          <div className="temp-text">{location.temperature} °C </div>
+
+        </div>
+      </InfoWindowF>
+    ));
+  };
 
   //Harshana End
 
@@ -744,10 +757,10 @@ const renderScoreInfoWindows = (locations) => {
       <h1>jhdaks</h1>
       <h1>jhdaks</h1>
       <h1>jhdaks</h1>
-      
+
       <button onClick={getScoreArray}>display Score</button>
-      
-      {isClicked && <GetCombinedScore tripID='62' onStringChange={handleScoreArray} /> }
+
+      {isClicked && <GetCombinedScore tripID='91' onStringChange={handleScoreArray} />}
       <div>
         <Header2 />
         <div
@@ -805,7 +818,7 @@ const renderScoreInfoWindows = (locations) => {
       >
         {isClicked && ScoreDataFetched && renderScoreInfoWindows(weatherScoreJson)} //weatherScore
         {renderMarkers()} //suggestLocations
-        
+
         {markers.map((marker) => (
           <Marker
             key={marker.time.toISOString()}

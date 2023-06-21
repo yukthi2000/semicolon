@@ -104,10 +104,10 @@ function WeatherScore(props) {
     return score;
   };
  
- const [isScorePosted, setIsScorePosted] = useState(false);
+ 
+const [isScorePosted, setIsScorePosted] = useState(false);
 
-
- useEffect(() => {
+useEffect(() => {
   const overallScore = CalculateOverallScore();
   const tempScore = CalculateTempScore();
   const windScore = CalculateWindScore();

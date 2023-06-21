@@ -1,0 +1,48 @@
+.infowindow-container {
+  border: 2px;
+}
+
+.location-text {
+    font-family: 'Poppins';
+    text-align: center;
+    font-size: 16px;
+}
+
+.overall-text {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 500;
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 2px;
+}
+
+.temp-text {
+font-family: 'Montserrat';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+text-align: center;
+}
+
+.Score-text {
+    text-align: center;
+    font-weight: 700;
+    color: #FF4D00;
+    font-size: 13px;
+    align-items: center;
+    text-align: center;
+    font-family: 'Montserrat';
+
+}
+
+.weather-icon {
+    height: 75px;
+    width: 75px;
+    justify-content: center;
+}
+
+.weatherDisplay-icon-container {
+    display: flex;
+    justify-content: center;
+}

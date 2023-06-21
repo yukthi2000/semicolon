@@ -7,18 +7,19 @@ export default function PostTripDayLocationList(props) {
   const tripID = props.tripID;
   const locationList = props.locationList;
   const LocationCoordinateList = NameToLatLng({ locations: locationList });
-  const [runCalculateWeatherScores, setRunCalculateWeatherScores] = useState(false);
+  // const [runCalculateWeatherScores, setRunCalculateWeatherScores] = useState(false);
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setRunCalculateWeatherScores(true);
-    }, 1000);
+  // useEffect(() => {
+  //   const timeout = setTimeout(() => {
+  //     setRunCalculateWeatherScores(true);
+  //   }, 2000);
 
-    return () => clearTimeout(timeout);
-  }, [LocationCoordinateList]);
+  //   return () => clearTimeout(timeout);
+  // }, [LocationCoordinateList]);
 
   const SaveWeather = LocationCoordinateList.map((item, index) => {
     const isLastItem = index === LocationCoordinateList.length - 1;
+    console.log("list last",isLastItem);
 
     return (
       <PostTripDayWeather
@@ -28,7 +29,8 @@ export default function PostTripDayLocationList(props) {
         lng={item.lng}
         tripID={tripID}
         tripDate={props.tripDate}
-        lastItem={isLastItem}
+        isLastItem={isLastItem}
+        locationList={locationList}
       />
     );
   });
@@ -36,9 +38,9 @@ export default function PostTripDayLocationList(props) {
   return (
     <div>
       {SaveWeather}
-      {runCalculateWeatherScores && (
+      {/* {runCalculateWeatherScores && (
         <CalculateWeatherScores tripID={props.tripID} locationList={locationList} />
-      )}
+      )} */}
     </div>
   );
 }

@@ -41,7 +41,7 @@ const WeatherDisplay = (props) => {
 
                         <img
                             src={weatherIcons(props.iconID)}
-                            alt='tesst' className="weatherDisplay-icon" />
+                            alt='weather icon' className="weatherDisplay-icon" />
 
 
                         <div className="main-weather-temp">
