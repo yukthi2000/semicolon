@@ -1,8 +1,9 @@
 import React from 'react'
+import "./Admin.css";
 
 const GalleryView = () => {
   return (
-    <div>GalleryView</div>
+    <div className='section-gallery-view'>GalleryView</div>
   )
 }
 

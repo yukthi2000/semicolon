@@ -29,9 +29,12 @@ const Login = () => {
         userType: response.data.userType,
         status: true,})
         console.log(response.data)
-        history("/");
+        if (response.data.userType === "public") {
+          history("/");
+        } else if (response.data.userType === "superAdmin" || response.data.userType === "admin") {
+          history(`/admin/${response.data.id}`);
       }
-    });
+    }});
   };
 
   return (

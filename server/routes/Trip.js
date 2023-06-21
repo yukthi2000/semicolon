@@ -58,6 +58,17 @@ router.get("/dataWithLocations", async (req, res) => {
   }
 });
 
+ //no of users display in Admin module
+ router.get("/trip-count", async (req, res) => {
+  try {
+    const count = await Trip.count();
+    res.json({ count });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "An error occurred while counting users" });
+  }
+});
+
 router.get("/dataWithLocationsForUser", validateToken, async (req, res) => {
   try {
     const userId = req.user.id;

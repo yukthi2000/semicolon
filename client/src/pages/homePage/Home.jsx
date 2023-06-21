@@ -18,7 +18,6 @@ import travelPack from "../../assets/travelPack.png";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../helpers/AuthContext";
 import { useContext } from "react";
-import abc from "../../assets/abc.jpg";
 
 import usePlacesAutocomplete, {
   getGeocode,

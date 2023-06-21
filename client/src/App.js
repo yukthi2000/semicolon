@@ -1,4 +1,4 @@
-  import React from "react";
+import React from "react";
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/homePage/Home";
@@ -30,7 +30,7 @@ import Avatar from "@mui/material/Avatar";
 import { useNavigate } from "react-router-dom";
 import ContactUs from "./pages/ContactUs/ContactUs";
 import Showtrips from "./pages/googleMapApi/ShowTrips/Showtrips";
-import ViewTripsonMap from "./pages/googleMapApi/viewtrips/ViewTripsonMap"
+import ViewTripsonMap from "./pages/googleMapApi/viewtrips/ViewTripsonMap";
 
 const App = () => {
   const [authState, setAuthState] = useState({
@@ -192,9 +192,21 @@ const App = () => {
                         onClick={handleOutsideClick}
                       >
                         <h4 className="Name">{authState.name}</h4>
-                        <a className="view-profile" href="/userProfile">
-                          View Profile
-                        </a>
+                        {authState.userType === "public" ? (
+                          <a
+                            className="view-profile"
+                            href={`userProfile/${authState.id}`}
+                          >
+                            View Profile
+                          </a>
+                        ) : (
+                          <a
+                            className="view-profile"
+                            href={`admin/${authState.id}`}
+                          >
+                            Admin page
+                          </a>
+                        )}
                         <button className="logout-button" onClick={logout}>
                           Logout
                         </button>
@@ -214,6 +226,7 @@ const App = () => {
       {authState && <p>User is authenticated.</p>}
     </div> */}
 
+
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="gallery" element={<Gallery />} />
@@ -229,12 +242,12 @@ const App = () => {
           <Route path="/contactUs" element={<ContactUs />} />
           <Route path="ViewTripsonMap" element={<ViewTripsonMap />} />
 
-          <Route path="userProfile" element={<UserProfile />}>
+          <Route path="userProfile/:id" element={<UserProfile />}>
             <Route path="" element={<UserGallery />} />
             <Route path="review" element={<UserReview />} />
             <Route path="plannedTrip" element={<Showtrips />} />
           </Route>
-          <Route path="admin" element={<Admin />}>
+          <Route path="admin/:id" element={<Admin />}>
             <Route path="" element={<Dashboard />} />
             <Route path="gallery-view" element={<GalleryView />} />
             <Route path="reviews-view" element={<ReviewsView />} />

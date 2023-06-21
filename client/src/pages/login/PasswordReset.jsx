@@ -113,13 +113,14 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import { useSearchParams } from "react-router-dom";
 const PasswordReset = () => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
+  let [searchParams, setSearchParams] = useSearchParams();
   const handleResetPassword = async () => {
     if (newPassword !== confirmPassword) {
       setError('Passwords do not match');
@@ -128,8 +129,7 @@ const PasswordReset = () => {
 
     try {
       // Send a request to the backend to update the password
-      await axios.post('/reset-password', { newPassword, confirmPassword });
-
+      await axios.post('http://localhost:3001/passwordReset/resetPassword',  { newPassword, confirmPassword , resetToken:searchParams.get("token")});
       // Clear the input fields and show success message
       setNewPassword('');
       setConfirmPassword('');
