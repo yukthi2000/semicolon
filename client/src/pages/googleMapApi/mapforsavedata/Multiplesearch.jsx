@@ -29,6 +29,9 @@ function Multiplesearch(props) {
   const [sedata, setSedata] = useState(["temp"]);
   const { startlocation } = props;
   const [switchclick, setswitchclick] = useState(false);
+  const [confirmed, setconfirmed] = useState(false);
+
+  const [optimizeRouteDisabled, setOptimizeRouteDisabled] = useState(false); // State variable for button disabled status
 
   const adddate = () => {
     setSedata([...sedata, data]);
@@ -67,6 +70,7 @@ function Multiplesearch(props) {
     //saveData(searchdata);
     props.sendlocations(searchdata);
     // props.optimizeroute(true);
+    setOptimizeRouteDisabled(true); // Disable the button
   }
 
   //Harshana
@@ -95,6 +99,21 @@ function Multiplesearch(props) {
           <Search placeholder={"Enter a location"} />
         </Box> */}
       {/* </Box> */}
+
+      {confirmed ? (
+        <div
+          className="blockvisibility"
+          style={{
+            backgroundColor: "rgba(23,23,23,0)",
+            width: "300px",
+            height: "400px",
+            zIndex: "999999999999",
+            position: "absolute",
+            left: "15px",
+            top: "80px",
+          }}
+        ></div>
+      ) : null}
       <Box>
         <Paper sx={{ width: 350, height: "90vh" }}>
           <Box className="upper">
@@ -147,14 +166,17 @@ function Multiplesearch(props) {
               </Box>
             ))}
           </Box>
+          {console.log(sedata.length)}
           <div className="confirm" style={{ marginLeft: 5 }}>
             <Switch
               defaultChecked={false}
               checkedChildren="Confirmed"
               unCheckedChildren="Confirmation"
               size="large"
+              disabled={searchdata.length <= 1 || confirmed}
               onClick={() => {
                 setswitchclick(!switchclick);
+                setconfirmed(!confirmed);
               }}
             />
           </div>
@@ -172,7 +194,6 @@ function Multiplesearch(props) {
                   },
                 }}
                 onClick={handleSuggest}
-                
               >
                 <AddLocationAltIcon sx={{ marginRight: 1 }} />
                 <Typography variant="h7" sx={{ color: "white" }}>
@@ -194,7 +215,7 @@ function Multiplesearch(props) {
                   },
                 }}
                 onClick={handleSave}
-                disabled={!switchclick}
+                disabled={!switchclick || optimizeRouteDisabled} // Disable the button if switch is not clicked or it's already clicked
               >
                 <RouteIcon sx={{ marginRight: 1 }} />
                 <Typography variant="h7" sx={{ color: "white" }}>
@@ -215,7 +236,6 @@ function Multiplesearch(props) {
                   "&:hover": {
                     background: "#EF7E2A", // Replace with your desired hover color
                   },
-                  
                 }}
               >
                 <ScoreIcon sx={{ marginRight: 1 }} />

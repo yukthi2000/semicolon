@@ -9,7 +9,7 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import DirectionsIcon from "@mui/icons-material/Directions";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import "./Searc.css";
 import Multiplesearch from "./Multiplesearch";
 import { PropTypes } from "prop-types";
@@ -23,6 +23,14 @@ import { Box } from "@mui/material";
 import axios from "axios";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { InfoWindowF } from "@react-google-maps/api";
+import {
+  NotificationContainer,
+  NotificationManager,
+} from "react-light-notifications";
+import "react-light-notifications/lib/main.css";
+import { useNavigate } from "react-router-dom";
+
+import Showtrips from "../ShowTrips/Showtrips";
 
 import usePlacesAutocomplete, {
   getGeocode,
@@ -87,6 +95,9 @@ export default function Tripplan(latlng, props) {
   const [issecondentered, setissecondentered] = React.useState(true);
   let indexloc = 0;
   const [currtripid, setcurrtripid] = useState();
+  const [confirmed, setconfirmed] = useState(false);
+
+  const navigate = useNavigate();
 
   const tripid = (data) => {
     console.log(data);
@@ -139,6 +150,15 @@ export default function Tripplan(latlng, props) {
   }, []);
 
   const recivelocations = (data) => {
+    NotificationManager.info({
+      title: "Trip saved",
+      message: "click here to show trips",
+      timeOut: "20000",
+      onClick: () => {
+        navigate("/userProfile/plannedTrip");
+      },
+    });
+
     console.log("recivelocations");
     console.log(data);
 
@@ -767,6 +787,8 @@ export default function Tripplan(latlng, props) {
           
         </div> */}
       </div>
+      <NotificationContainer />
+
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         zoom={7.5}
