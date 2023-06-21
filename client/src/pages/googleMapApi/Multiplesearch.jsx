@@ -49,6 +49,7 @@ function Multiplesearch(props) {
     setData(data);
   };
 
+  
   useEffect(() => {
     console.log(sedata);
     console.log(searchdata);
@@ -181,7 +182,7 @@ function Multiplesearch(props) {
                     borderTopRightRadius: 0,
                     borderBottomRightRadius: 0,
                     borderTop: 3,
-                    borderRight: 2,
+                    borderRight: 0.5,
                     background: isClicked ? "#EF7E2A" : "#8b8d8e",
                     color: "white",
                     "&:hover": {
@@ -207,7 +208,7 @@ function Multiplesearch(props) {
                     borderBottomLeftRadius: 0,
                     color: "white",
                     borderTop: 3,
-                    borderLeft: 2,
+                    borderLeft: 0.5,
                     background: isClicked2 ? "#EF7E2A" : "#8b8d8e",
                     "&:hover": {
                       background: "#EF7E2A", // Replace with your desired hover color

@@ -6,7 +6,7 @@ import "./Home.css";
 import Button from "@mui/material/Button";
 import Search from "./Search";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import weatherForecast from "../../assets/weatherForecast.jpg";
 import routeOptimize from "../../assets/routeOptimize.png";
 import Kabaragala from "../../assets/Kabaragala.jpg";
@@ -15,12 +15,10 @@ import pasikuda from "../../assets/pasikuda.jpg";
 import sigiriya from "../../assets/sigiriya.jpg";
 import airBallon from "../../assets/airBallon.png";
 import travelPack from "../../assets/travelPack.png";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../helpers/AuthContext";
+import { useContext } from "react";
 import abc from "../../assets/abc.jpg";
-
-
-
-
-
 
 import usePlacesAutocomplete, {
   getGeocode,
@@ -37,12 +35,16 @@ import {
 import "@reach/combobox/styles.css";
 import { height, width } from "@mui/system";
 import { HomeContext } from "../../Context/HomeContext";
+
 import ContactUs from "../ContactUs/ContactUs";
 
 const Home = () => {
   const [startlocation, setstartLocation] = React.useState([]);
   const [isLocationEntered, setIsLocationEntered] = React.useState(true);
   const sendlocations = () => {
+    if (authState.userType === "") {
+      navigate("/mapp");
+    }
     if (startlocation.length > 0) {
       axios
         .post("http://localhost:3000/googleMapApi", {
@@ -55,6 +57,21 @@ const Home = () => {
       setIsLocationEntered(false);
     }
   };
+
+  const { authState } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+  const initialValues = {
+    title: "",
+    postText: "",
+  };
+
+  useEffect(() => {
+    if (authState.userType === "") {
+      // navigate("/subscription");
+      setIsLocationEntered(true);
+    }
+  }, []);
 
   const setLocationstart = (data) => {
     setstartLocation(data);
@@ -112,9 +129,9 @@ const Home = () => {
         console.log(startlocation);
         //console.log(endlocation);
       })}
-      
+
       <div className="div-section">
-      <div className="Backgroung-img">
+        <div className="Backgroung-img">
           <img
             src={home}
             alt=""
@@ -242,228 +259,230 @@ const Home = () => {
             </div>
           )}
         </div>
-
       </div>
-        
-       <div className="div-section">
-       <div className="Features">
-            <div className="Features1">
-              {" "}
-              <img
-                src={Saly19}
-                alt=""
-                height="450px"
-                width="500px"
-                position="abosolute"
-              />
-            </div>
-            <div className="Features2">
-              FEATURES TO REPLACE ALL YOUR OTHER TOOLS
-              <div className="cards">
-                <div className="card">
-                  <section class="articles">
-                    <article>
-                      <div class="article-wrapper">
-                        <figure className="figure">
-                          <img
-                            src={routeOptimize}
-                            alt=""
-                            width="170px"
-                            height="100px"
-                          />
-                        </figure>
-                        <div class="article-body">
-                          <h4 className="Header-card">Route Optimization</h4>
-                          <p className="body-card">
-                            Perfect for road trips and saving $$$ on gas! Get
-                            the best route auto-rearranged.
-                          </p>
-                        </div>
+
+      <div className="div-section">
+        <div className="Features">
+          <div className="Features1">
+            {" "}
+            <img
+              src={Saly19}
+              alt=""
+              height="450px"
+              width="500px"
+              position="abosolute"
+            />
+          </div>
+          <div className="Features2">
+            FEATURES TO REPLACE ALL YOUR OTHER TOOLS
+            <div className="cards">
+              <div className="card">
+                <section class="articles">
+                  <article>
+                    <div class="article-wrapper">
+                      <figure className="figure">
+                        <img
+                          src={routeOptimize}
+                          alt=""
+                          width="170px"
+                          height="100px"
+                        />
+                      </figure>
+                      <div class="article-body">
+                        <h4 className="Header-card">Route Optimization</h4>
+                        <p className="body-card">
+                          Perfect for road trips and saving $$$ on gas! Get the
+                          best route auto-rearranged.
+                        </p>
                       </div>
-                    </article>
-                  </section>
-                </div>
-                <div className="card">
-                  <section class="articles">
-                    <article>
-                      <div class="article-wrapper">
-                        <figure className="figure">
-                          <img
-                            src={weatherForecast}
-                            alt=""
-                            width="170px"
-                            height="100px"
-                            left="5vh"
-                          />
-                        </figure>
-                        <div class="article-body">
-                          <h4 className="Header-card">Weather Forecast</h4>
-                          <p className="body-card">
-                            analysis of the state of the weather in an
-                            destination you travel...
-                          </p>
-                        </div>
-                      </div>
-                    </article>
-                  </section>
-                </div>
+                    </div>
+                  </article>
+                </section>
               </div>
-              <div className="cards">
-                <div className="card">
-                  <section class="articles">
-                    <article>
-                      <div class="article-wrapper">
-                        <figure className="figure">
-                          <img
-                            src={routeOptimize}
-                            alt=""
-                            width="170px"
-                            height="100px"
-                          />
-                        </figure>
-                        <div class="article-body">
-                          <h4 className="Header-card">Route Optimization</h4>
-                          <p className="body-card">
-                            Perfect for road trips and saving $$$ on gas! Get
-                            the best route auto-rearranged.
-                          </p>
-                        </div>
+              <div className="card">
+                <section class="articles">
+                  <article>
+                    <div class="article-wrapper">
+                      <figure className="figure">
+                        <img
+                          src={weatherForecast}
+                          alt=""
+                          width="170px"
+                          height="100px"
+                          left="5vh"
+                        />
+                      </figure>
+                      <div class="article-body">
+                        <h4 className="Header-card">Weather Forecast</h4>
+                        <p className="body-card">
+                          analysis of the state of the weather in an destination
+                          you travel...
+                        </p>
                       </div>
-                    </article>
-                  </section>
-                </div>
-                <div className="card">
-                  <section class="articles">
-                    <article>
-                      <div class="article-wrapper">
-                        <figure className="figure">
-                          <img
-                            src={weatherForecast}
-                            alt=""
-                            width="170px"
-                            height="100px"
-                            left="5vh"
-                          />
-                        </figure>
-                        <div class="article-body">
-                          <h4 className="Header-card">Weather Forecast</h4>
-                          <p className="body-card">
-                            analysis of the state of the weather in an
-                            destination you travel...
-                          </p>
-                        </div>
-                      </div>
-                    </article>
-                  </section>
-                </div>
+                    </div>
+                  </article>
+                </section>
               </div>
             </div>
+            <div className="cards">
+              <div className="card">
+                <section class="articles">
+                  <article>
+                    <div class="article-wrapper">
+                      <figure className="figure">
+                        <img
+                          src={routeOptimize}
+                          alt=""
+                          width="170px"
+                          height="100px"
+                        />
+                      </figure>
+                      <div class="article-body">
+                        <h4 className="Header-card">Route Optimization</h4>
+                        <p className="body-card">
+                          Perfect for road trips and saving $$$ on gas! Get the
+                          best route auto-rearranged.
+                        </p>
+                      </div>
+                    </div>
+                  </article>
+                </section>
+              </div>
+              <div className="card">
+                <section class="articles">
+                  <article>
+                    <div class="article-wrapper">
+                      <figure className="figure">
+                        <img
+                          src={weatherForecast}
+                          alt=""
+                          width="170px"
+                          height="100px"
+                          left="5vh"
+                        />
+                      </figure>
+                      <div class="article-body">
+                        <h4 className="Header-card">Weather Forecast</h4>
+                        <p className="body-card">
+                          analysis of the state of the weather in an destination
+                          you travel...
+                        </p>
+                      </div>
+                    </div>
+                  </article>
+                </section>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-       </div>
-       <div className="div-section">
-       <div className="Gallery">
-            <div className="Features2">Find popular destination...</div>
-           <br/><br/>
-            <div className="airBallon">
-              <img
-            src={airBallon}
-            alt=""
-            height="250px"
-            width="280px"
-          />
+      <div className="div-section">
+        <div className="Gallery">
+          <div className="Features2">Find popular destination...</div>
+          <br />
+          <br />
+          <div className="airBallon">
+            <img src={airBallon} alt="" height="250px" width="280px" />
+          </div>
+          <div className="image-gallery">
+            <div class="responsive">
+              <div class="gallery">
+                <a target="_blank">
+                  <img src={dunhinda} alt="Cinque Terre" />
+                </a>
+                <div class="desc">Dunhinda</div>
+              </div>
             </div>
-            <div className="image-gallery">
-              <div class="responsive">
-                <div class="gallery">
-                  <a target="_blank">
-                    <img src={dunhinda} alt="Cinque Terre" />
-                  </a>
-                  <div class="desc">Dunhinda</div>
-                </div>
-              </div>
 
-              <div class="responsive">
-                <div class="gallery">
-                  <a target="_blank">
-                    <img src={pasikuda} alt="Forest" />
-                  </a>
-                  <div class="desc">Pasikuda</div>
-                </div>
+            <div class="responsive">
+              <div class="gallery">
+                <a target="_blank">
+                  <img src={pasikuda} alt="Forest" />
+                </a>
+                <div class="desc">Pasikuda</div>
               </div>
-
-              <div class="responsive">
-                <div class="gallery">
-                  <a target="_blank">
-                    <img src={sigiriya} alt="Northern Lights" />
-                  </a>
-                  <div class="desc">Sigiriya</div>
-                </div>
-              </div>
-
-              <div class="responsive">
-                <div class="gallery">
-                  <a target="_blank">
-                    <img src={Kabaragala} alt="Mountains" />
-                  </a>
-                  <div class="desc">Kabaragala</div>
-                </div>
-              </div>
-              <div class="clearfix"></div>
             </div>
-            <div>
-              <br/><br/>
-              <Button
-                href="/gallery"
-                sx={{
-                  marginLeft: "auto",
-                  color: "white",
-                  backgroundColor: "#EF7E2A",
-                  borderRadius: "6px",
-                  left: "163vh",
-                  top: "5px",
-                  "&:hover": {
-                    backgroundColor: "white",
-                    color: "#EF7E2A",
-                  },
-                }}
-              >
-               More ...
-              </Button>
+
+            <div class="responsive">
+              <div class="gallery">
+                <a target="_blank">
+                  <img src={sigiriya} alt="Northern Lights" />
+                </a>
+                <div class="desc">Sigiriya</div>
+              </div>
             </div>
+
+            <div class="responsive">
+              <div class="gallery">
+                <a target="_blank">
+                  <img src={Kabaragala} alt="Mountains" />
+                </a>
+                <div class="desc">Kabaragala</div>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+          <div>
+            <br />
+            <br />
+            <Button
+              href="/gallery"
+              sx={{
+                marginLeft: "auto",
+                color: "white",
+                backgroundColor: "#EF7E2A",
+                borderRadius: "6px",
+                left: "163vh",
+                top: "5px",
+                "&:hover": {
+                  backgroundColor: "white",
+                  color: "#EF7E2A",
+                },
+              }}
+            >
+              More ...
+            </Button>
+          </div>
+        </div>
       </div>
-       </div>
-       <div  className="div-section">
+      <div className="div-section">
         <div className="contactUs">
           <div className="Features2">Feel free to ask anything from us ...</div>
           <div className="contact-us-body">
             <div className="col01">
               <div className="row01">
-              <p className="p-contUs">We value your connection and are eager to hear from you. JourneyJive, your trusted travel companion, 
-              is always just a message away. Whether you have questions, 
-              feedback, or simply want to share your travel stories, we're here to listen and assist.<br/>
-              Together, let's create meaningful memories and explore the world with JourneyJive.</p>
-
+                <p className="p-contUs">
+                  We value your connection and are eager to hear from you.
+                  JourneyJive, your trusted travel companion, is always just a
+                  message away. Whether you have questions, feedback, or simply
+                  want to share your travel stories, we're here to listen and
+                  assist.
+                  <br />
+                  Together, let's create meaningful memories and explore the
+                  world with JourneyJive.
+                </p>
               </div>
               <div className="row02">
-              <img
-            src={travelPack}
-            alt=""
-            height="520px"
-            width="740px"
-            position="relative"
-          />
+                <img
+                  src={travelPack}
+                  alt=""
+                  height="520px"
+                  width="740px"
+                  position="relative"
+                />
               </div>
             </div>
             <div className="col02">
-              <ContactUs/>
+              <ContactUs />
             </div>
-          </div>  
+          </div>
           <div className="footer">
-            <div className="footer-txt-div"><p className="footer-txt">© 2023 copy right JourneyJive.com</p></div>
+            <div className="footer-txt-div">
+              <p className="footer-txt">© 2023 copy right JourneyJive.com</p>
+            </div>
           </div>
         </div>
-       </div>
-
+      </div>
     </div>
   );
 };
