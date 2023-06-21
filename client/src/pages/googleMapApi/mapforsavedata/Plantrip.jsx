@@ -39,6 +39,7 @@ import {
 
 import { formatRelative } from "date-fns";
 import { Button } from "@mui/material";
+import GetCombinedScore from "../../weatherApi/WeatherScore/GetCombinedScore";
 // import SearchBox from "react-google-maps/lib/components/places/SearchBox";
 const heading = "kandy";
 const libraries = ["places"];
@@ -549,11 +550,11 @@ export default function Tripplan(latlng, props) {
   };
 
   //Harshana
-  const [dateinplantrip,setDateinplantrip] = useState("");
-  const dateforweather=(data)=>{
+  const [dateinplantrip, setDateinplantrip] = useState("");
+  const dateforweather = (data) => {
     setDateinplantrip(data);
   }
-  
+
   const [mapLocations, setMapLocations] = useState([]);
   const reciveSuggestlocations = (data) => {
     setMapLocations(data);
@@ -561,10 +562,12 @@ export default function Tripplan(latlng, props) {
   const [touristAttractions, setTouristAttractions] = useState([]);
 
   const [selectedPlace, setSelectedPlace] = useState(null);
- 
+
   const handleMarkerClick = (place) => {
     setSelectedPlace(place);
   };
+
+
 
   useEffect(() => {
     const geocoder = new window.google.maps.Geocoder();
@@ -625,8 +628,8 @@ export default function Tripplan(latlng, props) {
     return () => clearTimeout(timeout);
   }, []);
 
-  
   const renderMarkers = () => {
+
     return touristAttractions.map((attraction) => (
       <Marker
         key={attraction.place_id}
@@ -661,6 +664,41 @@ export default function Tripplan(latlng, props) {
       </Marker>
     ));
   };
+  
+  const[weatherScoreJson,setWeatherScoreJson]= useState([]);
+  const[ScoreDataFetched,setScoreDataFetched] = useState(false);
+  
+  const handleScoreArray = (childString) => {
+    setWeatherScoreJson(JSON.parse(childString));
+    setScoreDataFetched(true); 
+    //console.log(JSON.parse(childString));
+  };
+  
+  const [isClicked,setIsClicked]=useState(false) ;
+ const getScoreArray = () =>{
+  setIsClicked(true);
+}
+
+console.log('Changed string:', weatherScoreJson);
+const [selectedLocation, setSelectedLocation] = React.useState(null);
+const renderScoreInfoWindows = (locations) => {
+  return locations.map((location) => (
+    <InfoWindowF
+      key={location.tripID}
+      position={{ lat: location.lat, lng: location.lng }}
+      onCloseClick={() => setSelectedLocation(null)}
+      visible={selectedLocation === location}
+    >
+      <div>
+        <h2>{location.location}</h2>
+        <p>Temperature: {location.temperature}</p>
+        <p>Overall: {location.overall}</p>
+        <p>Score: {location.score}</p>
+      </div>
+    </InfoWindowF>
+  ));
+};
+
   //Harshana End
 
   const mapRef = React.useRef();
@@ -702,6 +740,14 @@ export default function Tripplan(latlng, props) {
 
   return (
     <>
+      <h1>jhdaks</h1>
+      <h1>jhdaks</h1>
+      <h1>jhdaks</h1>
+      <h1>jhdaks</h1>
+      
+      <button onClick={getScoreArray}>display Score</button>
+      
+      {isClicked && <GetCombinedScore tripID='62' onStringChange={handleScoreArray} /> }
       <div>
         <Header2 />
         <div
@@ -713,8 +759,8 @@ export default function Tripplan(latlng, props) {
           }}
         >
           {gobutton ? (
-            <Datafortrip gobuttonhandle={gobuttonhandle} 
-            dateforweather={dateforweather} />
+            <Datafortrip gobuttonhandle={gobuttonhandle}
+              dateforweather={dateforweather} />
           ) : (
             <div
               style={{
@@ -733,7 +779,7 @@ export default function Tripplan(latlng, props) {
                 indexsend={indexsend} // start location
                 sendSuggestlocations={reciveSuggestlocations}//Sugest Locations Harshana
                 dateinplantrip={dateinplantrip}
-                //optimizeroute={calculateRoute}
+              //optimizeroute={calculateRoute}
               />
             </div>
           )}
@@ -757,7 +803,9 @@ export default function Tripplan(latlng, props) {
         onClick={onMapClick}
         onLoad={onMapLoad}
       >
+        {isClicked && ScoreDataFetched && renderScoreInfoWindows(weatherScoreJson)} //weatherScore
         {renderMarkers()} //suggestLocations
+        
         {markers.map((marker) => (
           <Marker
             key={marker.time.toISOString()}

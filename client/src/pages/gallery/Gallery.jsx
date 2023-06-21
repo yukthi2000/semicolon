@@ -11,6 +11,8 @@ import NameToLatLng from '../weatherApi/WeatherScore/NameToLatLng';
 import WeatherScoreList from '../weatherApi/WeatherScore/WeatherScoreList';
 import WeatherScore from '../weatherApi/WeatherScore/TestScore';
 import CalculateWeatherScores from '../weatherApi/WeatherScore/CalculateWeatherScores';
+import PostWeatherScore from '../weatherApi/WeatherScore/PostWeatherScore';
+import GetCombinedScore from '../weatherApi/WeatherScore/GetCombinedScore';
 
 const Gallery = () => {
 
@@ -31,9 +33,23 @@ const Gallery = () => {
     'Sri Lanka, Nuwara Eliya, nuwara eliya bus stand'
   ];
 
-  // console.log(NameToLatLng({locations}));
-  const tripID= "252525"
+  const tripID= "444444"
 
+  // const p = JSON.parse(h);
+  //console.log(JSON.parse(h));
+  
+//   const [h,setH] = useState();
+//   const [p,setP] = useState([]); 
+// const handleclick=()=>{
+
+//   console.log(h)
+//   //setP(JSON.parse(h));
+//   console.log(p);
+
+const [s,setS] = useState(false)
+const handleClick = () => {
+  GetCombinedScore({tripID:'1'})
+};
   
 
   return (
@@ -42,7 +58,14 @@ const Gallery = () => {
       <br />
       <br /><br />
       <div className="gallerycontainer">
+        nsxam k
+        <button onClick={handleClick}>click me</button>
         
+        {/* <PostWeatherScore 
+        tripID = "3"
+        location = "matale"
+        score = {445.2} /> */}
+
         {/* <CalculateWeatherScores tripID = "252525"
         locationList = {locations}/> */}
         {/* <WeatherOptions
@@ -64,11 +87,11 @@ const Gallery = () => {
          locations = {locations}/> */}
 
        
-        <PostTripDayLocationList
+        {/* <PostTripDayLocationList
           locationList = {locations}
-          tripID="6699"
+          tripID="4"
           tripDate={tripDate}
-        />
+        /> */}
 
         {/* <MapForSuggest setMap={setMap} />
         {map && <TouristAttractions
@@ -86,6 +109,7 @@ const Gallery = () => {
           /> */}
         {/* <SLocations /> */}
 
+        
       </div>
 
     </div>

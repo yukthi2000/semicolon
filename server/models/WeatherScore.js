@@ -1,22 +1,19 @@
 module.exports = (sequelize, DataTypes) => {
-    const Locations = sequelize.define("Locations", {
-      id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-      },
-      name: {
+    const WeatherScore = sequelize.define("WeatherScore", {
+      tripID: {
         type: DataTypes.STRING,
-        allowNull: false,
-      }
+        primaryKey: true,
+    },
+    location: {
+        type: DataTypes.STRING,
+        primaryKey: true,
+    },
+    score: {
+      type: DataTypes.DOUBLE,
+      allowNull: false,
+    },
+
     });
-  
-    Locations.associate = (models) => {
-      Locations.belongsTo(models.Trip, {
-        foreignKey: 'tripId',
-        allowNull: false
-      });
-    };
-  
-    return Locations;
+
+    return WeatherScore;
   };

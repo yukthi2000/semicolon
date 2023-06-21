@@ -4,11 +4,11 @@ import React, { useEffect, useState } from "react";
 export default function CalculateWeatherScores(props) {
   const { locationList, tripID } = props;
 
-  const weatherScoreMap = locationList.map((item) => (
+  const weatherScoreMap = locationList.map((item, index) => (
     <WeatherScore
-    key={item.location}
-    location={item} // Pass the entire item object as the location prop
-    tripID={tripID}
+      key={index}
+      location={item} // Pass the entire item object as the location prop
+      tripID={tripID}
     />
   ));
 
@@ -16,7 +16,7 @@ export default function CalculateWeatherScores(props) {
 
   return <div>{weatherScoreMap}</div>;
 
-  
+
 }
 
 function WeatherScore(props) {
@@ -48,12 +48,6 @@ function WeatherScore(props) {
 
     fetchData();
   }, [tripID, location]);
-
-  useEffect(() => {
-    // console.log(weatherOptionsData);
-    // console.log(actualWeatherData);
-    CalculateFinalScore();
-  }, [weatherOptionsData, actualWeatherData]);
 
   const CalculateOverallScore = () => {
     let score = null;
@@ -109,16 +103,80 @@ function WeatherScore(props) {
     }
     return score;
   };
+ 
+ const [isScorePosted, setIsScorePosted] = useState(false);
 
-  const CalculateFinalScore = () => {
-    let fScore = (CalculateOverallScore() + CalculateTempScore() + CalculateWindScore()) / 3;
-    setFinalScore(fScore.toFixed(2));
+
+ useEffect(() => {
+  const overallScore = CalculateOverallScore();
+  const tempScore = CalculateTempScore();
+  const windScore = CalculateWindScore();
+
+  const fScore = (overallScore + tempScore + windScore) / 3;
+  setFinalScore(fScore.toFixed(2));
+
+  if (finalScore && !isScorePosted) {
+    PostData(tripID, location, finalScore);
+    setIsScorePosted(true);
+  } else if (finalScore && isScorePosted) {
+    UpdateData(tripID, location, finalScore);
+  }
+}, [weatherOptionsData, actualWeatherData]);
+
+
+  // useEffect(() => {
+  //   if (finalScore && !isScorePosted) {
+  //     PostData(tripID, location, finalScore);
+  //     setIsScorePosted(true);
+  //   } else {
+  //     UpdateData(tripID, location, finalScore);
+  //   }
+  // }, [finalScore, isScorePosted]);
+  
+
+
+  const UpdateData = async (tripID, location, score) => {
+    try {
+      const postData = {
+        tripID: tripID,
+        location: location,
+        score: score,
+      };
+      await axios.put(`http://localhost:3001/WeatherScore/${tripID}/${location}`, postData);
+      console.log('WeatherScore entry updated successfully.');
+    }
+    catch (error) {
+      console.error('Error creating/updating WeatherScore entry:', error);
+    }
+  }
+
+  // useEffect(() => {
+  //   if (ScorePosted) {
+  //     UpdateData(tripID, location, finalScore);
+  //   }
+  // }, [ScorePosted])
+
+  const PostData = async (tripID, location, score) => {
+    try {
+      const postData = {
+        tripID: tripID,
+        location: location,
+        score: score,
+      };
+      await axios.post("http://localhost:3001/WeatherScore", postData);
+      console.log("WeatherScore entry created successfully.");
+      setIsScorePosted(true);
+    } catch (error) {
+      console.error("Error creating/updating WeatherScore entry:", error);
+      // Handle error response from the server
+    }
   };
+  
 
   return (
-    <div>
-      <p>Location: {location}</p>
-      <p>Final Score: {finalScore}</p>
-    </div>
+    <>
+      {/* <p>{location}</p>
+      <p>{finalScore}</p> */}
+    </>
   );
 }

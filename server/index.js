@@ -28,6 +28,9 @@ app.use("/WeatherOptions", weatherOptionsRouter);
 const tripDayWeatherRouter = require('./routes/TripDayWeather')
 app.use("/TripDayWeather", tripDayWeatherRouter);
 
+const weatherScoreRouter = require('./routes/WeatherScore')
+app.use("/WeatherScore", weatherScoreRouter);
+
 db.sequelize.sync().then(() => {
   app.listen(3001, () => {
     console.log("server is running");

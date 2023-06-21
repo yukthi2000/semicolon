@@ -73,7 +73,7 @@ function Multiplesearch(props) {
 
   //for weather
   const tripDate = new Date(props.dateinplantrip);
-  const tripID = '889977'
+  const tripID = '62'
 
   function handleSuggest() {
     props.sendSuggestlocations(searchdata);
@@ -84,11 +84,7 @@ function Multiplesearch(props) {
     //console.log(searchdata);
     setPostToggle(true);
   }
-  const [ScoreToggle, setScoreToggle] = useState(false);
-  function handleWeatherScore() {
-    console.log("score wada");
-    setScoreToggle(true);
-  }
+
   //Harshana End
 
   function saveData(data) {
@@ -222,10 +218,6 @@ function Multiplesearch(props) {
           tripDate={tripDate}
         />
       }
-        <WeatherScoreList
-          tripID={tripID}
-          locationList={searchdata}
-        />
       
 
     </Box>
