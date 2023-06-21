@@ -127,6 +127,42 @@ export default function WeatherOptions(props) {
         }
     };
 
+    const handleUpdate = async () => {
+        try {
+            const updatedData = {
+                "sunny": checkboxValues.sunny,
+                "cloudy": checkboxValues.cloudy,
+                "rain": checkboxValues.rain,
+                "thunder": checkboxValues.thunder,
+                "storm": checkboxValues.storm,
+                "exHot": checkboxValues.exHot,
+                "hot": checkboxValues.hot,
+                "averageT": checkboxValues.averageT,
+                "cold": checkboxValues.cold,
+                "exCold": checkboxValues.exCold,
+                "heavyW": checkboxValues.heavyW,
+                "averageW": checkboxValues.averageW,
+                "slightW": checkboxValues.slightW
+            };
+    
+            // Send the PUT request to the backend server
+            const response = await axios.put(`http://localhost:3001/WeatherOptions/${props.tripID}`, updatedData);
+    
+            // Handle the response from the server
+            console.log(response.data); // Assuming the server sends a success message
+            setSuccessMsg("Updated Successfully!");
+            setsuccERRclass("weather-options-suc-text");
+            setSuccessToggle(true);
+    
+        } catch (error) {
+            console.error('Error updating WeatherOptions:', error);
+            // Handle error response from the server
+            setSuccessMsg("Something went wrong. Try again!")
+            setsuccERRclass("weather-options-err-text")
+        }
+    };
+    
+
     const tripID = props.tripID;
 
     return (
@@ -169,7 +205,7 @@ export default function WeatherOptions(props) {
 
                     <Formik
                         initialValues={initialValues}
-                        onSubmit={handleSubmit}
+                        onSubmit={(!successToggle)?handleSubmit:handleUpdate}
                     >
 
                         <Form>

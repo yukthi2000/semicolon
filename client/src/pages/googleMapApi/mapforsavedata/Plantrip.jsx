@@ -791,7 +791,7 @@ export default function Tripplan(latlng, props) {
 
       <button onClick={getScoreArray}>{SocreButtonTxt}</button>
 
-      {isClicked && <GetCombinedScore tripID='91' onStringChange={handleScoreArray} />}
+      {isClicked && <GetCombinedScore tripID='92' onStringChange={handleScoreArray} />}
       <div>
         <Header2 />
         <div
