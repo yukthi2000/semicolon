@@ -4,17 +4,12 @@ import { useNavigate } from "react-router-dom";
 import HomePageLinkIcon from "../../componets/HomePageLinkIcon";
 import A from "../../assets/A.jpg";
 import { AuthContext } from "../../helpers/AuthContext";
-import ReCAPTCHA from 'react-google-recaptcha';
-
-
-
 
 const Login = () => {
    // Define email and password as state variables.
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const {setAuthState}= useContext(AuthContext);
-
   const history = useNavigate();
 
   const login = () => {
@@ -29,11 +24,16 @@ const Login = () => {
         email: response.data.email, 
         id:response.data.id, 
         name: response.data.name,
+        userType:response.data.userType,
         status: true,})
         console.log(response.data)
-        history("/");
+        if (response.data.userType === "public") {
+          history("/");
+        } else if (response.data.userType === "superAdmin" || response.data.userType === "admin") {
+          history(`/admin/${response.data.id}`);
       }
-    });
+    
+  }});
   };
 
   return (

@@ -13,6 +13,14 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
           },
+          contactNo: {
+            type: DataTypes.STRING,
+            allowNull: true,
+          },
+          userType: {
+            type: DataTypes.STRING,
+            allowNull: true,
+          },
           resetToken: {
             type: DataTypes.STRING,
             allowNull: true,
@@ -25,7 +33,6 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.BLOB('long'),
             allowNull: true,
           },
-        
 
     });
   

@@ -202,3 +202,32 @@ background-color: azure;
 .proInfo{
   margin-top: 35vh;
 }
+
+
+/*user profile - review*/
+
+.reviewCard{
+  background-color: rgb(236, 255, 239);
+  width: 147vh;
+  height: auto;
+  margin: 2vh;
+  border-radius: 5px;
+  padding: 4vh;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.delete-icon{
+  margin-left: 137vh;
+}
+
+.edit-profile-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  background-color: white;
+  width: 400px;
+  padding: 20px;
+  margin: 0 auto;
+  margin-top: 100px;
+}

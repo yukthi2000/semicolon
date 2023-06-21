@@ -26,8 +26,9 @@ export default function UserGallery() {
 
   return (
     <div>
-      <UploadForm />
-      <Gallery images={images} />
+      upload images
+      {/* <UploadForm />
+      <Gallery images={images} /> */}
     </div>
   );
 }

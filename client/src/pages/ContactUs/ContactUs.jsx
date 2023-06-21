@@ -1,5 +1,6 @@
 import "./ContactUs.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
 
 const ContactUs = () => {
   const [status, setStatus] = useState("Send");

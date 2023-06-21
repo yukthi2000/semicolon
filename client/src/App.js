@@ -30,11 +30,11 @@ import Avatar from "@mui/material/Avatar";
 import { useNavigate } from "react-router-dom";
 import ContactUs from "./pages/ContactUs/ContactUs";
 
-
 const App = () => {
   const [authState, setAuthState] = useState({
     name: "",
     email: "",
+    userType: "",
     id: 0,
     status: false,
   });
@@ -55,6 +55,7 @@ const App = () => {
             name: response.data.name,
             email: response.data.email,
             id: response.data.id,
+            userType: response.data.userType,
             status: true,
           });
         }
@@ -72,6 +73,7 @@ const App = () => {
     setAuthState({
       name: "",
       email: "",
+      userType: "",
       id: 0,
       status: false,
     });
@@ -93,9 +95,9 @@ const App = () => {
   };
 
   useEffect(() => {
-    document.addEventListener('click', handleOutsideClick);
+    document.addEventListener("click", handleOutsideClick);
     return () => {
-      document.removeEventListener('click', handleOutsideClick);
+      document.removeEventListener("click", handleOutsideClick);
     };
   }, []);
 
@@ -136,7 +138,7 @@ const App = () => {
                       borderRadius: "6px",
                       left: "95vh",
                       top: "5px",
-                      
+
                       "&:hover": {
                         backgroundColor: "white",
                         color: "#EF7E2A",
@@ -188,8 +190,24 @@ const App = () => {
                         onClick={handleOutsideClick}
                       >
                         <h4 className="Name">{authState.name}</h4>
-                        <a className="view-profile" href={`userProfile/${authState.id}`}>View Profile</a>
-                        <button className="logout-button" onClick={logout}>Logout</button>
+                        {authState.userType === "public" ? (
+                          <a
+                            className="view-profile"
+                            href={`userProfile/${authState.id}`}
+                          >
+                            View Profile
+                          </a>
+                        ) : (
+                          <a
+                            className="view-profile"
+                            href={`admin/${authState.id}`}
+                          >
+                            Admin page
+                          </a>
+                        )}
+                        <button className="logout-button" onClick={logout}>
+                          Logout
+                        </button>
                       </div>
                     )}
                   </div>
@@ -219,13 +237,13 @@ const App = () => {
           <Route path="mapp" element={<Mapmore />} />
           <Route path="mapp/Tripplan" element={<Tripplan />} />
           <Route path="/contactUs" element={<ContactUs />} />
-         
+
           <Route path="userProfile/:id" element={<UserProfile />}>
             <Route path="" element={<UserGallery />} />
             <Route path="review" element={<UserReview />} />
             <Route path="plannedTrip" element={<PlannedTrip />} />
-            </Route>
-          <Route path="admin" element={<Admin />}>
+          </Route>
+          <Route path="admin/:id" element={<Admin />}>
             <Route path="" element={<Dashboard />} />
             <Route path="gallery-view" element={<GalleryView />} />
             <Route path="reviews-view" element={<ReviewsView />} />

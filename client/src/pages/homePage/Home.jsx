@@ -15,7 +15,7 @@ import pasikuda from "../../assets/pasikuda.jpg";
 import sigiriya from "../../assets/sigiriya.jpg";
 import airBallon from "../../assets/airBallon.png";
 import travelPack from "../../assets/travelPack.png";
-import abc from "../../assets/abc.jpg";
+
 
 
 

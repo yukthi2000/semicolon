@@ -42,6 +42,7 @@ const Header2 = () => {
       sx={{
         backgroundColor: "rgb(7, 94, 26)",
         borderBottom: "1px solid green",
+        height:"9vh"
         
         // backdropFilter: "blur(0px)",
       }}

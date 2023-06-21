@@ -51,3 +51,15 @@ module.exports = router;
 //   await Ratings.create(post);
 //   res.json(post);
 // });
+
+
+ //no of users display in Admin module
+ router.get("/trip-count", async (req, res) => {
+  try {
+    const count = await Trip.count();
+    res.json({ count });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "An error occurred while counting users" });
+  }
+});
