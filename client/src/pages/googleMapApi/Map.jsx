@@ -21,6 +21,10 @@ import { Box } from "@mui/material";
 import axios from "axios";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { styled } from "@mui/system";
+import { AuthContext } from "../../helpers/AuthContext";
+import { useNavigate } from "react-router-dom";
+
+// import { useContext } from "react";
 
 import usePlacesAutocomplete, {
   getGeocode,
@@ -117,6 +121,35 @@ export default function Map(latlng, props) {
   const [issecondentered, setissecondentered] = React.useState(true);
   let indexloc = 0;
   const [currstatus, setcurrstatus] = React.useState();
+  // const [isLoadingMap, setIsLoadingMap] = useState(true);
+  const [mapKey, setMapKey] = useState(0);
+  const [directionsRenderer, setDirectionsRenderer] = useState(null);
+
+  let isLoadingMap;
+
+  const resetMap = () => {
+    isLoadingMap = true;
+    console.log(isLoadingMap);
+    setTimeout(() => {
+      setMapKey((prevKey) => prevKey + 1);
+      isLoadingMap = false;
+      console.log(isLoadingMap);
+    }, 1000);
+  };
+
+  const { authState } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+  const initialValues = {
+    title: "",
+    postText: "",
+  };
+
+  function CleareRoute() {
+    SetdirectionResponse(null);
+    setFirstAndLastSearchData([]);
+    setSearchDataWithoutFirstAndLast([]);
+  }
 
   const onmarkk = (data) => {
     console.log("dadfa");
@@ -188,8 +221,13 @@ export default function Map(latlng, props) {
     // Setnewarrat();
     // Reroute();
     if (currstatus === "normal") {
+      // resetMap();
       calculateRoute();
     } else if (currstatus === "optimize") {
+      // if (authState.userType === "public") {
+      //   navigate("/subscription");
+      // }
+      // resetMap();
       Setnewarrat();
       Reroute();
     }
@@ -329,8 +367,31 @@ export default function Map(latlng, props) {
   };
   //Harshana End
 
+  //Dummy function to reset route
+
   //function to calculate route
   async function calculateRoute() {
+    // console.log("calculateRoute start");
+    // if (
+    //   firstAndLastSearchData[0] == firstAndLastSearchData[1] &&
+    //   searchDataWithoutFirstAndLast[0] == null
+    // ) {
+    //   console.log("Missing origin or destination");
+    //   return;
+    // }
+
+    // //eslint-disable-next-line  no-undef
+    // const directionServices = new google.maps.DirectionsService();
+    // const results = await directionServices.route({
+    //   origin: "",
+    //   destination:  "",
+    //   waypoints:  "",
+    //   //eslint-disable-next-line  no-undef
+    //   travelMode: google.maps.TravelMode.DRIVING,
+    // });
+    // SetdirectionResponse(results);
+    // console.log("directionResponse", directionResponse);
+
     console.log("calculateRoute start");
     if (
       firstAndLastSearchData[0] == firstAndLastSearchData[1] &&
@@ -340,6 +401,9 @@ export default function Map(latlng, props) {
       return;
     }
 
+    if (directionsRenderer) {
+      directionsRenderer.setMap(null);
+    }
     //eslint-disable-next-line  no-undef
     const directionService = new google.maps.DirectionsService();
     const result = await directionService.route({
@@ -351,7 +415,11 @@ export default function Map(latlng, props) {
       //eslint-disable-next-line  no-undef
       travelMode: google.maps.TravelMode.DRIVING,
     });
-    SetdirectionResponse(result);
+    //eslint-disable-next-line  no-undef
+   const newDirectionsRenderer = new google.maps.DirectionsRenderer();
+    newDirectionsRenderer.setDirections(result);
+    newDirectionsRenderer.setMap(mapRef.current);
+    setDirectionsRenderer(newDirectionsRenderer);
     console.log("directionResponse", directionResponse);
 
     const routedetails = result.routes[0].legs.reduce(
@@ -480,6 +548,10 @@ export default function Map(latlng, props) {
     console.log(arrangedmiddlelocations);
     console.log(newLocations[size - 1]);
 
+    if (directionsRenderer) {
+      directionsRenderer.setMap(null);
+    }
+
     //eslint-disable-next-line  no-undef
     const directionService = new google.maps.DirectionsService();
     const result = await directionService.route({
@@ -491,7 +563,12 @@ export default function Map(latlng, props) {
       //eslint-disable-next-line  no-undef
       travelMode: google.maps.TravelMode.DRIVING,
     });
-    SetdirectionResponse(result);
+     //eslint-disable-next-line  no-undef
+     const newDirectionsRenderer = new google.maps.DirectionsRenderer();
+     newDirectionsRenderer.setDirections(result);
+     newDirectionsRenderer.setMap(mapRef.current);
+     setDirectionsRenderer(newDirectionsRenderer);
+     console.log("directionResponse", directionResponse);
     console.log("directionResponse", directionResponse);
 
     const routedetails = result.routes[0].legs.reduce(
@@ -772,7 +849,7 @@ export default function Map(latlng, props) {
   }, []);
 
   const mapRef = React.useRef();
-  
+
   const onMapLoad = React.useCallback((map) => {
     setloading(!loading);
     mapRef.current = map;
@@ -882,6 +959,7 @@ export default function Map(latlng, props) {
         options={options}
         //onClick={onMapClick}
         onLoad={onMapLoad}
+        // key={isLoadingMap ? 1 : 0}
       >
         {renderMarkers()}
         {markers.map((marker) => (
@@ -896,18 +974,9 @@ export default function Map(latlng, props) {
             // }}
           />
         ))}
-        {directionResponse && (
-          <DirectionsRenderer
-            options={{
-              polylineOptions: {
-                strokeColor: "#0000FF",
-                strokeOpacity: 0.7,
-                strokeWeight: 4,
-              },
-            }}
-            directions={directionResponse}
-          />
-        )}
+        {directionsRenderer && <DirectionsRenderer directions={directionsRenderer.directions} />}
+
+
         {selected ? (
           <InfoWindow position={{ lat: selected.lat, lng: selected.lng }}>
             <div>
