@@ -2,8 +2,8 @@ module.exports = (sequelize, DataTypes) => {
     const WeatherOptions = sequelize.define("WeatherOptions", {
         tripID: {
             type: DataTypes.INTEGER,
-            allowNull: false,
             primaryKey: true,
+            autoIncrement: true,
         },
         sunny: {
             type: DataTypes.BOOLEAN,

@@ -89,11 +89,12 @@ export default function WeatherOptions(props) {
 
     const [successMsg, setSuccessMsg] = useState("Select atleast one option from each group.");
     const [succERRclass, setsuccERRclass] = useState("weather-options-ins-text1");
+
+    const [tripID, setTripID] = useState(null);
+
     const handleSubmit = async (event) => {
         try {
             const PostData = {
-
-                "tripID": props.tripID,
                 "sunny": checkboxValues.sunny,
                 "cloudy": checkboxValues.cloudy,
                 "rain": checkboxValues.rain,
@@ -113,7 +114,9 @@ export default function WeatherOptions(props) {
             const response = await axios.post("http://localhost:3001/WeatherOptions", PostData);
 
             // Handle the response from the server
-            console.log(response.PostData); // Assuming the server sends a success message
+            console.log(response.data.tripID);// Assuming the server sends a success message
+            setTripID(response.data.tripID);
+            props.ChildTripID(response.data.tripID)
             setSuccessMsg("Applied Successfully!");
             setsuccERRclass("weather-options-suc-text");
             setSuccessToggle(true);
@@ -130,6 +133,7 @@ export default function WeatherOptions(props) {
     const handleUpdate = async () => {
         try {
             const updatedData = {
+                "tripID":tripID,
                 "sunny": checkboxValues.sunny,
                 "cloudy": checkboxValues.cloudy,
                 "rain": checkboxValues.rain,
@@ -146,7 +150,7 @@ export default function WeatherOptions(props) {
             };
     
             // Send the PUT request to the backend server
-            const response = await axios.put(`http://localhost:3001/WeatherOptions/${props.tripID}`, updatedData);
+            const response = await axios.put(`http://localhost:3001/WeatherOptions/${tripID}`, updatedData);
     
             // Handle the response from the server
             console.log(response.data); // Assuming the server sends a success message
@@ -161,9 +165,6 @@ export default function WeatherOptions(props) {
             setsuccERRclass("weather-options-err-text")
         }
     };
-    
-
-    const tripID = props.tripID;
 
     return (
         <div>

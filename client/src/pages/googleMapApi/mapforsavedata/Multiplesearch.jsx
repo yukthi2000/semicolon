@@ -80,7 +80,7 @@ function Multiplesearch(props) {
 
   //for weather
   const tripDate = new Date(props.dateinplantrip);
-  const tripID = 7;
+  const tripID = props.tripID;
 
   const [SuggestButtonTxt, setSuggestButtonTxt] = useState("Show Suggestions");
   function handleSuggest() {

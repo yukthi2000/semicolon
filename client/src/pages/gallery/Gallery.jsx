@@ -15,6 +15,7 @@ import PostWeatherScore from '../weatherApi/WeatherScore/PostWeatherScore';
 import ForecastScore from '../weatherApi/ForcastScore';
 // import GetCombinedScore from '../weatherApi/WeatherScore/GetCombinedScore';
 // import LatLngToName from '../weatherApi/WeatherScore/LatLngToName';
+import ForecastToday from '../weatherApi/ForecastToday';
 
 const Gallery = () => {
 
@@ -76,7 +77,7 @@ const city = 'Matale';
 
         /> */}
         {/* <WeatherOptions tripID={5}/> */}
-        <ForecastScore
+        <ForecastToday
     currentCity={city}
     tripDate={tripDate}
     Globalfunc={pull_newGlobalLocation} //passing location function

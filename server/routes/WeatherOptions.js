@@ -14,10 +14,10 @@ router.get("/:tripID", async (req, res) => {
   });
   
 
-router.post("/", async (req,res)=>{
+  router.post("/", async (req,res)=>{
     const weatherOptions = req.body;
-    await WeatherOptions.create(weatherOptions);
-    res.json(weatherOptions);
+    const createdWeatherOptions = await WeatherOptions.create(weatherOptions);
+    res.json({ tripID: createdWeatherOptions.tripID });
 });
 
 router.put("/:tripID", async (req, res) => {

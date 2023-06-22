@@ -110,6 +110,11 @@ export default function Tripplan(latlng, props) {
     setcurrtripid(data);
   };
 
+  const [tripID, setTripID] = useState(null);
+  const handleTripID = (data) =>{
+    setTripID(data);
+  }
+
   //location indexes
 
   const indexsend = (data) => {
@@ -899,7 +904,7 @@ export default function Tripplan(latlng, props) {
           sendOpenToParent={forecastVisibility}
         />
       )}
-      {isClicked && <GetCombinedScore tripID={6} onStringChange={handleScoreArray} />}
+      {isClicked && <GetCombinedScore tripID={tripID} onStringChange={handleScoreArray} />}
       <div>
         <Header2 />
         <div
@@ -911,8 +916,10 @@ export default function Tripplan(latlng, props) {
           }}
         >
           {gobutton ? (
-            <Datafortrip gobuttonhandle={gobuttonhandle}
-              dateforweather={dateforweather} />
+            <Datafortrip 
+            gobuttonhandle={gobuttonhandle}
+              dateforweather={dateforweather}
+              onDataForTripID={handleTripID} />
           ) : (
             <div
               style={{
@@ -933,6 +940,7 @@ export default function Tripplan(latlng, props) {
                 sendMarkerVisibility={MarkerVisiibility}
                 sendScoreVisibility={ScoreVisiibility}
                 dateinplantrip={dateinplantrip}
+                tripID={tripID}
               //optimizeroute={calculateRoute}
               />
             </div>
@@ -1051,16 +1059,6 @@ export default function Tripplan(latlng, props) {
             boxShadow: "0 0 0 2px #f8d7da",
           }}
         >
-          <p
-            style={{
-              background: "none",
-              border: "none",
-              color: "red",
-              zIndex: 9999,
-            }}
-          >
-            Please enter Destinations. {console.log("fsDFad")}
-          </p>
         </div>
       )}
       {/* <button onClick={getScoreArray}>{SocreButtonTxt}</button> */}

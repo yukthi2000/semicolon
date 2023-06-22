@@ -32,7 +32,7 @@ import { addDays, subDays } from "date-fns";
 // import { AuthContext } from "../../helpers/AuthContext";
 
 const Datafortrip = (prop) => {
-  const tripID = 7 ; //demonstrarton
+  const [tripID,setTripID] = useState(null) ; //demonstrarton
   const currentDate = new Date();
   const minDate = currentDate; // Current date
   const maxDate = addDays(currentDate, 30); // max date (30+ days)
@@ -100,7 +100,7 @@ const Datafortrip = (prop) => {
   // }, [authState.userType, navigate]);
 
   const submitthandle = (data) => {
-    if (!selectedDate || !weather || !vehicle) {
+    if (!selectedDate || !weather) {
       setShowError(true);
       return;
     }
@@ -114,17 +114,17 @@ const Datafortrip = (prop) => {
     // Update the date property with the formatted date
     data.date = formattedDate;
     console.log(data);
-    // axios
-    //   .post("http://localhost:3001/Trips/tripdata", data, {
-    //     headers: { accessToken: localStorage.getItem("accessToken") },
-    //   })
-    //   .then((res) => {
-    //     const tripId = res.data.tripId;
-    //     prop.tripid(tripId);
+    axios
+      .post("http://localhost:3001/Trips/tripdata", data, {
+        headers: { accessToken: localStorage.getItem("accessToken") },
+      })
+      .then((res) => {
+        const tripId = res.data.tripId;
+        prop.tripid(tripId);
 
 
-    //     //error fetching
-    //   });
+        //error fetching
+      });
   };
 
   // const onSubmit = (data) => {
@@ -158,7 +158,13 @@ const Datafortrip = (prop) => {
     console.log(date);
   };
 
-  const [weatherDate, setWeatherDate] = useState("2023-06-15");
+
+  const handleTripId = (data) => {
+    setTripID(data);
+    prop.onDataForTripID(data);
+  };
+
+  //const [weatherDate, setWeatherDate] = useState("2023-06-15");
 
   // useEffect(() => {
 
@@ -188,20 +194,8 @@ const Datafortrip = (prop) => {
               flexDirection: "column",
 
               borderRadius: "5px",
-              height: {
-                xs: "60%",
-                sm: "60%",
-                md: "80%",
-                lg: "55%",
-                xl: "55%",
-              },
-              width: {
-                xs: "50%",
-                sm: "50%",
-                md: "35%",
-                lg: "35%",
-                xl: "35%",
-              },
+              height: 300,
+              width: 500,
             }}
           >
             <div
@@ -263,11 +257,11 @@ const Datafortrip = (prop) => {
               </Typography>
               <div>
                 <div>
-                  <WeatherOptions tripID = {tripID}/>
+                  <WeatherOptions ChildTripID={handleTripId}/>
                 </div>
               </div>
             </div>
-            <div className="vehicle">
+            {/* <div className="vehicle">
               <Typography
                 variant="h6"
                 sx={{ paddingRight: 12, color: "#EF7E2A" }}
@@ -311,7 +305,7 @@ const Datafortrip = (prop) => {
                   </FormControl>
                 </div>
               </div>
-            </div>
+            </div> */}
             {gobutton ? (
               <div
                 style={{
@@ -339,6 +333,7 @@ const Datafortrip = (prop) => {
                   display: "flex",
                   justifyContent: "center",
                   paddingTop: 30,
+                  marginBottom:10
                 }}
               >
                 <Button
@@ -356,7 +351,7 @@ const Datafortrip = (prop) => {
                 </Button>
               </div>
             )}
-            {showError && (!selectedDate || !weather || !vehicle) && (
+            {showError && (!selectedDate || !tripID) && (
               <Typography variant="body1" color="error">
                 Please fill in all fields.
               </Typography>

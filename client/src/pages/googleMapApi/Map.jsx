@@ -344,23 +344,43 @@ export default function Map(latlng, props) {
       >
         {selectedPlace && selectedPlace.place_id === attraction.place_id && (
           <InfoWindowF
-            position={{
-              lat: selectedPlace.geometry.location.lat(),
-              lng: selectedPlace.geometry.location.lng(),
-            }}
-            onCloseClick={() => setSelectedPlace(null)}
-          >
-            <div>
-              <img
-                src={selectedPlace.icon}
-                alt="Place Icon"
-                style={{ width: "20px", height: "20px", margin: "8px" }}
-              />
-              <span style={{ fontWeight: 500, fontFamily: "poppins" }}>
+          position={{
+            lat: selectedPlace.geometry.location.lat(),
+            lng: selectedPlace.geometry.location.lng(),
+          }}
+          onCloseClick={() => setSelectedPlace(null)}
+        >
+          <div className="suggested-container">
+            <div className="suggested-heading">
+              <div className="suggested-ico">
+                <img
+                  src={selectedPlace.icon}
+                  alt="Place Icon"
+                />
+              </div>
+              <div className="suggested-name">
                 {selectedPlace.name}
-              </span>
+              </div>
             </div>
-          </InfoWindowF>
+            <div className="suggested-body">
+              <div className="vicinity">{selectedPlace.vicinity}</div>
+              {selectedPlace.rating && (
+                <div className="Rating">
+                  <span className="txt-raiting">Rating :</span><span className="raiting"> {selectedPlace.rating} / 5</span>
+                </div>
+              )}
+              <div className="suggested-img">
+
+                {selectedPlace.photos && selectedPlace.photos.length > 0 && (
+                  <img
+                    src={selectedPlace.photos[0].getUrl()}
+                    alt="Place Photo"
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+        </InfoWindowF>
         )}
       </Marker>
     ));

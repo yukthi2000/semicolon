@@ -16,6 +16,7 @@ import Forecast from "../weatherApi/Forecast";
 import axios from "axios";
 import ScoreIcon from "@mui/icons-material/Score";
 import CardTravelIcon from '@mui/icons-material/CardTravel';
+import ForecastToday from "../weatherApi/ForecastToday";
 
 function Multiplesearch(props) {
   // const Searchplan = !prop.Searchplan;
@@ -50,7 +51,7 @@ function Multiplesearch(props) {
     setData(data);
   };
 
-  
+
   useEffect(() => {
     console.log(sedata);
     console.log(searchdata);
@@ -119,15 +120,15 @@ function Multiplesearch(props) {
       {/* </Box> */}
       <Box>
         <Paper sx={{ width: 350, height: "90vh" }}>
-        <Box className="upper">
+          <Box className="upper">
             <Typography
               variant="h5"
-              sx={{ color: "white", fontFamily: "Montserrat",fontWeight: 500 }}
+              sx={{ color: "white", fontFamily: "Montserrat", fontWeight: 500 }}
 
             >
               {" "}
-              <CardTravelIcon  sx={{ width: 50, height: 30 }}/>
-              Happy Journey 
+              <CardTravelIcon sx={{ width: 50, height: 30 }} />
+              Happy Journey
             </Typography>
           </Box>
           <Box className="searcharea">
@@ -246,30 +247,10 @@ function Multiplesearch(props) {
                 </Typography>
               </Button>
             </Box>
-            <Box className="but4" style={{ paddingBottom: 0 }}>
-              <Button
-                variant="elevated"
-                sx={{
-                  width: 220,
-                  color: "white",
-                  borderBottom: 3,
-                  background: "#8b8d8e",
-                  "&:hover": {
-                    background: "#EF7E2A", // Replace with your desired hover color
-                  },
-                }}
-              >
-                <ScoreIcon sx={{ marginRight: 1 }} />
-                <Typography variant="h7" sx={{ color: "white" }}>
-                  {" "}
-                  Weather Score
-                </Typography>
-              </Button>
-            </Box>
+
             <Box className="but3" style={{ paddingBottom: 0 }}>
-              <Forecast
-                currentCity={globalLocation}
-                tripDate={tripDate}
+              <ForecastToday
+                currentCity={"Sri Lanka"}
                 Globalfunc={pull_newGlobalLocation} //passing location function
               />
             </Box>
