@@ -153,7 +153,7 @@ export default function Tripplan(latlng, props) {
     NotificationManager.info({
       title: "Trip saved",
       message: "click here to show trips",
-      timeOut: "20000",
+      timeOut: "200000",
       onClick: () => {
         navigate("/userProfile/plannedTrip");
       },
@@ -559,6 +559,7 @@ export default function Tripplan(latlng, props) {
 
     //savec to database
     console.log(currtripid);
+    console.log(newLocations);
 
     axios
       .post(
