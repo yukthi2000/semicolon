@@ -34,6 +34,7 @@ import { useNavigate } from "react-router-dom";
 
 import Showtrips from "../ShowTrips/Showtrips";
 
+
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,

@@ -1,9 +1,12 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 const { User } = require("../models");
 const bcrypt = require("bcrypt");
-const { sign } = require("jsonwebtoken")
- 
+const { validateToken } = require("../middlewares/AuthMiddleware");
+const { sign } = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
+const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 
 router.post("/", async (req, res) => {
   try {

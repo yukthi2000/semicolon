@@ -46,8 +46,8 @@ app.use('/passwordReset',forgetPasswordRoutes);
 
 app.use(express.static('public'));
 
-const imageRoutes = require("./routes/Image");
-app.use('/images', imageRoutes);
+// const imageRoutes = require("./routes/Image");
+// app.use('/images', imageRoutes);
 
 db.sequelize.sync().then(() => {
   app.listen(3001, () => {
