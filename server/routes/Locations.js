@@ -32,7 +32,7 @@ router.post("/locations/:tripid", async (req, res) => {
     const locationsObject = req.body;
     const locationsArray = Object.values(locationsObject);
 
-    // console.log('Received locations:', locationsArray);
+     console.log('Received locations:', locationsArray);
 
     const createdLocations = await Promise.all(
       locationsArray.map((locationData) => {
