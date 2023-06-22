@@ -1,119 +1,3 @@
-/* 
-.profile-header{
-    height: 25vh;
-    background-color: rgb(72, 150, 91);
-}
-
-.profile-body-up{
-    height: 10vh;
-    background-color: rgb(231, 231, 231);
-}
-
-.profile-frame{
-    background: rgb(255, 255, 255);
-    border-radius: 50%;
-    width: 25vh;
-    height: 25vh;
-    z-index: 10;
-    margin-top: 5vh;
-    margin-left: 10vh;
-    position: fixed;
-    
-}
-
-.profile-header{
-display: flex;
-}
-
-.header-data{
-    position: absolute;
-    left: 40vh;
-    top: 10vh;
-}
-
-.dot-icon{
-    position: absolute;
-    left: 195vh;
-    top: 2vh;
-    width: 30px;
-    height: 30px;
-}
-
-.hr{
-    margin: 0.5px;
-    width: 1px;
-    height: 1px;
-}
-
-.hr2{
-    margin: 0.9px;
-    width: 1px;
-    height: 1px;
-
-}
-.menu {
-    position: absolute;
-    list-style-type: none;
-    margin: 5px 0;
-    padding: 0;
-    width: 20vh;
-    left: 180vh;
-    top: 6vh;
-    border-radius: 5px;
-    background-color: white;
-  }
-
-  .profile-nav{
-    margin-left: 34vh;
-    display: flex;
-    gap: 5rem;
-    padding-top: 30px;
-   
-  }
-
-  .probody{
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-  }
-
-
-  .profile-body-down{
-    background-color: rgb(241, 241, 241);
-    height: 64vh;
-    margin: 0 auto;
-    width: 75%;
-    padding: 10px;
-    overflow-y: auto;
-
-  }
-
-.profile-body{
-    background-color: white;
-    z-index: 10;
-    height: auto;
-    margin-left: 50px;
-    margin-right: 50px;
-}
-  
-.link{
-  text-decoration: none;
-  color: black;
-}
-  
-
-.profile-nav2{
-  padding-left: 10px;
-  padding-right: 10px;
-  font-size: 20px;
-  list-style: none;
-}
-
-.home-btn{
-  position: absolute;
-  margin-left: -3vh;
-  margin-top: -3vh;
-} */
 
 .link{
   text-decoration: none;
@@ -124,20 +8,24 @@ display: flex;
   margin: 8vh auto;
   display:flex;
   width: 95.95%;
+  padding: 5vh;
+  height: 83vh;
 
 }
 
 .left-side{
 flex-direction: column;
-width: 20%;
-height: 80vh;
-background-color: azure;
-
+width: 18%;
+height: 83vh;
+background-color: white;
+padding: 3vh;
+border-radius: 5px;
+box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
 }
 
 .right-side{
   display: flex;
-  height: 100%;
+  height: 110%;
   flex-direction: column;
   width: 80%;
 
@@ -150,7 +38,7 @@ background-color: azure;
     height: 25vh;
     z-index: 10;
     margin-top: 2vh;
-    margin: 7vh;
+    margin: 2vh;
     position: absolute;
     
 }
@@ -159,7 +47,11 @@ background-color: azure;
   flex-direction: row;
   height: 10%;
   width: 100%;
-  background-color:rgb(211, 138, 2) ;
+  background-color:rgb(252, 167, 9) ;
+  padding: -2vh;
+  border-radius: 5px;
+  margin-left: 3vh;
+  box-shadow: rgba(255, 193, 93, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
 }
 
 .proBody{
@@ -170,9 +62,8 @@ background-color: azure;
 
 .profile-nav{
   display: flex;
-  gap: 5rem;
-  padding-top: 30px;
-  background-color: rgb(211, 138, 2);
+  gap: 12rem;
+  padding-top: 15px;
   width: 0vh;
   left: 30vh;
  
@@ -181,6 +72,9 @@ background-color: azure;
 .link{
   text-decoration: none;
   color: black;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 500;
+  margin: 1vh;
 }
   
 
@@ -189,13 +83,18 @@ background-color: azure;
   padding-right: 10px; */
   font-size: 20px;
   list-style: none;
+  margin-left: 15vh;
+ 
 }
 
 .profile-body-down{
-  background-color: rgb(224, 224, 224);
-  height: 70vh;
+  background-color: rgb(255, 255, 255);
+  height: 72vh;
   width: 100%;
   overflow-y: auto;
+  margin: 3vh;
+  box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
+  border-radius: 5px;
 
 }
 
@@ -235,4 +134,12 @@ background-color: azure;
 .small-image {
   width: 200px; /* Adjust the width as desired */
   height: auto; /* Maintain the aspect ratio */
+}
+
+.pro-info-text{
+  text-align: center;
+}
+
+.del-pro{
+  margin-left: 5vh;
 }

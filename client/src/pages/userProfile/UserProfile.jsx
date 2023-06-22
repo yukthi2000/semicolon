@@ -117,27 +117,39 @@ const UserProfile = () => {
       <div className="left-side">
         <div className="profile-frame">{profilePicture && <img src={profilePicture} alt="Profile" />} {/* Display the profile picture */}</div>
         <div className="proInfo">
-          <div>
+          <div className="pro-info-text">
             <FaUserEdit onClick={() => setIsModalOpen(true)} />
-            <h5>{name}</h5>
+            <h2>{name}</h2>
+          </div>
+          <div className="pro-info-text">
+            <h6>{email}</h6>
           </div>
           <div>
-            <h5>{email}</h5>
+            {/* <h5>{userType}</h5> */}
           </div>
-          <div>
-            <h5>{userType}</h5>
-          </div>
-          <Button
+         
+          <input type="file" accept="image/*" onChange={handleImageUpload} /> {/* Add this line */}
+          <Button variant="outlined" color="primary" onClick={uploadImage}>Upload Image</Button> {/* Add this line */}
+        </div><br/><br/><br/>
+        <div className="del-pro">
+        <Button
             variant="outlined"
             color="secondary"
+            size="small"
+            style={{
+              color: 'red',
+              borderColor: 'red',
+              fontSize: '12px',
+              padding: '5px 10px',
+              minWidth: 'unset',
+              minHeight: 'unset',
+            }}
             onClick={() => setIsDeleteDialogOpen(true)}
           >
             Delete Account
           </Button>
-          <input type="file" accept="image/*" onChange={handleImageUpload} /> {/* Add this line */}
-          <Button variant="outlined" color="primary" onClick={uploadImage}>Upload Image</Button> {/* Add this line */}
         </div>
-
+       
         <Dialog
           open={isDeleteDialogOpen}
           onClose={() => setIsDeleteDialogOpen(false)}
@@ -185,8 +197,7 @@ const UserProfile = () => {
 
       <div className="right-side">
         <div className="navBar">
-          <div>
-            <div className="profile-body-up">
+      
               <ul className="profile-nav">
                 <li className="profile-nav2">
                   <Link to={`/userProfile/${id}`} className="link">
@@ -209,8 +220,7 @@ const UserProfile = () => {
                   </Link>
                 </li>
               </ul>
-            </div>
-          </div>
+           
         </div>
 
         <div className="proBody">
