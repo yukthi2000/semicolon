@@ -42,6 +42,8 @@ import {
 import { formatRelative } from "date-fns";
 import { Button } from "@mui/material";
 import GetCombinedScore from "../../weatherApi/WeatherScore/GetCombinedScore";
+import LatLngToName from "../../weatherApi/WeatherScore/LatLngToName";
+import NameToLatLng from "../../weatherApi/WeatherScore/NameToLatLng";
 // import SearchBox from "react-google-maps/lib/components/places/SearchBox";
 const heading = "kandy";
 const libraries = ["places"];
@@ -706,6 +708,14 @@ export default function Tripplan(latlng, props) {
     setScoreButtonTxt((SocreButtonTxt == "Show Weather Score") ? "Hide WeatherScore" : "Show Weather Score");
   }
 
+
+  const [forecastLat, setForecastLat] = useState(null);
+  const [foreCastLng, setforeCastLng] = useState(null);
+  
+  const handleWeatheScoreClicked = (lat, lng) => {
+  
+  }
+
   //console.log('Changed string:', weatherScoreJson);
   const [selectedLocation, setSelectedLocation] = React.useState(null);
   const renderScoreInfoWindows = (locations) => {
@@ -715,6 +725,7 @@ export default function Tripplan(latlng, props) {
         position={{ lat: location.lat, lng: location.lng }}
         onCloseClick={() => setSelectedLocation(null)}
         visible={selectedLocation === location}
+        onClick={handleWeatheScoreClicked(location.lat, location.lng)}
 
       >
         <div className="infowindow-container">

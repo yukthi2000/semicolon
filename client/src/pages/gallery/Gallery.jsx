@@ -13,6 +13,7 @@ import WeatherScore from '../weatherApi/WeatherScore/TestScore';
 import CalculateWeatherScores from '../weatherApi/WeatherScore/CalculateWeatherScores';
 import PostWeatherScore from '../weatherApi/WeatherScore/PostWeatherScore';
 import GetCombinedScore from '../weatherApi/WeatherScore/GetCombinedScore';
+import LatLngToName from '../weatherApi/WeatherScore/LatLngToName';
 
 const Gallery = () => {
 
@@ -44,8 +45,6 @@ const Gallery = () => {
 
 //   console.log(h)
 //   //setP(JSON.parse(h));
-//   console.log(p);
-
 
   return (
     <div>
@@ -54,14 +53,18 @@ const Gallery = () => {
       <br /><br />
       <div className="gallerycontainer">
         nsxam k
+        {/* <LatLngToName 
+        lat= {7.5304285}
+        lng= {80.73314859999999}
+        /> */}
         
         {/* <PostWeatherScore 
         tripID = "3"
         location = "matale"
         score = {445.2} /> */}
 
-        <CalculateWeatherScores tripID = "2525"
-        locationList = {locations}/>
+        {/* <CalculateWeatherScores tripID = "2525"
+        locationList = {locations}/> */}
         {/* <WeatherOptions
         tripID="252525" />
         <Forecast

@@ -213,7 +213,7 @@ function Multiplesearch(props) {
         </Paper>
       </Box>
 
-      //Harshana
+      {/* Harshana */}
       {PostToggle &&
         <PostTripDayLocationList
           locationList={searchdata}
