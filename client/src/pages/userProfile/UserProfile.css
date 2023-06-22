@@ -32,7 +32,6 @@ box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px
   }
 
   .profile-frame{
-    background: rgb(250, 189, 189);
     border-radius: 50%;
     width: 25vh;
     height: 25vh;
@@ -142,4 +141,14 @@ box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px
 
 .del-pro{
   margin-left: 5vh;
+}
+.user-image{
+  width: 12vw;
+}
+.profile-pic-add{
+  position: absolute;
+  position: absolute;
+  top: 18vh;
+  left: 16vw;
+  z-index: 100;
 }

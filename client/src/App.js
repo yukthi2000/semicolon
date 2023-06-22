@@ -20,7 +20,7 @@ import Admin from "./pages/admin/Admin";
 import Dashboard from "./pages/admin/Dashboard";
 import GalleryView from "./pages/admin/GalleryView";
 import ReviewsView from "./pages/admin/ReviewsView";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { AuthContext } from "./helpers/AuthContext";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
@@ -31,6 +31,7 @@ import { useNavigate } from "react-router-dom";
 import ContactUs from "./pages/ContactUs/ContactUs";
 import Showtrips from "./pages/googleMapApi/ShowTrips/Showtrips";
 import ViewTripsonMap from "./pages/googleMapApi/viewtrips/ViewTripsonMap";
+import profilepic from "./assets/avatar.png"
 
 const App = () => {
   const [authState, setAuthState] = useState({
@@ -38,6 +39,7 @@ const App = () => {
     email: "",
     userType: "",
     id: 0,
+    photo: "",
     status: false,
   });
   const [error, setError] = useState("");
@@ -58,6 +60,7 @@ const App = () => {
             email: response.data.email,
             id: response.data.id,
             userType: response.data.userType,
+            photo: response.data.photo,
             status: true,
           });
         }
@@ -76,6 +79,7 @@ const App = () => {
       name: "",
       email: "",
       userType: "",
+      photo: "",
       id: 0,
       status: false,
     });
@@ -181,11 +185,22 @@ const App = () => {
                   </Link> */}
 
                   <div className="dropdown" ref={dropdownRef}>
-                    <Avatar
-                      alt="Remy Sharp"
-                      src="/static/images/avatar/1.jpg"
-                      onClick={toggleDropdown}
-                    />
+                    {authState.photo ? (
+                      <img
+                        className="profile-image-signIn"
+                        alt="Dil Sharp"
+                        src={`http://localhost:3001/auth/profile-picture/${authState.id}`}
+                        onClick={toggleDropdown}
+                      />
+                    ) : (
+                      <img
+                        className="profile-image-signIn"
+                        alt="Remy Sharp"
+                        src={profilepic}
+                        onClick={toggleDropdown}
+                      />
+                    )}
+
                     {isOpen && (
                       <div
                         className="dropdown-content"

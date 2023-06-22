@@ -106,7 +106,7 @@ export default function UserGallery() {
             style={imageStyle}
           />
           <p>Location: {image.location}</p>
-          <p>User ID: {image.userId}</p>
+         
         </div>
       ))}
       

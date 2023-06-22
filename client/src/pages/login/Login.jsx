@@ -30,6 +30,7 @@ const Login = () => {
             name: response.data.name,
             userType: response.data.userType,
             password: response.data.password,
+            photo: response.data.photo,
             status: true,
           });
 

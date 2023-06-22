@@ -6,6 +6,7 @@ import axios from "axios";
 import { Modal, TextField, Button } from "@mui/material";
 import { Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
 const UserProfile = () => {
   let { id } = useParams();
@@ -20,7 +21,7 @@ const UserProfile = () => {
   const [editedEmail, setEditedEmail] = useState("");
   const [editedUserType, setEditedUserType] = useState("");
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false); // Add this line
-
+  const [isUploadImage, setisUploadImage] = useState(false);
   const history = useNavigate();
 
   useEffect(() => {
@@ -115,7 +116,15 @@ const UserProfile = () => {
   return (
     <div className="user-profile">
       <div className="left-side">
-        <div className="profile-frame">{profilePicture && <img src={profilePicture} alt="Profile" />} {/* Display the profile picture */}</div>
+        <div className="profile-pic-add">
+        <AddAPhotoIcon sx={{
+          fontSize:"50px"
+        }}
+            onClick={() => setisUploadImage(true)}
+          />
+        </div>
+     
+        <div className="profile-frame">{profilePicture && <img className="user-image" src={profilePicture} alt="Profile" />} {/* Display the profile picture */}</div>
         <div className="proInfo">
           <div className="pro-info-text">
             <FaUserEdit onClick={() => setIsModalOpen(true)} />
@@ -128,8 +137,7 @@ const UserProfile = () => {
             {/* <h5>{userType}</h5> */}
           </div>
          
-          <input type="file" accept="image/*" onChange={handleImageUpload} /> {/* Add this line */}
-          <Button variant="outlined" color="primary" onClick={uploadImage}>Upload Image</Button> {/* Add this line */}
+         
         </div><br/><br/><br/>
         <div className="del-pro">
         <Button
@@ -150,6 +158,31 @@ const UserProfile = () => {
           </Button>
         </div>
        
+
+        
+          
+
+
+        <Dialog
+          open={isUploadImage}
+          onClose={() => setisUploadImage(false)}
+        >
+          <DialogTitle>Image Uplaod</DialogTitle>
+          <DialogContent>
+            <p>Add profile picture</p>
+          <input className="custom-file-input" type="file" accept="image/*" onChange={handleImageUpload} /> {/* Add this line */}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={uploadImage} color="secondary">
+              Upload image
+            </Button>
+            <Button onClick={() => setisUploadImage(false)} color="primary">
+              No
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+
         <Dialog
           open={isDeleteDialogOpen}
           onClose={() => setIsDeleteDialogOpen(false)}

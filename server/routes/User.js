@@ -221,11 +221,11 @@ router.post("/login", async (req, res) => {
 
     // Create a JWT token for the user
     const accessToken = sign(
-      { email: user.email, id: user.id, name:user.name, userType:user.userType },
+      { email: user.email, id: user.id, name:user.name, userType:user.userType, photo:user.photo },
       "importantsecret"
     );
 
-    res.json({ token: accessToken,email:email, id:user.id, name:user.name, userType:user.userType });
+    res.json({ token: accessToken,email:email, id:user.id, name:user.name, userType:user.userType , photo:user.photo });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Something went wrong" });
