@@ -22,15 +22,13 @@ module.exports = (sequelize, DataTypes) => {
     });
     Trip.hasMany(models.Locations, {
       foreignKey: "tripId",
-      onDelete:"cascade",
+      onDelete: "cascade",
     });
     Trip.hasMany(models.Tripdetails, {
       foreignKey: "tripId",
-      as: 'locations',
-      onDelete:"cascade",
+      as: "locations",
+      onDelete: "cascade",
     });
-    
-    
   };
 
   return Trip;

@@ -893,12 +893,10 @@ export default function Map(latlng, props) {
         {/* <Link to="/mapp/Tripplan"> */}
         <AnimatedButton
           onClick={() => {
-            if (authState.userType ==='public') {
+            if (authState.userType === "public") {
               navigate("/subscription");
-            }else if(authState.userType ==='premium')
-            {
-            navigate("/mapp/Tripplan");
-
+            } else if (authState.userType === "premium") {
+              navigate("/mapp/Tripplan");
             }
           }}
         >
@@ -986,8 +984,16 @@ export default function Map(latlng, props) {
             // }}
           />
         ))}
+
         {directionsRenderer && (
-          <DirectionsRenderer directions={directionsRenderer.directions} />
+          <DirectionsRenderer
+            directions={directionsRenderer.directions}
+            options={{
+              polylineOptions: {
+                strokeColor: currstatus === "normal" ? "cyan" : "black",
+              },
+            }}
+          />
         )}
 
         {selected ? (
