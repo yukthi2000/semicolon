@@ -155,7 +155,7 @@ export default function Tripplan(latlng, props) {
       message: "click here to show trips",
       timeOut: "200000",
       onClick: () => {
-        navigate("/userProfile/plannedTrip");
+        navigate("/userProfile/plannedTrip/plannedTrip");
       },
     });
 
