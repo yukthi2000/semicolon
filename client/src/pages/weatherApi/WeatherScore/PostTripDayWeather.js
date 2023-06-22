@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import CalculateWeatherScores from "./CalculateWeatherScores";
 
 // functional component TripDayForecast
 const PostTripDayWeather = (props) => {
@@ -16,6 +17,9 @@ const PostTripDayWeather = (props) => {
     const [overall, setOverall] = useState(null);
     const [windSpeed, setWindSpeed] = useState(null);
     const [iconID, setIconId] = useState(null);
+    const isLastItem = props.isLastItem ;
+    const locationList = props.locationList ;
+    const[lastItemReached,setLastItemreached]=useState(false);
     //console.log(lat,lng)
 
     // convert props.tripDate to Date format
@@ -78,16 +82,25 @@ const PostTripDayWeather = (props) => {
 
             // Send the POST request to the backend server
             const response = await axios.post("http://localhost:3001/TripDayWeather", PostData);
-
             // Handle the response from the server
+            if(isLastItem){
+                setLastItemreached(true);
+            }
+
             console.log(response.PostData); // Assuming the server sends a success message
+            
+            
         }
         catch (error) {
             console.error('Error creating TripDayWeather entry:', error);
             // Handle error response from the server
         }
     }
-
+    return(
+        <>
+        {lastItemReached && <CalculateWeatherScores tripID={props.tripID} locationList={locationList} />}
+        </>
+    );
 }
 
 export default PostTripDayWeather;

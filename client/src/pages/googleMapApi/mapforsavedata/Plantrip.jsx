@@ -2,6 +2,8 @@ import loading from "../../../assets/loading (1).gif";
 import error from "../../../assets/error.gif";
 import * as React from "react";
 
+import './Plantrip.css';
+import WeatherIcon from "../../weatherApi/WeatherIcon";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import Divider from "@mui/material/Divider";
@@ -22,8 +24,8 @@ import { InfoBox } from "@react-google-maps/infobox";
 import { Box } from "@mui/material";
 import axios from "axios";
 import { useLocation, useSearchParams } from "react-router-dom";
-import { InfoWindowF } from "@react-google-maps/api";
 
+import { InfoWindowF } from "@react-google-maps/api";
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
@@ -39,6 +41,9 @@ import {
 
 import { formatRelative } from "date-fns";
 import { Button } from "@mui/material";
+import GetCombinedScore from "../../weatherApi/WeatherScore/GetCombinedScore";
+import LatLngToName from "../../weatherApi/WeatherScore/LatLngToName";
+import NameToLatLng from "../../weatherApi/WeatherScore/NameToLatLng";
 // import SearchBox from "react-google-maps/lib/components/places/SearchBox";
 const heading = "kandy";
 const libraries = ["places"];
@@ -86,12 +91,6 @@ export default function Tripplan(latlng, props) {
   const [isOneEntered, setisOneEntered] = React.useState(true);
   const [issecondentered, setissecondentered] = React.useState(true);
   let indexloc = 0;
-  const [currtripid, setcurrtripid] = useState();
-
-  const tripid = (data) => {
-    console.log(data);
-    setcurrtripid(data);
-  };
 
   //location indexes
 
@@ -101,13 +100,12 @@ export default function Tripplan(latlng, props) {
     console.log(indexloc);
     if (indexloc === 0) {
       setisOneEntered(true);
-      return;
     } else if (indexloc === 1) {
       setissecondentered(true);
       return;
     } else {
-      setissecondentered(true);
-      setisOneEntered(true);
+      setissecondentered(false);
+      setisOneEntered(false);
     }
   };
 
@@ -520,6 +518,15 @@ export default function Tripplan(latlng, props) {
 
       // const uniqueKey = generateUniqueKey();
 
+      axios
+        .post("http://localhost:3001/Array", sortedPoints)
+        .then((response) => {
+          console.log("Request successful");
+        })
+        .catch((error) => {
+          console.error("An error occurred", error);
+        });
+
       ///
 
       setNewall(sortedPoints); // update all with sortedPoints
@@ -537,21 +544,6 @@ export default function Tripplan(latlng, props) {
     }
     CalculateREarangeRoute();
 
-    //savec to database
-    console.log(currtripid);
-
-    axios
-      .post(
-        `http://localhost:3001/Locations/locations/${currtripid}`,
-        newLocations
-      )
-      .then((response) => {
-        console.log("Request successful");
-      })
-      .catch((error) => {
-        console.error("An error occurred", error);
-      });
-
     // const distname=['Kandy, Sri Lanka', 'Gampola, Sri Lanka', 'Gelioya, Sri Lanka']
     // const dist=[0, 24507, 11467]
     // const { sortedPoints, sortedDistances } = sortByDistance(
@@ -562,11 +554,11 @@ export default function Tripplan(latlng, props) {
   };
 
   //Harshana
-  const [dateinplantrip,setDateinplantrip] = useState("");
-  const dateforweather=(data)=>{
+  const [dateinplantrip, setDateinplantrip] = useState("");
+  const dateforweather = (data) => {
     setDateinplantrip(data);
   }
-  
+
   const [mapLocations, setMapLocations] = useState([]);
   const reciveSuggestlocations = (data) => {
     setMapLocations(data);
@@ -578,6 +570,8 @@ export default function Tripplan(latlng, props) {
   const handleMarkerClick = (place) => {
     setSelectedPlace(place);
   };
+
+
 
   useEffect(() => {
     const geocoder = new window.google.maps.Geocoder();
@@ -610,9 +604,7 @@ export default function Tripplan(latlng, props) {
 
       if (locationsWithLatLng.length > 0) {
         locationsWithLatLng.forEach((location) => {
-          const service = new window.google.maps.places.PlacesService(
-            mapRef.current
-          );
+          const service = new window.google.maps.places.PlacesService(mapRef.current);
           const request = {
             location: new window.google.maps.LatLng(location.lat, location.lng),
             radius: 2000,
@@ -620,10 +612,7 @@ export default function Tripplan(latlng, props) {
           };
           service.nearbySearch(request, (results, status) => {
             if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-              setTouristAttractions((prevAttractions) => [
-                ...prevAttractions,
-                ...results,
-              ]);
+              setTouristAttractions((prevAttractions) => [...prevAttractions, ...results]);
             }
           });
         });
@@ -643,7 +632,9 @@ export default function Tripplan(latlng, props) {
     return () => clearTimeout(timeout);
   }, []);
 
+  const [markerVisible, setMarkerVisible] = useState(false);
   const renderMarkers = () => {
+
     return touristAttractions.map((attraction) => (
       <Marker
         key={attraction.place_id}
@@ -651,16 +642,9 @@ export default function Tripplan(latlng, props) {
           lat: attraction.geometry.location.lat(),
           lng: attraction.geometry.location.lng(),
         }}
-        icon={{
-          url: require("../../../../src/assets/suggested_pin.png"),
-          scaledSize: { width: 32, height: 32 },
-        }}
+        icon={{ url: require("../../../../src/assets/suggested_pin.png"), scaledSize: { width: 32, height: 32 } }}
         onClick={() => handleMarkerClick(attraction)}
-        animation={
-          selectedPlace && selectedPlace.place_id === attraction.place_id
-            ? window.google.maps.Animation.BOUNCE
-            : null
-        }
+        animation={selectedPlace && selectedPlace.place_id === attraction.place_id ? window.google.maps.Animation.BOUNCE : null}
       >
         {selectedPlace && selectedPlace.place_id === attraction.place_id && (
           <InfoWindowF
@@ -670,21 +654,106 @@ export default function Tripplan(latlng, props) {
             }}
             onCloseClick={() => setSelectedPlace(null)}
           >
-            <div>
-              <img
-                src={selectedPlace.icon}
-                alt="Place Icon"
-                style={{ width: "20px", height: "20px", margin: "8px" }}
-              />
-              <span style={{ fontWeight: 500, fontFamily: "poppins" }}>
-                {selectedPlace.name}
-              </span>
+            <div className="suggested-container">
+              <div className="suggested-heading">
+                <div className="suggested-ico">
+                  <img
+                    src={selectedPlace.icon}
+                    alt="Place Icon"
+                  />
+                </div>
+                <div className="suggested-name">
+                  {selectedPlace.name}
+                </div>
+              </div>
+              <div className="suggested-body">
+                <div className="vicinity">{selectedPlace.vicinity}</div>
+                {selectedPlace.rating && (
+                  <div className="Rating">
+                    <span className="txt-raiting">Rating :</span><span className="raiting"> {selectedPlace.rating} / 5</span>
+                  </div>
+                )}
+                <div className="suggested-img">
+
+                  {selectedPlace.photos && selectedPlace.photos.length > 0 && (
+                    <img
+                      src={selectedPlace.photos[0].getUrl()}
+                      alt="Place Photo"
+                    />
+                  )}
+                </div>
+              </div>
             </div>
           </InfoWindowF>
+
+
         )}
       </Marker>
     ));
   };
+
+  const [weatherScoreJson, setWeatherScoreJson] = useState([]);
+  const [ScoreDataFetched, setScoreDataFetched] = useState(false);
+
+  const handleScoreArray = (childString) => {
+    setWeatherScoreJson(JSON.parse(childString));
+    setScoreDataFetched(true);
+    //console.log(JSON.parse(childString));
+  };
+
+  const [isClicked, setIsClicked] = useState(false);
+  const [SocreButtonTxt, setScoreButtonTxt] = useState("Show Weather Score");
+  const getScoreArray = () => {
+    setIsClicked((prevState) => !prevState);
+    setScoreButtonTxt((SocreButtonTxt == "Show Weather Score") ? "Hide WeatherScore" : "Show Weather Score");
+  }
+
+
+  const [forecastLat, setForecastLat] = useState(null);
+  const [foreCastLng, setforeCastLng] = useState(null);
+  
+  const handleWeatheScoreClicked = (lat, lng) => {
+  
+  }
+
+  //console.log('Changed string:', weatherScoreJson);
+  const [selectedLocation, setSelectedLocation] = React.useState(null);
+  const renderScoreInfoWindows = (locations) => {
+    return locations.map((location) => (
+      <InfoWindowF
+        key={location.tripID}
+        position={{ lat: location.lat, lng: location.lng }}
+        onCloseClick={() => setSelectedLocation(null)}
+        visible={selectedLocation === location}
+        onClick={handleWeatheScoreClicked(location.lat, location.lng)}
+
+      >
+        <div className="infowindow-container">
+
+          <div className="overall-text">
+            {location.overall}
+          </div>
+
+          <div className="Score-text">
+            {location.score}% Match
+          </div>
+          <div className="weather-icon-container">
+            <img src={WeatherIcon(location.iconID)}
+              alt='weather icon' className="weather-icon" />
+          </div>
+
+          <div className="temp-text">{location.temperature} °C </div>
+
+        </div>
+      </InfoWindowF>
+    ));
+  };
+
+  const [showMark, setShowMark] = useState(false);
+  const MarkerVisiibility = (data) => {
+    setShowMark(data);
+  };
+
   //Harshana End
 
   const mapRef = React.useRef();
@@ -726,6 +795,14 @@ export default function Tripplan(latlng, props) {
 
   return (
     <>
+      <h1>jhdaks</h1>
+      <h1>jhdaks</h1>
+      <h1>jhdaks</h1>
+      <h1>jhdaks</h1>
+
+      <button onClick={getScoreArray}>{SocreButtonTxt}</button>
+
+      {isClicked && <GetCombinedScore tripID='92' onStringChange={handleScoreArray} />}
       <div>
         <Header2 />
         <div
@@ -737,7 +814,8 @@ export default function Tripplan(latlng, props) {
           }}
         >
           {gobutton ? (
-            <Datafortrip gobuttonhandle={gobuttonhandle} tripid={tripid} dateforweather={dateforweather}/>
+            <Datafortrip gobuttonhandle={gobuttonhandle}
+              dateforweather={dateforweather} />
           ) : (
             <div
               style={{
@@ -755,8 +833,9 @@ export default function Tripplan(latlng, props) {
                 locationsstart={locationsstart}
                 indexsend={indexsend} // start location
                 sendSuggestlocations={reciveSuggestlocations}//Sugest Locations Harshana
+                sendMarkerVisibility={MarkerVisiibility}
                 dateinplantrip={dateinplantrip}
-                //optimizeroute={calculateRoute}
+              //optimizeroute={calculateRoute}
               />
             </div>
           )}
@@ -780,7 +859,9 @@ export default function Tripplan(latlng, props) {
         onClick={onMapClick}
         onLoad={onMapLoad}
       >
-        {renderMarkers()} //suggestLocations
+        {isClicked && ScoreDataFetched && renderScoreInfoWindows(weatherScoreJson)} //weatherScore
+        {showMark && renderMarkers()} //suggestLocations
+
         {markers.map((marker) => (
           <Marker
             key={marker.time.toISOString()}
@@ -793,6 +874,7 @@ export default function Tripplan(latlng, props) {
             }}
           />
         ))}
+
         {directionResponse && (
           <DirectionsRenderer
             options={{
@@ -805,6 +887,7 @@ export default function Tripplan(latlng, props) {
             directions={directionResponse}
           />
         )}
+
         {selected ? (
           <InfoWindow position={{ lat: selected.lat, lng: selected.lng }}>
             <div>
@@ -815,7 +898,7 @@ export default function Tripplan(latlng, props) {
         ) : null}
       </GoogleMap>
       {/* {console.log(markers)} */}
-      {/* Error handleing */}
+      //Error handleing
       {!isOneEntered && (
         <div
           style={{

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {TripDayWeather} = require("../models");
+const {WeatherScore} = require("../models");
 
 router.get("/:tripID/:location", async (req, res) => {
     //const { tripID } = req.params;
@@ -25,5 +26,56 @@ router.post("/", async (req,res)=>{
     res.json(tripDayWeather);
 });
 
-module.exports=router;
+router.get("/:tripID", async (req, res) => {
+  const { tripID } = req.params;
 
+  try {
+    const tripDayWeatherEntries = await TripDayWeather.findAll({
+      where: {
+        tripID,
+      },
+    });
+
+    if (!tripDayWeatherEntries) {
+      return res.status(404).json({ error: "Trip day weather entries not found" });
+    }
+
+    const combinedEntries = [];
+
+    for (const tripDayWeatherEntry of tripDayWeatherEntries) {
+      const { location } = tripDayWeatherEntry;
+
+      const weatherScoreEntry = await WeatherScore.findOne({
+        where: {
+          tripID,
+          location,
+        },
+      });
+
+      if (!weatherScoreEntry) {
+        return res.status(404).json({ error: "Weather score entry not found" });
+      }
+
+      const combinedEntry = {
+        tripID: tripDayWeatherEntry.tripID,
+        location: tripDayWeatherEntry.location,
+        lat: tripDayWeatherEntry.lat,
+        lng: tripDayWeatherEntry.lng,
+        temperature: tripDayWeatherEntry.temperature,
+        overall: tripDayWeatherEntry.overall,
+        iconID: tripDayWeatherEntry.iconID,
+        score: weatherScoreEntry.score,
+      };
+
+      combinedEntries.push(combinedEntry);
+    }
+
+    res.json(combinedEntries);
+  } catch (error) {
+    console.error("Error retrieving trip entries:", error);
+    res.status(500).json({ error: "Failed to retrieve trip entries" });
+  }
+});
+
+
+module.exports=router;
