@@ -67,3 +67,19 @@ router.get('/bylocation', async (req, res) => {
 
 
 module.exports = router;
+
+// DELETE method for deleting a image by ID
+router.delete('/delete-image/:id', async (req, res) => {
+  try {
+    const imageId = req.params.id;
+    const deletedImage = await Image.destroy({ where: { id: imageId } });
+    if (deletedImage) {
+      res.sendStatus(204); // Return a successful response with status code 204 (No Content)
+    } else {
+      res.sendStatus(404); // Return a not found response with status code 404 (Not Found)
+    }
+  } catch (error) {
+    console.error('Error deleting review:', error);
+    res.status(500).json({ error: 'An error occurred while deleting the review' });
+  }
+});

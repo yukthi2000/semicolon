@@ -33,6 +33,14 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.BLOB('long'),
             allowNull: true,
           },
+          fileName: {
+            type: DataTypes.STRING,
+            allowNull: true,
+          },
+          fileType: {
+            type: DataTypes.STRING,
+            allowNull: true,
+          },
         
 
     });

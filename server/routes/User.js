@@ -2,11 +2,122 @@ const express = require("express");
 const router = express.Router();
 const { User } = require("../models");
 const bcrypt = require("bcrypt");
-const { validateToken } = require("../middlewares/AuthMiddleware");
-const { sign } = require("jsonwebtoken");
-const nodemailer = require("nodemailer");
-const jwt = require("jsonwebtoken");
-const crypto = require("crypto");
+
+const {validateToken} = require ('../middlewares/AuthMiddleware');
+const { sign } = require("jsonwebtoken")
+const nodemailer = require('nodemailer');
+const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
+const multer = require('multer');
+const fs = require('fs');
+
+// const upload = multer({
+//   dest: './public/profile/images', // Specify the directory to store the uploaded files
+// });
+
+
+// router.put('/profile-picture/:id', upload.single('image'), async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const { filename, mimetype } = req.file;
+
+//     // Find the user by ID
+//     const user = await User.findByPk(id);
+//     if (!user) {
+//       return res.status(404).json({ message: 'User not found' });
+//     }
+
+//     // Delete the previous profile picture file if it exists
+//     if (user.fileName) {
+//       fs.unlinkSync(`./public/profile/images/${user.fileName}`);
+//     }
+
+//     // Update the user's profile picture fields
+//     user.photo = fs.readFileSync(req.file.path); // Read the uploaded file and store it as a BLOB
+//     user.fileName = filename;
+//     user.fileType = mimetype;
+
+//     // Save the updated user to the database
+//     await user.save();
+
+//     res.status(200).json({ message: 'Profile picture updated successfully' });
+//   } catch (error) {
+//     console.error('Error updating profile picture:', error);
+//     res.status(500).json({ message: 'Internal Server Error' });
+//   }
+// });
+
+
+const storage = multer.diskStorage({
+  destination: './public/profile/images', // Specify the directory to store the uploaded files
+  filename: (req, file, cb) => {
+    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
+    cb(null, `${uniqueSuffix}-${file.originalname}`);
+  },
+});
+
+const upload = multer({ storage });
+
+// Endpoint for image upload
+router.put('/profile-picture/:id', upload.single('image'), async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { filename, mimetype } = req.file;
+
+    // Find the user by ID
+    const user = await User.findByPk(id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Delete the previous profile picture file if it exists
+    if (user.fileName) {
+      fs.unlinkSync(`./public/profile/images/${user.fileName}`);
+    }
+
+    // Update the user's profile picture fields
+    user.photo = req.file.path; // Store the file path in the user's photo field
+    user.fileName = filename;
+    user.fileType = mimetype;
+
+    // Save the updated user to the database
+    await user.save();
+
+    res.status(200).json({ message: 'Profile picture updated successfully' });
+  } catch (error) {
+    console.error('Error updating profile picture:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+
+// Endpoint to get profile picture by ID
+router.get('/profile-picture/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Find the user by ID
+    const user = await User.findByPk(id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Check if the user has a profile picture
+    if (!user.fileName) {
+      return res.status(404).json({ message: 'Profile picture not found' });
+    }
+
+    // Read the profile picture file and send it as a response
+    const image = fs.readFileSync(`./public/profile/images/${user.fileName}`);
+    res.setHeader('Content-Type', user.fileType);
+    res.send(image);
+  } catch (error) {
+    console.error('Error getting profile picture:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+
 
 router.post("/", async (req, res) => {
   try {
@@ -112,22 +223,13 @@ router.post("/login", async (req, res) => {
 
     // Create a JWT token for the user
     const accessToken = sign(
-      {
-        email: user.email,
-        id: user.id,
-        name: user.name,
-        userType: user.userType,
-      },
+
+      { email: user.email, id: user.id, name:user.name, userType:user.userType, photo:user.photo },
       "importantsecret"
     );
 
-    res.json({
-      token: accessToken,
-      email: email,
-      id: user.id,
-      name: user.name,
-      userType: user.userType,
-    });
+    res.json({ token: accessToken,email:email, id:user.id, name:user.name, userType:user.userType , photo:user.photo });
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Something went wrong" });

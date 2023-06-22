@@ -2,6 +2,8 @@ import React from "react";
 import home from "../../assets/home.jpg";
 import Saly from "../../assets/Saly-3.png";
 import Saly19 from "../../assets/Saly-19.png";
+import tripScore from "../../assets/tripScore.png";
+import saveTrip from "../../assets/saveTrip.png";
 import "./Home.css";
 import Button from "@mui/material/Button";
 import Search from "./Search";
@@ -212,7 +214,7 @@ const Home = () => {
               marginLeft: "auto",
               color: "white",
               backgroundColor: "#EF7E2A",
-              top: "-28vh",
+              top: "-32vh",
               left: "89vh",
               borderRadius: "6px",
               "&:hover": {
@@ -306,7 +308,7 @@ const Home = () => {
                         <img
                           src={weatherForecast}
                           alt=""
-                          width="170px"
+                          width="160px"
                           height="100px"
                           left="5vh"
                         />
@@ -330,17 +332,17 @@ const Home = () => {
                     <div class="article-wrapper">
                       <figure className="figure">
                         <img
-                          src={routeOptimize}
+                          src={saveTrip}
                           alt=""
-                          width="170px"
+                          width="150px"
                           height="100px"
                         />
                       </figure>
                       <div class="article-body">
-                        <h4 className="Header-card">Route Optimization</h4>
+                        <h4 className="Header-card">Save Trip</h4>
                         <p className="body-card">
-                          Perfect for road trips and saving $$$ on gas! Get the
-                          best route auto-rearranged.
+                        Seamlessly store your travel itineraries in your user profile, 
+                        accessible anytime, so you can relive your adventures with ease.
                         </p>
                       </div>
                     </div>
@@ -353,7 +355,7 @@ const Home = () => {
                     <div class="article-wrapper">
                       <figure className="figure">
                         <img
-                          src={weatherForecast}
+                          src={tripScore}
                           alt=""
                           width="170px"
                           height="100px"
@@ -361,10 +363,11 @@ const Home = () => {
                         />
                       </figure>
                       <div class="article-body">
-                        <h4 className="Header-card">Weather Forecast</h4>
+                        <h4 className="Header-card">Trip Score</h4>
                         <p className="body-card">
-                          analysis of the state of the weather in an destination
-                          you travel...
+                        Evaluate the success of your planned trips with an average score, 
+                        helping you assess the overall quality and fulfillment 
+                        of your travel experiences.
                         </p>
                       </div>
                     </div>
