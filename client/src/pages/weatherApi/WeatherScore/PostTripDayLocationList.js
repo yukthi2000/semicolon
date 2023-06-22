@@ -19,7 +19,7 @@ export default function PostTripDayLocationList(props) {
 
   const SaveWeather = LocationCoordinateList.map((item, index) => {
     const isLastItem = index === LocationCoordinateList.length - 1;
-    console.log("list last",isLastItem);
+    //console.log("list last",isLastItem);
 
     return (
       <PostTripDayWeather

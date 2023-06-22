@@ -746,6 +746,7 @@ export default function Tripplan(latlng, props) {
 
   const [isClicked, setIsClicked] = useState(false);
   const [SocreButtonTxt, setScoreButtonTxt] = useState("Show Weather Score");
+ 
   const getScoreArray = () => {
     setIsClicked((prevState) => !prevState);
     setScoreButtonTxt((SocreButtonTxt == "Show Weather Score") ? "Hide WeatherScore" : "Show Weather Score");
@@ -796,6 +797,13 @@ export default function Tripplan(latlng, props) {
   const MarkerVisiibility = (data) => {
     setShowMark(data);
   };
+  
+  const [showScore, setShowScore] = useState(false);
+  const ScoreVisiibility = (data) => {
+    setShowScore(data);
+    setIsClicked(data);
+    console.log(data);
+  };
 
   //Harshana End
 
@@ -838,14 +846,9 @@ export default function Tripplan(latlng, props) {
 
   return (
     <>
-      <h1>jhdaks</h1>
-      <h1>jhdaks</h1>
-      <h1>jhdaks</h1>
-      <h1>jhdaks</h1>
+      
 
-      <button onClick={getScoreArray}>{SocreButtonTxt}</button>
-
-      {isClicked && <GetCombinedScore tripID={5} onStringChange={handleScoreArray} />}
+      {isClicked && <GetCombinedScore tripID={6} onStringChange={handleScoreArray} />}
       <div>
         <Header2 />
         <div
@@ -877,6 +880,7 @@ export default function Tripplan(latlng, props) {
                 indexsend={indexsend} // start location
                 sendSuggestlocations={reciveSuggestlocations}//Sugest Locations Harshana
                 sendMarkerVisibility={MarkerVisiibility}
+                sendScoreVisibility={ScoreVisiibility}
                 dateinplantrip={dateinplantrip}
               //optimizeroute={calculateRoute}
               />
@@ -1009,6 +1013,7 @@ export default function Tripplan(latlng, props) {
           </p>
         </div>
       )}
+      {/* <button onClick={getScoreArray}>{SocreButtonTxt}</button> */}
     </>
   );
 }

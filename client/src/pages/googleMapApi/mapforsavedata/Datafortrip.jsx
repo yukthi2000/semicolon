@@ -32,7 +32,7 @@ import { addDays, subDays } from "date-fns";
 // import { AuthContext } from "../../helpers/AuthContext";
 
 const Datafortrip = (prop) => {
-  const tripID = 5 ; //demonstrarton
+  const tripID = 7 ; //demonstrarton
   const currentDate = new Date();
   const minDate = currentDate; // Current date
   const maxDate = addDays(currentDate, 30); // max date (30+ days)
@@ -70,7 +70,7 @@ const Datafortrip = (prop) => {
 
   useEffect(() => {
     if (!localStorage.getItem("accessToken")) {
-      navigate("/login");
+      // navigate("/login");
     }
   }, []);
 
@@ -83,7 +83,7 @@ const Datafortrip = (prop) => {
 
   useEffect(() => {
     if (authState.userType ==! 'premium') {
-      navigate("/subscription");
+      // navigate("/subscription");
     }
   }, []);
 
@@ -109,6 +109,7 @@ const Datafortrip = (prop) => {
     prop.gobuttonhandle();
     // Convert selectedDate to yyyy-mm-dd format
     const formattedDate = dayjs(data.date).format("YYYY-MM-DD");
+    prop.dateforweather(formattedDate);
 
     // Update the date property with the formatted date
     data.date = formattedDate;

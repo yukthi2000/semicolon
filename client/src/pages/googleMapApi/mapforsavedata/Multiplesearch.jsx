@@ -16,7 +16,7 @@ import Forecast from "../../weatherApi/Forecast";
 import axios from "axios";
 import ScoreIcon from "@mui/icons-material/Score";
 import PostTripDayLocationList from "../../weatherApi/WeatherScore/PostTripDayLocationList";
-import WeatherScoreList from "../../weatherApi/WeatherScore/WeatherScoreList";
+//import WeatherScoreList from "../../weatherApi/WeatherScore/WeatherScoreList";
 import { Switch } from "antd";
 
 function Multiplesearch(props) {
@@ -79,13 +79,19 @@ function Multiplesearch(props) {
 
   //for weather
   const tripDate = new Date(props.dateinplantrip);
-  const tripID = 5;
-  
-  const [SuggestButtonTxt,setSuggestButtonTxt] = useState("Show Suggestions");
+  const tripID = 7;
+
+  const [SuggestButtonTxt, setSuggestButtonTxt] = useState("Show Suggestions");
   function handleSuggest() {
     props.sendSuggestlocations(searchdata);
-    props.sendMarkerVisibility((SuggestButtonTxt == "Show Suggestions") ? true : false);
-    setSuggestButtonTxt((SuggestButtonTxt == "Show Suggestions")?"Hide Suggestions" : "Show Suggestions");
+    props.sendMarkerVisibility((SuggestButtonTxt === "Show Suggestions") ? true : false);
+    setSuggestButtonTxt((SuggestButtonTxt === "Show Suggestions") ? "Hide Suggestions" : "Show Suggestions");
+  }
+  
+  const [ScoreButtonTxt, setScoreButtonTxt] = useState("Weather Score");
+  function handleScore() {
+    props.sendScoreVisibility((ScoreButtonTxt === "Weather Score") ? true : false);
+    setScoreButtonTxt((ScoreButtonTxt === "Weather Score") ? "Hide Score" : "Weather Score");
   }
 
   const [PostToggle, setPostToggle] = useState(false);
@@ -194,6 +200,7 @@ function Multiplesearch(props) {
               onClick={() => {
                 setswitchclick(!switchclick);
                 setconfirmed(!confirmed);
+                handleWeatherPost();
               }}
             />
           </div>
@@ -215,7 +222,7 @@ function Multiplesearch(props) {
                 <AddLocationAltIcon sx={{ marginRight: 1 }} />
                 <Typography variant="h7" sx={{ color: "white" }}>
                   {" "}
-                  Suggest Locations
+                  {SuggestButtonTxt}  {/*  suggest Locations */}
                 </Typography>
               </Button>
             </Box>
@@ -232,24 +239,12 @@ function Multiplesearch(props) {
                 </Typography>
               </Button>
             </Box>
-            <Box className="but2" style={{ paddingBottom: 0 }}>
-              <Button
-                variant="elevated"
-                sx={{ width: 220, color: "#EF7E2A", borderBottom: 3 }}
-                onClick={handleSuggest}
-              >
-                <AddLocationAltIcon sx={{ marginRight: 1 }} />
-                <Typography variant="h7" sx={{ color: "#EF7E2A" }}>
-                  {" "}
-                 { SuggestButtonTxt}  {/*  suggest Locations */}
-                </Typography>
-              </Button>
-            </Box>
+
             <Box className="but4" style={{ paddingBottom: 0 }}>
               <Button
                 variant="contained"
                 disabled={!switchclick}
-                onClick={handleWeatherPost}
+                onClick={handleScore}
                 sx={{
                   width: 220,
                   color: "white",
@@ -261,9 +256,9 @@ function Multiplesearch(props) {
                 }}
               >
                 <ScoreIcon sx={{ marginRight: 1 }} />
-                <Typography variant="h7" sx={{ color: "#EF7E2A" }}>
+                <Typography variant="h7" sx={{ color: "white" }}>
                   {" "}
-                  Weather Score
+                  {ScoreButtonTxt}
                 </Typography>
               </Button>
             </Box>
@@ -286,7 +281,7 @@ function Multiplesearch(props) {
           tripDate={tripDate}
         />
       }
-      
+
 
     </Box>
   );
