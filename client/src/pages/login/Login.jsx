@@ -29,7 +29,7 @@ const Login = () => {
         userType: response.data.userType,
         status: true,})
         console.log(response.data)
-        if (response.data.userType === "public") {
+        if (response.data.userType === "public" ||response.data.userType === "premium"  ) {
           history("/");
         } else if (response.data.userType === "superAdmin" || response.data.userType === "admin") {
           history(`/admin/${response.data.id}`);

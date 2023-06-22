@@ -1,8 +1,8 @@
 {
   "development": {
     "username": "root",
-    "password": "Diliya#99",
-    "database": "JourneyJive",
+    "password": "123258789",
+    "database": "newdata",
     "host": "localhost",
     "dialect": "mysql"
   },
