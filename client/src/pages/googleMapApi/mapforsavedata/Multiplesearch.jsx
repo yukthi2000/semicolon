@@ -17,6 +17,7 @@ import axios from "axios";
 import ScoreIcon from "@mui/icons-material/Score";
 import PostTripDayLocationList from "../../weatherApi/WeatherScore/PostTripDayLocationList";
 import WeatherScoreList from "../../weatherApi/WeatherScore/WeatherScoreList";
+import { Switch } from "antd";
 
 function Multiplesearch(props) {
   // const Searchplan = !prop.Searchplan;
