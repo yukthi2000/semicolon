@@ -11,7 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import DirectionsIcon from "@mui/icons-material/Directions";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import "./Searc.css";
 import Multiplesearch from "./Multiplesearch";
 import { PropTypes } from "prop-types";
@@ -24,8 +24,17 @@ import { InfoBox } from "@react-google-maps/infobox";
 import { Box } from "@mui/material";
 import axios from "axios";
 import { useLocation, useSearchParams } from "react-router-dom";
-
 import { InfoWindowF } from "@react-google-maps/api";
+import {
+  NotificationContainer,
+  NotificationManager,
+} from "react-light-notifications";
+import "react-light-notifications/lib/main.css";
+import { useNavigate } from "react-router-dom";
+
+import Showtrips from "../ShowTrips/Showtrips";
+
+//import { InfoWindowF } from "@react-google-maps/api";
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
@@ -91,6 +100,15 @@ export default function Tripplan(latlng, props) {
   const [isOneEntered, setisOneEntered] = React.useState(true);
   const [issecondentered, setissecondentered] = React.useState(true);
   let indexloc = 0;
+  const [currtripid, setcurrtripid] = useState();
+  const [confirmed, setconfirmed] = useState(false);
+
+  const navigate = useNavigate();
+
+  const tripid = (data) => {
+    console.log(data);
+    setcurrtripid(data);
+  };
 
   //location indexes
 
@@ -137,6 +155,15 @@ export default function Tripplan(latlng, props) {
   }, []);
 
   const recivelocations = (data) => {
+    NotificationManager.info({
+      title: "Trip saved",
+      message: "click here to show trips",
+      timeOut: "200000",
+      onClick: () => {
+        navigate("/userProfile/plannedTrip");
+      },
+    });
+
     console.log("recivelocations");
     console.log(data);
 
@@ -544,6 +571,22 @@ export default function Tripplan(latlng, props) {
     }
     CalculateREarangeRoute();
 
+    //savec to database
+    console.log(currtripid);
+    console.log(newLocations);
+
+    axios
+      .post(
+        `http://localhost:3001/Locations/locations/${currtripid}`,
+        newLocations
+      )
+      .then((response) => {
+        console.log("Request successful");
+      })
+      .catch((error) => {
+        console.error("An error occurred", error);
+      });
+
     // const distname=['Kandy, Sri Lanka', 'Gampola, Sri Lanka', 'Gelioya, Sri Lanka']
     // const dist=[0, 24507, 11467]
     // const { sortedPoints, sortedDistances } = sortByDistance(
@@ -851,6 +894,8 @@ export default function Tripplan(latlng, props) {
           
         </div> */}
       </div>
+      <NotificationContainer />
+
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         zoom={7.5}

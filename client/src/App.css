@@ -19,7 +19,7 @@
 
 .abc1{
     position: absolute;
-    z-index: 10;
+    z-index: 100;
     top: 1vh;
     left: 98vh;
 }
@@ -40,8 +40,8 @@
 
 /*drop down in profile page*/
 .dropdown-content{
-    width: 15vh;
-    height: 15vh;
+    width: 20vh;
+    height: auto;
     border-radius: 5px;
     margin-top: 8px;
     padding: 10px;

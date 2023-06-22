@@ -13,9 +13,21 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
           },
+          contactNo: {
+            type: DataTypes.STRING,
+            allowNull: true,
+          },
           userType: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
+          },
+          resetToken: {
+            type: DataTypes.STRING,
+            allowNull: true,
+          },
+          expiryTime: {
+            type: DataTypes.DATE,
+            allowNull: true,
           },
           photo: {
             type: DataTypes.BLOB('long'),
@@ -30,6 +42,12 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'userId',
         onDelete:"cascade",
         
+      });
+    };
+    
+    User.associate = (models) => {
+      User.hasMany(models.Review, {
+        foreignKey: 'userId'
       });
     };
   

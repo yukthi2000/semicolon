@@ -4,6 +4,7 @@ const router = express.Router();
 const cors = require("cors");
 const nodemailer = require("nodemailer");
 const {  sequelize, User  } = require("../models");
+const bcrypt = require("bcrypt");
 
 const app = express();
 app.use(cors());
@@ -71,7 +72,7 @@ const ForgetPasswordResetEmail = nodemailer.createTransport({
 
         const token = generateResetToken();
         const expiryTime = getExpiryTime();
-  
+        await User.update({resetToken:token, expiryTime:expiryTime}, {where:{id:user.id}})
         // Store the reset token and its expiry time in the resetTokens array
         resetTokens.push({ token, expiryTime });
 
@@ -95,5 +96,15 @@ const ForgetPasswordResetEmail = nodemailer.createTransport({
     });
   });
   
+  router.post("/resetPassword",async (req, res) => {
+    const token = req.body.resetToken;
+    const password = req.body.newPassword;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const data =await User.update({resetToken:null, expiryTime:null, password:hashedPassword}, {where:{resetToken:token}})
+    console.log(data);
+    res.status(200).json(data);
+
+     }) 
+
 
   module.exports = router;

@@ -228,7 +228,7 @@ export default function Map(latlng, props) {
         ))}
         {directionResponse && (
           <DirectionsRenderer directions={directionResponse} />
-        )}
+        ) || console.log(directionResponse)}
 
         {selected ? (
           <InfoWindow position={{ lat: selected.lat, lng: selected.lng }}>

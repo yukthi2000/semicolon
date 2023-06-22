@@ -8,9 +8,9 @@
         width: 58vh;
         margin: 1.5vh;
         border: none;
-        border-radius: 20px;
+        border-radius: 6px;
         background-color: #ededed;
-        border-bottom: 2px solid #888888;
+        border-bottom: 2px solid #bebebe;
         text-indent: 20px;
         }
 
@@ -25,8 +25,11 @@
     width: 58vh;
     margin: 1.5vh;
     background-color: #ededed;
-    border-bottom: 2.5px solid #888888;
-    border-radius: 25px;
+    border-bottom: 2.5px solid #bebebe;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-radius: 6px;
     text-indent: 20px;
     padding-top: 14px;
     }
