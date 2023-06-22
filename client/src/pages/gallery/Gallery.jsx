@@ -12,8 +12,8 @@ import WeatherScoreList from '../weatherApi/WeatherScore/WeatherScoreList';
 import WeatherScore from '../weatherApi/WeatherScore/TestScore';
 import CalculateWeatherScores from '../weatherApi/WeatherScore/CalculateWeatherScores';
 import PostWeatherScore from '../weatherApi/WeatherScore/PostWeatherScore';
-import GetCombinedScore from '../weatherApi/WeatherScore/GetCombinedScore';
-import LatLngToName from '../weatherApi/WeatherScore/LatLngToName';
+// import GetCombinedScore from '../weatherApi/WeatherScore/GetCombinedScore';
+// import LatLngToName from '../weatherApi/WeatherScore/LatLngToName';
 
 const Gallery = () => {
 
