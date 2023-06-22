@@ -1,4 +1,4 @@
-import Header2 from "../../componets/Header2";
+// import Header2 from "../../componets/Header2";
 import React from "react";
 import Map from "./Map"
 import { HomeContext } from "../../Context/HomeContext";
@@ -14,7 +14,7 @@ export default function GoogleMapApi() {
   const location = { lat: 7.2906, lng: 80.6337 };
   return (
     <div>
-      <Header2 />
+      {/* <Header2 /> */}
       <HomeContext.Provider value={{ curr: startloc }}>
       <Map mapLocation={location} />
       
