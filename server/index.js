@@ -55,7 +55,6 @@ db.sequelize.sync().then(() => {
   });
 });
 
-
 // db.sequelize.sync().then(()=>{
 //     app.listen(3002, () => {
 //         console.log("server is running")

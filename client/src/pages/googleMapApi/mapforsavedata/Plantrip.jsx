@@ -34,7 +34,6 @@ import { useNavigate } from "react-router-dom";
 
 import Showtrips from "../ShowTrips/Showtrips";
 
-
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
@@ -53,6 +52,7 @@ import { Button } from "@mui/material";
 import GetCombinedScore from "../../weatherApi/WeatherScore/GetCombinedScore";
 import LatLngToName from "../../weatherApi/WeatherScore/LatLngToName";
 import NameToLatLng from "../../weatherApi/WeatherScore/NameToLatLng";
+import ForecastScore from "../../weatherApi/ForcastScore";
 // import SearchBox from "react-google-maps/lib/components/places/SearchBox";
 const heading = "kandy";
 const libraries = ["places"];
@@ -746,19 +746,64 @@ export default function Tripplan(latlng, props) {
 
   const [isClicked, setIsClicked] = useState(false);
   const [SocreButtonTxt, setScoreButtonTxt] = useState("Show Weather Score");
- 
+
   const getScoreArray = () => {
     setIsClicked((prevState) => !prevState);
     setScoreButtonTxt((SocreButtonTxt == "Show Weather Score") ? "Hide WeatherScore" : "Show Weather Score");
   }
 
+  // const handleWeatherIconClick = (lat, lng) => {
+  //   const cityElement = <LatLngToName lat={lat} lng={lng} />;
+  //   // Render the city element or use its value as needed
+  //   console.log(cityElement);
+  // };
+  const [city, setCity] = useState("");
+  const [open, setOpen] = useState(true);
 
-  const [forecastLat, setForecastLat] = useState(null);
-  const [foreCastLng, setforeCastLng] = useState(null);
-  
-  const handleWeatheScoreClicked = (lat, lng) => {
-  
-  }
+  const [globalLocation, setGlobalLocation] = useState("Sri Lanka");
+  const pull_newGlobalLocation = (newLocation) => {
+    setGlobalLocation(newLocation);
+  };
+
+  const forecastVisibility = (data) => {
+    setOpen(data);
+  };
+
+  const handleWeatherIconClick = async (lat, lng) => {
+    let cityName = ""
+    let display = false;
+    try {
+      const response = await fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyCjTfIEci5TjcUCYMifDVtiC6nt7tFRqko`
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        const results = data.results;
+        if (results.length > 0) {
+          const addressComponents = results[0].address_components;
+          const cityComponent = addressComponents.find(component =>
+            component.types.includes('locality')
+          );
+
+          if (cityComponent) {
+            cityName = cityComponent.long_name;
+            console.log(cityName);
+            display = true;
+            console.log(display);
+            setCity(cityName);
+            setOpen(true);
+
+          }
+        }
+      } else {
+        throw new Error('Error fetching city');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    return null
+  };
 
   //console.log('Changed string:', weatherScoreJson);
   const [selectedLocation, setSelectedLocation] = React.useState(null);
@@ -769,8 +814,6 @@ export default function Tripplan(latlng, props) {
         position={{ lat: location.lat, lng: location.lng }}
         onCloseClick={() => setSelectedLocation(null)}
         visible={selectedLocation === location}
-        onClick={handleWeatheScoreClicked(location.lat, location.lng)}
-
       >
         <div className="infowindow-container">
 
@@ -783,7 +826,9 @@ export default function Tripplan(latlng, props) {
           </div>
           <div className="weather-icon-container">
             <img src={WeatherIcon(location.iconID)}
-              alt='weather icon' className="weather-icon" />
+              alt='weather icon' className="weather-icon"
+              onClick={() => handleWeatherIconClick(location.lat, location.lng)}
+            />
           </div>
 
           <div className="temp-text">{location.temperature} °C </div>
@@ -797,7 +842,7 @@ export default function Tripplan(latlng, props) {
   const MarkerVisiibility = (data) => {
     setShowMark(data);
   };
-  
+
   const [showScore, setShowScore] = useState(false);
   const ScoreVisiibility = (data) => {
     setShowScore(data);
@@ -846,8 +891,14 @@ export default function Tripplan(latlng, props) {
 
   return (
     <>
-      
-
+      {city && open && (
+        <ForecastScore
+          currentCity={city}
+          tripDate={dateinplantrip}
+          Globalfunc={pull_newGlobalLocation}
+          sendOpenToParent={forecastVisibility}
+        />
+      )}
       {isClicked && <GetCombinedScore tripID={6} onStringChange={handleScoreArray} />}
       <div>
         <Header2 />
@@ -905,7 +956,6 @@ export default function Tripplan(latlng, props) {
         zoom={7.5}
         center={center}
         options={options}
-        onClick={onMapClick}
         onLoad={onMapLoad}
       >
         {isClicked && ScoreDataFetched && renderScoreInfoWindows(weatherScoreJson)} //weatherScore

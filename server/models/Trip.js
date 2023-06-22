@@ -7,18 +7,18 @@ module.exports = (sequelize, DataTypes) => {
     },
     date: {
       type: DataTypes.DATEONLY,
-      allowNull: false,
+      allowNull: true,
     },
     vehicleType: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
   });
 
   Trip.associate = (models) => {
     Trip.belongsTo(models.User, {
       foreignKey: "userId",
-      allowNull: false,
+      allowNull: true,
     });
     Trip.hasMany(models.Locations, {
       foreignKey: "tripId",

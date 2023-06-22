@@ -18,6 +18,7 @@ import ScoreIcon from "@mui/icons-material/Score";
 import PostTripDayLocationList from "../../weatherApi/WeatherScore/PostTripDayLocationList";
 //import WeatherScoreList from "../../weatherApi/WeatherScore/WeatherScoreList";
 import { Switch } from "antd";
+import CardTravelIcon from '@mui/icons-material/CardTravel';
 
 function Multiplesearch(props) {
   // const Searchplan = !prop.Searchplan;
@@ -142,12 +143,13 @@ function Multiplesearch(props) {
         <Paper sx={{ width: 350, height: "90vh" }}>
           <Box className="upper">
             <Typography
-              variant="h4"
-              sx={{ color: "white", fontFamily: "cursive" }}
+              variant="h5"
+              sx={{ color: "white", fontFamily: "Montserrat",fontWeight: 500 }}
+
             >
               {" "}
-              <ArrowDropDownIcon sx={{ width: 50, height: 30 }} />
-              Happy Journey
+              <CardTravelIcon  sx={{ width: 50, height: 30 }}/>
+              Happy Journey 
             </Typography>
           </Box>
           <Box className="searcharea">

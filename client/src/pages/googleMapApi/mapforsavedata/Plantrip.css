@@ -54,6 +54,7 @@
       height: auto;
       width: 225px;
       background-color: #fff;
+      cursor: pointer;
     }
     
     .suggested-heading {
@@ -64,6 +65,7 @@
     
     .suggested-ico {
     padding: 5px;
+    cursor: pointer;
     }
   
     .vicinity{

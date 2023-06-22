@@ -114,17 +114,17 @@ const Datafortrip = (prop) => {
     // Update the date property with the formatted date
     data.date = formattedDate;
     console.log(data);
-    axios
-      .post("http://localhost:3001/Trips/tripdata", data, {
-        headers: { accessToken: localStorage.getItem("accessToken") },
-      })
-      .then((res) => {
-        const tripId = res.data.tripId;
-        prop.tripid(tripId);
+    // axios
+    //   .post("http://localhost:3001/Trips/tripdata", data, {
+    //     headers: { accessToken: localStorage.getItem("accessToken") },
+    //   })
+    //   .then((res) => {
+    //     const tripId = res.data.tripId;
+    //     prop.tripid(tripId);
 
 
-        //error fetching
-      });
+    //     //error fetching
+    //   });
   };
 
   // const onSubmit = (data) => {

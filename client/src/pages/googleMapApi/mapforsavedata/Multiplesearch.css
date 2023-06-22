@@ -8,12 +8,13 @@
 .upper {
   width: 350px;
   height: 70px;
-  background-color: #8b8d8e;
+  background-color: #132320;
   border-bottom: 1px solid black;
   border-top-right-radius: 05px;
   border-top-left-radius: 5px;
   display: flex;
   align-items: center;
+  justify-content: space-evenly;
 }
 .buttons {
   display: flex;

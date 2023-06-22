@@ -15,6 +15,7 @@ import Searchbox from "./Searchboxformultisearch";
 import Forecast from "../weatherApi/Forecast";
 import axios from "axios";
 import ScoreIcon from "@mui/icons-material/Score";
+import CardTravelIcon from '@mui/icons-material/CardTravel';
 
 function Multiplesearch(props) {
   // const Searchplan = !prop.Searchplan;
@@ -118,14 +119,15 @@ function Multiplesearch(props) {
       {/* </Box> */}
       <Box>
         <Paper sx={{ width: 350, height: "90vh" }}>
-          <Box className="upper">
+        <Box className="upper">
             <Typography
-              variant="h4"
-              sx={{ color: "white", fontFamily: "cursive" }}
+              variant="h5"
+              sx={{ color: "white", fontFamily: "Montserrat",fontWeight: 500 }}
+
             >
               {" "}
-              <ArrowDropDownIcon sx={{ width: 50, height: 30 }} />
-              Happy Journey
+              <CardTravelIcon  sx={{ width: 50, height: 30 }}/>
+              Happy Journey 
             </Typography>
           </Box>
           <Box className="searcharea">

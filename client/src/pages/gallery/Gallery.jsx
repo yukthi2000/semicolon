@@ -12,6 +12,7 @@ import WeatherScoreList from '../weatherApi/WeatherScore/WeatherScoreList';
 import WeatherScore from '../weatherApi/WeatherScore/TestScore';
 import CalculateWeatherScores from '../weatherApi/WeatherScore/CalculateWeatherScores';
 import PostWeatherScore from '../weatherApi/WeatherScore/PostWeatherScore';
+import ForecastScore from '../weatherApi/ForcastScore';
 // import GetCombinedScore from '../weatherApi/WeatherScore/GetCombinedScore';
 // import LatLngToName from '../weatherApi/WeatherScore/LatLngToName';
 
@@ -45,7 +46,7 @@ const Gallery = () => {
 
 //   console.log(h)
 //   //setP(JSON.parse(h));
-
+const city = 'Matale';
   return (
     <div>
       <Header2 />
@@ -74,7 +75,12 @@ const Gallery = () => {
           Globalfunc={pull_newGlobalLocation} //passing location function
 
         /> */}
-        <WeatherOptions tripID={5}/>
+        {/* <WeatherOptions tripID={5}/> */}
+        <ForecastScore
+    currentCity={city}
+    tripDate={tripDate}
+    Globalfunc={pull_newGlobalLocation} //passing location function
+  />
 
        {/* <WeatherScoreList
         tripID = "252525"
