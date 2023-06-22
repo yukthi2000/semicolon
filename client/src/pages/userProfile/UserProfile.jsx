@@ -10,7 +10,7 @@ import axios from "axios";
 import { Modal, TextField, Button } from "@mui/material";
 import { Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-
+import ImageUploadForm from './ImageUploadForm';
 
 
 const UserProfile = () => {
@@ -27,6 +27,7 @@ const [editedName, setEditedName] = useState("");
 const [editedEmail, setEditedEmail] = useState("");
 const [editedUserType, setEditedUserType] = useState("");
 const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
 const history = useNavigate();
 
 const handleSaveProfile = () => {
@@ -95,6 +96,7 @@ const handleDeleteAccount = () => {
   </div>
   <div><h5>{email}</h5></div>
   <div><h5>{userType}</h5></div>
+  <ImageUploadForm />
   <Button variant="outlined" color="secondary" onClick={() => setIsDeleteDialogOpen(true)}>
     Delete Account
   </Button>

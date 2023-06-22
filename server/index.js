@@ -36,18 +36,24 @@ const ReviewRouter = require("./routes/Review");
 app.use("/reviews", ReviewRouter);
 
 //gallery
-const imageRoutes = require("./routes/imageRoutes");
-app.use('/api/images', imageRoutes);
+// const imageRoutes = require("./routes/imageRoutes");
+// app.use('/api/images', imageRoutes);
 
 //ForgetPassword
 const forgetPasswordRoutes = require("./routes/ForgetPassword");
 app.use('/passwordReset',forgetPasswordRoutes);
+
+app.use(express.static('public'));
+
+const imageRoutes = require("./routes/Image");
+app.use('/images', imageRoutes);
 
 db.sequelize.sync().then(() => {
   app.listen(3001, () => {
     console.log("server is running");
   });
 });
+
 
 // db.sequelize.sync().then(()=>{
 //     app.listen(3002, () => {

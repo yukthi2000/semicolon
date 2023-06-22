@@ -1,19 +1,27 @@
-// models/Image.js
 module.exports = (sequelize, DataTypes) => {
-    const Image  = sequelize.define("Gallary", {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-  },
-  location: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  userId: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-});
+  const Image = sequelize.define('Image', {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    location: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    fileName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    fileType: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  });
+  
 return Image ;
-}
+};
