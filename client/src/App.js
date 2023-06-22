@@ -192,7 +192,7 @@ const App = () => {
                         onClick={handleOutsideClick}
                       >
                         <h4 className="Name">{authState.name}</h4>
-                        {authState.userType === "public" ? (
+                        {/* {authState.userType === "public" ? (
                           <a
                             className="view-profile"
                             href={`userProfile/${authState.id}`}
@@ -206,7 +206,23 @@ const App = () => {
                           >
                             Admin page
                           </a>
+                        )} */}
+                        {authState.userType === "public" ? (
+                          <Link
+                            to={`/userProfile/${authState.id}`}
+                            className="view-profile"
+                          >
+                            View Profile
+                          </Link>
+                        ) : (
+                          <Link
+                            to={`/admin/${authState.id}`}
+                            className="view-profile"
+                          >
+                            Admin page
+                          </Link>
                         )}
+
                         <button className="logout-button" onClick={logout}>
                           Logout
                         </button>
@@ -225,7 +241,6 @@ const App = () => {
         {/* <div>
       {authState && <p>User is authenticated.</p>}
     </div> */}
-
 
         <Routes>
           <Route path="/" element={<Home />} />

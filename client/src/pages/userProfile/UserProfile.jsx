@@ -12,7 +12,8 @@ const UserProfile = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [userType, setUserType] = useState("");
-
+  const [selectedImage, setSelectedImage] = useState(null); 
+  const [profilePicture, setProfilePicture] = useState(null); // Add this line
   // Edit modal states
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editedName, setEditedName] = useState("");
@@ -38,6 +39,15 @@ const UserProfile = () => {
       .catch((error) => {
         console.error("Error fetching user data:", error);
       });
+      axios
+      .get(`http://localhost:3001/auth/profile-picture/${id}`, { responseType: 'blob' }) // Add responseType option
+      .then((response) => {
+        const blobUrl = URL.createObjectURL(response.data); // Create object URL from blob data
+        setProfilePicture(blobUrl);
+      })
+      .catch((error) => {
+        console.error("Error fetching profile picture:", error);
+      });
   }, [id]);
 
   const handleSaveProfile = () => {
@@ -52,6 +62,7 @@ const UserProfile = () => {
         // Close the modal and display success message
         setIsModalOpen(false);
         alert("Profile updated successfully");
+        window.location.reload();
       })
       .catch((error) => {
         // Handle any error that occurs during the API request
@@ -78,10 +89,33 @@ const UserProfile = () => {
       });
   };
 
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    setSelectedImage(file);
+  };
+
+  const uploadImage = () => {
+    const formData = new FormData();
+    formData.append("image", selectedImage);
+  
+    axios
+      .put(`http://localhost:3001/auth/profile-picture/${id}`, formData)
+      .then(() => {
+        console.log("Image uploaded successfully");
+        window.location.reload();
+
+        // Perform any additional operations after image upload if needed
+      })
+      .catch((error) => {
+        console.error("Error uploading image:", error);
+      });
+  };
+  
+
   return (
     <div className="user-profile">
       <div className="left-side">
-        <div className="profile-frame"></div>
+        <div className="profile-frame">{profilePicture && <img src={profilePicture} alt="Profile" />} {/* Display the profile picture */}</div>
         <div className="proInfo">
           <div>
             <FaUserEdit onClick={() => setIsModalOpen(true)} />
@@ -100,6 +134,8 @@ const UserProfile = () => {
           >
             Delete Account
           </Button>
+          <input type="file" accept="image/*" onChange={handleImageUpload} /> {/* Add this line */}
+          <Button variant="outlined" color="primary" onClick={uploadImage}>Upload Image</Button> {/* Add this line */}
         </div>
 
         <Dialog
