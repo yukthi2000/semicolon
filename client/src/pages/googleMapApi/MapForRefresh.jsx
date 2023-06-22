@@ -224,7 +224,7 @@ export default function Map(latlng, props) {
       // resetMap();
       calculateRoute();
     } else if (currstatus === "optimize") {
-      if (authState.userType === "public") {
+      if (authState.userType ==!'premium') {
         navigate("/subscription");
       }
       // resetMap();
@@ -416,7 +416,7 @@ export default function Map(latlng, props) {
       travelMode: google.maps.TravelMode.DRIVING,
     });
     //eslint-disable-next-line  no-undef
-    const newDirectionsRenderer = new google.maps.DirectionsRenderer();
+   const newDirectionsRenderer = new google.maps.DirectionsRenderer();
     newDirectionsRenderer.setDirections(result);
     newDirectionsRenderer.setMap(mapRef.current);
     setDirectionsRenderer(newDirectionsRenderer);
@@ -563,12 +563,12 @@ export default function Map(latlng, props) {
       //eslint-disable-next-line  no-undef
       travelMode: google.maps.TravelMode.DRIVING,
     });
-    //eslint-disable-next-line  no-undef
-    const newDirectionsRenderer = new google.maps.DirectionsRenderer();
-    newDirectionsRenderer.setDirections(result);
-    newDirectionsRenderer.setMap(mapRef.current);
-    setDirectionsRenderer(newDirectionsRenderer);
-    console.log("directionResponse", directionResponse);
+     //eslint-disable-next-line  no-undef
+     const newDirectionsRenderer = new google.maps.DirectionsRenderer();
+     newDirectionsRenderer.setDirections(result);
+     newDirectionsRenderer.setMap(mapRef.current);
+     setDirectionsRenderer(newDirectionsRenderer);
+     console.log("directionResponse", directionResponse);
     console.log("directionResponse", directionResponse);
 
     const routedetails = result.routes[0].legs.reduce(
@@ -890,21 +890,9 @@ export default function Map(latlng, props) {
   return (
     <>
       <div>
-        {/* <Link to="/mapp/Tripplan"> */}
-        <AnimatedButton
-          onClick={() => {
-            if (authState.userType ==='public') {
-              navigate("/subscription");
-            }else if(authState.userType ==='premium')
-            {
-            navigate("/mapp/Tripplan");
-
-            }
-          }}
-        >
-          Plan a Trip
-        </AnimatedButton>
-        {/* </Link> */}
+        <Link to="/mapp/Tripplan">
+          <AnimatedButton>Plan a Trip</AnimatedButton>
+        </Link>
 
         <div
           style={{
@@ -986,9 +974,8 @@ export default function Map(latlng, props) {
             // }}
           />
         ))}
-        {directionsRenderer && (
-          <DirectionsRenderer directions={directionsRenderer.directions} />
-        )}
+        {directionsRenderer && <DirectionsRenderer directions={directionsRenderer.directions} />}
+
 
         {selected ? (
           <InfoWindow position={{ lat: selected.lat, lng: selected.lng }}>
