@@ -15,7 +15,6 @@ import Searchbox from "./Searchboxformultisearch";
 import Forecast from "../../weatherApi/Forecast";
 import axios from "axios";
 import ScoreIcon from "@mui/icons-material/Score";
-import { Switch } from "antd";
 import PostTripDayLocationList from "../../weatherApi/WeatherScore/PostTripDayLocationList";
 import WeatherScoreList from "../../weatherApi/WeatherScore/WeatherScoreList";
 
@@ -30,7 +29,6 @@ function Multiplesearch(props) {
   const [data, setData] = useState("");
   const [sedata, setSedata] = useState(["temp"]);
   const { startlocation } = props;
-  const [switchclick, setswitchclick] = useState(false);
 
   const adddate = () => {
     setSedata([...sedata, data]);
@@ -75,10 +73,13 @@ function Multiplesearch(props) {
 
   //for weather
   const tripDate = new Date(props.dateinplantrip);
-  const tripID = '889977'
-
+  const tripID = '92'
+  
+  const [SuggestButtonTxt,setSuggestButtonTxt] = useState("Show Suggestions");
   function handleSuggest() {
     props.sendSuggestlocations(searchdata);
+    props.sendMarkerVisibility((SuggestButtonTxt == "Show Suggestions") ? true : false);
+    setSuggestButtonTxt((SuggestButtonTxt == "Show Suggestions")?"Hide Suggestions" : "Show Suggestions");
   }
 
   const [PostToggle, setPostToggle] = useState(false);
@@ -86,11 +87,7 @@ function Multiplesearch(props) {
     //console.log(searchdata);
     setPostToggle(true);
   }
-  const [ScoreToggle, setScoreToggle] = useState(false);
-  function handleWeatherScore() {
-    console.log("score wada");
-    setScoreToggle(true);
-  }
+
   //Harshana End
 
   function saveData(data) {
@@ -119,11 +116,11 @@ function Multiplesearch(props) {
           <Box className="upper">
             <Typography
               variant="h4"
-              sx={{ color: "white", fontFamily: "cursive", paddingLeft: 2 }}
+              sx={{ color: "white", fontFamily: "cursive" }}
             >
               {" "}
-              {/* <ArrowDropDownIcon sx={{ width: 50, height: 30 }} /> */}
-              Happy Journey
+              <ArrowDropDownIcon sx={{ width: 50, height: 30 }} />
+              Trip to {props.heading}
             </Typography>
           </Box>
           <Box className="searcharea">
@@ -131,7 +128,6 @@ function Multiplesearch(props) {
               <Box key={index} className="searchoptions">
                 <Box className="multisearch">
                   <Box className="searchh">
-                    {console.log(index)}
                     <Searchbox
                       location={index === 0 ? "Start Location" : "Location"}
                       currLocation={(data) => getLocation(data, index)}
@@ -166,79 +162,41 @@ function Multiplesearch(props) {
               </Box>
             ))}
           </Box>
-          <div className="confirm" style={{ marginLeft: 5 }}>
-            <Switch
-              defaultChecked={false}
-              checkedChildren="Confirmed"
-              unCheckedChildren="Confirmation"
-              size="large"
-              onClick={() => {
-                setswitchclick(!switchclick);
-              }}
-            />
-          </div>
+
           <Box className="buttons">
-            <Box className="but2" style={{ paddingBottom: 0 }}>
-              <Button
-                variant="contained"
-                sx={{
-                  width: 220,
-                  color: "white",
-                  borderBottom: 3,
-                  background: "#8b8d8e",
-                  "&:hover": {
-                    background: "#EF7E2A", // Replace with your desired hover color
-                  },
-                }}
-                onClick={handleSuggest}
-                
-              >
-                <AddLocationAltIcon sx={{ marginRight: 1 }} />
-                <Typography variant="h7" sx={{ color: "white" }}>
-                  {" "}
-                  Suggest Locations
-                </Typography>
-              </Button>
-            </Box>
             <Box className="but1" style={{ paddingBotnotetom: 0 }}>
               <Button
-                variant="contained"
-                sx={{
-                  width: 220,
-                  color: "white",
-                  borderBottom: 3,
-                  background: "#8b8d8e",
-                  "&:hover": {
-                    background: "#EF7E2A", // Replace with your desired hover color
-                  },
-                }}
+                variant="elevated"
+                sx={{ width: 220, color: "#EF7E2A", borderBottom: 3 }}
                 onClick={handleSave}
-                disabled={!switchclick}
               >
                 <RouteIcon sx={{ marginRight: 1 }} />
-                <Typography variant="h7" sx={{ color: "white" }}>
+                <Typography variant="h7" sx={{ color: "#EF7E2A" }}>
                   Optimize Route
                 </Typography>
               </Button>
             </Box>
-
+            <Box className="but2" style={{ paddingBottom: 0 }}>
+              <Button
+                variant="elevated"
+                sx={{ width: 220, color: "#EF7E2A", borderBottom: 3 }}
+                onClick={handleSuggest}
+              >
+                <AddLocationAltIcon sx={{ marginRight: 1 }} />
+                <Typography variant="h7" sx={{ color: "#EF7E2A" }}>
+                  {" "}
+                 { SuggestButtonTxt}  {/*  suggest Locations */}
+                </Typography>
+              </Button>
+            </Box>
             <Box className="but4" style={{ paddingBottom: 0 }}>
               <Button
-                variant="contained"
-                disabled={!switchclick}
-                sx={{
-                  width: 220,
-                  color: "white",
-                  borderBottom: 3,
-                  background: "#8b8d8e",
-                  "&:hover": {
-                    background: "#EF7E2A", // Replace with your desired hover color
-                  },
-                  
-                }}
+                variant="elevated"
+                sx={{ width: 220, color: "#EF7E2A", borderBottom: 3 }}
+                onClick={handleWeatherPost}
               >
                 <ScoreIcon sx={{ marginRight: 1 }} />
-                <Typography variant="h7" sx={{ color: "white" }}>
+                <Typography variant="h7" sx={{ color: "#EF7E2A" }}>
                   {" "}
                   Weather Score
                 </Typography>
@@ -255,7 +213,7 @@ function Multiplesearch(props) {
         </Paper>
       </Box>
 
-      //Harshana
+      {/* Harshana */}
       {PostToggle &&
         <PostTripDayLocationList
           locationList={searchdata}
@@ -263,10 +221,6 @@ function Multiplesearch(props) {
           tripDate={tripDate}
         />
       }
-        <WeatherScoreList
-          tripID={tripID}
-          locationList={searchdata}
-        />
       
 
     </Box>
