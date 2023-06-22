@@ -207,7 +207,9 @@ const App = () => {
                         onClick={handleOutsideClick}
                       >
                         <h4 className="Name">{authState.name}</h4>
-                        {/* {authState.userType === "public" ? (
+
+                        {authState.userType === "public" || authState.userType === "premium"? (
+
                           <a
                             className="view-profile"
                             href={`userProfile/${authState.id}`}

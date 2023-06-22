@@ -1,7 +1,7 @@
-import loading from "../../../assets/loading (1).gif";
-import error from "../../../assets/error.gif";
+import loading from "../../assets/loading (1).gif";
+import error from "../../assets/error.gif";
 import * as React from "react";
-
+// import Searchbar from "./Searchbar";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import Divider from "@mui/material/Divider";
@@ -9,40 +9,36 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import DirectionsIcon from "@mui/icons-material/Directions";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import "./Searc.css";
 import Multiplesearch from "./Multiplesearch";
 import { PropTypes } from "prop-types";
-import Header2 from "../../../componets/Header2";
-//import Sidepan from "./Sidepan";
-import Datafortrip from "./Datafortrip";
+import Searchbox from "./Searchboxformulti";
 import { useContext, useEffect } from "react";
-import { HomeContext } from "../../../Context/HomeContext";
+import { HomeContext } from "../../Context/HomeContext";
 import { InfoBox } from "@react-google-maps/infobox";
 import { Box } from "@mui/material";
 import axios from "axios";
-import { useLocation, useSearchParams } from "react-router-dom";
-import { InfoWindowF } from "@react-google-maps/api";
-import {
-  NotificationContainer,
-  NotificationManager,
-} from "react-light-notifications";
-import "react-light-notifications/lib/main.css";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
+import { styled } from "@mui/system";
+import { AuthContext } from "../../helpers/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-import Showtrips from "../ShowTrips/Showtrips";
+// import { useContext } from "react";
 
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
 
+import "@reach/combobox/styles.css";
 import {
   GoogleMap,
   useLoadScript,
   Marker,
   InfoWindow,
   DirectionsRenderer,
+  InfoWindowF,
 } from "@react-google-maps/api";
 
 import { formatRelative } from "date-fns";
@@ -50,6 +46,7 @@ import { Button } from "@mui/material";
 // import SearchBox from "react-google-maps/lib/components/places/SearchBox";
 const heading = "kandy";
 const libraries = ["places"];
+
 const mapContainerStyle = {
   width: "100vw",
   height: "100vh",
@@ -64,7 +61,36 @@ const options = {
   streetViewControl: true,
 };
 
-export default function Tripplan(latlng, props) {
+const AnimatedButton = styled(Button)({
+  position: "fixed",
+  top: 90,
+  right: 30,
+  zIndex: 999999,
+  variant: "elevated",
+  animation: "animateBorder 2s infinite",
+  border: "2px solid transparent",
+  color: "#132320",
+
+  "&:hover": {
+    animation: "none",
+    border: "2px solid #EF7E2A",
+
+    backgroundColor: "rgba(239, 126, 34, 0.5)",
+  },
+  "@keyframes animateBorder": {
+    "0%": {
+      borderColor: "transparent",
+    },
+    "50%": {
+      borderColor: "#EF7E2A", // Change this to the desired border color
+    },
+    "100%": {
+      borderColor: "transparent",
+    },
+  },
+});
+
+export default function Map(latlng, props) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: "AIzaSyCjTfIEci5TjcUCYMifDVtiC6nt7tFRqko",
     libraries,
@@ -73,8 +99,8 @@ export default function Tripplan(latlng, props) {
   const [selected, setSelected] = React.useState(null);
   const [Searchplan, setSearchplan] = useState(false);
   const [Searchplan2, setSearchplan2] = useState(props.Searchplan);
-  const [search, setSearch] = useState(false);
-  const [gobutton, setGobutton] = useState(true);
+  const [searchdata, setSearchdata] = useState([]);
+  const [searchdata2, setSearchdata2] = useState([]);
   const { curr } = useContext(HomeContext);
   const [directionResponse, SetdirectionResponse] = React.useState(null);
   const [distance, setDistance] = React.useState(0);
@@ -94,77 +120,81 @@ export default function Tripplan(latlng, props) {
   const [isOneEntered, setisOneEntered] = React.useState(true);
   const [issecondentered, setissecondentered] = React.useState(true);
   let indexloc = 0;
-  const [currtripid, setcurrtripid] = useState();
-  const [confirmed, setconfirmed] = useState(false);
+  const [currstatus, setcurrstatus] = React.useState();
+  // const [isLoadingMap, setIsLoadingMap] = useState(true);
+  const [mapKey, setMapKey] = useState(0);
+  const [directionsRenderer, setDirectionsRenderer] = useState(null);
+
+  let isLoadingMap;
+
+  const resetMap = () => {
+    isLoadingMap = true;
+    console.log(isLoadingMap);
+    setTimeout(() => {
+      setMapKey((prevKey) => prevKey + 1);
+      isLoadingMap = false;
+      console.log(isLoadingMap);
+    }, 1000);
+  };
+
+  const { authState } = useContext(AuthContext);
 
   const navigate = useNavigate();
-
-  const tripid = (data) => {
-    console.log(data);
-    setcurrtripid(data);
+  const initialValues = {
+    title: "",
+    postText: "",
   };
 
-  //location indexes
-
-  const indexsend = (data) => {
-    indexloc = data;
-    console.log(data);
-    console.log(indexloc);
-    if (indexloc === 0) {
-      setisOneEntered(true);
-      return;
-    } else if (indexloc === 1) {
-      setissecondentered(true);
-      return;
-    } else {
-      setissecondentered(true);
-      setisOneEntered(true);
-    }
-  };
-
-  const gobuttonhandle = () => {
-    setGobutton(!gobutton);
-  };
-
-  const handlesearch = () => {
-    setSearch(!search);
-  };
+  function CleareRoute() {
+    SetdirectionResponse(null);
+    setFirstAndLastSearchData([]);
+    setSearchDataWithoutFirstAndLast([]);
+  }
 
   const onmarkk = (data) => {
     console.log("dadfa");
-    Setmarkers(data);
+    //Setmarkers(data);
+    Setmarkers((current) => [
+      ...current,
+      {
+        lat: data.lat,
+        lng: data.lng,
+        time: new Date(),
+      },
+    ]);
   };
   const Searchplanshow = () => {
     setSearchplan(!Searchplan);
   };
+  //get start location from url
+  const location = useLocation();
 
-  const onMapClick = React.useCallback((event) => {
-    Setmarkers((current) => [
-      ...current,
-      {
-        lat: event.latLng.lat(),
-        lng: event.latLng.lng(),
-        time: new Date(),
-      },
-    ]);
-  }, []);
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const startlocation = searchParams.get("startlocation");
+    // Use the startlocation value as needed
+    setlocationsstart(startlocation);
+    console.log(startlocation);
+  }, [location.search]);
+
+  const mapWithoutFirstAndLast = (array) => {
+    return array.slice(1, array.length - 1);
+  };
 
   const recivelocations = (data) => {
-    NotificationManager.info({
-      title: "Trip saved",
-      message: "click here to show trips",
-      timeOut: "200000",
-      onClick: () => {
-        navigate("/userProfile/plannedTrip/plannedTrip");
-      },
-    });
-
     console.log("recivelocations");
     console.log(data);
 
-    if (data.length === 0) {
+    const searchdataArray = data.searchdata;
+    console.log(searchdataArray.length);
+
+    // const searchData = data.searchData;
+    const status = data.status;
+    setcurrstatus(status);
+
+    if (searchdataArray.length === 0) {
       setisOneEntered(false);
-    } else if (data.length === 1) {
+    } else if (searchdataArray.length === 1) {
       setissecondentered(false);
     } else {
       setissecondentered(true);
@@ -173,9 +203,9 @@ export default function Tripplan(latlng, props) {
     console.log(isOneEntered);
     console.log(issecondentered);
 
-    const [firstElement, ...restElement] = data;
-    const lastElement = data[data.length - 1];
-    const restElements = data.slice(1, data.length - 1);
+    const [firstElement, ...restElement] = searchdataArray;
+    const lastElement = searchdataArray[searchdataArray.length - 1];
+    const restElements = searchdataArray.slice(1, searchdataArray.length - 1);
 
     setFirstAndLastSearchData([firstElement, lastElement]);
     setSearchDataWithoutFirstAndLast(restElements);
@@ -186,10 +216,22 @@ export default function Tripplan(latlng, props) {
     // This will log the updated state values
     console.log(firstAndLastSearchData);
     console.log(searchDataWithoutFirstAndLast);
+
     //calculateRoute();
-    Setnewarrat();
-    Reroute();
-  }, [firstAndLastSearchData, searchDataWithoutFirstAndLast]);
+    // Setnewarrat();
+    // Reroute();
+    if (currstatus === "normal") {
+      // resetMap();
+      calculateRoute();
+    } else if (currstatus === "optimize") {
+      if (authState.userType ==!'premium') {
+        navigate("/subscription");
+      }
+      // resetMap();
+      Setnewarrat();
+      Reroute();
+    }
+  }, [currstatus, firstAndLastSearchData, searchDataWithoutFirstAndLast]);
 
   useEffect(() => {
     if (distanceMarker) {
@@ -197,8 +239,159 @@ export default function Tripplan(latlng, props) {
     }
   }, [distanceMarker]);
 
+  // const optimizeroute = async () => {
+  //   console.log("optimizeroute start");
+  // await calculateRoute();
+  // console.log("optimizeroute end");
+  // };
+
+  //Harshana
+
+  const [mapLocations, setMapLocations] = useState([]);
+  const reciveSuggestlocations = (data) => {
+    setMapLocations(data);
+  };
+  const [touristAttractions, setTouristAttractions] = useState([]);
+
+  const [selectedPlace, setSelectedPlace] = useState(null);
+
+  const handleMarkerClick = (place) => {
+    setSelectedPlace(place);
+  };
+
+  useEffect(() => {
+    const geocoder = new window.google.maps.Geocoder();
+    const locationsWithLatLng = [];
+
+    const geocodeLocation = (locationName) => {
+      return new Promise((resolve, reject) => {
+        geocoder.geocode({ address: locationName }, (results, status) => {
+          if (status === window.google.maps.GeocoderStatus.OK && results[0]) {
+            const lat = results[0].geometry.location.lat();
+            const lng = results[0].geometry.location.lng();
+            locationsWithLatLng.push({ lat, lng });
+            //console.log(locationsWithLatLng);
+            resolve();
+          } else {
+            reject(status);
+          }
+        });
+      });
+    };
+
+    const fetchTouristAttractions = async () => {
+      try {
+        for (const location of mapLocations) {
+          await geocodeLocation(location);
+        }
+      } catch (error) {
+        console.log("Error geocoding location:", error);
+      }
+
+      if (locationsWithLatLng.length > 0) {
+        locationsWithLatLng.forEach((location) => {
+          const service = new window.google.maps.places.PlacesService(
+            mapRef.current
+          );
+          const request = {
+            location: new window.google.maps.LatLng(location.lat, location.lng),
+            radius: 2000,
+            type: "tourist_attraction",
+          };
+          service.nearbySearch(request, (results, status) => {
+            if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+              setTouristAttractions((prevAttractions) => [
+                ...prevAttractions,
+                ...results,
+              ]);
+            }
+          });
+        });
+      }
+    };
+
+    if (isLoaded) {
+      fetchTouristAttractions();
+    }
+  }, [isLoaded, mapLocations]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setMapLocations(mapLocations);
+    }, 1000);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
+  const renderMarkers = () => {
+    return touristAttractions.map((attraction) => (
+      <Marker
+        key={attraction.place_id}
+        position={{
+          lat: attraction.geometry.location.lat(),
+          lng: attraction.geometry.location.lng(),
+        }}
+        icon={{
+          url: require("../../../src/assets/suggested_pin.png"),
+          scaledSize: { width: 32, height: 32 },
+        }}
+        onClick={() => handleMarkerClick(attraction)}
+        animation={
+          selectedPlace && selectedPlace.place_id === attraction.place_id
+            ? window.google.maps.Animation.BOUNCE
+            : null
+        }
+      >
+        {selectedPlace && selectedPlace.place_id === attraction.place_id && (
+          <InfoWindowF
+            position={{
+              lat: selectedPlace.geometry.location.lat(),
+              lng: selectedPlace.geometry.location.lng(),
+            }}
+            onCloseClick={() => setSelectedPlace(null)}
+          >
+            <div>
+              <img
+                src={selectedPlace.icon}
+                alt="Place Icon"
+                style={{ width: "20px", height: "20px", margin: "8px" }}
+              />
+              <span style={{ fontWeight: 500, fontFamily: "poppins" }}>
+                {selectedPlace.name}
+              </span>
+            </div>
+          </InfoWindowF>
+        )}
+      </Marker>
+    ));
+  };
+  //Harshana End
+
+  //Dummy function to reset route
+
   //function to calculate route
   async function calculateRoute() {
+    // console.log("calculateRoute start");
+    // if (
+    //   firstAndLastSearchData[0] == firstAndLastSearchData[1] &&
+    //   searchDataWithoutFirstAndLast[0] == null
+    // ) {
+    //   console.log("Missing origin or destination");
+    //   return;
+    // }
+
+    // //eslint-disable-next-line  no-undef
+    // const directionServices = new google.maps.DirectionsService();
+    // const results = await directionServices.route({
+    //   origin: "",
+    //   destination:  "",
+    //   waypoints:  "",
+    //   //eslint-disable-next-line  no-undef
+    //   travelMode: google.maps.TravelMode.DRIVING,
+    // });
+    // SetdirectionResponse(results);
+    // console.log("directionResponse", directionResponse);
+
     console.log("calculateRoute start");
     if (
       firstAndLastSearchData[0] == firstAndLastSearchData[1] &&
@@ -208,6 +401,9 @@ export default function Tripplan(latlng, props) {
       return;
     }
 
+    if (directionsRenderer) {
+      directionsRenderer.setMap(null);
+    }
     //eslint-disable-next-line  no-undef
     const directionService = new google.maps.DirectionsService();
     const result = await directionService.route({
@@ -219,7 +415,11 @@ export default function Tripplan(latlng, props) {
       //eslint-disable-next-line  no-undef
       travelMode: google.maps.TravelMode.DRIVING,
     });
-    SetdirectionResponse(result);
+    //eslint-disable-next-line  no-undef
+   const newDirectionsRenderer = new google.maps.DirectionsRenderer();
+    newDirectionsRenderer.setDirections(result);
+    newDirectionsRenderer.setMap(mapRef.current);
+    setDirectionsRenderer(newDirectionsRenderer);
     console.log("directionResponse", directionResponse);
 
     const routedetails = result.routes[0].legs.reduce(
@@ -308,6 +508,23 @@ export default function Tripplan(latlng, props) {
     console.log("calculateRoute end");
   }
 
+  //location indexes
+
+  const indexsend = (data) => {
+    indexloc = data;
+    console.log(data);
+    console.log(indexloc);
+    if (indexloc === 0) {
+      setisOneEntered(true);
+    } else if (indexloc === 1) {
+      setissecondentered(true);
+      return;
+    } else {
+      setissecondentered(true);
+      setisOneEntered(true);
+    }
+  };
+
   //function to calculate ReArrange route
 
   async function CalculateREarangeRoute() {
@@ -331,6 +548,10 @@ export default function Tripplan(latlng, props) {
     console.log(arrangedmiddlelocations);
     console.log(newLocations[size - 1]);
 
+    if (directionsRenderer) {
+      directionsRenderer.setMap(null);
+    }
+
     //eslint-disable-next-line  no-undef
     const directionService = new google.maps.DirectionsService();
     const result = await directionService.route({
@@ -342,7 +563,12 @@ export default function Tripplan(latlng, props) {
       //eslint-disable-next-line  no-undef
       travelMode: google.maps.TravelMode.DRIVING,
     });
-    SetdirectionResponse(result);
+     //eslint-disable-next-line  no-undef
+     const newDirectionsRenderer = new google.maps.DirectionsRenderer();
+     newDirectionsRenderer.setDirections(result);
+     newDirectionsRenderer.setMap(mapRef.current);
+     setDirectionsRenderer(newDirectionsRenderer);
+     console.log("directionResponse", directionResponse);
     console.log("directionResponse", directionResponse);
 
     const routedetails = result.routes[0].legs.reduce(
@@ -481,9 +707,8 @@ export default function Tripplan(latlng, props) {
     // Return both sorted arrays as an object
     return { sortedPoints, sortedDistances };
   }
-
   const Setnewarrat = () => {
-    console.log(all);
+    //console.log(all);
 
     const updatedLoc = Array.from(all);
     updatedLoc.forEach((value, index) => {
@@ -540,6 +765,15 @@ export default function Tripplan(latlng, props) {
 
       // const uniqueKey = generateUniqueKey();
 
+      // axios
+      //   .post("http://localhost:3001/Array", sortedPoints)
+      //   .then((response) => {
+      //     console.log("Request successful");
+      //   })
+      //   .catch((error) => {
+      //     console.error("An error occurred", error);
+      //   });
+
       ///
 
       setNewall(sortedPoints); // update all with sortedPoints
@@ -557,22 +791,6 @@ export default function Tripplan(latlng, props) {
     }
     CalculateREarangeRoute();
 
-    //savec to database
-    console.log(currtripid);
-    console.log(newLocations);
-
-    axios
-      .post(
-        `http://localhost:3001/Locations/locations/${currtripid}`,
-        newLocations
-      )
-      .then((response) => {
-        console.log("Request successful");
-      })
-      .catch((error) => {
-        console.error("An error occurred", error);
-      });
-
     // const distname=['Kandy, Sri Lanka', 'Gampola, Sri Lanka', 'Gelioya, Sri Lanka']
     // const dist=[0, 24507, 11467]
     // const { sortedPoints, sortedDistances } = sortByDistance(
@@ -582,130 +800,58 @@ export default function Tripplan(latlng, props) {
     //       console.log(sortedPoints);
   };
 
-  //Harshana
+  // const Reroute = () => {
+  //   const numofpoints = all.length;
+  //   const NumofPonitsToSTARTpoints = Math.ceil(numofpoints / 4 + 1);
 
-  const [mapLocations, setMapLocations] = useState([]);
-  const reciveSuggestlocations = (data) => {
-    setMapLocations(data);
-  };
-  const [touristAttractions, setTouristAttractions] = useState([]);
+  //   for (let j = 0; j < NumofPonitsToSTARTpoints; j++) {
+  //     const newArray = [...newall]; // make a copy of the array
+  //     newArray[j] = all[j]; // add new data to the array at the specified index
+  //     setNewall(newArray);
+  //     const newdis = [...distancedest]; // make a copy of the array
+  //     newdis[j] = 0; // add new data to the array at the specified index
+  //     setDistancedest(newdis);
+  //     for (let i = j + 1; i < numofpoints - 1; i++) {
+  //       //setNewall([...newall,all[i]])
+  //       const newArray = [...newall]; // make a copy of the array
+  //       newArray[i] = all[i]; // add new data to the array at the specified index
+  //       setNewall(newArray); // update the state with the new array
 
-  const [selectedPlace, setSelectedPlace] = useState(null);
+  //       //setDistancedest([...distancedest,calculateDistance(all[j],all[i])])
+  //       const newdis = [...distancedest]; // make a copy of the array
+  //       newdis[i] = calculateDistance(all[j], all[i]); // add new data to the array at the specified index
+  //       setDistancedest(newdis); // update the state with the new array
 
-  const handleMarkerClick = (place) => {
-    setSelectedPlace(place);
-  };
+  //       //compare karanna ona palaweni start point ejkat ekka
+  //       //dura ekka arraya ekata location piliwelata watenna ona
+  //     }
+  //     [all, distancedest] = sortByDistance(newall, distancedest);
 
-  useEffect(() => {
-    const geocoder = new window.google.maps.Geocoder();
-    const locationsWithLatLng = [];
+  //     // setNewall(prevNewall => {
+  //     //   const newNewall = [...prevNewall];
+  //     //   for(let i=j+1;i<numofpoints-1;i++) {
+  //     //     newNewall.push(calculateDistance(all[i],all[i+1]));
+  //     //   }
+  //     //   return newNewall;
+  //     // });
+  //   }
+  // };
 
-    const geocodeLocation = (locationName) => {
-      return new Promise((resolve, reject) => {
-        geocoder.geocode({ address: locationName }, (results, status) => {
-          if (status === window.google.maps.GeocoderStatus.OK && results[0]) {
-            const lat = results[0].geometry.location.lat();
-            const lng = results[0].geometry.location.lng();
-            locationsWithLatLng.push({ lat, lng });
-            //console.log(locationsWithLatLng);
-            resolve();
-          } else {
-            reject(status);
-          }
-        });
-      });
-    };
-
-    const fetchTouristAttractions = async () => {
-      try {
-        for (const location of mapLocations) {
-          await geocodeLocation(location);
-        }
-      } catch (error) {
-        console.log("Error geocoding location:", error);
-      }
-
-      if (locationsWithLatLng.length > 0) {
-        locationsWithLatLng.forEach((location) => {
-          const service = new window.google.maps.places.PlacesService(
-            mapRef.current
-          );
-          const request = {
-            location: new window.google.maps.LatLng(location.lat, location.lng),
-            radius: 2000,
-            type: "tourist_attraction",
-          };
-          service.nearbySearch(request, (results, status) => {
-            if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-              setTouristAttractions((prevAttractions) => [
-                ...prevAttractions,
-                ...results,
-              ]);
-            }
-          });
-        });
-      }
-    };
-
-    if (isLoaded) {
-      fetchTouristAttractions();
-    }
-  }, [isLoaded, mapLocations]);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setMapLocations(mapLocations);
-    }, 1000);
-
-    return () => clearTimeout(timeout);
+  const onMapClick = React.useCallback((event) => {
+    Setmarkers((current) => [
+      ...current,
+      {
+        lat: event.latLng.lat(),
+        lng: event.latLng.lng(),
+        time: new Date(),
+      },
+    ]);
   }, []);
 
-  const renderMarkers = () => {
-    return touristAttractions.map((attraction) => (
-      <Marker
-        key={attraction.place_id}
-        position={{
-          lat: attraction.geometry.location.lat(),
-          lng: attraction.geometry.location.lng(),
-        }}
-        icon={{
-          url: require("../../../../src/assets/suggested_pin.png"),
-          scaledSize: { width: 32, height: 32 },
-        }}
-        onClick={() => handleMarkerClick(attraction)}
-        animation={
-          selectedPlace && selectedPlace.place_id === attraction.place_id
-            ? window.google.maps.Animation.BOUNCE
-            : null
-        }
-      >
-        {selectedPlace && selectedPlace.place_id === attraction.place_id && (
-          <InfoWindowF
-            position={{
-              lat: selectedPlace.geometry.location.lat(),
-              lng: selectedPlace.geometry.location.lng(),
-            }}
-            onCloseClick={() => setSelectedPlace(null)}
-          >
-            <div>
-              <img
-                src={selectedPlace.icon}
-                alt="Place Icon"
-                style={{ width: "20px", height: "20px", margin: "8px" }}
-              />
-              <span style={{ fontWeight: 500, fontFamily: "poppins" }}>
-                {selectedPlace.name}
-              </span>
-            </div>
-          </InfoWindowF>
-        )}
-      </Marker>
-    ));
-  };
-  //Harshana End
-
   const mapRef = React.useRef();
+
   const onMapLoad = React.useCallback((map) => {
+    setloading(!loading);
     mapRef.current = map;
   }, []);
 
@@ -744,40 +890,11 @@ export default function Tripplan(latlng, props) {
   return (
     <>
       <div>
-        <Header2 />
+        <Link to="/mapp/Tripplan">
+          <AnimatedButton>Plan a Trip</AnimatedButton>
+        </Link>
+
         <div
-          style={{
-            marginTop: 0,
-            position: "absolute",
-            zIndex: 100,
-            width: "100%",
-          }}
-        >
-          {gobutton ? (
-            <Datafortrip gobuttonhandle={gobuttonhandle} tripid={tripid} />
-          ) : (
-            <div
-              style={{
-                marginTop: 70,
-                marginLeft: 10,
-                position: "absolute",
-                zIndex: 100,
-              }}
-            >
-              <Multiplesearch
-                Searchplanshow={Searchplanshow}
-                Searchplan={Searchplan}
-                heading={heading}
-                sendlocations={recivelocations}
-                locationsstart={locationsstart}
-                indexsend={indexsend} // start location
-                sendSuggestlocations={reciveSuggestlocations} //Sugest Locations Harshana
-                //optimizeroute={calculateRoute}
-              />
-            </div>
-          )}
-        </div>
-        {/* <div
           style={{
             marginTop: 70,
             marginLeft: 10,
@@ -785,20 +902,66 @@ export default function Tripplan(latlng, props) {
             zIndex: 100,
           }}
         >
-          
-        </div> */}
-      </div>
-      <NotificationContainer />
+          {!Searchplan ? (
+            <Multiplesearch
+              Searchplanshow={Searchplanshow}
+              Searchplan={Searchplan}
+              heading={heading}
+              sendlocations={recivelocations}
+              locationsstart={locationsstart}
+              indexsend={indexsend} // start location
+              sendSuggestlocations={reciveSuggestlocations} //Sugest Locations Harshana
 
+              //optimizeroute={calculateRoute}
+            />
+          ) : (
+            <div className="searchbar">
+              <Paper
+                component="form"
+                sx={{
+                  p: "2px 4px",
+                  display: "flex",
+                  alignItems: "center",
+                  width: 400,
+                  border: 0,
+                }}
+              >
+                <IconButton sx={{ p: "10px" }} aria-label="menu">
+                  <MenuIcon onClick={Searchplanshow} />
+                </IconButton>
+                <Searchbox placeholder={"Enter Location"} />
+
+                {/* {console.log(markers)} */}
+                <IconButton
+                  type="button"
+                  sx={{ p: "10px" }}
+                  aria-label="search"
+                >
+                  <SearchIcon />
+                </IconButton>
+                <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+                <IconButton
+                  color="primary"
+                  sx={{ p: "10px" }}
+                  aria-label="directions"
+                >
+                  <DirectionsIcon />
+                </IconButton>
+              </Paper>
+            </div>
+          )}
+        </div>
+      </div>
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         zoom={7.5}
         center={center}
         options={options}
-        onClick={onMapClick}
+        //onClick={onMapClick}
         onLoad={onMapLoad}
+        // key={isLoadingMap ? 1 : 0}
       >
-        {renderMarkers()} //suggestLocations
+        {renderMarkers()}
         {markers.map((marker) => (
           <Marker
             key={marker.time.toISOString()}
@@ -806,23 +969,14 @@ export default function Tripplan(latlng, props) {
             // icon={
 
             // }
-            onClick={() => {
-              setSelected(marker);
-            }}
+            // onClick={() => {
+            //   setSelected(marker);
+            // }}
           />
         ))}
-        {directionResponse && (
-          <DirectionsRenderer
-            options={{
-              polylineOptions: {
-                strokeColor: "#0000FF",
-                strokeOpacity: 0.7,
-                strokeWeight: 4,
-              },
-            }}
-            directions={directionResponse}
-          />
-        )}
+        {directionsRenderer && <DirectionsRenderer directions={directionsRenderer.directions} />}
+
+
         {selected ? (
           <InfoWindow position={{ lat: selected.lat, lng: selected.lng }}>
             <div>
@@ -832,8 +986,13 @@ export default function Tripplan(latlng, props) {
           </InfoWindow>
         ) : null}
       </GoogleMap>
+      {/* <button type="button" onClick={recivelocations}>
+        asasfa
+      </button> */}
       {/* {console.log(markers)} */}
+      {console.log(curr)}
       {/* Error handleing */}
+
       {!isOneEntered && (
         <div
           style={{

@@ -67,6 +67,7 @@ const Showtrips = () => {
             width="100%"
             cellSpacing="0"
           >
+            
             <thead>
               <tr>
                 <th></th>
@@ -81,10 +82,12 @@ const Showtrips = () => {
                   <td>{index + 1}</td>
                   <td>{datas.date}</td>
                   {/* <td>{datas.vehicleType}</td> */}
-                  <td>
+                  <td style={{display: "flex",flexDirection: "column",}}>
                     {datas.Locations.map((location) => (
                       <span key={location.id} style={{ margin: "0 5px" }}>
-                        {location.name}
+                        <ul >
+                          <li>{location.name}</li>
+                        </ul>
                       </span>
                     ))}
                   </td>

@@ -46,6 +46,26 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/bylocation', async (req, res) => {
+  try {
+    const { location } = req.query; // Extract the location from the query parameters
+    let images;
+
+   
+      images = await Image.findAll({
+        where: {
+          location: location // Filter images by the provided location
+        }
+      });
+   
+    res.json({ images });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+});
+
+
 module.exports = router;
 
 // DELETE method for deleting a image by ID

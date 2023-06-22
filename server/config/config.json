@@ -1,8 +1,10 @@
 {
   "development": {
     "username": "root",
+
     "password": "Diliya#99",
     "database": "JourneyJive1",
+
     "host": "localhost",
     "dialect": "mysql"
   },

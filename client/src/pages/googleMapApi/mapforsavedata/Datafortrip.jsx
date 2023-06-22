@@ -81,7 +81,7 @@ const Datafortrip = (prop) => {
   // }, [navigate]);
 
   useEffect(() => {
-    if (authState.userType === "public") {
+    if (authState.userType ==! 'premium') {
       navigate("/subscription");
     }
   }, []);

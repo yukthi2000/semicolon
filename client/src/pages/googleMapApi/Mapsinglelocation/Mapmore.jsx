@@ -91,9 +91,24 @@ export default function Map(latlng, props) {
   const [all, setAll] = useState([]);
   const [searchDataWithoutFirstAndLast, setSearchDataWithoutFirstAndLast] =
     useState([]);
-
+  const [images, setImages] = useState([]);
   //connection for database for retrive reviews
   useEffect(() => {}, [origin]);
+
+  function CleareRoute() {
+    setClearroute(false);
+    SetdirectionResponse(null);
+    //window.location.reload(); rerender whole page,not thart much efficient way
+    setDistance("");
+    setduration("");
+
+    // // setOrigin(null);
+    // origin = "";
+    // // setDestination(null);
+    // destination = "";
+    // SetdirectionResponse(null);
+    // // console.log(directionResponse, distance);
+  }
 
   const recivelocations = (data) => {
     console.log("recivelocations");
@@ -125,6 +140,13 @@ export default function Map(latlng, props) {
       setIsLocationEntered(true);
     }
 
+    
+
+    // useEffect(() => {
+    //   const locationName = "your-location-name"; // Replace with the desired location name
+
+    //  []);
+
     //console.log(data);
   };
 
@@ -146,10 +168,19 @@ export default function Map(latlng, props) {
         .catch((error) => {
           console.error(error);
         });
+        fetch(`http://localhost:3001/images/bylocation?location=${origin}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setImages(data.images);
+      })
+      .catch((error) => {
+        console.error("Error fetching images:", error);
+      });
     } else {
       setIsLocationEntered(false);
       setSidepan(false);
     }
+
     console.log("singlelocation function called");
     console.log("Origin:", origin);
 
@@ -197,6 +228,7 @@ export default function Map(latlng, props) {
       //eslint-disable-next-line  no-undef
       travelMode: google.maps.TravelMode.DRIVING,
     });
+
     SetdirectionResponse(result);
     setDistance(result.routes[0].legs[0].distance.text);
     console.log(result, distance);
@@ -213,19 +245,7 @@ export default function Map(latlng, props) {
     handledirection();
     CleareRoute();
   };
-  function CleareRoute() {
-    setClearroute(false);
-    //window.location.reload(); rerender whole page,not thart much efficient way
-    setDistance("");
-    setduration("");
 
-    // setOrigin(null);
-    origin = "";
-    // setDestination(null);
-    destination = "";
-    SetdirectionResponse(null);
-    // console.log(directionResponse, distance);
-  }
   // useEffect(() => {
   //   navigator.geolocation.getCurrentPosition((position) => {
   //     setMylat(position.coords.latitude);
@@ -350,7 +370,8 @@ export default function Map(latlng, props) {
                   }}
                 >
                   <IconButton sx={{ p: "10px" }} aria-label="menu">
-                    <MenuIcon onClick={Searchplanshow} />
+                    {/* <MenuIcon onClick={Searchplanshow} /> */}
+                    <MenuIcon />
                   </IconButton>
                   <Searchbox datafromsearch={originfromsearch} />
 
@@ -469,7 +490,25 @@ export default function Map(latlng, props) {
                         // marginLeft: 1,
                       }}
                     >
-                      dfasfasfa
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          overflow: "auto",
+                          width: "400px",
+                        }}
+                      >
+                        {images.map((image) => (
+                          <div key={image.id}>
+                            <img
+                              src={`http://localhost:3001/images/${image.fileName}`}
+                              alt={image.fileName}
+                              width="400px"
+                              height="250px"
+                            />
+                          </div>
+                        ))}
+                      </div>
                     </Paper>
                   </Box>
                 </div>
@@ -605,18 +644,10 @@ export default function Map(latlng, props) {
             )
           )
         )}
-        {directionResponse && (
-          <DirectionsRenderer
-            options={{
-              polylineOptions: {
-                strokeColor: "#0000FF",
-                strokeOpacity: 0.7,
-                strokeWeight: 4,
-              },
-            }}
-            directions={directionResponse}
-          />
-        )}
+        {(directionResponse && (
+          <DirectionsRenderer directions={directionResponse} />
+        )) ||
+          console.log(directionResponse)}
 
         {/* {!clearroute && <DirectionsRenderer directions={null} />} */}
         {markers.slice(0, 1).map((marker) =>
