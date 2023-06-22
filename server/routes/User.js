@@ -7,6 +7,48 @@ const { sign } = require("jsonwebtoken")
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const multer = require('multer');
+
+
+// Multer configuration
+const storage = multer.diskStorage({
+  destination: './public/user/images', 
+  filename: (req, file, cb) => {
+    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
+    cb(null, `${uniqueSuffix}-${file.originalname}`);
+  },
+});
+
+const upload = multer({ storage });
+// `http://localhost:3001/auth/updateProfile/${id}/upload
+
+router.post('/updateProfile/:id/upload', upload.single('image'), async (req, res) => {
+  console.log(req.file);
+  const { id } = req.params;
+  const { filename, mimetype } = req.file;
+  try {
+
+    const user = await User.findByPk(id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    user.fileName=filename;
+    user.fileType=mimetype;
+
+    await user.save();
+
+    // const image = await Image.create({
+    //   fileName: filename,
+    //   fileType: mimetype,
+    // });
+
+    res.json( image );
+    res.status(200).json({ message: 'Profile updated successfully' });
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
 
 
 
@@ -114,11 +156,11 @@ router.post("/login", async (req, res) => {
 
     // Create a JWT token for the user
     const accessToken = sign(
-      { email: user.email, id: user.id, name:user.name, userType:user.userType },
+      { email: user.email, id: user.id, name:user.name, userType:user.userType, password: user.password },
       "importantsecret"
     );
 
-    res.json({ token: accessToken,email:email, id:user.id, name:user.name, userType:user.userType });
+    res.json({ token: accessToken,email:email, id:user.id, name:user.name, userType:user.userType, password: user.password });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Something went wrong" });

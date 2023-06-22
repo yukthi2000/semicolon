@@ -47,6 +47,8 @@ router.delete('/delete-review/:id', async (req, res) => {
   }
 });
 
+module.exports = router;
+
 
 //update status column in review table
 router.patch("/update-status/:id", async (req, res) => {
@@ -69,5 +71,3 @@ router.patch("/update-status/:id", async (req, res) => {
       .json({ message: "An error occurred while updating the review status" });
   }
 });
-
-module.exports = router;

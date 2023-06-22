@@ -10,7 +10,7 @@ import Login from "./Login";
 import { Link } from "react-router-dom";
 
 const Register = () => {
-// Define initialValues for the form
+  // Define initialValues for the form
   const navigate = useNavigate();
   const initialValues = {
     name: "",
@@ -22,26 +22,35 @@ const Register = () => {
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .required("Name is required")
+      .min(5, "Name must be at least 5 characters")
+      .max(30, "Name must not exceed 30 characters")
       .matches(/^[a-zA-Z ]*$/, "Invalid name format"),
     email: Yup.string()
       .required("Email is required")
-      .email("Invalid email format"),
+      .email("Invalid email format")
+      .matches(
+        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+        "Invalid email format"
+      ),
     password: Yup.string()
-      .min(6, "Password must be at least 6 characters")
-      .max(20, "Password must not exceed 20 characters")
-      .required("Password is required"),
+      .required("Password is required")
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$!%?&])[A-Za-z\d@#$!%?&]{8,50}$/,
+        "1 Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character"
+      )
+      .min(8, "Password must be at least 8 characters")
+      .max(50, "Password must not exceed 50 characters"),
     confirmPassword: Yup.string()
       .oneOf([Yup.ref("password"), null], "Passwords must match")
       .required("Please confirm your password"),
   });
 
-// Handle form submission
+  // Handle form submission
   const onSubmit = (data) => {
     axios.post("http://localhost:3001/auth", data).then((response) => {
       console.log(data);
       navigate("/login");
     });
-
   };
 
   // Render the Register form
@@ -57,7 +66,7 @@ const Register = () => {
         </div>
         <br />
         <div>
-            {/* Define Formik form with fields and error messages */}
+          {/* Define Formik form with fields and error messages */}
           <Formik
             initialValues={initialValues}
             onSubmit={onSubmit}
@@ -76,7 +85,7 @@ const Register = () => {
                   Name
                 </label>
               </div>
-               {/* Show error message if name field is invalid */}
+              {/* Show error message if name field is invalid */}
               <ErrorMessage
                 name="name"
                 component="div"
@@ -96,7 +105,7 @@ const Register = () => {
                   Email address
                 </label>
               </div>
-               {/* Show error message if email field is invalid */}
+              {/* Show error message if email field is invalid */}
               <ErrorMessage
                 name="email"
                 component="div"
@@ -117,7 +126,7 @@ const Register = () => {
                   Password
                 </label>
               </div>
-               {/* Show error message if password field is invalid */}
+              {/* Show error message if password field is invalid */}
               <ErrorMessage
                 name="password"
                 component="div"
@@ -145,11 +154,10 @@ const Register = () => {
                 className="text-danger"
               />
               <br />
-              
-                <button className="reg-btn" role="button" type="submit" >
-                  Sign Up
-                </button>
-            
+
+              <button className="reg-btn" role="button" type="submit">
+                Sign Up
+              </button>
             </Form>
           </Formik>
         </div>

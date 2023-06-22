@@ -47,15 +47,24 @@ const ReviewsView = () => {
     try {
       await axios.patch(
         `http://localhost:3001/reviews/update-status/${reviewId}`,
-        { status: !checkedReviews.includes(reviewId) ? 1 : null }
+        { status: !checkedReviews.includes(reviewId) ? 1 : 0 }
       );
-
       setReviews((prevReviews) =>
         prevReviews.map((review) =>
           review.id === reviewId
             ? {
                 ...review,
-                status: !checkedReviews.includes(reviewId) ? 1 : null,
+                status: !review.status ? 1 : 0,
+              }
+            : review
+        )
+      );
+      setFilteredReviews((prevFilteredReviews) =>
+        prevFilteredReviews.map((review) =>
+          review.id === reviewId
+            ? {
+                ...review,
+                status: !review.status ? 1 : 0,
               }
             : review
         )
@@ -82,8 +91,6 @@ const ReviewsView = () => {
   const handleResetFilterClick = () => {
     setFilteredReviews([]);
   };
-
-
 
   useEffect(() => {
     fetchReviews();
@@ -136,72 +143,70 @@ const ReviewsView = () => {
   }
 
   return (
-  
     <div className="start-reviewSec-admin">
-    <div className="section-reviews-view">
-      <div>
-        <button onClick={handleFilterClick}>Filter unChecked</button>
-        <button onClick={handleResetFilterClick}>Reset Filter</button>
+      <div className="section-reviews-view">
+        <div>
+          <button onClick={handleFilterClick}>Filter unChecked</button>
+          <button onClick={handleResetFilterClick}>Reset Filter</button>
+        </div>
+        <br />
+        <table style={tableStyle}>
+          <thead>
+            <tr>
+              {/* <th style={thStyle}>Username</th> */}
+              <th style={thStyle}>Subject</th>
+              <th style={thStyle}>Location</th>
+              <th style={thStyle}>Created Date</th>
+              <th style={thStyle}>Delete</th>
+              <th style={thStyle}>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {(filteredReviews.length > 0 ? filteredReviews : reviews).map(
+              (review) => (
+                <tr key={review.id}>
+                  <td style={tdStyle}>{review.subject}</td>
+                  <td style={tdStyle}>{review.locations}</td>
+                  <td style={tdStyle}>{review.createdAt}</td>
+
+                  <td style={tdStyle}>
+                    <DeleteForeverIcon
+                      onClick={() => handleDeleteClick(review)}
+                    />
+                  </td>
+                  <td style={tdStyle}>
+                    {review.status ? (
+                      <CheckCircleIcon
+                        style={{ color: "green", cursor: "pointer" }}
+                        onClick={() => handleStatusClick(review.id)}
+                      />
+                    ) : (
+                      <RadioButtonUncheckedIcon
+                        style={{ color: "red", cursor: "pointer" }}
+                        onClick={() => handleStatusClick(review.id)}
+                      />
+                    )}
+                  </td>
+                </tr>
+              )
+            )}
+          </tbody>
+        </table>
+
+        <Dialog open={openDialog} onClose={handleCancelDelete}>
+          <DialogTitle>Confirm Deletion</DialogTitle>
+          <DialogActions>
+            <Button onClick={handleCancelDelete} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={handleConfirmDelete} color="primary">
+              Delete
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
-      <br />
-      <table style={tableStyle}>
-        <thead>
-          <tr>
-            {/* <th style={thStyle}>Username</th> */}
-            <th style={thStyle}>Subject</th>
-            <th style={thStyle}>Location</th>
-            <th style={thStyle}>Created Date</th>
-            <th style={thStyle}>Delete</th>
-            <th style={thStyle}>Status</th>
-
-          </tr>
-        </thead>
-        <tbody>
-          {(filteredReviews.length > 0 ? filteredReviews : reviews).map(
-            (review) => (
-              <tr key={review.id}>
-                <td style={tdStyle}>{review.subject}</td>
-                <td style={tdStyle}>{review.locations}</td>
-                <td style={tdStyle}>{review.createdAt}</td>
-
-                <td style={tdStyle}>
-                  <DeleteForeverIcon
-                    onClick={() => handleDeleteClick(review)}
-                  />
-                </td>
-                <td style={tdStyle}>
-                  {review.status ? (
-                    <CheckCircleIcon
-                      style={{ color: "green", cursor: "pointer" }}
-                      onClick={() => handleStatusClick(review.id)}
-                    />
-                  ) : (
-                    <RadioButtonUncheckedIcon
-                      style={{ color: "red", cursor: "pointer" }}
-                      onClick={() => handleStatusClick(review.id)}
-                    />
-                  )}
-                </td>
-
-              </tr>
-            )
-          )}
-        </tbody>
-      </table>
-
-      <Dialog open={openDialog} onClose={handleCancelDelete}>
-        <DialogTitle>Confirm Deletion</DialogTitle>
-        <DialogActions>
-          <Button onClick={handleCancelDelete} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleConfirmDelete} color="primary">
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
     </div>
-  </div>
-);
+  );
 };
+
 export default ReviewsView;
