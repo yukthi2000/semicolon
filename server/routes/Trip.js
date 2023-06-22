@@ -126,6 +126,33 @@ router.delete("/trips/:id", async (req, res) => {
   }
 });
 
+// Define the hook to check if a retrieved trip has any associated locations
+Trip.afterFind(async (trips, options) => {
+  if (Array.isArray(trips)) {
+    // Handle multiple retrieved trips
+    await Promise.all(
+      trips.map(async (trip) => {
+        await checkAndDeleteTrip(trip);
+      })
+    );
+  } else {
+    // Handle single retrieved trip
+    await checkAndDeleteTrip(trips);
+  }
+});
+
+async function checkAndDeleteTrip(trip) {
+  const tripId = trip.id;
+
+  // Check if the trip has any associated locations
+  const locationCount = await Locations.count({ where: { tripId } });
+
+  if (locationCount === 0) {
+    // Delete the trip if no locations are associated
+    await Trip.destroy({ where: { id: tripId } });
+  }
+}
+
 
 module.exports = router;
 
