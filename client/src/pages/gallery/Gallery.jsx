@@ -74,6 +74,7 @@ const Gallery = () => {
           Globalfunc={pull_newGlobalLocation} //passing location function
 
         /> */}
+        <WeatherOptions tripID={5}/>
 
        {/* <WeatherScoreList
         tripID = "252525"

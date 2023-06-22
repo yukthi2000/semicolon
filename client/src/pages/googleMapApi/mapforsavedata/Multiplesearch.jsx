@@ -79,7 +79,7 @@ function Multiplesearch(props) {
 
   //for weather
   const tripDate = new Date(props.dateinplantrip);
-  const tripID = '92'
+  const tripID = 5;
   
   const [SuggestButtonTxt,setSuggestButtonTxt] = useState("Show Suggestions");
   function handleSuggest() {
@@ -141,7 +141,7 @@ function Multiplesearch(props) {
             >
               {" "}
               <ArrowDropDownIcon sx={{ width: 50, height: 30 }} />
-              Trip to {props.heading}
+              Happy Journey
             </Typography>
           </Box>
           <Box className="searcharea">

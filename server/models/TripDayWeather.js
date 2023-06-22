@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
     const TripDayWeather = sequelize.define("TripDayWeather", {
         tripID: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             primaryKey: true,
         },
         location: {

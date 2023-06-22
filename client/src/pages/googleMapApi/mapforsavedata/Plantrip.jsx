@@ -845,7 +845,7 @@ export default function Tripplan(latlng, props) {
 
       <button onClick={getScoreArray}>{SocreButtonTxt}</button>
 
-      {isClicked && <GetCombinedScore tripID='92' onStringChange={handleScoreArray} />}
+      {isClicked && <GetCombinedScore tripID={5} onStringChange={handleScoreArray} />}
       <div>
         <Header2 />
         <div
@@ -943,7 +943,6 @@ export default function Tripplan(latlng, props) {
         ) : null}
       </GoogleMap>
       {/* {console.log(markers)} */}
-      //Error handleing
       {!isOneEntered && (
         <div
           style={{

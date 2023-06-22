@@ -32,6 +32,7 @@ import { addDays, subDays } from "date-fns";
 // import { AuthContext } from "../../helpers/AuthContext";
 
 const Datafortrip = (prop) => {
+  const tripID = 5 ; //demonstrarton
   const currentDate = new Date();
   const minDate = currentDate; // Current date
   const maxDate = addDays(currentDate, 30); // max date (30+ days)
@@ -120,6 +121,7 @@ const Datafortrip = (prop) => {
         const tripId = res.data.tripId;
         prop.tripid(tripId);
 
+
         //error fetching
       });
   };
@@ -128,7 +130,11 @@ const Datafortrip = (prop) => {
 
   // };
 
-  const gobuttonhandle = () => {};
+  
+
+  const gobuttonhandle = () => {
+    
+  };
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -153,7 +159,9 @@ const Datafortrip = (prop) => {
 
   const [weatherDate, setWeatherDate] = useState("2023-06-15");
 
-  useEffect(() => {}, [selectedDate]);
+  // useEffect(() => {
+
+  // }, [selectedDate]);
 
   return (
     <div
@@ -254,7 +262,7 @@ const Datafortrip = (prop) => {
               </Typography>
               <div>
                 <div>
-                  <WeatherOptions />
+                  <WeatherOptions tripID = {tripID}/>
                 </div>
               </div>
             </div>
