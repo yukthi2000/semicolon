@@ -11,6 +11,9 @@ import NameToLatLng from '../weatherApi/WeatherScore/NameToLatLng';
 import WeatherScoreList from '../weatherApi/WeatherScore/WeatherScoreList';
 import WeatherScore from '../weatherApi/WeatherScore/TestScore';
 import CalculateWeatherScores from '../weatherApi/WeatherScore/CalculateWeatherScores';
+import PostWeatherScore from '../weatherApi/WeatherScore/PostWeatherScore';
+import GetCombinedScore from '../weatherApi/WeatherScore/GetCombinedScore';
+import LatLngToName from '../weatherApi/WeatherScore/LatLngToName';
 
 const Gallery = () => {
 
@@ -27,14 +30,21 @@ const Gallery = () => {
 
   const location = { lat: 7.467465, lng: 80.623416 };
   const locations = [
-    'Jaffna International Airport, Sri Lanka',
-    'Sri Lanka, Nuwara Eliya, nuwara eliya bus stand'
+    'Nuwara Eliya',
+    'Matale'
   ];
 
-  // console.log(NameToLatLng({locations}));
-  const tripID= "252525"
+  const tripID= "444444"
 
+  // const p = JSON.parse(h);
+  //console.log(JSON.parse(h));
   
+//   const [h,setH] = useState();
+//   const [p,setP] = useState([]); 
+// const handleclick=()=>{
+
+//   console.log(h)
+//   //setP(JSON.parse(h));
 
   return (
     <div>
@@ -42,8 +52,18 @@ const Gallery = () => {
       <br />
       <br /><br />
       <div className="gallerycontainer">
+        nsxam k
+        {/* <LatLngToName 
+        lat= {7.5304285}
+        lng= {80.73314859999999}
+        /> */}
         
-        {/* <CalculateWeatherScores tripID = "252525"
+        {/* <PostWeatherScore 
+        tripID = "3"
+        location = "matale"
+        score = {445.2} /> */}
+
+        {/* <CalculateWeatherScores tripID = "2525"
         locationList = {locations}/> */}
         {/* <WeatherOptions
         tripID="252525" />
@@ -64,11 +84,11 @@ const Gallery = () => {
          locations = {locations}/> */}
 
        
-        <PostTripDayLocationList
+        {/* <PostTripDayLocationList
           locationList = {locations}
-          tripID="6699"
+          tripID="4"
           tripDate={tripDate}
-        />
+        /> */}
 
         {/* <MapForSuggest setMap={setMap} />
         {map && <TouristAttractions
@@ -86,6 +106,7 @@ const Gallery = () => {
           /> */}
         {/* <SLocations /> */}
 
+        
       </div>
 
     </div>
