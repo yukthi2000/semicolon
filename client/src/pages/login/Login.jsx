@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import HomePageLinkIcon from "../../componets/HomePageLinkIcon";
-import A from "../../assets/A.jpg";
+import home1 from "../../assets/home1.jpg";
 import { AuthContext } from "../../helpers/AuthContext";
 
 
@@ -71,7 +71,7 @@ const Login = () => {
 
   return (
     <div className="reg-form">
-      <img className="airBalloon" src={A} alt="" />
+      <img className="airBalloon" src={home1} alt="" />
       {/* <div>
         <HomePageLinkIcon />
       </div> */}

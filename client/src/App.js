@@ -185,6 +185,12 @@ const App = () => {
                   </Link> */}
 
                   <div className="dropdown" ref={dropdownRef}>
+                  {/* <img
+                        className="profile-image-signIn"
+                        alt="Dil Sharp"
+                        src={`http://localhost:3001/auth/profile-picture/${authState.id}`}
+                        onClick={toggleDropdown}
+                      /> */}
                     {authState.photo ? (
                       <img
                         className="profile-image-signIn"
@@ -194,11 +200,11 @@ const App = () => {
                       />
                     ) : (
                       <img
-                        className="profile-image-signIn"
-                        alt="Remy Sharp"
-                        src={profilepic}
-                        onClick={toggleDropdown}
-                      />
+                      className="profile-image-signIn"
+                      alt="Dil Sharp"
+                      src={profilepic}
+                      onClick={toggleDropdown}
+                    />
                     )}
 
                     {isOpen && (

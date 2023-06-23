@@ -35,6 +35,8 @@ app.use("/contactUs", ContactUsRouter);
 const ReviewRouter = require("./routes/Review");
 app.use("/reviews", ReviewRouter);
 
+const UserVerifyRouter = require("./routes/userVerifyEmail");
+app.use("/verify-user", UserVerifyRouter);
 //gallery
 // const imageRoutes = require("./routes/imageRoutes");
 // app.use('/api/images', imageRoutes);

@@ -97,7 +97,9 @@ export default function UserGallery() {
 
   return (
     <div style={containerStyle}>
-      {images.map((image) => (
+      {images
+      .filter((image) => image.userId == authState.id)
+      .map((image) => (
         <div key={image.id} style={cardStyle}>
         <DeleteForeverIcon onClick={() => handleDeleteClick(image)} />
           <img

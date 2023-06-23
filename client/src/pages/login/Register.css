@@ -78,4 +78,32 @@
     border: none;
     height: 6vh;
     width: 15vh;
+    
+}
+
+.form-reset-password{
+    width: 500px;
+    margin: 20vh auto;
+    top: 10vh;
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    padding: 5vh;
+}
+
+.form-reset-password1{
+    width: 500px;
+    margin: 25vh 70vh;
+    top: 10vh;
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    padding: 5vh;
+}
+
+.reset-input{
+    width: 59vh;
+    height: 8vh;
+    border-radius: 5px;
+    border: 1px solid rgb(183, 183, 183);
 }

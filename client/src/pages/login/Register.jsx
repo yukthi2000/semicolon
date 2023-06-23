@@ -1,7 +1,7 @@
 import React from "react";
 import "./Register.css";
 import axios from "axios";
-import A from "../../assets/A.jpg";
+import home1 from "../../assets/home1.jpg";
 import HomePageLinkIcon from "../../componets/HomePageLinkIcon";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -46,18 +46,71 @@ const Register = () => {
   });
 
 // Handle form submission
-  const onSubmit = (data) => {
-    axios.post("http://localhost:3001/auth", data).then((response) => {
-      console.log(data);
-      navigate("/login");
-    });
+const onSubmit = (data) => {
+  axios.post("http://localhost:3001/auth", data).then((response) => {
+    console.log(data);
+    // setRegistrationStatus("success");
+    // Send email here
+    sendEmail(data.email);
+  });
+};
 
-  };
+const sendEmail = (email) => {
+  axios.post("http://localhost:3001/verify-user/VerifyLink", { email })
+    .then((response) => {
+      console.log("Email sent successfully");
+    })
+    .catch((error) => {
+      console.error("Error occurred while sending email");
+    });
+};
+
+
+// //sampi
+// // Handle form submission
+// const onSubmit = (data , { resetForm }) => {
+//   sendEmail(data.email)
+//     .then(() => {
+//       alert("Email sent successfully");
+//       saveUserData(data);
+//       resetForm();
+//     })
+//     .catch((error) => {
+//       alert("Error occurred while sending email:", error);
+//     });
+// };
+
+// const sendEmail = (email) => {
+//   return new Promise((resolve, reject) => {
+//     axios
+//       .post("http://localhost:3001/verify-user/VerifyLink", { email })
+//       .then(() => {
+//         resolve();
+//       })
+//       .catch((error) => {
+//         alert( error);
+//         reject(error);
+//       });
+//   });
+// };
+
+// const saveUserData = (data) => {
+//   axios
+//     .post("http://localhost:3001/auth", data)
+//     .then(() => {
+//       console.log("User data saved successfully");
+//     })
+//     .catch((error) => {
+//       console.error("Error occurred while saving user data:", error);
+//     });
+// };
+// //sampi
+
 
   // Render the Register form
   return (
     <div className="reg-form">
-      <img className="airBalloon" src={A} alt="" />
+      <img className="airBalloon" src={home1} alt="" />
       {/* <div>
         <HomePageLinkIcon />
       </div> */}

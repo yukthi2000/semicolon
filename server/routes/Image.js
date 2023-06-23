@@ -63,3 +63,37 @@ router.delete('/delete-image/:id', async (req, res) => {
     res.status(500).json({ error: 'An error occurred while deleting the review' });
   }
 });
+
+
+ //no of images display in Admin module
+ router.get("/images-count", async (req, res) => {
+  try {
+    const count = await Image.count();
+    res.json({ count });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "An error occurred while counting users" });
+  }
+});
+
+//update status column in image table, admin module
+router.patch("/update-status/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const image = await Image.findByPk(id);
+    if (!image) {
+      return res.status(404).json({ message: "Image not found" });
+    }
+
+    image.status = !image.status; // Toggle the status value
+    await image.save();
+
+    res.status(200).json({ message: "Image status updated successfully" });
+  } catch (error) {
+    console.error("Error updating image status:", error);
+    res
+      .status(500)
+      .json({ message: "An error occurred while updating the image status" });
+  }
+});

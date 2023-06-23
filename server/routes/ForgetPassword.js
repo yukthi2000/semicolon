@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/", router);
 const uuid = require("uuid");
-// app.listen(5000, () => console.log("Server Running"));
+
 
 
 // Reset token data structure

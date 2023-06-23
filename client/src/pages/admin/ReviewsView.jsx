@@ -47,7 +47,7 @@ const ReviewsView = () => {
     try {
       await axios.patch(
         `http://localhost:3001/reviews/update-status/${reviewId}`,
-        { status: !checkedReviews.includes(reviewId) ? 1 : 0  }
+        { status: !checkedReviews.includes(reviewId) ? 1 : 0 }
       );
 
       setReviews((prevReviews) =>
@@ -92,8 +92,6 @@ const ReviewsView = () => {
   const handleResetFilterClick = () => {
     setFilteredReviews([]);
   };
-
-
 
   useEffect(() => {
     fetchReviews();
@@ -146,12 +144,15 @@ const ReviewsView = () => {
   }
 
   return (
-  
     <div className="start-reviewSec-admin">
-   <div className="section-reviews-view">
+      <div className="section-reviews-view">
         <div>
-          <button onClick={handleFilterClick}>Filter unChecked</button>
-          <button onClick={handleResetFilterClick}>Reset Filter</button>
+          <button className="filter-button" onClick={handleFilterClick}>
+            Filter unChecked
+          </button>
+          <button className="reset-button" onClick={handleResetFilterClick}>
+            Reset Filter
+          </button>
         </div>
         <br />
         <table style={tableStyle}>
@@ -208,9 +209,8 @@ const ReviewsView = () => {
             </Button>
           </DialogActions>
         </Dialog>
-
+      </div>
     </div>
-  </div>
-);
+  );
 };
 export default ReviewsView;
