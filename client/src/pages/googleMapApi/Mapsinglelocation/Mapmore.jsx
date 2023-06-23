@@ -21,6 +21,7 @@ import Searchbox from "./Searchboxformulti";
 // import Viewer from "./singleLocationData/Viewer";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import { Box } from "@mui/material";
+
 import axios from "axios";
 import "../singleLocationData/rating.css";
 
@@ -70,10 +71,11 @@ export default function Map(latlng, props) {
   const [direction, setDirection] = useState(false);
   const [mylat, setMylat] = useState(0);
   const [mylng, setMylng] = useState(0);
+  const [distanceMarker, setDistanceMarker] = useState(null);
 
   const [directionResponse, SetdirectionResponse] = React.useState(null);
   const [distance, setDistance] = React.useState("");
-  const [duration, setduration] = React.useState("");
+  // const [duration, setduration] = React.useState("");
   const [origin, setOrigin] = React.useState(null);
   const [destination, setDestination] = React.useState(null);
 
@@ -92,15 +94,18 @@ export default function Map(latlng, props) {
   const [searchDataWithoutFirstAndLast, setSearchDataWithoutFirstAndLast] =
     useState([]);
   const [images, setImages] = useState([]);
+  const [duration, setDuration] = useState(0);
+
   //connection for database for retrive reviews
   useEffect(() => {}, [origin]);
+
 
   function CleareRoute() {
     setClearroute(false);
     SetdirectionResponse(null);
     //window.location.reload(); rerender whole page,not thart much efficient way
     setDistance("");
-    setduration("");
+    setDuration("");
 
     // // setOrigin(null);
     // origin = "";
@@ -230,8 +235,84 @@ export default function Map(latlng, props) {
     });
 
     SetdirectionResponse(result);
-    setDistance(result.routes[0].legs[0].distance.text);
-    console.log(result, distance);
+    // setDistance(result.routes[0].legs[0].distance.text);
+    // console.log(result, distance);
+    
+    const routedetails = result.routes[0].legs.reduce(
+      (total, leg) => {
+        const legDistance = leg.distance.value;
+        const legDuration = leg.duration.value;
+        return {
+          distance: total.distance + legDistance,
+          duration: total.duration + legDuration,
+        };
+      },
+      { distance: 0, duration: 0 }
+    );
+
+    setDistance(routedetails.distance);
+    setDuration(routedetails.duration);
+    console.log(routedetails);
+
+    // Calculate the midpoint between start and end locations
+    const startLocation = result.routes[0].legs[0].start_location;
+    const endLocation =
+      result.routes[0].legs[result.routes[0].legs.length - 1].end_location;
+    //eslint-disable-next-line  no-undef
+    const midpoint = google.maps.geometry.spherical.interpolate(
+      startLocation,
+      endLocation,
+      0.5
+    );
+    console.log(midpoint);
+
+    if (distanceMarker) {
+      distanceMarker.setMap(null);
+    }
+
+    let infoBox;
+
+    if (routedetails.duration < 3600) {
+      infoBox = new InfoBox({
+        content: `<div style="background-color: #fff; border: 1px solid #999; box-shadow: rgba(0,0,0,0.2) 0px 2px 6px; font-family: Arial,sans-serif; font-size: 12px; line-height: 16px; padding: 5px 10px; min-width: 80px;">
+          <span style="font-weight: bold; display: block; margin-bottom: 5px;">${(
+            routedetails.distance / 1000
+          ).toFixed(1)} km</span>
+          <span style="color: #666; font-size: 11px;">${(
+            routedetails.duration / 60
+          ).toFixed(2)} mins</span>
+        </div>`,
+        position: midpoint,
+        map: mapRef.current,
+      });
+    } else {
+      const h = routedetails.duration / 60 / 60;
+      const min = (routedetails.duration / 60) % 60;
+      infoBox = new InfoBox({
+        content: `<div style="background-color: #fff; border: 1px solid #999; box-shadow: rgba(0,0,0,0.2) 0px 2px 6px; font-family: Arial,sans-serif; font-size: 12px; line-height: 16px; padding: 5px 10px; min-width: 80px;">
+          <span style="font-weight: bold; display: block; margin-bottom: 5px;">${(
+            routedetails.distance / 1000
+          ).toFixed(1)} km</span>
+          <span style="color: #666; font-size: 11px;">${h.toFixed()} h ${min.toFixed()}mins</span>
+        </div>`,
+        position: midpoint,
+        map: mapRef.current,
+      });
+    }
+
+    // Set the InfoBox options
+    infoBox.setOptions({
+      alignBottom: true,
+      //eslint-disable-next-line  no-undef
+      pixelOffset: new google.maps.Size(0, 0),
+      closeBoxURL: "",
+      pane: "floatPane",
+      enableEventPropagation: true,
+    });
+
+    setDistanceMarker(infoBox);
+
+    console.log("calculateRoute end");
   }
 
   const handledirection = () => {

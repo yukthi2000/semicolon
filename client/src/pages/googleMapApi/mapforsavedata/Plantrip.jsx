@@ -824,12 +824,12 @@ export default function Tripplan(latlng, props) {
           />
         )}
         {selected ? (
-          <InfoWindow position={{ lat: selected.lat, lng: selected.lng }}>
+          <InfoWindowF position={{ lat: selected.lat, lng: selected.lng }}>
             <div>
               <h2>Spot</h2>
               <p>spotted {formatRelative(selected.time, new Date())}</p>
             </div>
-          </InfoWindow>
+          </InfoWindowF>
         ) : null}
       </GoogleMap>
       {/* {console.log(markers)} */}
