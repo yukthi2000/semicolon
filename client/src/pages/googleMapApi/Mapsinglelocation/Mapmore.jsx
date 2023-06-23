@@ -21,6 +21,7 @@ import Searchbox from "./Searchboxformulti";
 // import Viewer from "./singleLocationData/Viewer";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import { Box } from "@mui/material";
+import { InfoBox } from "@react-google-maps/infobox";
 
 import axios from "axios";
 import "../singleLocationData/rating.css";
@@ -99,7 +100,6 @@ export default function Map(latlng, props) {
   //connection for database for retrive reviews
   useEffect(() => {}, [origin]);
 
-
   function CleareRoute() {
     setClearroute(false);
     SetdirectionResponse(null);
@@ -145,8 +145,6 @@ export default function Map(latlng, props) {
       setIsLocationEntered(true);
     }
 
-    
-
     // useEffect(() => {
     //   const locationName = "your-location-name"; // Replace with the desired location name
 
@@ -173,14 +171,14 @@ export default function Map(latlng, props) {
         .catch((error) => {
           console.error(error);
         });
-        fetch(`http://localhost:3001/images/bylocation?location=${origin}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setImages(data.images);
-      })
-      .catch((error) => {
-        console.error("Error fetching images:", error);
-      });
+      fetch(`http://localhost:3001/images/bylocation?location=${origin}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setImages(data.images);
+        })
+        .catch((error) => {
+          console.error("Error fetching images:", error);
+        });
     } else {
       setIsLocationEntered(false);
       setSidepan(false);
@@ -237,7 +235,7 @@ export default function Map(latlng, props) {
     SetdirectionResponse(result);
     // setDistance(result.routes[0].legs[0].distance.text);
     // console.log(result, distance);
-    
+
     const routedetails = result.routes[0].legs.reduce(
       (total, leg) => {
         const legDistance = leg.distance.value;
@@ -252,12 +250,24 @@ export default function Map(latlng, props) {
 
     setDistance(routedetails.distance);
     setDuration(routedetails.duration);
-    console.log(routedetails);
+    console.log(result);
+    console.log(result.routes[0].legs[0].start_location);
+    console.log(
+      result.routes[0].legs[result.routes[0].legs.length - 1].end_location
+    );
+    const endLocationn = result.routes[0].legs[result.routes[0].legs.length - 1].end_location;
+const lat = endLocationn.lat(); // Access latitude using dot notation
+const lng = endLocationn.lng(); // Access longitude using dot notation
+
+const startlocationn = result.routes[0].legs[result.routes[0].legs.length - 1].start_location;
+const latt = startlocationn.lat(); // Access latitude using dot notation
+const lngt = startlocationn.lng(); 
+console.log(lat, lng);
+
 
     // Calculate the midpoint between start and end locations
-    const startLocation = result.routes[0].legs[0].start_location;
-    const endLocation =
-      result.routes[0].legs[result.routes[0].legs.length - 1].end_location;
+    const startLocation = {lat:startlocationn.lat() ,lng:startlocationn.lng()};
+    const endLocation ={lat:endLocationn.lat() ,lng:endLocationn.lng()};
     //eslint-disable-next-line  no-undef
     const midpoint = google.maps.geometry.spherical.interpolate(
       startLocation,
@@ -295,7 +305,7 @@ export default function Map(latlng, props) {
           ).toFixed(1)} km</span>
           <span style="color: #666; font-size: 11px;">${h.toFixed()} h ${min.toFixed()}mins</span>
         </div>`,
-        position: midpoint,
+        position:midpoint ,
         map: mapRef.current,
       });
     }
