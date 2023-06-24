@@ -255,19 +255,23 @@ export default function Map(latlng, props) {
     console.log(
       result.routes[0].legs[result.routes[0].legs.length - 1].end_location
     );
-    const endLocationn = result.routes[0].legs[result.routes[0].legs.length - 1].end_location;
-const lat = endLocationn.lat(); // Access latitude using dot notation
-const lng = endLocationn.lng(); // Access longitude using dot notation
+    const endLocationn =
+      result.routes[0].legs[result.routes[0].legs.length - 1].end_location;
+    const lat = endLocationn.lat(); // Access latitude using dot notation
+    const lng = endLocationn.lng(); // Access longitude using dot notation
 
-const startlocationn = result.routes[0].legs[result.routes[0].legs.length - 1].start_location;
-const latt = startlocationn.lat(); // Access latitude using dot notation
-const lngt = startlocationn.lng(); 
-console.log(lat, lng);
-
+    const startlocationn =
+      result.routes[0].legs[result.routes[0].legs.length - 1].start_location;
+    const latt = startlocationn.lat(); // Access latitude using dot notation
+    const lngt = startlocationn.lng();
+    console.log(lat, lng);
 
     // Calculate the midpoint between start and end locations
-    const startLocation = {lat:startlocationn.lat() ,lng:startlocationn.lng()};
-    const endLocation ={lat:endLocationn.lat() ,lng:endLocationn.lng()};
+    const startLocation = {
+      lat: startlocationn.lat(),
+      lng: startlocationn.lng(),
+    };
+    const endLocation = { lat: endLocationn.lat(), lng: endLocationn.lng() };
     //eslint-disable-next-line  no-undef
     const midpoint = google.maps.geometry.spherical.interpolate(
       startLocation,
@@ -305,7 +309,7 @@ console.log(lat, lng);
           ).toFixed(1)} km</span>
           <span style="color: #666; font-size: 11px;">${h.toFixed()} h ${min.toFixed()}mins</span>
         </div>`,
-        position:midpoint ,
+        position: midpoint,
         map: mapRef.current,
       });
     }
@@ -638,6 +642,7 @@ console.log(lat, lng);
                         className="title"
                         style={{
                           marginLeft: 10,
+                          marginBottom: 10,
                         }}
                       >
                         Reviews
@@ -646,10 +651,15 @@ console.log(lat, lng);
                         <div className="reviews">
                           {listofdata.map((value, key) => {
                             return (
-                              <div className="all" key={key}>
-                                <div className="card">
-                                  <div className="rating">{value.rating}</div>
-                                </div>
+                              // <div className="all" key={key}>
+                              //   <div className="card">
+                              //     <div className="rating">{value.rating}</div>
+                              //   </div>
+                              // </div>
+                              <div>
+                                <ul>
+                                  <li>{value.rating}</li>
+                                </ul>
                               </div>
                             );
                           })}
