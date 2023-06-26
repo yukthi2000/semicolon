@@ -219,6 +219,7 @@ const UserProfile = () => {
               onChange={(e) => setEditedEmail(e.target.value)}
             />
             <TextField
+            hidden
               label="User Type"
               value={editedUserType}
               onChange={(e) => setEditedUserType(e.target.value)}

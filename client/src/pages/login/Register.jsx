@@ -45,66 +45,66 @@ const Register = () => {
       .required("Please confirm your password"),
   });
 
-// Handle form submission
-const onSubmit = (data) => {
-  axios.post("http://localhost:3001/auth", data).then((response) => {
-    console.log(data);
-    // setRegistrationStatus("success");
-    // Send email here
-    sendEmail(data.email);
-  });
-};
-
-const sendEmail = (email) => {
-  axios.post("http://localhost:3001/verify-user/VerifyLink", { email })
-    .then((response) => {
-      console.log("Email sent successfully");
-    })
-    .catch((error) => {
-      console.error("Error occurred while sending email");
-    });
-};
-
-
-// //sampi
 // // Handle form submission
-// const onSubmit = (data , { resetForm }) => {
-//   sendEmail(data.email)
-//     .then(() => {
-//       alert("Email sent successfully");
-//       saveUserData(data);
-//       resetForm();
-//     })
-//     .catch((error) => {
-//       alert("Error occurred while sending email:", error);
-//     });
-// };
-
-// const sendEmail = (email) => {
-//   return new Promise((resolve, reject) => {
-//     axios
-//       .post("http://localhost:3001/verify-user/VerifyLink", { email })
-//       .then(() => {
-//         resolve();
-//       })
-//       .catch((error) => {
-//         alert( error);
-//         reject(error);
-//       });
+// const onSubmit = (data) => {
+//   axios.post("http://localhost:3001/auth", data).then((response) => {
+//     console.log(data);
+//     // setRegistrationStatus("success");
+//     // Send email here
+//     sendEmail(data.email);
 //   });
 // };
 
-// const saveUserData = (data) => {
-//   axios
-//     .post("http://localhost:3001/auth", data)
-//     .then(() => {
-//       console.log("User data saved successfully");
+// const sendEmail = (email) => {
+//   axios.post("http://localhost:3001/verify-user/VerifyLink", { email })
+//     .then((response) => {
+//       console.log("Email sent successfully");
 //     })
 //     .catch((error) => {
-//       console.error("Error occurred while saving user data:", error);
+//       console.error("Error occurred while sending email");
 //     });
 // };
-// //sampi
+
+
+//sampi
+// Handle form submission
+const onSubmit = (data , { resetForm }) => {
+  sendEmail(data.email)
+    .then(() => {
+      alert("Email sent successfully");
+      saveUserData(data);
+      resetForm();
+    })
+    .catch((error) => {
+      alert("Error occurred while sending email:", error);
+    });
+};
+
+const sendEmail = (email) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post("http://localhost:3001/verify-user/VerifyLink", { email })
+      .then(() => {
+        resolve();
+      })
+      .catch((error) => {
+        alert( error);
+        reject(error);
+      });
+  });
+};
+
+const saveUserData = (data) => {
+  axios
+    .post("http://localhost:3001/auth", data)
+    .then(() => {
+      console.log("User data saved successfully");
+    })
+    .catch((error) => {
+      console.error("Error occurred while saving user data:", error);
+    });
+};
+//sampi
 
 
   // Render the Register form

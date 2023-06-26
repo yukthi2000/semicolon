@@ -71,7 +71,7 @@ router.post("/VerifyLink", async (req, res) => {
   const mail = {
     from: "ldsliyanage99@gmail.com", // Your email address
     to: email, // User's email address
-    subject: "Contact Form Submission",
+    subject: "Email varification",
     html: `
              <p>Please click the following link to veryfy your account:</p>
           <a href="${resetLink}">Reset Password</a>
