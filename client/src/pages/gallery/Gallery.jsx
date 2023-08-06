@@ -16,6 +16,7 @@ import ForecastScore from '../weatherApi/ForcastScore';
 // import GetCombinedScore from '../weatherApi/WeatherScore/GetCombinedScore';
 // import LatLngToName from '../weatherApi/WeatherScore/LatLngToName';
 import ForecastToday from '../weatherApi/ForecastToday';
+import Weather from './Test';
 
 const Gallery = () => {
 
@@ -50,11 +51,10 @@ const Gallery = () => {
 const city = 'Matale';
   return (
     <div>
-      <Header2 />
+      {/* <Header2 /> */}
       <br />
       <br /><br />
       <div className="gallerycontainer">
-        nsxam k
         {/* <LatLngToName 
         lat= {7.5304285}
         lng= {80.73314859999999}
@@ -77,11 +77,11 @@ const city = 'Matale';
 
         /> */}
         {/* <WeatherOptions tripID={5}/> */}
-        <ForecastToday
+        {/* <ForecastToday
     currentCity={city}
     tripDate={tripDate}
     Globalfunc={pull_newGlobalLocation} //passing location function
-  />
+  /> */}
 
        {/* <WeatherScoreList
         tripID = "252525"
@@ -113,7 +113,7 @@ const city = 'Matale';
           lng= "80.6337"
           /> */}
         {/* <SLocations /> */}
-
+        <Weather/>
         
       </div>
 

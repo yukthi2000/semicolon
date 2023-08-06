@@ -1005,7 +1005,7 @@ export default function Tripplan(latlng, props) {
         ) : null}
       </GoogleMap>
       {/* {console.log(markers)} */}
-      {!isOneEntered && (
+      {/* {!isOneEntered && (
         <div
           style={{
             position: "absolute",
@@ -1060,7 +1060,7 @@ export default function Tripplan(latlng, props) {
           }}
         >
         </div>
-      )}
+      )} */}
       {/* <button onClick={getScoreArray}>{SocreButtonTxt}</button> */}
     </>
   );
